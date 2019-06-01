@@ -30,6 +30,41 @@ public class JsonParser {
         return btnsDetails;
     }
 
+    public ArrayList<ServiceExpertSpace> getServiceSpace(String url) throws JSONException{
+        ArrayList<ServiceExpertSpace> serviceDetails = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        for(int index = 0;index<jsonArray.length();index++){
+            jsonObject = jsonArray.getJSONObject(index);
+            ServiceExpertSpace serviceExpertSpace = new ServiceExpertSpace();
+            City city = new City();
+            State state = new State();
+            Country country = new Country();
 
+            //getting city, state and country objects
+            city.setId(jsonObject.getJSONObject("city").getInt("id"));
+            city.setTitle(jsonObject.getJSONObject("city").getString("title"));
+
+            state.setId(jsonObject.getJSONObject("state").getInt("id"));
+            state.setTitle(jsonObject.getJSONObject("state").getString("title"));
+
+            country.setId(jsonObject.getJSONObject("country").getInt("id"));
+            country.setTitle(jsonObject.getJSONObject("country").getString("title"));
+
+            serviceExpertSpace.setCity(city);
+            serviceExpertSpace.setCountry(country);
+            serviceExpertSpace.setState(state);
+
+            //getting remaining data
+            serviceExpertSpace.setId(jsonObject.getInt("id"));
+            serviceExpertSpace.setCat_title(jsonObject.getString("cat_title"));
+            serviceExpertSpace.setUrlname(jsonObject.getString("url_name"));
+            serviceExpertSpace.setName(jsonObject.getString("name"));
+            serviceExpertSpace.setImageLogo(jsonObject.getString("image"));
+
+            serviceDetails.add(serviceExpertSpace);
+        }
+        return serviceDetails;
+    }
 
 }

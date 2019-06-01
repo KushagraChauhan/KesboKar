@@ -5,14 +5,11 @@ import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>> {
 
 //    TextView txtId,txtImage,txtUrl,txtIcon,txtTitle;
 
@@ -32,13 +29,42 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int i, Bundle bundle) {
-        LoaderButtons loaderButtons = new LoaderButtons(this);
-        return loaderButtons;
+    public Loader<ArrayList<ServiceExpertSpace>> onCreateLoader(int i, Bundle bundle) {
+        LoaderServices loaderServices = new LoaderServices(this);
+        return loaderServices;
     }
 
     @Override
-    public void onLoadFinished(Loader<ArrayList<ButtonsDetails>> loader, ArrayList<ButtonsDetails> buttonsDetails) {
+    public void onLoadFinished(Loader<ArrayList<ServiceExpertSpace>> loader, ArrayList<ServiceExpertSpace> serviceExpertSpaces) {
+        switch (loader.getId()){
+            case 0:
+                if(serviceExpertSpaces.size()!=0){
+//                    ButtonAdapter adapter = new ButtonAdapter(this,buttonsDetails);
+                    ServicesAdapter adapter = new ServicesAdapter(this,serviceExpertSpaces);
+                    mListView.setAdapter(adapter);
+                }
+                else{
+                    Toast.makeText(this, "no internet connection", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<ServiceExpertSpace>> loader) {
+
+    }
+}
+
+/* @Override
+    public Loader<ArrayList<ServiceExpertSpace>> onCreateLoader(int i, Bundle bundle) {
+//        LoaderButtons loaderButtons = new LoaderButtons(this);
+        LoaderServices loaderServices = new LoaderServices(this);
+        return loaderServices;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<ServiceExpertSpace>> loader, ArrayList<ServiceExpertSpace> serviceDetails) {
         switch (loader.getId()){
             case 0:
                 if(buttonsDetails.size()!=0){
@@ -53,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList<ButtonsDetails>> loader) {
+    public void onLoaderReset(Loader<ArrayList<ServiceExpertSpace>> loader) {
 
-    }
-}
+    }*/

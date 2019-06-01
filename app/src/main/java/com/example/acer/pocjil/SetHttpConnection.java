@@ -12,7 +12,7 @@ public class SetHttpConnection {
 
     //Setting category code
     public SetHttpConnection(){
-        BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/business-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+        BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
     }
 
     public static String getInputStreamData(){
