@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -16,10 +18,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public static int SPLASH_SCREEN_TIME=3000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);

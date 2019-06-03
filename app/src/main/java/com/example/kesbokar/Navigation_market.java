@@ -2,9 +2,9 @@ package com.example.kesbokar;
 
 import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,11 +13,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.provider.DocumentsContract;
 
-import android.util.Log;
 import android.widget.Button;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -35,7 +33,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.content.Loader;
 
 import android.view.Menu;
 import android.widget.Button;
@@ -45,7 +42,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,22 +49,21 @@ import android.widget.Toast;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.BitSet;
 
 
-public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class Navigation_market extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
     TextView ab;
-    ImageButton[] imagebutton;
-    LinearLayout relativelayout;
     String about;
     LinearLayout.LayoutParams params;
     int i;
+    LinearLayout relativelayout;
     private static int dataSize = 0;
+    ImageButton[] imagebutton;
+    //private static int dataSize = 0;
     private static final int LOADER_ID_BUSINESS = 0;
     private static final int LOADER_ID_SERVICES = 1;
     private static final int LOADER_ID_MARKET = 2;
@@ -81,26 +76,36 @@ public class Navigation extends AppCompatActivity
     Toolbar toolbar;
     ImageView[] bi, mi;
     TextView[] bc, bd, mc, md;
+    private static final int LOADER_ID = 1;
+    //Toolbar toolbar;
     HorizontalScrollView category;
     DrawerLayout drawer;
+    LinearLayout layout;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
-    Button top, signup, login, help, market;
+    Button top,signup,login,help,business;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
-        final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
-        toolbar = findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_navigation_market);
+        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ab=(TextView)findViewById(R.id.about);
+        relativelayout = findViewById(R.id.abc1);
+        params = new LinearLayout
+                .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.width=300;
+        params.height=300;
+        params.rightMargin=15;
+        layout = new LinearLayout(Navigation_market.this);
         bi = new ImageView[4];
         mi = new ImageView[3];
         bc = new TextView[4];
         mc = new TextView[3];
         md = new TextView[3];
         bd = new TextView[4];
-        setSupportActionBar(toolbar);
-        ab = (TextView) findViewById(R.id.about);
         bi[0] = findViewById(R.id.bi1);
         bi[1] = findViewById(R.id.bi2);
         bi[2] = findViewById(R.id.bi3);
@@ -122,7 +127,10 @@ public class Navigation extends AppCompatActivity
         md[0] = findViewById(R.id.md1);
         md[1] = findViewById(R.id.md2);
         md[2] = findViewById(R.id.md3);
-        category = findViewById(R.id.category);
+
+        layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        layout.setOrientation(LinearLayout.VERTICAL);
+
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toggle = new ActionBarDrawerToggle(
@@ -130,86 +138,69 @@ public class Navigation extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        top = (Button) findViewById(R.id.top);
+        top=(Button)findViewById(R.id.top);
         View ab = navigationView.getHeaderView(0);
-        signup = (Button) ab.findViewById(R.id.signup);
-        login = (Button) ab.findViewById(R.id.login);
-        RadioGroup radioGroup = findViewById(R.id.radio_group);
-        RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
-        RadioButton rb_business = findViewById(R.id.rb_businesses);
-        market = findViewById(R.id.mar);
-        help = (Button) findViewById(R.id.help);
-
-        relativelayout = findViewById(R.id.abc);
-        params = new LinearLayout
-                .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.width = 300;
-        params.height = 300;
-        params.rightMargin = 15;
-
-
-//        for (i=0;i<3;i++) {
-//            imagebutton[i].setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(Navigation.this, "Clicked on image button"+i, Toast.LENGTH_LONG).show();
-//                }
-//            });
-//        }
+        signup=(Button)ab.findViewById(R.id.signup);
+        login=(Button)ab.findViewById(R.id.login);
+        RadioGroup radioGroup=findViewById(R.id.radio_group);
+        RadioButton rb_marketplace=findViewById(R.id.rb_marketplace);
+        RadioButton rb_business=findViewById(R.id.rb_businesses);
+        business=findViewById(R.id.buis);
+        help=(Button)findViewById(R.id.help);
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scrollView.smoothScrollTo(0, 0);
+                scrollView.smoothScrollTo(0,0);
             }
         });
-        rb_marketplace.setOnClickListener(new View.OnClickListener() {
+        rb_business.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Navigation.this, Navigation_market.class);
+                Intent intent=new Intent(Navigation_market.this,Navigation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivityForResult(intent, 0);
-                overridePendingTransition(0, 0);
+                startActivityForResult(intent,0);
+                overridePendingTransition(0,0);
                 finish();
+
             }
         });
-        market.setOnClickListener(new View.OnClickListener() {
+        business.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Navigation.this, Navigation_market.class);
+                Intent intent=new Intent(Navigation_market.this,Navigation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivityForResult(intent, 0);
-                overridePendingTransition(0, 0);
+                startActivityForResult(intent,0);
+                overridePendingTransition(0,0);
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Navigation.this, Login.class);
+                Intent intent=new Intent(Navigation_market.this,Login.class);
                 startActivity(intent);
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Navigation.this, SignUp.class);
+                Intent intent=new Intent(Navigation_market.this,SignUp.class);
                 startActivity(intent);
             }
         });
+
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent help1 = new Intent(Navigation.this, Help.class);
+                Intent help1=new Intent(Navigation_market.this,Help.class);
                 startActivity(help1);
             }
         });
 
-
         buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
             @Override
             public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
-                String BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/business-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
-                LoaderButtons loaderButtons = new LoaderButtons(Navigation.this, BASE_URL);
+                String BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/product-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK\n";
+                LoaderButtons loaderButtons = new LoaderButtons(Navigation_market.this, BASE_URL);
                 return loaderButtons;
             }
 
@@ -220,26 +211,26 @@ public class Navigation extends AppCompatActivity
                         // Add image path for imagebutton from drawable folder.
                         if (data.size() != 0) {
                             dataSize = data.size();
-                            LinearLayout layout = new LinearLayout(Navigation.this);
+                            LinearLayout layout = new LinearLayout(Navigation_market.this);
                             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                             imagebutton = new ImageButton[dataSize];
                             for (i = 0; i < dataSize; i++) {
-                                imagebutton[i] = new ImageButton(Navigation.this);
+                                imagebutton[i] = new ImageButton(Navigation_market.this);
 //                    imagebutton[i].setImageResource(R.mipmap.ic_launcher_round);
-                                imagebutton[i].setBackground(getDrawable(R.drawable.button_bg_round));
+                                imagebutton[i].setBackground(getDrawable(R.drawable.button_bg_round_market));
                                 imagebutton[i].setLayoutParams(params);
                                 imagebutton[i].setTag(data.get(i).getId());
                                 final int index = i;
                                 String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
-                                Picasso.with(Navigation.this).load(imgURL).into(imagebutton[i]);
+                                Picasso.with(Navigation_market.this).load(imgURL).into(imagebutton[i]);
                                 //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
                                 imagebutton[i].setId(data.get(i).getId());
                                 int ID = imagebutton[i].getId();
                                 imagebutton[i].setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        String url = "https://www.kesbokar.com.au/business/" + data.get(index).getUrl() + "/c" + data.get(index).getId();
-                                        Intent intent = new Intent(Navigation.this, WebViewActivity.class);
+                                        String url = "https://www.kesbokar.com.au/marketplace/" + data.get(index).getUrl().replaceAll(" ","%20") + "/c" + data.get(index).getId();
+                                        Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
                                         intent.putExtra("URL", url);
                                         startActivity(intent);
                                         finish();
@@ -251,7 +242,7 @@ public class Navigation extends AppCompatActivity
                                 getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
                             }
                         } else {
-                            Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
@@ -267,7 +258,7 @@ public class Navigation extends AppCompatActivity
         serviceExpertSpaceLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>>() {
             @Override
             public Loader<ArrayList<ServiceExpertSpace>> onCreateLoader(int id, Bundle args) {
-                LoaderServices loaderServices = new LoaderServices(Navigation.this);
+                LoaderServices loaderServices = new LoaderServices(Navigation_market.this);
                 return loaderServices;
             }
 
@@ -282,7 +273,7 @@ public class Navigation extends AppCompatActivity
                             bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
 
                             String imgURL = "https://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
-                            Picasso.with(Navigation.this).load(imgURL).into(bi[i]);
+                            Picasso.with(Navigation_market.this).load(imgURL).into(bi[i]);
                             //new DownLoadImageTask(bi[i]).execute(imgURL);
                             final int index = i;
                             final String ab = serviceExpertSpaces.get(i).getCity().getTitle().replaceAll(" ", "+");
@@ -291,7 +282,7 @@ public class Navigation extends AppCompatActivity
                                 @Override
                                 public void onClick(View v) {
                                     String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
-                                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
+                                    Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);
                                     startActivity(intent);
                                     finish();
@@ -318,7 +309,7 @@ public class Navigation extends AppCompatActivity
 
             @Override
             public Loader<ArrayList<MarketPlaceApi>> onCreateLoader(int id, Bundle args) {
-                LoaderMarket loaderMarket = new LoaderMarket(Navigation.this);
+                LoaderMarket loaderMarket = new LoaderMarket(Navigation_market.this);
                 return loaderMarket;
             }
 
@@ -331,7 +322,7 @@ public class Navigation extends AppCompatActivity
                             md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
 
                             String imgURL = "https://www.kesbokar.com.au/uploads/product/thumbs/" + marketPlaceApis.get(j).getImageLogo();
-                            Picasso.with(Navigation.this).load(imgURL).into(mi[j]);
+                            Picasso.with(Navigation_market.this).load(imgURL).into(mi[j]);
                             //new DownLoadImageTask(mi[j]).execute(imgURL);
                             final int index = j;
                             final String cat = marketPlaceApis.get(j).getCat_title().replaceAll("", "-");
@@ -342,7 +333,7 @@ public class Navigation extends AppCompatActivity
                                 @Override
                                 public void onClick(View v) {
                                     //url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-                                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
+                                    Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);
                                     startActivity(intent);
                                     finish();
@@ -398,11 +389,11 @@ public class Navigation extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.about) {
-            Intent about = new Intent(Navigation.this, About.class);
+            Intent about=new Intent(Navigation_market.this,About.class);
             startActivity(about);
 
         } else if (id == R.id.career) {
-            Intent career = new Intent(Navigation.this, Career.class);
+            Intent career=new Intent(Navigation_market.this,Career.class);
             startActivity(career);
 
         } else if (id == R.id.advertise) {
@@ -410,16 +401,49 @@ public class Navigation extends AppCompatActivity
         }
 
 
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public class Description extends AsyncTask<Void,Void,Void>
+    {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try{
+                Document doc1 = Jsoup.connect("https://www.kesbokar.com.au/").get();
+                Elements repositories=doc1.select("#business-list-block");//doc1.getElementsByClass("content-area home-area-1 recent-property");
+                for (Element repository : repositories) {
+                    Elements header = repository.getElementsByClass("col-md-10col-sm-12 text-center page-title");
+                    for (Element str : header) {
+                        about = str.getElementsByTag("p").text();
+
+                    }
+                }
+            }catch (Exception e){e.printStackTrace();}
+
+            return null;
+        }
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            ab.append(about);
+        }
+    }
+
+//    @Override
+//    public void onClick(View v) {
+//        for (i=0;i<dataSize;i++)
+//        {
+//
+//        }
+//    }
 
 
-   /* private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
+    private class DownLoadImageTask extends AsyncTask<String,Void, Bitmap> {
+        ImageButton imageView;
 
-        public DownLoadImageTask(ImageView imageView) {
+        public DownLoadImageTask(ImageButton imageView){
             this.imageView = imageView;
         }
 
@@ -427,20 +451,17 @@ public class Navigation extends AppCompatActivity
             doInBackground(Params... params)
                 Override this method to perform a computation on a background thread.
          */
-       /* protected Bitmap doInBackground(String... urls) {
+        protected Bitmap doInBackground(String...urls){
             String urlOfImage = urls[0];
             Bitmap logo = null;
-            try {
+            try{
                 InputStream is = new URL(urlOfImage).openStream();
                 /*
                     decodeStream(InputStream is)
                         Decode an input stream into a bitmap.
                  */
-              /*  ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                byte[] bitmapd = bos.toByteArray();
                 logo = BitmapFactory.decodeStream(is);
-                logo.compress(Bitmap.CompressFormat.JPEG, 1, bos);
-            } catch (Exception e) { // Catch the download exception
+            }catch(Exception e){ // Catch the download exception
                 e.printStackTrace();
             }
             return logo;
@@ -450,14 +471,9 @@ public class Navigation extends AppCompatActivity
             onPostExecute(Result result)
                 Runs on the UI thread after doInBackground(Params...).
          */
-       /* protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(Bitmap result){
             imageView.setImageBitmap(result);
         }
-    }*/
+    }
 
 }
-/*
-* String url = "https://www.kesbokar.com.au/businesses/" + data.get(i).getUrl() + "/c" + data.get(i).getId();
-                            Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-                            intent.putExtra("URL",url);
-* */

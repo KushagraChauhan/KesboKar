@@ -9,89 +9,167 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Navigation"
     tools:showIn="@layout/app_bar_navigation">
-    <com.google.android.material.appbar.CollapsingToolbarLayout
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
+        android:layout_height="50dp"
+        android:layout_marginTop="500dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF">
+
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imageView"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
                 android:layout_width="match_parent"
-                android:layout_height="248dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/map"/> >
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="130dp"
-                android:layout_alignParentTop="true"
-                android:scaleType="fitXY"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="54dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/colorTransparent" />
-            
-        </RelativeLayout>
-
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-
+                android:layout_height="match_parent"
+                android:text="HELP"
+                android:background="@drawable/rect_button"
+                android:id="@+id/help"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="INBOX"
+                android:background="@drawable/rect_button"
+                android:id="@+id/inbox"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="BUISNESS"
+                android:background="@drawable/rect_button"
+                android:id="@+id/buis"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="MARKET"
+                android:background="@drawable/rect_button"
+                android:id="@+id/mar"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="TOP"
+                android:background="@drawable/rect_button"
+                android:id="@+id/top"/>
+        </LinearLayout>
+        </HorizontalScrollView>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/scroll"
         android:scrollbars="none">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.google.android.material.bottomnavigation.BottomNavigationView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="500dp"
-                android:layout_alignParentBottom="true"
-                android:background="#FFFFFF">
-                <HorizontalScrollView
+                android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/map" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="34dp"
+                android:background="@color/colorTransparent"/>
+                <RadioGroup
+                    android:id="@+id/radio_group"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none">
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-                        <Button
+                    android:layout_height="180dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_businesses"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="40dp"
+                        android:background="@color/kesbokar"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Businesses"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_marketplace"
+                        android:layout_width="160dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="40dp"
+                        android:background="@color/colorTransparent"
+                        android:text="Market Place"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                </RadioGroup>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="390dp"
+                        android:layout_height="55dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="100dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/edit_text_round">
+
+                        <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="HELP"
-                            android:background="@drawable/rect_button"
-                            android:id="@+id/help"/>
-                        <Button
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="220dp"
+                            android:layout_marginEnd="15dp"
+                            android:selectAllOnFocus="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="390dp"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="160dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/edit_text_round">
+
+                        <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="INBOX"
-                            android:background="@drawable/rect_button"
-                            android:id="@+id/inbox"/>
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="BUISNESS"
-                            android:background="@drawable/rect_button"
-                            android:id="@+id/buis"/>
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="MARKET"
-                            android:background="@drawable/rect_button"
-                            android:id="@+id/mar"/>
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="TOP"
-                            android:background="@drawable/rect_button"
-                            android:id="@+id/top"/>
-                    </LinearLayout>
-                </HorizontalScrollView>
-            </com.google.android.material.bottomnavigation.BottomNavigationView>
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="160dp"
+                            android:layout_marginEnd="15dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:text="Search"
+                        style="@style/Animation.Design.BottomSheetDialog"
+                        android:textAllCaps="true"
+                        android:background="@color/colorPrimary"
+                        android:drawableStart="@drawable/ic_search_black_24dp"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="220dp"
+
+                        android:layout_centerHorizontal="true"/>
+
+                </RelativeLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,75 +179,29 @@
         android:textColor="#FFA000"
         android:textStyle="bold"
         android:textSize="25dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="285dp">
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
+            android:id="@+id/category"
             android:layout_gravity="center"
             >
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/b1"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/button_bg_round"
-                    android:src="@mipmap/ic_launcher_round"/>
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/b2"
-                    android:background="@drawable/button_bg_round"
-                    android:src="@mipmap/ic_launcher_round"/>
+                android:layout_height="100dp"
+                android:id="@+id/category1"
+                android:layout_marginTop="285dp">
 
-                <ImageButton
-                    android:id="@+id/b4"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/button_bg_round"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <ImageButton
-                    android:id="@+id/b3"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/button_bg_round"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/button_bg_round"
-                    android:id="@+id/b5"
-                    android:src="@mipmap/ic_launcher_round"/>
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/button_bg_round"
-                    android:id="@+id/b7"
-                    android:src="@mipmap/ic_launcher_round"/>
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/button_bg_round"
-                    android:id="@+id/b8"
-                    android:src="@mipmap/ic_launcher_round"/>
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/abc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="0dp"
+                    android:orientation="horizontal"></LinearLayout>
+            </RelativeLayout>
         </HorizontalScrollView>
-    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,106 +224,237 @@
             android:textSize="15dp"
             android:id="@+id/about"
             android:gravity="center_horizontal"
+            android:layout_marginBottom="20sp"
             android:textColor="#000000"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/bi1"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:foregroundGravity="center_horizontal"
+                android:scaleType="fitXY"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo" />
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Company Name"
+                android:id="@+id/bc1"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Company Description"
+                android:id="@+id/bd1"
+                android:text="Small Description"
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/bi2"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:foregroundGravity="center_horizontal"
+                android:scaleType="fitXY"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo" />
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Company Name"
                 android:layout_gravity="center_horizontal"
+                android:id="@+id/bc2"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Company Description"
+                android:text="Small Description"
+                android:id="@+id/bd2"
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/bi3"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:foregroundGravity="center_horizontal"
+                android:scaleType="fitXY"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo" />
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Company Name"
+                android:id="@+id/bc3"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Company Description"
+                android:id="@+id/bd3"
+                android:text="Small Description"
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo" />
+                android:id="@+id/bi4"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:foregroundGravity="center_horizontal"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Company Name"
+                android:id="@+id/bc4"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Company Description"
-                android:layout_gravity="center_horizontal"/>
+                android:text="Small Description"
+                android:id="@+id/bd4"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"/>
         </LinearLayout>
 
     </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="80dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="FEATURED ADS"
+                    android:textSize="25dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="#FFA000"
+                    android:textStyle="bold"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/mi1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Market Place Name"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:id="@+id/mc1"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Description"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/md1"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/mi2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Market Place Name"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:foregroundGravity="center_horizontal"
+                        android:id="@+id/mc2"
+                        android:textSize="18dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Description"
+                        android:gravity="center_horizontal"
+                        android:foregroundGravity="center_horizontal"
+                        android:id="@+id/md2"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/mi3"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Market Place Name"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:id="@+id/mc3"
+                        android:textSize="18dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Description"
+                        android:id="@+id/md3"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
+            </LinearLayout>
+            </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
