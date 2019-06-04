@@ -6,11 +6,18 @@ import android.content.AsyncTaskLoader;
 import java.util.ArrayList;
 
 public class LoaderButtons extends AsyncTaskLoader<ArrayList<ButtonsDetails>> {
-
+    ArrayList<ButtonsDetails> buttonsDetails;
     private static String Base_Url;
     public LoaderButtons(Context context, String url){
         super(context);
-        Base_Url = url;
+        this.Base_Url = url;
+        if (buttonsDetails != null) {
+            // Use cached data
+            deliverResult(buttonsDetails);
+        } else {
+            // We have no data, so kick off loading it
+            forceLoad();
+        }
     }
 
     @Override
@@ -21,7 +28,7 @@ public class LoaderButtons extends AsyncTaskLoader<ArrayList<ButtonsDetails>> {
 
     @Override
     public ArrayList<ButtonsDetails> loadInBackground() {
-        ArrayList<ButtonsDetails> buttonsDetails = new ArrayList<>();
+        buttonsDetails = new ArrayList<>();
         String data = (new SetHttpConnection(Base_Url)).getInputStreamData();
 
         //call jsonParser only if the data is not null
@@ -35,5 +42,10 @@ public class LoaderButtons extends AsyncTaskLoader<ArrayList<ButtonsDetails>> {
             return buttonsDetails;
         }
         return null;
+    }
+
+    @Override
+    public void deliverResult(ArrayList<ButtonsDetails> data) {
+        super.deliverResult(data);
     }
 }

@@ -8,21 +8,24 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class SetHttpConnection {
     private static String BASE_URL,url2;
 
     //Setting category code
     public SetHttpConnection(String url){
-        BASE_URL = url;
+        this.BASE_URL = url;
         //BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/business-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
     }
 
     public static String getInputStreamData(){
-        HttpURLConnection httpURLConnection = null;
+        HttpsURLConnection httpURLConnection = null;
+
         InputStream inputStream = null;
 
         try{
-            httpURLConnection = (HttpURLConnection)(new URL(BASE_URL)).openConnection();
+            httpURLConnection = (HttpsURLConnection)(new URL(BASE_URL)).openConnection();
 
             //Set the request method
             httpURLConnection.setRequestMethod("GET");
@@ -33,6 +36,7 @@ public class SetHttpConnection {
             //Buffer to store data
             StringBuffer stringBuffer = new StringBuffer();
             inputStream = httpURLConnection.getInputStream();
+
 
             //A reader to read data line by line
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -51,6 +55,7 @@ public class SetHttpConnection {
         }catch (Throwable t){
             t.printStackTrace();
         }finally {
+            //httpURLConnection.disconnect();
             try {
                 //If the network is disconnected in between fetching then the input stream is empty or null
                 //And closing a null inputStream will give us exception java.lang.NullPointerException:
@@ -59,7 +64,12 @@ public class SetHttpConnection {
                 if(inputStream != null)
                     inputStream.close();
 
+                inputStream.close();
                 httpURLConnection.disconnect();
+                //httpURLConnection.getInputStream().close();
+
+
+
             }catch (IOException e){
                 e.printStackTrace();
             }

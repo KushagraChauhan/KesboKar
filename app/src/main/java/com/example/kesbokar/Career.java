@@ -2,6 +2,7 @@ package com.example.kesbokar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,5 +24,13 @@ public class Career extends AppCompatActivity {
         career=(WebView)findViewById(R.id.career);
         career.getSettings().setJavaScriptEnabled(true);
         career.loadUrl("https://www.kesbokar.com.au/career");
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent=new Intent(Career.this,Navigation.class);
+        startActivity(intent);
+        finish();
     }
 }

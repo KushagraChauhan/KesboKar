@@ -171,6 +171,7 @@ public class Navigation_market extends AppCompatActivity
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
+                finish();
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +200,7 @@ public class Navigation_market extends AppCompatActivity
         buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
             @Override
             public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
-                String BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/product-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK\n";
+                String BASE_URL = "https://serv.kesbokar.com.au/jil.0.1/v2/product-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK\n";
                 LoaderButtons loaderButtons = new LoaderButtons(Navigation_market.this, BASE_URL);
                 return loaderButtons;
             }
@@ -253,8 +254,6 @@ public class Navigation_market extends AppCompatActivity
 
             }
         };
-
-
         serviceExpertSpaceLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>>() {
             @Override
             public Loader<ArrayList<ServiceExpertSpace>> onCreateLoader(int id, Bundle args) {
@@ -341,6 +340,9 @@ public class Navigation_market extends AppCompatActivity
                             });
 
                         }
+                        getLoaderManager().destroyLoader(LOADER_ID_BUSINESS);
+                        getLoaderManager().destroyLoader(LOADER_ID_SERVICES);
+                        getLoaderManager().destroyLoader(LOADER_ID_MARKET);
                         break;
                 }
             }
@@ -351,9 +353,13 @@ public class Navigation_market extends AppCompatActivity
             }
         };
 
-        getLoaderManager().initLoader(LOADER_ID_BUSINESS, null, buttonsDetailsLoaderCallbacks);
-        //getLoaderManager().initLoader(LOADER_ID_SERVICES,null,serviceExpertSpaceLoaderCallbacks);
+        getLoaderManager().initLoader(LOADER_ID_BUSINESS,null,buttonsDetailsLoaderCallbacks);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(LOADER_ID_BUSINESS, null, buttonsDetailsLoaderCallbacks);
     }
 
     @Override

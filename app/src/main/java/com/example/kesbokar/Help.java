@@ -33,4 +33,11 @@ public class Help extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(Help.this,Navigation.class);
+        startActivity(intent);
+        finish();
+    }
 }

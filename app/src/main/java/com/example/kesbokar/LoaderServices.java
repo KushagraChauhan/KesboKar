@@ -7,6 +7,7 @@ import android.content.AsyncTaskLoader;
 import java.util.ArrayList;
 
 public class LoaderServices extends AsyncTaskLoader<ArrayList<ServiceExpertSpace>> {
+    ArrayList<ServiceExpertSpace> serviceDetails;
     public LoaderServices(Context context){
         super(context);
     }
@@ -14,12 +15,18 @@ public class LoaderServices extends AsyncTaskLoader<ArrayList<ServiceExpertSpace
     @Override
     protected void onStartLoading() {
         super.onStartLoading();
-        forceLoad();
+        if (serviceDetails != null) {
+            // Use cached data
+            deliverResult(serviceDetails);
+        } else {
+            // We have no data, so kick off loading it
+            forceLoad();
+        }
     }
 
     @Override
     public ArrayList<ServiceExpertSpace> loadInBackground() {
-        ArrayList<ServiceExpertSpace> serviceDetails = new ArrayList<>();
+        serviceDetails = new ArrayList<>();
         String data = (new SetHttpConnection("http://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK")).getInputStreamData();
 
         //call jsonParser only if the data is not null
@@ -33,6 +40,11 @@ public class LoaderServices extends AsyncTaskLoader<ArrayList<ServiceExpertSpace
             return serviceDetails;
         }
         return null;
+    }
+
+    @Override
+    public void deliverResult(ArrayList<ServiceExpertSpace> data) {
+        super.deliverResult(data);
     }
 }
 

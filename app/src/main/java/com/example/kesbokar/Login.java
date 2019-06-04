@@ -36,4 +36,11 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(Login.this,Navigation.class);
+        startActivity(intent);
+        finish();
+    }
 }
