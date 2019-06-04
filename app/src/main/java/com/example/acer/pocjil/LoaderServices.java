@@ -19,8 +19,9 @@ public class LoaderServices extends AsyncTaskLoader<ArrayList<ServiceExpertSpace
     @Override
     public ArrayList<ServiceExpertSpace> loadInBackground() {
         ArrayList<ServiceExpertSpace> serviceDetails = new ArrayList<>();
-        String data = (new SetHttpConnection()).getInputStreamData();
-
+        String data = (new SetHttpConnectionGet()).getInputStreamData();
+        SetHTTPConnectionPost setHTTPConnectionPost = new SetHTTPConnectionPost();
+        setHTTPConnectionPost.sendPost();
         //call jsonParser only if the data is not null
         if(data != null){
             try {

@@ -7,11 +7,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class SetHttpConnection {
+public class SetHttpConnectionGet {
     private static String BASE_URL;
 
     //Setting category code
-    public SetHttpConnection(){
+    public SetHttpConnectionGet(){
         BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
     }
 

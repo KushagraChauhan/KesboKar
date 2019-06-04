@@ -1,0 +1,118 @@
+package com.example.acer.pocjil;
+
+import android.util.Log;
+
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class SetHTTPConnectionPost {
+    String ResponseData;
+    public void sendPost(){
+         try{
+            URL url = new URL("http://serv.kesbokar.com.au/jil.0.1/auth/login");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+
+            JSONObject jsonParam = new JSONObject();
+//            jsonParam.put("timestamp", 1488873360);
+            jsonParam.put("email", "vinod@jingle.in");
+            jsonParam.put("password", 123456);
+//            jsonParam.put("latitude", 0D);
+//            jsonParam.put("longitude", 0D);
+
+            Log.i("JSON", jsonParam.toString());
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+            os.writeBytes(jsonParam.toString());
+
+            os.flush();
+            os.close();
+
+            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+            Log.i("MSG" , conn.getResponseMessage());
+//            System.out.println("Status" + (conn.getResponseCode()));
+//            System.out.println("MSG" + conn.getResponseMessage());
+//            System.out.println("Response" + conn.getRequestMethod());
+             InputStream inputStream = new BufferedInputStream(conn.getInputStream());
+             ResponseData = convertStreamToString(inputStream);
+             System.out.println("API" + ResponseData);
+
+            conn.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String convertStreamToString(InputStream is) {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append((line + "\n"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+}
+
+/*Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                URL url = new URL(urlAdress);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                conn.setRequestProperty("Accept","application/json");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("timestamp", 1488873360);
+                jsonParam.put("uname", message.getUser());
+                jsonParam.put("message", message.getMessage());
+                jsonParam.put("latitude", 0D);
+                jsonParam.put("longitude", 0D);
+
+                Log.i("JSON", jsonParam.toString());
+                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                os.writeBytes(jsonParam.toString());
+
+                os.flush();
+                os.close();
+
+                Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                Log.i("MSG" , conn.getResponseMessage());
+
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    });
+
+    thread.start();*/
