@@ -18,6 +18,8 @@ import android.os.StrictMode;
 import android.provider.DocumentsContract;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.view.View;
 
@@ -92,6 +94,7 @@ public class Navigation extends AppCompatActivity
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     Button top, signup, login, help, market;
+    private static final String[] COUNTRIES = new String[] { "Belgium","France", "France_", "Italy", "Germany", "Spain" };
 
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -160,6 +163,9 @@ public class Navigation extends AppCompatActivity
         params.width = 300;
         params.height = 300;
         params.rightMargin = 15;
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation.this,android.R.layout.simple_dropdown_item_1line,COUNTRIES);
+        AutoCompleteTextView textView=findViewById(R.id.bs1);
+        textView.setAdapter(adapter);
 
 
 //        for (i=0;i<3;i++) {

@@ -17,46 +17,35 @@
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="HELP"
                 android:background="@drawable/rect_button"
                 android:id="@+id/help"/>
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="INBOX"
-                android:background="@drawable/rect_button"
-                android:id="@+id/inbox"/>
-            <Button
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="BUISNESS"
                 android:background="@drawable/rect_button"
                 android:id="@+id/buis"/>
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="MARKET"
                 android:background="@drawable/rect_button"
                 android:id="@+id/mar"/>
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:text="TOP"
                 android:background="@drawable/rect_button"
                 android:id="@+id/top"/>
         </LinearLayout>
-        </HorizontalScrollView>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
     <ScrollView
         android:layout_width="match_parent"
@@ -84,21 +73,29 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="34dp"
                 android:background="@color/colorTransparent"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="40dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
                 <RadioGroup
                     android:id="@+id/radio_group"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_businesses"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:layout_marginTop="40dp"
                         android:background="@color/colorTransparent"
                         android:text="Businesses"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="10dp"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />
 
@@ -106,51 +103,34 @@
                         android:id="@+id/rb_marketplace"
                         android:layout_width="160dp"
                         android:layout_height="50dp"
-                        android:layout_marginTop="40dp"
                         android:background="@color/kesbokar"
                         android:text="Market Place"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />
 
                 </RadioGroup>
+                </LinearLayout>
+                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="390dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="15dp"
+
+                    <AutoCompleteTextView
+                        android:layout_width="320dp"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="100dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@drawable/edit_text_round">
+                        android:background="#FFFFFF"
+                        android:selectAllOnFocus="true" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="220dp"
-                            android:layout_marginEnd="15dp"
-                            android:selectAllOnFocus="true" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="390dp"
-                        android:layout_height="55dp"
-                        android:layout_marginTop="160dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@drawable/edit_text_round">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="160dp"
-                            android:layout_marginEnd="15dp"/>
-
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <AutoCompleteTextView
+                        android:layout_width="320dp"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="150dp"
+                        android:background="#FFFFFF"
+                        android:selectAllOnFocus="true" />
 
                     <Button
                         android:text="Search"
@@ -158,9 +138,9 @@
                         android:textAllCaps="true"
                         android:background="@color/colorPrimary"
                         android:drawableStart="@drawable/ic_search_black_24dp"
-                        android:layout_width="120dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="220dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="190dp"
 
                         android:layout_centerHorizontal="true"/>
 
