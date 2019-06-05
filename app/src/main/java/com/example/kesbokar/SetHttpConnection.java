@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -20,12 +19,12 @@ public class SetHttpConnection {
     }
 
     public static String getInputStreamData(){
-        HttpsURLConnection httpURLConnection = null;
+        HttpURLConnection httpURLConnection = null;
 
         InputStream inputStream = null;
 
         try{
-            httpURLConnection = (HttpsURLConnection)(new URL(BASE_URL)).openConnection();
+            httpURLConnection = (HttpURLConnection) (new URL(BASE_URL)).openConnection();
 
             //Set the request method
             httpURLConnection.setRequestMethod("GET");

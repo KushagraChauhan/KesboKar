@@ -102,11 +102,7 @@ public class Navigation extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .penaltyDeath()
-                .build());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
@@ -291,7 +287,7 @@ public class Navigation extends AppCompatActivity
 
             @Override
             public void onLoadFinished(Loader<ArrayList<ServiceExpertSpace>> loader, final ArrayList<ServiceExpertSpace> serviceExpertSpaces) {
-//                String BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";;
+//                String BASE_URL = "https://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";;
                 switch (loader.getId()) {
                     case LOADER_ID_SERVICES:
                         //if(serviceExpertSpaces.size()!=0){
@@ -358,7 +354,7 @@ public class Navigation extends AppCompatActivity
                             mi[j].setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
+                                    //url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
                                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);
                                     startActivity(intent);
@@ -473,7 +469,7 @@ public class Navigation extends AppCompatActivity
 //            buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
 //                @Override
 //                public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
-//                    String BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/business-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+//                    String BASE_URL = "https://serv.kesbokar.com.au/jil.0.1/v2/business-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
 //                    LoaderButtons loaderButtons = new LoaderButtons(Navigation.this, BASE_URL);
 //                    return loaderButtons;
 //                }
@@ -495,7 +491,7 @@ public class Navigation extends AppCompatActivity
 //                                    imagebutton[i].setLayoutParams(params);
 //                                    imagebutton[i].setTag(data.get(i).getId());
 //                                    final int index = i;
-//                                    String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
+//                                    String imgURL = "httpss://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
 //                                    Picasso.with(Navigation.this).load(imgURL).into(imagebutton[i]);
 //                                    //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
 //                                    imagebutton[i].setId(data.get(i).getId());
@@ -503,7 +499,7 @@ public class Navigation extends AppCompatActivity
 //                                    imagebutton[i].setOnClickListener(new View.OnClickListener() {
 //                                        @Override
 //                                        public void onClick(View v) {
-//                                            String url = "https://www.kesbokar.com.au/business/" + data.get(index).getUrl() + "/c" + data.get(index).getId();
+//                                            String url = "httpss://www.kesbokar.com.au/business/" + data.get(index).getUrl() + "/c" + data.get(index).getId();
 //                                            Intent intent = new Intent(Navigation.this, WebViewActivity.class);
 //                                            intent.putExtra("URL", url);
 //                                            startActivity(intent);
@@ -551,7 +547,7 @@ public class Navigation extends AppCompatActivity
 //
 //                @Override
 //                public void onLoadFinished(Loader<ArrayList<ServiceExpertSpace>> loader, final ArrayList<ServiceExpertSpace> serviceExpertSpaces) {
-////                String BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";;
+////                String BASE_URL = "https://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";;
 //                    switch (loader.getId()) {
 //                        case LOADER_ID_SERVICES:
 //                            //if(serviceExpertSpaces.size()!=0){
@@ -559,7 +555,7 @@ public class Navigation extends AppCompatActivity
 //                                bc[i].setText(serviceExpertSpaces.get(i).getName());
 //                                bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
 //
-//                                String imgURL = "https://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
+//                                String imgURL = "httpss://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
 //                                Picasso.with(Navigation.this).load(imgURL).into(bi[i]);
 //                                //new DownLoadImageTask(bi[i]).execute(imgURL);
 //                                final int index = i;
@@ -568,7 +564,7 @@ public class Navigation extends AppCompatActivity
 //                                bi[i].setOnClickListener(new View.OnClickListener() {
 //                                    @Override
 //                                    public void onClick(View v) {
-//                                        String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
+//                                        String url = "httpss://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
 //                                        Intent intent = new Intent(Navigation.this, WebViewActivity.class);
 //                                        intent.putExtra("URL", url);
 //                                        startActivity(intent);
@@ -620,18 +616,18 @@ public class Navigation extends AppCompatActivity
 //                                    mc[j].setText(marketPlaceApis.get(j).getName());
 //                                    md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
 //
-//                                    String imgURL = "https://www.kesbokar.com.au/uploads/product/thumbs/" + marketPlaceApis.get(j).getImageLogo();
+//                                    String imgURL = "httpss://www.kesbokar.com.au/uploads/product/thumbs/" + marketPlaceApis.get(j).getImageLogo();
 //                                    Picasso.with(Navigation.this).load(imgURL).into(mi[j]);
 //                                    //new DownLoadImageTask(mi[j]).execute(imgURL);
 //                                    final int index = j;
 //                                    final String cat = marketPlaceApis.get(j).getCat_title().replaceAll("", "-");
 //                                    final String ab = marketPlaceApis.get(j).getCity().getTitle().replaceAll(" ", "+");
-//                                    final String url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title() + "/" + marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
+//                                    final String url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title() + "/" + marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
 //
 //                                    mi[j].setOnClickListener(new View.OnClickListener() {
 //                                        @Override
 //                                        public void onClick(View v) {
-//                                            //url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
+//                                            //url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
 //                                            Intent intent = new Intent(Navigation.this, WebViewActivity.class);
 //                                            intent.putExtra("URL", url);
 //                                            startActivity(intent);
@@ -704,7 +700,7 @@ public class Navigation extends AppCompatActivity
 
 
 /*
-* String url = "https://www.kesbokar.com.au/businesses/" + data.get(i).getUrl() + "/c" + data.get(i).getId();
+* String url = "httpss://www.kesbokar.com.au/businesses/" + data.get(i).getUrl() + "/c" + data.get(i).getId();
                             Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                             intent.putExtra("URL",url);
 * */
