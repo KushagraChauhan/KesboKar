@@ -67,4 +67,19 @@ public class JsonParser {
         return serviceDetails;
     }
 
+    public ArrayList<BusinessSearchBar> getBusinessSearch(String url) throws JSONException{
+        ArrayList<BusinessSearchBar> getBusSrch = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        for(int index = 0;index<jsonArray.length();index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            BusinessSearchBar businessSearchBar = new BusinessSearchBar();
+            businessSearchBar.setId(jsonObject.getInt("id"));
+            businessSearchBar.setType(jsonObject.getString("type"));
+            businessSearchBar.setValue(jsonObject.getString("value"));
+            getBusSrch.add(businessSearchBar);
+        }
+        return getBusSrch;
+    }
+
 }

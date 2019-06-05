@@ -15,9 +15,9 @@ import java.net.URL;
 
 public class SetHTTPConnectionPost {
     String ResponseData;
-    public void sendPost(){
+    public String sendPost(String query){
          try{
-            URL url = new URL("http://serv.kesbokar.com.au/jil.0.1/auth/login");
+            URL url = new URL("http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -27,8 +27,8 @@ public class SetHTTPConnectionPost {
 
             JSONObject jsonParam = new JSONObject();
 //            jsonParam.put("timestamp", 1488873360);
-            jsonParam.put("email", "vinod@jingle.in");
-            jsonParam.put("password", 123456);
+            jsonParam.put("query", query);
+            jsonParam.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
 //            jsonParam.put("latitude", 0D);
 //            jsonParam.put("longitude", 0D);
 
@@ -47,12 +47,14 @@ public class SetHTTPConnectionPost {
 //            System.out.println("Response" + conn.getRequestMethod());
              InputStream inputStream = new BufferedInputStream(conn.getInputStream());
              ResponseData = convertStreamToString(inputStream);
-             System.out.println("API" + ResponseData);
+             Log.i("API" , ResponseData);
 
             conn.disconnect();
+            return ResponseData;
         } catch (Exception e) {
             e.printStackTrace();
         }
+         return null;
     }
 
     public String convertStreamToString(InputStream is) {
