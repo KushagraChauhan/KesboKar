@@ -13,6 +13,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.provider.DocumentsContract;
 
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.view.View;
 
@@ -67,10 +70,17 @@ public class Navigation_market extends AppCompatActivity
     private static final int LOADER_ID_BUSINESS = 0;
     private static final int LOADER_ID_SERVICES = 1;
     private static final int LOADER_ID_MARKET = 2;
+    private static final int LOADER_ID_MARVAL = 3;
+    private static final int LOADER_ID_MARSUB = 4;
 
     private LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>> buttonsDetailsLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>> serviceExpertSpaceLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>> MarketPlaceApiCallbacks;
+    private LoaderManager.LoaderCallbacks<ArrayList<String>> marketSearch;
+    private LoaderManager.LoaderCallbacks<ArrayList<String>> marketSub;
+
+    private ArrayList<String> valsMarket;
+    private ArrayList<String> valsSub;
 
     private static ArrayList<String> tags;
     Toolbar toolbar;
@@ -84,6 +94,8 @@ public class Navigation_market extends AppCompatActivity
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     Button top,signup,login,help,business;
+    AutoCompleteTextView ml;
+    AutoCompleteTextView ms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +111,8 @@ public class Navigation_market extends AppCompatActivity
         params.width=300;
         params.height=300;
         params.rightMargin=15;
+        valsMarket = new ArrayList<>();
+        valsSub = new ArrayList<>();
         layout = new LinearLayout(Navigation_market.this);
         bi = new ImageView[4];
         mi = new ImageView[3];
@@ -197,6 +211,60 @@ public class Navigation_market extends AppCompatActivity
             }
         });
 
+
+        marketSub = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+            @Override
+            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
+                LoaderMarketSearch loaderMarketSearch= new LoaderMarketSearch(Navigation_market.this,"","http://serv.kesbokar.com.au/jil.0.1/v2/product/search/cities");
+                return loaderMarketSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+                if (data.size() != 0) {
+                    valsSub = data;
+                    Log.i("Tag Sub", valsSub + "");
+                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation_market.this,android.R.layout.simple_dropdown_item_1line,valsSub);
+                    ms=findViewById(R.id.ms);
+                    ms.setAdapter(adapter);
+                } else {
+                    Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+                getLoaderManager().destroyLoader(LOADER_ID_MARVAL);
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+
+            }
+        };
+        marketSearch = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+            @Override
+            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
+                LoaderMarketSearch loaderMarketSearch= new LoaderMarketSearch(Navigation_market.this,"","http://serv.kesbokar.com.au/jil.0.1/v2/product/search");
+                return loaderMarketSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+                if (data.size() != 0) {
+                    valsMarket = data;
+                    Log.i("Tag", valsMarket + "");
+                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation_market.this,android.R.layout.simple_dropdown_item_1line,valsMarket);
+                    ml=findViewById(R.id.ml);
+                    ml.setAdapter(adapter);
+                    getLoaderManager().initLoader(LOADER_ID_MARSUB,null,marketSub);
+                } else {
+                    Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+
+            }
+        };
         buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
             @Override
             public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
@@ -340,6 +408,7 @@ public class Navigation_market extends AppCompatActivity
                             });
 
                         }
+                        getLoaderManager().initLoader(LOADER_ID_MARVAL,null,marketSearch);
                         getLoaderManager().destroyLoader(LOADER_ID_BUSINESS);
                         getLoaderManager().destroyLoader(LOADER_ID_SERVICES);
                         getLoaderManager().destroyLoader(LOADER_ID_MARKET);

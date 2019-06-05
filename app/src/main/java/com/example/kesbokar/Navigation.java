@@ -80,10 +80,17 @@ public class Navigation extends AppCompatActivity
     private static final int LOADER_ID_BUSINESS = 0;
     private static final int LOADER_ID_SERVICES = 1;
     private static final int LOADER_ID_MARKET = 2;
+    private static final int LOADER_ID_BUSVAL = 3;
+    private static final int LOADER_ID_BUSSUB = 4;
+    private ArrayList<String> valsBus;
+    private ArrayList<String> valsSub;
 
     private LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>> buttonsDetailsLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>> serviceExpertSpaceLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>> MarketPlaceApiCallbacks;
+    private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
+    private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSuburb;
+
 
     //private static ArrayList<String> tags;
     Toolbar toolbar;
@@ -91,6 +98,8 @@ public class Navigation extends AppCompatActivity
     TextView[] bc, bd, mc, md;
     HorizontalScrollView category;
     DrawerLayout drawer;
+    AutoCompleteTextView textView;
+    AutoCompleteTextView textView2;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     Button top, signup, login, help, market;
@@ -102,6 +111,7 @@ public class Navigation extends AppCompatActivity
         return activeNetwork != null && activeNetwork.isConnected();
     }
 
+    private String query = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +120,8 @@ public class Navigation extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
         toolbar = findViewById(R.id.toolbar);
+        valsBus = new ArrayList<>();
+        valsSub = new ArrayList<>();
         bi = new ImageView[4];
         mi = new ImageView[3];
         bc = new TextView[4];
@@ -146,6 +158,9 @@ public class Navigation extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+
+
         navigationView.setNavigationItemSelectedListener(this);
         top = (Button) findViewById(R.id.top);
         View ab = navigationView.getHeaderView(0);
@@ -163,9 +178,7 @@ public class Navigation extends AppCompatActivity
         params.width = 300;
         params.height = 300;
         params.rightMargin = 15;
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation.this,android.R.layout.simple_dropdown_item_1line,COUNTRIES);
-        AutoCompleteTextView textView=findViewById(R.id.bs1);
-        textView.setAdapter(adapter);
+
 
 
 //        for (i=0;i<3;i++) {
@@ -227,6 +240,60 @@ public class Navigation extends AppCompatActivity
 
 
         //Loader
+        businessSuburb = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+            @Override
+            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSearch loaderBusSearch = new LoaderBusSearch(Navigation.this,query,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search/cities");
+                return loaderBusSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+                if (data.size() != 0) {
+                    valsSub = data;
+                    Log.i("Tag", valsSub + "");
+                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation.this,android.R.layout.simple_dropdown_item_1line,valsSub);
+                    textView2=findViewById(R.id.bs2);
+                    textView2.setAdapter(adapter);
+                    getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
+                } else {
+                    Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+
+            }
+        };
+        businessSearch = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+            @Override
+            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSearch loaderBusSearch = new LoaderBusSearch(Navigation.this,query,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search");
+                return loaderBusSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+                if (data.size() != 0) {
+                    valsBus = data;
+                    Log.i("Tag", valsBus + "");
+                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation.this,android.R.layout.simple_dropdown_item_1line,valsBus);
+                    textView=findViewById(R.id.bs1);
+                    textView.setAdapter(adapter);
+                    getLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+                } else {
+                    Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+
+            }
+        };
         buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
             @Override
             public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
@@ -369,6 +436,7 @@ public class Navigation extends AppCompatActivity
                             });
 
                         }
+                        getLoaderManager().initLoader(LOADER_ID_BUSVAL,null,businessSearch);
                         getLoaderManager().destroyLoader(LOADER_ID_BUSINESS);
                         getLoaderManager().destroyLoader(LOADER_ID_SERVICES);
                         getLoaderManager().destroyLoader(LOADER_ID_MARKET);
@@ -384,9 +452,11 @@ public class Navigation extends AppCompatActivity
 
         if(isNetworkAvailable()) {
             getLoaderManager().initLoader(LOADER_ID_BUSINESS, null, buttonsDetailsLoaderCallbacks);
+
         }else{
             setContentView(R.layout.no_internet);
         }
+
     }
 
     @Override

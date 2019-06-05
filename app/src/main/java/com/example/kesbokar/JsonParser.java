@@ -97,4 +97,16 @@ public class JsonParser {
         }
         return marketDetails;
     }
+
+    public ArrayList<String> getBusinessSearch(String url) throws JSONException{
+        ArrayList<String> getBusSrchValues = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        for(int index = 0;index<jsonArray.length();index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            String values = jsonObject.getString("value");
+            getBusSrchValues.add(values);
+        }
+        return getBusSrchValues;
+    }
 }
