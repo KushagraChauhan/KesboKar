@@ -21,7 +21,7 @@ public class SetHttpConnection {
     //Setting category code
     public SetHttpConnection(String url){
         this.BASE_URL = url;
-        BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages?page=1&caturl=service-providers&catid=172&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK#";
+        //BASE_URL = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages?page=1&caturl=service-providers&catid=172&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK#";
     }
 
     public static String getInputStreamData(){
