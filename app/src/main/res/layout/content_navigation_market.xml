@@ -136,6 +136,7 @@
 
                     <Button
                         android:text="Search"
+                        android:id="@+id/marBtnSrch"
                         style="@style/Animation.Design.BottomSheetDialog"
                         android:textAllCaps="true"
                         android:background="@color/colorPrimary"

@@ -13,7 +13,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.provider.DocumentsContract;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -72,15 +75,17 @@ public class Navigation_market extends AppCompatActivity
     private static final int LOADER_ID_MARKET = 2;
     private static final int LOADER_ID_MARVAL = 3;
     private static final int LOADER_ID_MARSUB = 4;
+    private static final int LOADER_ID_BTNSRCH = 5;
 
     private LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>> buttonsDetailsLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>> serviceExpertSpaceLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>> MarketPlaceApiCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<String>> marketSearch;
-    private LoaderManager.LoaderCallbacks<ArrayList<String>> marketSub;
+    private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> marketSub;
+    private LoaderManager.LoaderCallbacks<String> btnSearch;
 
     private ArrayList<String> valsMarket;
-    private ArrayList<String> valsSub;
+    private ArrayList<StateAndSuburb> valsSub;
 
     private static ArrayList<String> tags;
     Toolbar toolbar;
@@ -96,6 +101,11 @@ public class Navigation_market extends AppCompatActivity
     Button top,signup,login,help,business;
     AutoCompleteTextView ml;
     AutoCompleteTextView ms;
+    String q, subV;
+    String querySub;
+    String subType;
+    int stateid;
+    Button btnSrch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +123,7 @@ public class Navigation_market extends AppCompatActivity
         params.rightMargin=15;
         valsMarket = new ArrayList<>();
         valsSub = new ArrayList<>();
+        q = subV = querySub = "";
         layout = new LinearLayout(Navigation_market.this);
         bi = new ImageView[4];
         mi = new ImageView[3];
@@ -142,6 +153,8 @@ public class Navigation_market extends AppCompatActivity
         md[1] = findViewById(R.id.md2);
         md[2] = findViewById(R.id.md3);
 
+        ms = findViewById(R.id.ms);
+
         layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
 
@@ -156,6 +169,8 @@ public class Navigation_market extends AppCompatActivity
         View ab = navigationView.getHeaderView(0);
         signup=(Button)ab.findViewById(R.id.signup);
         login=(Button)ab.findViewById(R.id.login);
+
+        btnSrch = findViewById(R.id.marBtnSrch);
         RadioGroup radioGroup=findViewById(R.id.radio_group);
         RadioButton rb_marketplace=findViewById(R.id.rb_marketplace);
         RadioButton rb_business=findViewById(R.id.rb_businesses);
@@ -210,21 +225,44 @@ public class Navigation_market extends AppCompatActivity
             }
         });
 
-
-        marketSub = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+        btnSearch = new LoaderManager.LoaderCallbacks<String>() {
             @Override
-            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
-                LoaderMarketSearch loaderMarketSearch= new LoaderMarketSearch(Navigation_market.this,"","http://serv.kesbokar.com.au/jil.0.1/v2/product/search/cities");
-                return loaderMarketSearch;
+            public Loader<String> onCreateLoader(int id, Bundle args) {
+                LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Navigation_market.this,q,subV,"http://serv.kesbokar.com.au/jil.0.1/v2/product",stateid,subType);
+                return loaderBtnSearch;
             }
 
             @Override
-            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+            public void onLoadFinished(Loader<String> loader, String data) {
+                switch (loader.getId()){
+                    case LOADER_ID_BTNSRCH:
+                        if(data != null){
+                            Toast.makeText(Navigation_market.this, data, Toast.LENGTH_SHORT).show();
+                            Log.i("Search", data);
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<String> loader) {
+
+            }
+        };
+        marketSub = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+            @Override
+            public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(Navigation_market.this,querySub,"http://serv.kesbokar.com.au/jil.0.1/v2/product/search/cities");
+                return loaderBusSuburb;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
                 if (data.size() != 0) {
                     valsSub = data;
                     Log.i("Tag Sub", valsSub + "");
-                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation_market.this,android.R.layout.simple_dropdown_item_1line,valsSub);
-                    ms=findViewById(R.id.ms);
+                    ArrayAdapter<StateAndSuburb> adapter=new ArrayAdapter<StateAndSuburb>(Navigation_market.this,android.R.layout.simple_dropdown_item_1line,valsSub);
+
                     ms.setAdapter(adapter);
                 } else {
                     Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -233,7 +271,7 @@ public class Navigation_market extends AppCompatActivity
             }
 
             @Override
-            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+            public void onLoaderReset(Loader<ArrayList<StateAndSuburb>> loader) {
 
             }
         };
@@ -420,6 +458,47 @@ public class Navigation_market extends AppCompatActivity
 
             }
         };
+
+        ms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
+                subV = stateAndSuburb.getValue();
+                stateid = stateAndSuburb.getId();
+                subType = stateAndSuburb.getType();
+            }
+        });
+
+        ms.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                querySub = s.toString();
+                getLoaderManager().restartLoader(LOADER_ID_MARSUB,null,marketSub);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        btnSrch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                q = ml.getText().toString();
+
+                Log.i("Q and subV", q + " " + subV);
+                if(q.length() == 0 && subV.length() == 0){
+                    Toast.makeText(Navigation_market.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
+                }
+                getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
+            }
+        });
 
         getLoaderManager().initLoader(LOADER_ID_BUSINESS,null,buttonsDetailsLoaderCallbacks);
     }

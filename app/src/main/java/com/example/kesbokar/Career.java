@@ -22,6 +22,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ScrollView;
 
 import org.jsoup.Jsoup;
@@ -34,12 +35,24 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
     static String URL1;
     Document doc1;
     public static WebView webView;
+    public static Button contact;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_career);
-
+        contact=findViewById(R.id.contact);
         webView = (WebView) findViewById(R.id.webview);
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.kesbokar.com.au/contact-us";
+                Intent intent = new Intent(Career.this, WebViewActivity.class);
+                intent.putExtra("URL", url);
+                startActivity(intent);
+                finish();
+
+            }
+        });
         URL1 ="https://www.kesbokar.com.au/career";
         new Career.MyAsyncTask().execute();
     }
@@ -132,7 +145,7 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
                 document.getElementsByClass("footer_area").remove();
                 document.getElementsByClass("section additional-details clear proerty-th").remove();
                 document.getElementsByClass("breadcrumb").remove();
-                document.getElementsByClass("cmsHideForApps");
+                document.getElementsByClass("cmsHideForApps").remove();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -145,6 +158,7 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
             super.onPostExecute(document);
             webView.setWebViewClient(new WebViewClient());
             WebSettings webSettings=webView.getSettings();
+            webSettings.setBuiltInZoomControls(true);
             webView.loadDataWithBaseURL(URL1,document.toString(),"text/html","utf-8","");
             webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
