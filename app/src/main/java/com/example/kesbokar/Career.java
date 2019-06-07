@@ -131,7 +131,8 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
                 document.getElementsByClass("needhelp_in_touch").remove();
                 document.getElementsByClass("footer_area").remove();
                 document.getElementsByClass("section additional-details clear proerty-th").remove();
-
+                document.getElementsByClass("breadcrumb").remove();
+                document.getElementsByClass("cmsHideForApps");
 
             } catch (IOException e) {
                 e.printStackTrace();

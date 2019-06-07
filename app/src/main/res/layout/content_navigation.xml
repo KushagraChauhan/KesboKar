@@ -135,6 +135,7 @@
                         android:selectAllOnFocus="true" />
                     <Button
                         android:text="Search"
+                        android:id="@+id/btnSrch"
                         style="@style/Animation.Design.BottomSheetDialog"
                         android:textAllCaps="true"
                         android:background="@color/colorPrimary"

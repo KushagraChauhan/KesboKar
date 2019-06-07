@@ -36,7 +36,7 @@ public class SetHttpPost {
         return sb.toString();
     }
 
-    public String sendPost(String query, String baseUrl){
+    public String sendPostMarkAndBus(String query, String baseUrl){
         String ResponseData;
         try{
             URL url = new URL(baseUrl);
@@ -57,6 +57,65 @@ public class SetHttpPost {
             Log.i("JSON", jsonParam.toString());
             DataOutputStream os = new DataOutputStream(conn.getOutputStream());
             //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+            os.writeBytes(jsonParam.toString());
+
+            os.flush();
+            os.close();
+
+            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+            Log.i("MSG" , conn.getResponseMessage());
+//            System.out.println("Status" + (conn.getResponseCode()));
+//            System.out.println("MSG" + conn.getResponseMessage());
+//            System.out.println("Response" + conn.getRequestMethod());
+            InputStream inputStream = new BufferedInputStream(conn.getInputStream());
+            ResponseData = convertStreamToString(inputStream);
+            Log.i("API" , ResponseData);
+
+            conn.disconnect();
+            return ResponseData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String sendPostSearchBtn(String queryValue, String querySub,int subId, String type, String baseUrl){
+        String ResponseData;
+        try{
+            URL url = new URL(baseUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            //jsonParam.put("timestamp", 1488873360);
+            jsonParam.put("page",1);
+            jsonParam.put("per_page",15);
+
+            jsonParam.put("q", queryValue);
+            if(type.equals("state")) {
+                jsonParam.put("state", querySub);
+            }
+            if(type.equals("city")){
+                jsonParam.put("city", querySub);
+            }
+
+
+            if(type.equals("state")) {
+                jsonParam.put("stateid", subId);
+            }
+            if(type.equals("city")){
+                jsonParam.put("cityid", subId);
+            }
+            jsonParam.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+//
+
+            Log.i("JSON", jsonParam.toString());
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+
             os.writeBytes(jsonParam.toString());
 
             os.flush();

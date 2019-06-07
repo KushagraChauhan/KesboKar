@@ -109,4 +109,19 @@ public class JsonParser {
         }
         return getBusSrchValues;
     }
+
+    public ArrayList<StateAndSuburb> getSuburbs(String url) throws JSONException {
+        ArrayList<StateAndSuburb> stateAndSuburbs = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        for (int index = 0; index < jsonArray.length(); index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            StateAndSuburb stateAndSuburb = new StateAndSuburb();
+            stateAndSuburb.setId(jsonObject.getInt("id"));
+            stateAndSuburb.setType(jsonObject.getString("type"));
+            stateAndSuburb.setValue(jsonObject.getString("value"));
+            stateAndSuburbs.add(stateAndSuburb);
+        }
+        return stateAndSuburbs;
+    }
 }

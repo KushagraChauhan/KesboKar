@@ -23,7 +23,7 @@ public class LoaderMarketSearch extends AsyncTaskLoader<ArrayList<String>> {
     @Override
     public ArrayList<String> loadInBackground() {
         ArrayList<String> businessSearchBarsValues = new ArrayList<>();
-        String data = (new SetHttpPost()).sendPost(Query,BaseUrl);
+        String data = (new SetHttpPost()).sendPostMarkAndBus(Query,BaseUrl);
         //call jsonParser only if the data is not null
         if(data != null){
             try {

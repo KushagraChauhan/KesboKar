@@ -17,7 +17,10 @@ import com.google.android.material.snackbar.Snackbar;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -73,6 +76,7 @@ public class Navigation extends AppCompatActivity
     TextView ab;
     ImageButton[] imagebutton;
     LinearLayout relativelayout;
+    Button btnSrch;
     String about;
     LinearLayout.LayoutParams params;
     int i;
@@ -82,16 +86,20 @@ public class Navigation extends AppCompatActivity
     private static final int LOADER_ID_MARKET = 2;
     private static final int LOADER_ID_BUSVAL = 3;
     private static final int LOADER_ID_BUSSUB = 4;
+    private static final int LOADER_ID_BTNSRCH = 5;
     private ArrayList<String> valsBus;
-    private ArrayList<String> valsSub;
+    private ArrayList<StateAndSuburb> valsSub;
 
     private LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>> buttonsDetailsLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>> serviceExpertSpaceLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>> MarketPlaceApiCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
-    private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSuburb;
+    private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
+    private LoaderManager.LoaderCallbacks<String> btnSearch;
 
 
+
+    private String subType;
     //private static ArrayList<String> tags;
     Toolbar toolbar;
     ImageView[] bi, mi;
@@ -103,6 +111,10 @@ public class Navigation extends AppCompatActivity
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     Button top, signup, login, help, market;
+
+    String q, subV;
+    String querySub;
+    int stateid = 0;
     private static final String[] COUNTRIES = new String[] { "Belgium","France", "France_", "Italy", "Germany", "Spain" };
 
     private boolean isNetworkAvailable(){
@@ -128,6 +140,10 @@ public class Navigation extends AppCompatActivity
         mc = new TextView[3];
         md = new TextView[3];
         bd = new TextView[4];
+        textView2 = findViewById(R.id.bs2);
+
+        q = subV = querySub = "";
+
         setSupportActionBar(toolbar);
         ab = (TextView) findViewById(R.id.about);
         bi[0] = findViewById(R.id.bi1);
@@ -159,6 +175,9 @@ public class Navigation extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        btnSrch = findViewById(R.id.btnSrch);
+
+        textView=findViewById(R.id.bs1);
 
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -240,19 +259,43 @@ public class Navigation extends AppCompatActivity
 
 
         //Loader
-        businessSuburb = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+        btnSearch = new LoaderManager.LoaderCallbacks<String>() {
             @Override
-            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
-                LoaderBusSearch loaderBusSearch = new LoaderBusSearch(Navigation.this,query,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search/cities");
-                return loaderBusSearch;
+            public Loader<String> onCreateLoader(int id, Bundle args) {
+                LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Navigation.this,q,subV,"https://serv.kesbokar.com.au/jil.0.1/v2/yellowpages",stateid,subType);
+                return loaderBtnSearch;
             }
 
             @Override
-            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+            public void onLoadFinished(Loader<String> loader, String data) {
+                switch (loader.getId()){
+                    case LOADER_ID_BTNSRCH:
+                        if(data != null){
+                            Toast.makeText(Navigation.this, data, Toast.LENGTH_SHORT).show();
+                            Log.i("Search", data);
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<String> loader) {
+
+            }
+        };
+        businessSuburb = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+            @Override
+            public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(Navigation.this,querySub,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search/cities");
+                return loaderBusSuburb;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
                 if (data.size() != 0) {
                     valsSub = data;
                     Log.i("Tag", valsSub + "");
-                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation.this,android.R.layout.simple_dropdown_item_1line,valsSub);
+                    ArrayAdapter<StateAndSuburb> adapter=new ArrayAdapter<StateAndSuburb>(Navigation.this,android.R.layout.simple_dropdown_item_1line,valsSub);
                     textView2=findViewById(R.id.bs2);
                     textView2.setAdapter(adapter);
                     getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
@@ -263,7 +306,7 @@ public class Navigation extends AppCompatActivity
             }
 
             @Override
-            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+            public void onLoaderReset(Loader<ArrayList<StateAndSuburb>> loader) {
 
             }
         };
@@ -280,7 +323,6 @@ public class Navigation extends AppCompatActivity
                     valsBus = data;
                     Log.i("Tag", valsBus + "");
                     ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation.this,android.R.layout.simple_dropdown_item_1line,valsBus);
-                    textView=findViewById(R.id.bs1);
                     textView.setAdapter(adapter);
                     getLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
                 } else {
@@ -456,6 +498,48 @@ public class Navigation extends AppCompatActivity
         }else{
             setContentView(R.layout.no_internet);
         }
+
+
+        textView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
+                subV = stateAndSuburb.getValue();
+                stateid = stateAndSuburb.getId();
+                subType = stateAndSuburb.getType();
+            }
+        });
+
+        textView2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                querySub = s.toString();
+                getLoaderManager().restartLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        btnSrch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                q = textView.getText().toString();
+
+                Log.i("Q and subV", q + " " + subV);
+                if(q.length() == 0 && subV.length() == 0){
+                    Toast.makeText(Navigation.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
+                }
+                getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
+            }
+        });
 
     }
 

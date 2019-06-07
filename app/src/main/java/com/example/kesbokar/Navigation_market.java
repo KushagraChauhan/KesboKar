@@ -175,7 +175,6 @@ public class Navigation_market extends AppCompatActivity
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
                 finish();
-
             }
         });
         business.setOnClickListener(new View.OnClickListener() {

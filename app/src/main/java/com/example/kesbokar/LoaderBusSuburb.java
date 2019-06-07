@@ -1,15 +1,14 @@
 package com.example.kesbokar;
 
-
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 import java.util.ArrayList;
 
-public class LoaderBusSearch extends AsyncTaskLoader<ArrayList<String>> {
-    private String Query;
-    private String base_url;
-    public LoaderBusSearch(Context context, String Query,String url){
+public class LoaderBusSuburb extends AsyncTaskLoader<ArrayList<StateAndSuburb>> {
+    String Query;
+    String base_url;
+    public LoaderBusSuburb(Context context, String Query, String url){
         super(context);
         this.Query = Query;
         base_url = url;
@@ -22,18 +21,18 @@ public class LoaderBusSearch extends AsyncTaskLoader<ArrayList<String>> {
     }
 
     @Override
-    public ArrayList<String> loadInBackground() {
-        ArrayList<String> businessSearchBarsValues = new ArrayList<>();
+    public ArrayList<StateAndSuburb> loadInBackground() {
+        ArrayList<StateAndSuburb> srchSubs = new ArrayList<>();
         String data = (new SetHttpPost()).sendPostMarkAndBus(Query,base_url);
         //call jsonParser only if the data is not null
         if(data != null){
             try {
-                JsonParser jsonBusSrch = new JsonParser();
-                businessSearchBarsValues = jsonBusSrch.getBusinessSearch(data);
+                JsonParser jsonsub = new JsonParser();
+                srchSubs = jsonsub.getSuburbs(data);
             }catch (Throwable t){
                 t.printStackTrace();
             }
-            return businessSearchBarsValues;
+            return srchSubs;
         }
         return null;
     }

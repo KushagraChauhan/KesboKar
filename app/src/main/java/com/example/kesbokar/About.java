@@ -134,6 +134,7 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
                 document.getElementsByClass("needhelp_in_touch").remove();
                 document.getElementsByClass("footer_area").remove();
                 document.getElementsByClass("section additional-details clear proerty-th").remove();
+                document.getElementsByClass("breadcrumb").remove();
 
 
             } catch (IOException e) {
