@@ -532,12 +532,26 @@ public class Navigation extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 q = textView.getText().toString();
-
+                String addTok = "";
                 Log.i("Q and subV", q + " " + subV);
                 if(q.length() == 0 && subV.length() == 0){
                     Toast.makeText(Navigation.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
                 }
-                getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
+                if(subType.equals("state")) {
+                    String url = "https://www.kesbokar.com.au/business/" + subV + "/sl" + stateid + "?q=" + q;
+                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
+                    intent.putExtra("URL", url);
+                    startActivity(intent);
+                    finish();
+                }
+                if(subType.equals("city")){
+                    String url = "https://www.kesbokar.com.au/business/" + subV + "/l" + stateid + "?q=" + q;
+                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
+                    intent.putExtra("URL", url);
+                    startActivity(intent);
+                    finish();
+                }
+                //getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
             }
         });
 
