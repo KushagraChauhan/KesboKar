@@ -164,6 +164,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             webView.loadDataWithBaseURL(URL1,document.toString(),"text/html","utf-8","");
             //webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
+            webView.setWebViewClient(new WebViewClient());
         }
     }
 }
