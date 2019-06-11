@@ -5,19 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/dashboard"
             android:icon="@drawable/more"
             android:title="Dashboard"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/profile"
             android:icon="@drawable/more"
             android:title="My Profile" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/business_lg_page"
             android:icon="@drawable/more"
             android:title="Businesses" />
         <item
-            android:id="@+id/nav_tools"
+            android:id="@+id/market_lg_page"
             android:icon="@drawable/more"
             android:title="Marketplace" />
     </group>
@@ -25,11 +25,11 @@
     <item android:title="Inbox Message">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/business_in"
                 android:icon="@drawable/more"
                 android:title="Business" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/market_in"
                 android:icon="@drawable/more"
                 android:title="Marketplace" />
         </menu>

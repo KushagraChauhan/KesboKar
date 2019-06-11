@@ -27,6 +27,11 @@
                 android:icon="@drawable/more2"
                 android:visible="false"
                 android:title="Advertise With Us"/>
+            <item
+                android:id="@+id/loginPage"
+                android:icon="@drawable/more"
+                android:visible="false"
+                android:title="Login"/>
         </menu>
     </item>
 

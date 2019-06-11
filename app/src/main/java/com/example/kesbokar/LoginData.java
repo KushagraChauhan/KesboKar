@@ -1,5 +1,6 @@
 package com.example.kesbokar;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,8 @@ import android.view.Menu;
 
 public class LoginData extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    String loginId, loginPass, full_name, email, image, phone_no;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,12 @@ public class LoginData extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+            full_name=extras.getString("Name");
+            email=extras.getString("mail");
+            image=extras.getString("image");
+            phone_no=extras.getString("phone");
     }
 
     @Override
@@ -70,15 +79,25 @@ public class LoginData extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.dashboard) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.profile) {
+            Intent intent = new Intent(LoginData.this, Profile.class);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.business_lg_page) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.market_lg_page) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.business_in) {
+
+        } else if (id == R.id.market_in) {
 
         }
 

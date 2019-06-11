@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -140,6 +141,7 @@ public class Navigation extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         top = (Button) findViewById(R.id.top);
         View ab = navigationView.getHeaderView(0);
+        Menu show=navigationView.getMenu();
         signup = (Button) ab.findViewById(R.id.signup);
         login = (Button) ab.findViewById(R.id.login);
         name=(TextView)ab.findViewById(R.id.name_user);
@@ -171,6 +173,11 @@ public class Navigation extends AppCompatActivity
             name.setText(full_name);
             login.setVisibility(View.INVISIBLE);
             signup.setVisibility(View.INVISIBLE);
+            show.findItem(R.id.nav_send).setVisible(true);
+            show.findItem(R.id.nav_share).setVisible(true);
+            show.findItem(R.id.advertise).setVisible(true);
+            show.findItem(R.id.loginPage).setVisible(true);
+            show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
         top.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -586,6 +593,17 @@ public class Navigation extends AppCompatActivity
             startActivity(career);
 
         } else if (id == R.id.advertise) {
+
+        }else if (id == R.id.loginPage) {
+            Intent intent=new Intent(Navigation.this,LoginData.class);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         }
 

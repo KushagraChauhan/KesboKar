@@ -16,10 +16,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Profile"></activity>
         <activity
             android:name=".LoginData"
             android:label="@string/title_activity_login_data"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Buisness_Listing" />
         <activity
             android:name=".SignUp"
@@ -33,9 +34,6 @@
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_login" />
         -->
-        <activity android:name=".MyProfile"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
         <activity android:name=".Career" />
         <activity
             android:name=".About"
