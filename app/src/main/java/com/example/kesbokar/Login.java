@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
     int flag=0;
+    ProgressDialog progressDialog;
     EditText edtLoginId, edtLoginPass;
     String loginId, loginPass, full_name, email, image, phone_no;
     private static final int LOADER_LOGIN_ID = 35;
@@ -48,7 +51,16 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 loginId = edtLoginId.getText().toString();
                 loginPass = edtLoginPass.getText().toString();
+                progressDialog = new ProgressDialog(Login.this);
+                progressDialog.setMessage("Logging In...");
+                progressDialog.show();
                 getLoaderManager().restartLoader(LOADER_LOGIN_ID,null,login_info_loader);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onBackPressed();
+                    }
+                },4000);
             }
         });
 
@@ -86,6 +98,10 @@ public class Login extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent=new Intent(Login.this,Navigation.class);
         intent.putExtra("Flag", flag);
+        intent.putExtra("Name",full_name);
+        intent.putExtra("mail",email);
+        intent.putExtra("image",image);
+        intent.putExtra("phone",phone_no);
         startActivity(intent);
         finish();
     }

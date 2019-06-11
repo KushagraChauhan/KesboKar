@@ -1,5 +1,4 @@
 package com.example.kesbokar;
-
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
@@ -41,7 +40,9 @@ public class Navigation extends AppCompatActivity
     ImageView search;
     Button btnSrch;
     String about;
-    boolean a=false;
+    TextView name;
+    String loginId, loginPass, full_name, email, image, phone_no;
+    boolean a;
     LinearLayout.LayoutParams params;
     int i;
     private static int dataSize = 0;
@@ -60,9 +61,6 @@ public class Navigation extends AppCompatActivity
     private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
     private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
     private LoaderManager.LoaderCallbacks<String> btnSearch;
-
-
-
     private String subType;
     //private static ArrayList<String> tags;
     Toolbar toolbar;
@@ -80,26 +78,19 @@ public class Navigation extends AppCompatActivity
     String querySub;
     int stateid = 0;
     private static final String[] COUNTRIES = new String[] { "Belgium","France", "France_", "Italy", "Germany", "Spain" };
-
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
-
     private String query = "";
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         //savedInstanceState.putBoolean("a",a);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
-        if (a==true) {
-            Intent intent = getIntent();
-            Bundle extras = intent.getExtras();
-            flag = extras.getInt("flag");
-        }
+        a = false;
         Toast.makeText(this, ""+a, Toast.LENGTH_SHORT).show();
         toolbar = findViewById(R.id.toolbar);
         valsBus = new ArrayList<>();
@@ -112,9 +103,7 @@ public class Navigation extends AppCompatActivity
         bd = new TextView[4];
         textView2 = findViewById(R.id.bs2);
         search=findViewById(R.id.search);
-
         q = subV = querySub = "";
-
         setSupportActionBar(toolbar);
         ab = (TextView) findViewById(R.id.about);
         bi[0] = findViewById(R.id.bi1);
@@ -145,29 +134,41 @@ public class Navigation extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         btnSrch = findViewById(R.id.btnSrch);
-
         textView=findViewById(R.id.bs1);
-
-
         navigationView.setNavigationItemSelectedListener(this);
         top = (Button) findViewById(R.id.top);
         View ab = navigationView.getHeaderView(0);
         signup = (Button) ab.findViewById(R.id.signup);
         login = (Button) ab.findViewById(R.id.login);
+        name=(TextView)ab.findViewById(R.id.name_user);
         RadioGroup radioGroup = findViewById(R.id.radio_group);
         RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
         RadioButton rb_business = findViewById(R.id.rb_businesses);
         market = findViewById(R.id.mar);
         help = (Button) findViewById(R.id.help);
-
         relativelayout = findViewById(R.id.abc);
         params = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.width = 300;
         params.height = 300;
         params.rightMargin = 15;
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras!=null) {
+            //Intent intent = getIntent();
+
+            flag = extras.getInt("Flag");
+            full_name=extras.getString("Name");
+            email=extras.getString("mail");
+            image=extras.getString("image");
+            phone_no=extras.getString("phone");
+            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
+        }
+        if(flag==1)
+        {
+            name.setText(full_name);
+        }
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -520,7 +521,6 @@ public class Navigation extends AppCompatActivity
                 //getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
             }
         });
-
     }
 
     @Override
