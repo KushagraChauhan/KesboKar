@@ -29,6 +29,9 @@
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_login" />
         -->
+        <activity android:name=".MyProfile"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Career" />
         <activity
             android:name=".About"
