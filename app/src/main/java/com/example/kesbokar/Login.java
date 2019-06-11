@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Login extends AppCompatActivity {
     int flag=0;
     EditText edtLoginId, edtLoginPass;
-    String loginId, loginPass;
+    String loginId, loginPass, full_name, email, image, phone_no;
     private static final int LOADER_LOGIN_ID = 35;
     private LoaderManager.LoaderCallbacks<LoginInfo> login_info_loader;
     @Override
@@ -63,6 +63,10 @@ public class Login extends AppCompatActivity {
             public void onLoadFinished(Loader<LoginInfo> loader, LoginInfo loginInfos) {
                 if(loginInfos!=null) {
                     flag = 1;
+                    full_name = loginInfos.getFullName();
+                    email = loginInfos.getEmail_id();
+                    image = loginInfos.getImage();
+                    phone_no = loginInfos.getPhone_no();
                     Log.i("Login_data", loginInfos + "");
                 }else{
                     flag=0;
