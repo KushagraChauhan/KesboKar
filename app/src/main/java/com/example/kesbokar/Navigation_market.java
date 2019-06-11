@@ -67,7 +67,10 @@ public class Navigation_market extends AppCompatActivity
     LinearLayout.LayoutParams params;
     int i;
     ImageView search;
+    TextView name;
+    int flag=0;
     LinearLayout relativelayout;
+    String loginId, loginPass, full_name, email, image, phone_no;
     private static int dataSize = 0;
     ImageButton[] imagebutton;
     private static final int LOADER_ID_BUSINESS = 0;
@@ -169,6 +172,7 @@ public class Navigation_market extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         top=(Button)findViewById(R.id.top);
         View ab = navigationView.getHeaderView(0);
+        name=(TextView)ab.findViewById(R.id.name_user);
         signup=(Button)ab.findViewById(R.id.signup);
         login=(Button)ab.findViewById(R.id.login);
 
@@ -184,10 +188,31 @@ public class Navigation_market extends AppCompatActivity
                 scrollView.smoothScrollTo(0,0);
             }
         });
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras!=null) {
+            //Intent intent = getIntent();
+
+            flag = extras.getInt("Flag");
+            full_name=extras.getString("Name");
+            email=extras.getString("mail");
+            image=extras.getString("image");
+            phone_no=extras.getString("phone");
+            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
+        }
+        if(flag==1)
+        {
+            name.setText(full_name);
+        }
         rb_business.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Navigation_market.this,Navigation.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
