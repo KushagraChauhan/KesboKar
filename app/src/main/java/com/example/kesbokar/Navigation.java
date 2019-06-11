@@ -1,5 +1,6 @@
 package com.example.kesbokar;
 import android.app.LoaderManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -168,6 +169,8 @@ public class Navigation extends AppCompatActivity
         if(flag==1)
         {
             name.setText(full_name);
+            login.setVisibility(View.INVISIBLE);
+            signup.setVisibility(View.INVISIBLE);
         }
         top.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +182,11 @@ public class Navigation extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, Navigation_market.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
@@ -199,7 +207,6 @@ public class Navigation extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, Login.class);
-                a=true;
                 startActivity(intent);
             }
         });

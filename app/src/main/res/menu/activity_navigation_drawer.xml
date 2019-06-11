@@ -6,12 +6,12 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/more"
                 android:visible="false"
                 android:title="List Buisness" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/more"
                 android:visible="false"
                 android:title="Post An Add" />
             <item
