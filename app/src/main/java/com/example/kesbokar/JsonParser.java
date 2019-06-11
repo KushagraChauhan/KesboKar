@@ -124,4 +124,21 @@ public class JsonParser {
         }
         return stateAndSuburbs;
     }
+
+    public LoginInfo getLoginInfo(String url) throws JSONException {
+        JSONObject JsonObject = new JSONObject(url);
+        boolean flag = JsonObject.getBoolean("status");
+        if(flag){
+            JSONObject jsonObject = JsonObject.getJSONObject("data");
+
+            LoginInfo loginInfo = new LoginInfo();
+            loginInfo.setFullName(jsonObject.getString("full_name"));
+            loginInfo.setEmail_id(jsonObject.getString("email"));
+            loginInfo.setImage(jsonObject.getString("image"));
+            loginInfo.setPhone_no(jsonObject.getString("phone"));
+
+            return loginInfo;
+        }
+        return null;
+    }
 }
