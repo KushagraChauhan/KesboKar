@@ -36,6 +36,7 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
     Document doc1;
     public static WebView webView;
     public static Button contact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

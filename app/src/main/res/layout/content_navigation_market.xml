@@ -122,12 +122,16 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="100dp"
                         android:background="#FFFFFF"
+                        android:hint="Enter Type Or Name"
+                        android:textColorHint="#C0C0C0"
                         android:id="@+id/ml"
                         android:selectAllOnFocus="true" />
 
                     <AutoCompleteTextView
                         android:layout_width="320dp"
                         android:layout_height="35dp"
+                        android:hint="Suburb Or State"
+                        android:textColorHint="#C0C0C0"
                         android:id="@+id/ms"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="150dp"

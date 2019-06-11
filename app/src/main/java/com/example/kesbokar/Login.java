@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 
 public class Login extends AppCompatActivity {
-
+    int flag=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +26,8 @@ public class Login extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.kesbokar));
+
+            //If true set flag =1
         }
         Button logbut=findViewById(R.id.logbut);
         logbut.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +42,7 @@ public class Login extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent=new Intent(Login.this,Navigation.class);
+        intent.putExtra("Flag", flag);
         startActivity(intent);
         finish();
     }

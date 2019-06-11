@@ -66,10 +66,10 @@ public class Navigation_market extends AppCompatActivity
     String about;
     LinearLayout.LayoutParams params;
     int i;
+    ImageView search;
     LinearLayout relativelayout;
     private static int dataSize = 0;
     ImageButton[] imagebutton;
-    //private static int dataSize = 0;
     private static final int LOADER_ID_BUSINESS = 0;
     private static final int LOADER_ID_SERVICES = 1;
     private static final int LOADER_ID_MARKET = 2;
@@ -107,6 +107,7 @@ public class Navigation_market extends AppCompatActivity
     int stateid;
     Button btnSrch;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +120,7 @@ public class Navigation_market extends AppCompatActivity
         params = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.width=300;
+        search=findViewById(R.id.search);
         params.height=300;
         params.rightMargin=15;
         valsMarket = new ArrayList<>();
@@ -200,6 +202,12 @@ public class Navigation_market extends AppCompatActivity
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
                 finish();
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.smoothScrollTo(0, 0);
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -497,14 +505,14 @@ public class Navigation_market extends AppCompatActivity
                     Toast.makeText(Navigation_market.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
                 }
                 //getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
-                if(subType.equals("state")) {
+                else if(subType.equals("state")) {
                     String url = "https://www.kesbokar.com.au/marketplace/" + subV + "/sl" + stateid + "?q=" + q;
                     Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
                     intent.putExtra("URL", url);
                     startActivity(intent);
                     finish();
                 }
-                if(subType.equals("city")){
+                else if(subType.equals("city")){
                     String url = "https://www.kesbokar.com.au/marketplace/" + subV + "/l" + stateid + "?q=" + q;
                     Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
                     intent.putExtra("URL", url);

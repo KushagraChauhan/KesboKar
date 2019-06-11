@@ -35,6 +35,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
     static String URL1;
     Document doc1;
     public static WebView webView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,6 +148,8 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
                 document.getElementsByClass("footer_area").remove();
                 document.getElementsByClass("section additional-details clear proerty-th").remove();
                 document.getElementsByClass("breadcrumb").remove();
+                document.getElementsByClass("page-subheader sorting pl0").remove();
+                document.getElementsByClass("sel-filters text-left").remove();
 
 
             } catch (IOException e) {

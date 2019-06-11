@@ -3,20 +3,9 @@ package com.example.kesbokar;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.os.StrictMode;
-import android.provider.DocumentsContract;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,59 +14,34 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-
 import android.view.MenuItem;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
-
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.loader.content.AsyncTaskLoader;
-
 import android.content.Loader;
-
-import android.view.Menu;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.BitSet;
-
-
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView ab;
     ImageButton[] imagebutton;
     LinearLayout relativelayout;
+    ImageView search;
     Button btnSrch;
     String about;
+    boolean a=false;
     LinearLayout.LayoutParams params;
     int i;
     private static int dataSize = 0;
@@ -89,7 +53,7 @@ public class Navigation extends AppCompatActivity
     private static final int LOADER_ID_BTNSRCH = 5;
     private ArrayList<String> valsBus;
     private ArrayList<StateAndSuburb> valsSub;
-
+    int flag=0;
     private LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>> buttonsDetailsLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>> serviceExpertSpaceLoaderCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>> MarketPlaceApiCallbacks;
@@ -126,11 +90,17 @@ public class Navigation extends AppCompatActivity
     private String query = "";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
+    protected void onCreate(final Bundle savedInstanceState) {
+        //savedInstanceState.putBoolean("a",a);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
+        if (a==true) {
+            Intent intent = getIntent();
+            Bundle extras = intent.getExtras();
+            flag = extras.getInt("flag");
+        }
+        Toast.makeText(this, ""+a, Toast.LENGTH_SHORT).show();
         toolbar = findViewById(R.id.toolbar);
         valsBus = new ArrayList<>();
         valsSub = new ArrayList<>();
@@ -141,6 +111,7 @@ public class Navigation extends AppCompatActivity
         md = new TextView[3];
         bd = new TextView[4];
         textView2 = findViewById(R.id.bs2);
+        search=findViewById(R.id.search);
 
         q = subV = querySub = "";
 
@@ -197,18 +168,6 @@ public class Navigation extends AppCompatActivity
         params.width = 300;
         params.height = 300;
         params.rightMargin = 15;
-
-
-
-//        for (i=0;i<3;i++) {
-//            imagebutton[i].setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(Navigation.this, "Clicked on image button"+i, Toast.LENGTH_LONG).show();
-//                }
-//            });
-//        }
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,6 +198,7 @@ public class Navigation extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, Login.class);
+                a=true;
                 startActivity(intent);
             }
         });
@@ -254,6 +214,12 @@ public class Navigation extends AppCompatActivity
             public void onClick(View v) {
                 Intent help1 = new Intent(Navigation.this, Help.class);
                 startActivity(help1);
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.smoothScrollTo(0, 0);
             }
         });
 
@@ -537,14 +503,14 @@ public class Navigation extends AppCompatActivity
                 if(q.length() == 0 && subV.length() == 0){
                     Toast.makeText(Navigation.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
                 }
-                if(subType.equals("state")) {
+                else if(subType.equals("state")) {
                     String url = "https://www.kesbokar.com.au/business/" + subV + "/sl" + stateid + "?q=" + q;
                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                     intent.putExtra("URL", url);
                     startActivity(intent);
                     finish();
                 }
-                if(subType.equals("city")){
+                else if(subType.equals("city")){
                     String url = "https://www.kesbokar.com.au/business/" + subV + "/l" + stateid + "?q=" + q;
                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                     intent.putExtra("URL", url);
@@ -623,258 +589,3 @@ public class Navigation extends AppCompatActivity
     }
 
 }
-
-
-
-
-//        new Do(Navigation.this).loadInBackground();
-//        new Do1(Navigation.this).loadInBackground();
-//        new Do2(Navigation.this).loadInBackground();
-
-//    public class Do extends AsyncTaskLoader<Void> {
-//
-//        public Do(@NonNull Context context) {
-//            super(context);
-//        }
-//
-//        @Nullable
-//        @Override
-//        public Void loadInBackground() {
-//            buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
-//                @Override
-//                public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
-//                    String BASE_URL = "https://serv.kesbokar.com.au/jil.0.1/v2/business-categories?tlevel=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
-//                    LoaderButtons loaderButtons = new LoaderButtons(Navigation.this, BASE_URL);
-//                    return loaderButtons;
-//                }
-//
-//                @Override
-//                public void onLoadFinished(Loader<ArrayList<ButtonsDetails>> loader, final ArrayList<ButtonsDetails> data) {
-//                    switch (loader.getId()) {
-//                        case LOADER_ID_BUSINESS:
-//                            // Add image path for imagebutton from drawable folder.
-//                            if (data.size() != 0) {
-//                                dataSize = data.size();
-//                                LinearLayout layout = new LinearLayout(Navigation.this);
-//                                layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-//                                imagebutton = new ImageButton[dataSize];
-//                                for (i = 0; i < dataSize; i++) {
-//                                    imagebutton[i] = new ImageButton(Navigation.this);
-////                    imagebutton[i].setImageResource(R.mipmap.ic_launcher_round);
-//                                    imagebutton[i].setBackground(getDrawable(R.drawable.button_bg_round));
-//                                    imagebutton[i].setLayoutParams(params);
-//                                    imagebutton[i].setTag(data.get(i).getId());
-//                                    final int index = i;
-//                                    String imgURL = "httpss://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
-//                                    Picasso.with(Navigation.this).load(imgURL).into(imagebutton[i]);
-//                                    //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
-//                                    imagebutton[i].setId(data.get(i).getId());
-//                                    int ID = imagebutton[i].getId();
-//                                    imagebutton[i].setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            String url = "httpss://www.kesbokar.com.au/business/" + data.get(index).getUrl() + "/c" + data.get(index).getId();
-//                                            Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-//                                            intent.putExtra("URL", url);
-//                                            startActivity(intent);
-//                                            finish();
-//                                        }
-//                                    });
-//                                    relativelayout.removeAllViews();
-//                                    relativelayout.addView(layout);
-//                                    layout.addView(imagebutton[i]);
-//                                    getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
-//                                }
-//                            } else {
-//                                Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
-//                            }
-//                            break;
-//                    }
-//                }
-//
-//                @Override
-//                public void onLoaderReset(Loader<ArrayList<ButtonsDetails>> loader) {
-//
-//                }
-//            };
-//
-//
-//            return null;
-//        }
-//    }
-//        public class Do1 extends AsyncTaskLoader<Void>
-//        {
-//
-//            public Do1(@NonNull Context context) {
-//                super(context);
-//            }
-//
-//            @Nullable
-//            @Override
-//            public Void loadInBackground() {
-//                serviceExpertSpaceLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>>() {
-//                @Override
-//                public Loader<ArrayList<ServiceExpertSpace>> onCreateLoader(int id, Bundle args) {
-//                    LoaderServices loaderServices = new LoaderServices(Navigation.this);
-//                    return loaderServices;
-//                }
-//
-//                @Override
-//                public void onLoadFinished(Loader<ArrayList<ServiceExpertSpace>> loader, final ArrayList<ServiceExpertSpace> serviceExpertSpaces) {
-////                String BASE_URL = "https://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";;
-//                    switch (loader.getId()) {
-//                        case LOADER_ID_SERVICES:
-//                            //if(serviceExpertSpaces.size()!=0){
-//                            for (i = 0; i < 4; i++) {
-//                                bc[i].setText(serviceExpertSpaces.get(i).getName());
-//                                bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
-//
-//                                String imgURL = "httpss://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
-//                                Picasso.with(Navigation.this).load(imgURL).into(bi[i]);
-//                                //new DownLoadImageTask(bi[i]).execute(imgURL);
-//                                final int index = i;
-//                                final String ab = serviceExpertSpaces.get(i).getCity().getTitle().replaceAll(" ", "+");
-//
-//                                bi[i].setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) {
-//                                        String url = "httpss://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
-//                                        Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-//                                        intent.putExtra("URL", url);
-//                                        startActivity(intent);
-//                                        finish();
-//                                    }
-//                                });
-//                                getLoaderManager().initLoader(LOADER_ID_MARKET, null, MarketPlaceApiCallbacks);
-//
-//                            }
-//                            //}
-////                        else{
-////                            Toast.makeText(Navigation.this, "no internet connection", Toast.LENGTH_SHORT).show();
-////                        }
-//                            break;
-//                    }
-//                }
-//
-//
-//                @Override
-//                public void onLoaderReset(Loader<ArrayList<ServiceExpertSpace>> loader) {
-//
-//                }
-//            };
-//                return null;
-//            }
-//        }
-//        public class Do2 extends AsyncTaskLoader<Void>
-//        {
-//
-//            public Do2(@NonNull Context context) {
-//                super(context);
-//            }
-//
-//            @Nullable
-//            @Override
-//            public Void loadInBackground() {
-//                    MarketPlaceApiCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>>() {
-//                    @Override
-//                    public Loader<ArrayList<MarketPlaceApi>> onCreateLoader(int id, Bundle args) {
-//                        LoaderMarket loaderMarket = new LoaderMarket(Navigation.this);
-//                        return loaderMarket;
-//                    }
-//
-//                    @Override
-//                    public void onLoadFinished(Loader<ArrayList<MarketPlaceApi>> loader, final ArrayList<MarketPlaceApi> marketPlaceApis) {
-//                        switch (loader.getId()) {
-//                            case LOADER_ID_MARKET:
-//                                for (int j = 0; j < 3; j++) {
-//                                    mc[j].setText(marketPlaceApis.get(j).getName());
-//                                    md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
-//
-//                                    String imgURL = "httpss://www.kesbokar.com.au/uploads/product/thumbs/" + marketPlaceApis.get(j).getImageLogo();
-//                                    Picasso.with(Navigation.this).load(imgURL).into(mi[j]);
-//                                    //new DownLoadImageTask(mi[j]).execute(imgURL);
-//                                    final int index = j;
-//                                    final String cat = marketPlaceApis.get(j).getCat_title().replaceAll("", "-");
-//                                    final String ab = marketPlaceApis.get(j).getCity().getTitle().replaceAll(" ", "+");
-//                                    final String url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title() + "/" + marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-//
-//                                    mi[j].setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            //url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-//                                            Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-//                                            intent.putExtra("URL", url);
-//                                            startActivity(intent);
-//                                            finish();
-//                                        }
-//                                    });
-//
-//                                }
-//                                break;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onLoaderReset(Loader<ArrayList<MarketPlaceApi>> loader) {
-//
-//                    }
-//                };
-//
-//                getLoaderManager().initLoader(LOADER_ID_BUSINESS, null, buttonsDetailsLoaderCallbacks);
-//
-//                return null;
-//            }
-//        }
-
-
-
-        //getLoaderManager().initLoader(LOADER_ID_SERVICES,null,serviceExpertSpaceLoaderCallbacks);
-
-
-
-
-   /* private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
-
-        public DownLoadImageTask(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        /*
-            doInBackground(Params... params)
-                Override this method to perform a computation on a background thread.
-         */
-       /* protected Bitmap doInBackground(String... urls) {
-            String urlOfImage = urls[0];
-            Bitmap logo = null;
-            try {
-                InputStream is = new URL(urlOfImage).openStream();
-                /*
-                    decodeStream(InputStream is)
-                        Decode an input stream into a bitmap.
-                 */
-              /*  ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                byte[] bitmapd = bos.toByteArray();
-                logo = BitmapFactory.decodeStream(is);
-                logo.compress(Bitmap.CompressFormat.JPEG, 1, bos);
-            } catch (Exception e) { // Catch the download exception
-                e.printStackTrace();
-            }
-            return logo;
-        }
-
-        /*
-            onPostExecute(Result result)
-                Runs on the UI thread after doInBackground(Params...).
-         */
-       /* protected void onPostExecute(Bitmap result) {
-            imageView.setImageBitmap(result);
-        }
-    }*/
-
-
-/*
-* String url = "httpss://www.kesbokar.com.au/businesses/" + data.get(i).getUrl() + "/c" + data.get(i).getId();
-                            Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-                            intent.putExtra("URL",url);
-* */

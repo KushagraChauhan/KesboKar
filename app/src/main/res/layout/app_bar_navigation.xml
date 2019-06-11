@@ -32,6 +32,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="240dp"
+                    android:id="@+id/search"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_search_black_24dp"/>
             </RelativeLayout>

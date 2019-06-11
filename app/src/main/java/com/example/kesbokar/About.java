@@ -34,6 +34,7 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
     static String URL1;
     Document doc1;
     public static WebView webView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
