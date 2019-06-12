@@ -173,6 +173,7 @@ public class Navigation_market extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         top=(Button)findViewById(R.id.top);
         View ab = navigationView.getHeaderView(0);
+        Menu show=navigationView.getMenu();
         name=(TextView)ab.findViewById(R.id.name_user);
         signup=(Button)ab.findViewById(R.id.signup);
         login=(Button)ab.findViewById(R.id.login);
@@ -207,6 +208,13 @@ public class Navigation_market extends AppCompatActivity
         if(flag==1)
         {
             name.setText(full_name);
+            login.setVisibility(View.INVISIBLE);
+            signup.setVisibility(View.INVISIBLE);
+            show.findItem(R.id.nav_send).setVisible(true);
+            show.findItem(R.id.nav_share).setVisible(true);
+            show.findItem(R.id.advertise).setVisible(true);
+            show.findItem(R.id.loginPage).setVisible(true);
+            show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
         rb_business.setOnClickListener(new View.OnClickListener() {
             @Override

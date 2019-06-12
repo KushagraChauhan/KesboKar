@@ -89,14 +89,15 @@ public class LoginData extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        int Id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (Id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.dashboard) {
+        } else if (Id == R.id.dashboard) {
 
-        } else if (id == R.id.profile) {
+        } else if (Id == R.id.profile) {
             Intent intent = new Intent(LoginData.this, Profile.class);
+            intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
             intent.putExtra("image",image);
@@ -109,8 +110,9 @@ public class LoginData extends AppCompatActivity
             overridePendingTransition(0, 0);
             finish();
 
-        } else if (id == R.id.business_lg_page) {
+        } else if (Id == R.id.business_lg_page) {
             Intent intent=new Intent(LoginData.this,ProfileBusinessListing.class);
+            intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
             intent.putExtra("image",image);
@@ -123,8 +125,9 @@ public class LoginData extends AppCompatActivity
             overridePendingTransition(0, 0);
             finish();
 
-        } else if (id == R.id.market_lg_page) {
+        } else if (Id == R.id.market_lg_page) {
             Intent intent=new Intent(LoginData.this,ProfileMarket.class);
+            intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
             intent.putExtra("image",image);
@@ -136,9 +139,9 @@ public class LoginData extends AppCompatActivity
             startActivityForResult(intent, 0);
             overridePendingTransition(0, 0);
             finish();
-        } else if (id == R.id.business_in) {
+        } else if (Id == R.id.business_in) {
 
-        } else if (id == R.id.market_in) {
+        } else if (Id == R.id.market_in) {
 
         }
 
