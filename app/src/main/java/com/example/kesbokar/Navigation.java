@@ -597,23 +597,23 @@ public class Navigation extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        int Id = item.getItemId();
 
-        if (id == R.id.nav_send) {
+        if (Id == R.id.nav_send) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (Id == R.id.nav_share) {
 
-        } else if (id == R.id.about) {
+        } else if (Id == R.id.about) {
             Intent about = new Intent(Navigation.this, About.class);
             startActivity(about);
 
-        } else if (id == R.id.career) {
+        } else if (Id == R.id.career) {
             Intent career = new Intent(Navigation.this, Career.class);
             startActivity(career);
 
-        } else if (id == R.id.advertise) {
+        } else if (Id == R.id.advertise) {
 
-        }else if (id == R.id.loginPage) {
+        }else if (Id == R.id.loginPage) {
             Intent intent=new Intent(Navigation.this,LoginData.class);
             intent.putExtra("Flag", flag);
             intent.putExtra("Name",full_name);
