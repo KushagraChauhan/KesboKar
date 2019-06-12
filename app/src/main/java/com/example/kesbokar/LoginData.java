@@ -24,7 +24,8 @@ import android.view.Menu;
 
 public class LoginData extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    String loginId, loginPass, full_name, email, image, phone_no;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id,flag;
 
 
     @Override
@@ -42,20 +43,33 @@ public class LoginData extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-            full_name=extras.getString("Name");
-            email=extras.getString("mail");
-            image=extras.getString("image");
-            phone_no=extras.getString("phone");
+        flag = extras.getInt("Flag");
+        full_name=extras.getString("Name");
+        email=extras.getString("mail");
+        image=extras.getString("image");
+        phone_no=extras.getString("phone");
+        id=extras.getInt("id");
+        created=extras.getString("create");
+        updated=extras.getString("update");
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        Intent intent = new Intent(LoginData.this, Navigation.class);
+        intent.putExtra("Flag",flag);
+        intent.putExtra("Name",full_name);
+        intent.putExtra("mail",email);
+        intent.putExtra("image",image);
+        intent.putExtra("phone",phone_no);
+        intent.putExtra("create",created);
+        intent.putExtra("update",updated);
+        intent.putExtra("id",id);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(0, 0);
+        finish();;
+
     }
 
 
@@ -87,14 +101,41 @@ public class LoginData extends AppCompatActivity
             intent.putExtra("mail",email);
             intent.putExtra("image",image);
             intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityForResult(intent, 0);
             overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.business_lg_page) {
+            Intent intent=new Intent(LoginData.this,ProfileBusinessListing.class);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.market_lg_page) {
-
+            Intent intent=new Intent(LoginData.this,ProfileMarket.class);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
         } else if (id == R.id.business_in) {
 
         } else if (id == R.id.market_in) {

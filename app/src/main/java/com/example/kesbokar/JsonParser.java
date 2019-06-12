@@ -136,7 +136,9 @@ public class JsonParser {
             loginInfo.setEmail_id(jsonObject.getString("email"));
             loginInfo.setImage(jsonObject.getString("image"));
             loginInfo.setPhone_no(jsonObject.getString("phone"));
-
+            loginInfo.setId(jsonObject.getInt("id"));
+            loginInfo.setCreated(jsonObject.getString("created_at"));
+            loginInfo.setUpdated(jsonObject.getString("updated_at"));
             return loginInfo;
         }
         return null;

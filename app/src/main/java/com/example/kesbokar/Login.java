@@ -25,7 +25,8 @@ public class Login extends AppCompatActivity {
     int flag=0;
     ProgressDialog progressDialog;
     EditText edtLoginId, edtLoginPass;
-    String loginId, loginPass, full_name, email, image, phone_no;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id;
     private static final int LOADER_LOGIN_ID = 35;
     private LoaderManager.LoaderCallbacks<LoginInfo> login_info_loader;
     @Override
@@ -79,6 +80,9 @@ public class Login extends AppCompatActivity {
                     email = loginInfos.getEmail_id();
                     image = loginInfos.getImage();
                     phone_no = loginInfos.getPhone_no();
+                    created=loginInfos.getCreated();
+                    updated=loginInfos.getUpdated();
+                    id=loginInfos.getid();
                     Log.i("Login_data", loginInfos + "");
                 }else{
                     flag=0;
@@ -102,6 +106,9 @@ public class Login extends AppCompatActivity {
         intent.putExtra("mail",email);
         intent.putExtra("image",image);
         intent.putExtra("phone",phone_no);
+        intent.putExtra("create",created);
+        intent.putExtra("update",updated);
+        intent.putExtra("id",id);
         startActivity(intent);
         finish();
     }

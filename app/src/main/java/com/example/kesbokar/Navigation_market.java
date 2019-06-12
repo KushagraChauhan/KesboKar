@@ -70,7 +70,8 @@ public class Navigation_market extends AppCompatActivity
     TextView name;
     int flag=0;
     LinearLayout relativelayout;
-    String loginId, loginPass, full_name, email, image, phone_no;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id;
     private static int dataSize = 0;
     ImageButton[] imagebutton;
     private static final int LOADER_ID_BUSINESS = 0;
@@ -198,6 +199,9 @@ public class Navigation_market extends AppCompatActivity
             email=extras.getString("mail");
             image=extras.getString("image");
             phone_no=extras.getString("phone");
+            id=extras.getInt("id");
+            created=extras.getString("create");
+            updated=extras.getString("update");
             Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
         }
         if(flag==1)
@@ -213,6 +217,9 @@ public class Navigation_market extends AppCompatActivity
                 intent.putExtra("mail",email);
                 intent.putExtra("image",image);
                 intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
@@ -224,6 +231,14 @@ public class Navigation_market extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent=new Intent(Navigation_market.this,Navigation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
                 finish();
@@ -601,6 +616,21 @@ public class Navigation_market extends AppCompatActivity
             startActivity(career);
 
         } else if (id == R.id.advertise) {
+
+        }else if (id == R.id.loginPage) {
+            Intent intent=new Intent(Navigation_market.this,LoginData.class);
+            intent.putExtra("Flag", flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         }
 

@@ -39,11 +39,12 @@ public class Navigation extends AppCompatActivity
     TextView ab;
     ImageButton[] imagebutton;
     LinearLayout relativelayout;
+    int id;
     ImageView search;
     Button btnSrch;
     String about;
     TextView name;
-    String loginId, loginPass, full_name, email, image, phone_no;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     boolean a;
     LinearLayout.LayoutParams params;
     int i;
@@ -166,6 +167,9 @@ public class Navigation extends AppCompatActivity
             email=extras.getString("mail");
             image=extras.getString("image");
             phone_no=extras.getString("phone");
+            id=extras.getInt("id");
+            created=extras.getString("create");
+            updated=extras.getString("update");
             Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
         }
         if(flag==1)
@@ -194,6 +198,9 @@ public class Navigation extends AppCompatActivity
                 intent.putExtra("mail",email);
                 intent.putExtra("image",image);
                 intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
@@ -205,6 +212,14 @@ public class Navigation extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, Navigation_market.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
                 finish();
@@ -600,10 +615,14 @@ public class Navigation extends AppCompatActivity
 
         }else if (id == R.id.loginPage) {
             Intent intent=new Intent(Navigation.this,LoginData.class);
+            intent.putExtra("Flag", flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
             intent.putExtra("image",image);
             intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityForResult(intent, 0);
             overridePendingTransition(0, 0);

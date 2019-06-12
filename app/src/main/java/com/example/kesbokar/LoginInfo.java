@@ -1,7 +1,8 @@
 package com.example.kesbokar;
 
 public class LoginInfo {
-    private String fullName, phone_no, email_id,image;
+    private String fullName, phone_no, email_id,image,created,updated;
+    private int id;
     public String getFullName() {
         return fullName;
     }
@@ -10,6 +11,10 @@ public class LoginInfo {
         this.fullName = fullName;
     }
 
+    public void  setId(int id){this.id=id;}
+
+    public int getid(){return id;}
+
     public String getPhone_no() {
         return phone_no;
     }
@@ -17,6 +22,23 @@ public class LoginInfo {
     public void setPhone_no(String phone_no) {
         this.phone_no = phone_no;
     }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
 
     public String getEmail_id() {
         return email_id;
