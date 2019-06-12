@@ -530,6 +530,10 @@ public class Navigation_market extends AppCompatActivity
                     Toast.makeText(Navigation_market.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
                 }
                 //getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
+                else if (subV.length()==0)
+                {
+                    Toast.makeText(Navigation_market.this, "Cannot Search Empty State", Toast.LENGTH_SHORT).show();
+                }
                 else if(subType.equals("state")) {
                     String url = "https://www.kesbokar.com.au/marketplace/" + subV + "/sl" + stateid + "?q=" + q;
                     Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);

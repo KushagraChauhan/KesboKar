@@ -16,7 +16,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Profile"></activity>
+        <activity android:name=".ProfileMarket"></activity>
+        <activity android:name=".ProfileBusinessListing" />
+        <activity android:name=".Profile" />
         <activity
             android:name=".LoginData"
             android:label="@string/title_activity_login_data"
