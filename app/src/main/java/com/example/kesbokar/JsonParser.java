@@ -156,6 +156,7 @@ public class JsonParser {
             businessProfileList.setTxtSno(i + "");
             businessProfileList.setTxtPhone(jsonObject.getString("phone"));
             businessProfileList.setTxtAbn(jsonObject.getString("registration_no"));
+            businessProfileList.setTxtStatus(jsonObject.getInt("status"));
             businessProfileLists.add(businessProfileList);
         }
         return businessProfileLists;

@@ -5,6 +5,7 @@ public class BusinessProfileList {
     private String txtTitle;
     private String txtAbn;
     private String txtPhone;
+    private int txtStatus;
 
     public String getTxtSno() {
         return txtSno;
@@ -38,4 +39,11 @@ public class BusinessProfileList {
         this.txtPhone = txtPhone;
     }
 
+    public int getTxtStatus() {
+        return txtStatus;
+    }
+
+    public void setTxtStatus(int txtStatus) {
+        this.txtStatus = txtStatus;
+    }
 }
