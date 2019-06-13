@@ -161,4 +161,20 @@ public class JsonParser {
         }
         return businessProfileLists;
     }
+
+    public ArrayList<MarketProfileList> getMarProfileList(String url) throws JSONException {
+        ArrayList<MarketProfileList> marketProfileLists = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(url);
+
+        for (int index = 0; index < jsonArray.length(); index++) {
+            int i = index+1;
+            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            MarketProfileList marketProfileList = new MarketProfileList();
+            marketProfileList.setTxtStatus(jsonObject.getInt("status"));
+            marketProfileList.setTxtSno(i + "");
+            marketProfileList.setTxtTitle(jsonObject.getString("name"));
+            marketProfileLists.add(marketProfileList);
+        }
+        return marketProfileLists;
+    }
 }
