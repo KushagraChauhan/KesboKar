@@ -42,7 +42,7 @@ public class Navigation extends AppCompatActivity
     LinearLayout relativelayout;
     int id;
     ImageView search;
-    Button btnSrch;
+    Button btnSrch,logout;
     String about;
     TextView name;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
@@ -146,6 +146,7 @@ public class Navigation extends AppCompatActivity
         Menu show=navigationView.getMenu();
         signup = (Button) ab.findViewById(R.id.signup);
         login = (Button) ab.findViewById(R.id.login);
+        logout=ab.findViewById(R.id.logout);
         name=(TextView)ab.findViewById(R.id.name_user);
         RadioGroup radioGroup = findViewById(R.id.radio_group);
         RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
@@ -183,6 +184,7 @@ public class Navigation extends AppCompatActivity
             show.findItem(R.id.nav_share).setVisible(true);
             show.findItem(R.id.advertise).setVisible(true);
             show.findItem(R.id.loginPage).setVisible(true);
+            logout.setVisibility(View.VISIBLE);
             show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
         top.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +241,21 @@ public class Navigation extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, SignUp.class);
                 startActivity(intent);
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(Navigation.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
             }
         });
         help.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@ package com.example.kesbokar;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -67,6 +68,7 @@ public class Navigation_market extends AppCompatActivity
     LinearLayout.LayoutParams params;
     int i;
     ImageView search;
+    Button logout;
     TextView name;
     int flag=0;
     LinearLayout relativelayout;
@@ -177,7 +179,7 @@ public class Navigation_market extends AppCompatActivity
         name=(TextView)ab.findViewById(R.id.name_user);
         signup=(Button)ab.findViewById(R.id.signup);
         login=(Button)ab.findViewById(R.id.login);
-
+        logout=ab.findViewById(R.id.logout);
         btnSrch = findViewById(R.id.marBtnSrch);
         RadioGroup radioGroup=findViewById(R.id.radio_group);
         RadioButton rb_marketplace=findViewById(R.id.rb_marketplace);
@@ -213,6 +215,7 @@ public class Navigation_market extends AppCompatActivity
             show.findItem(R.id.nav_send).setVisible(true);
             show.findItem(R.id.nav_share).setVisible(true);
             show.findItem(R.id.advertise).setVisible(true);
+            logout.setVisibility(View.VISIBLE);
             show.findItem(R.id.loginPage).setVisible(true);
             show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
@@ -231,6 +234,21 @@ public class Navigation_market extends AppCompatActivity
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
+                finish();
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(Navigation_market.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
                 finish();
             }
         });
