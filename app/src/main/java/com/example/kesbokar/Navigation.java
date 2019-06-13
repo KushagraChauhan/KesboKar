@@ -3,6 +3,7 @@ import android.app.LoaderManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -157,21 +158,22 @@ public class Navigation extends AppCompatActivity
         params.width = 300;
         params.height = 300;
         params.rightMargin = 15;
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        if (extras!=null) {
-            //Intent intent = getIntent();
-
-            flag = extras.getInt("Flag");
-            full_name=extras.getString("Name");
-            email=extras.getString("mail");
-            image=extras.getString("image");
-            phone_no=extras.getString("phone");
-            id=extras.getInt("id");
-            created=extras.getString("create");
-            updated=extras.getString("update");
-            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
-        }
+        getData();
+//        Intent intent = getIntent();
+//        Bundle extras = intent.getExtras();
+//        if (extras!=null) {
+//            //Intent intent = getIntent();
+//
+//            flag = extras.getInt("Flag");
+//            full_name=extras.getString("Name");
+//            email=extras.getString("mail");
+//            image=extras.getString("image");
+//            phone_no=extras.getString("phone");
+//            id=extras.getInt("id");
+//            created=extras.getString("create");
+//            updated=extras.getString("update");
+//            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
+//        }
         if(flag==1)
         {
             name.setText(full_name);
@@ -707,6 +709,19 @@ public class Navigation extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
     }
 
 }

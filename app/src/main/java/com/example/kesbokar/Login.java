@@ -3,12 +3,16 @@ package com.example.kesbokar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +31,7 @@ public class Login extends AppCompatActivity {
     EditText edtLoginId, edtLoginPass;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id;
+    SharedPreferences loginData;
     private static final int LOADER_LOGIN_ID = 35;
     private LoaderManager.LoaderCallbacks<LoginInfo> login_info_loader;
     @Override
@@ -84,9 +89,11 @@ public class Login extends AppCompatActivity {
                     updated=loginInfos.getUpdated();
                     id=loginInfos.getid();
                     Log.i("Login_data", loginInfos + "");
+                    saveData();
                 }else{
                     flag=0;
                 }
+
                 Log.i("FlagValue",flag + "");
             }
 
@@ -101,15 +108,30 @@ public class Login extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent=new Intent(Login.this,Navigation.class);
-        intent.putExtra("Flag", flag);
-        intent.putExtra("Name",full_name);
-        intent.putExtra("mail",email);
-        intent.putExtra("image",image);
-        intent.putExtra("phone",phone_no);
-        intent.putExtra("create",created);
-        intent.putExtra("update",updated);
-        intent.putExtra("id",id);
+//        intent.putExtra("Flag", flag);
+//        intent.putExtra("Name",full_name);
+//        intent.putExtra("mail",email);
+//        intent.putExtra("image",image);
+//        intent.putExtra("phone",phone_no);
+//        intent.putExtra("create",created);
+//        intent.putExtra("update",updated);
+//        intent.putExtra("id",id);
         startActivity(intent);
         finish();
+    }
+
+    public void saveData()
+    {
+        loginData= getSharedPreferences("data",0);
+        SharedPreferences.Editor editor=loginData.edit();
+        editor.putInt("Flag",flag);
+        editor.putString("Name",full_name);
+        editor.putString("mail",email);
+        editor.putString("image",image);
+        editor.putString("phone",phone_no);
+        editor.putString("create",created);
+        editor.putString("update",updated);
+        editor.putInt("id",id);
+        editor.apply();
     }
 }
