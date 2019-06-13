@@ -1,6 +1,7 @@
 package com.example.kesbokar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,16 +42,7 @@ public class LoginData extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        flag = extras.getInt("Flag");
-        full_name=extras.getString("Name");
-        email=extras.getString("mail");
-        image=extras.getString("image");
-        phone_no=extras.getString("phone");
-        id=extras.getInt("id");
-        created=extras.getString("create");
-        updated=extras.getString("update");
+        getData();
     }
 
     @Override
@@ -149,4 +141,18 @@ public class LoginData extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
+    }
+
 }
