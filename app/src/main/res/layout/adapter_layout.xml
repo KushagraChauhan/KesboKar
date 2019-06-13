@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ProfileBusinessListing"
-    tools:showIn="@layout/app_bar_profile_business_listing"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +22,7 @@
                 android:layout_weight="1"
                 android:text="SNo."
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                />
 
             <TextView
                 android:id="@+id/adapTxtTitle"
@@ -36,7 +32,7 @@
                 android:layout_weight="1"
                 android:text="Title"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                />
 
             <TextView
                 android:id="@+id/adapTxtABN"
@@ -46,7 +42,7 @@
                 android:layout_weight="1"
                 android:text="ABN Number"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                />
 
             <TextView
                 android:id="@+id/adapTxtPhone"
@@ -56,7 +52,7 @@
                 android:layout_weight="1"
                 android:text="Phone/Mobile"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                />
 
             <TextView
                 android:id="@+id/adapTxtStatus"
@@ -66,22 +62,25 @@
                 android:layout_weight="1"
                 android:text="Status"
                 android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt5"
+                />
+            <LinearLayout
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:text="Actions"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="E"
+                    android:id="@+id/adapBtnEdt"
+                    android:layout_weight="1"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="D"
+                    android:layout_weight="1"
+                    android:id="@+id/adapBtnDel"/>
+            </LinearLayout>
+
         </LinearLayout>
     </HorizontalScrollView>
-
-    <ListView
-        android:id="@+id/listProfileBusiness"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </LinearLayout>

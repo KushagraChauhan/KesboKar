@@ -143,4 +143,21 @@ public class JsonParser {
         }
         return null;
     }
+
+    public ArrayList<BusinessProfileList> getBusProfileList(String url) throws JSONException {
+        ArrayList<BusinessProfileList> businessProfileLists = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(url);
+
+        for (int index = 0; index < jsonArray.length(); index++) {
+            int i = index+1;
+            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            BusinessProfileList businessProfileList = new BusinessProfileList();
+            businessProfileList.setTxtTitle(jsonObject.getString("name"));
+            businessProfileList.setTxtSno(i + "");
+            businessProfileList.setTxtPhone(jsonObject.getString("phone"));
+            businessProfileList.setTxtAbn(jsonObject.getString("registration_no"));
+            businessProfileLists.add(businessProfileList);
+        }
+        return businessProfileLists;
+    }
 }
