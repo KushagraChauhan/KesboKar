@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -24,16 +25,15 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
     private LoaderManager.LoaderCallbacks<ArrayList<MarketProfileList>> busLoader;
     private static final int LOADER_BUS_PRO_LIST = 66;
     ListView listView;
-    private  int id;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id,flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_market);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        Intent intent=getIntent();
-        Bundle extras=intent.getExtras();
-        id=extras.getInt("id");
         setSupportActionBar(toolbar);
+        getData();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,6 +70,15 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
         };
         getLoaderManager().initLoader(LOADER_BUS_PRO_LIST,null,busLoader);
     }
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        Intent intent = new Intent(ProfileMarket.this,Navigation.class );
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(0, 0);
+        finish();;
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -78,10 +87,25 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.dashboard) {
+            Intent intent = new Intent(ProfileMarket.this, LoginData.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.profile) {
+            Intent intent = new Intent(ProfileMarket.this, Profile.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.business_lg_page) {
+            Intent intent = new Intent(ProfileMarket.this, ProfileBusinessListing.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.market_lg_page) {
 
@@ -95,4 +119,18 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
+    }
+
 }
