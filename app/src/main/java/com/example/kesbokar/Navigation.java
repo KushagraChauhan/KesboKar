@@ -242,8 +242,19 @@ public class Navigation extends AppCompatActivity
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent help1 = new Intent(Navigation.this, Help.class);
-                startActivity(help1);
+                Intent intent = new Intent(Navigation.this, Help.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
@@ -368,7 +379,17 @@ public class Navigation extends AppCompatActivity
                                         String url = "https://www.kesbokar.com.au/business/" + data.get(index).getUrl() + "/c" + data.get(index).getId();
                                         Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                                         intent.putExtra("URL", url);
-                                        startActivity(intent);
+                                        intent.putExtra("Flag", flag);
+                                        intent.putExtra("Name",full_name);
+                                        intent.putExtra("mail",email);
+                                        intent.putExtra("image",image);
+                                        intent.putExtra("phone",phone_no);
+                                        intent.putExtra("create",created);
+                                        intent.putExtra("update",updated);
+                                        intent.putExtra("id",id);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        startActivityForResult(intent, 0);
+                                        overridePendingTransition(0, 0);
                                         finish();
                                     }
                                 });
@@ -418,7 +439,17 @@ public class Navigation extends AppCompatActivity
                                     String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
                                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);
-                                    startActivity(intent);
+                                    intent.putExtra("Flag", flag);
+                                    intent.putExtra("Name",full_name);
+                                    intent.putExtra("mail",email);
+                                    intent.putExtra("image",image);
+                                    intent.putExtra("phone",phone_no);
+                                    intent.putExtra("create",created);
+                                    intent.putExtra("update",updated);
+                                    intent.putExtra("id",id);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivityForResult(intent, 0);
+                                    overridePendingTransition(0, 0);
                                     finish();
                                 }
                             });
@@ -541,14 +572,34 @@ public class Navigation extends AppCompatActivity
                     String url = "https://www.kesbokar.com.au/business/" + subV + "/sl" + stateid + "?q=" + q;
                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                     intent.putExtra("URL", url);
-                    startActivity(intent);
+                    intent.putExtra("Flag", flag);
+                    intent.putExtra("Name",full_name);
+                    intent.putExtra("mail",email);
+                    intent.putExtra("image",image);
+                    intent.putExtra("phone",phone_no);
+                    intent.putExtra("create",created);
+                    intent.putExtra("update",updated);
+                    intent.putExtra("id",id);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivityForResult(intent, 0);
+                    overridePendingTransition(0, 0);
                     finish();
                 }
                 else if(subType.equals("city")){
                     String url = "https://www.kesbokar.com.au/business/" + subV + "/l" + stateid + "?q=" + q;
                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                     intent.putExtra("URL", url);
-                    startActivity(intent);
+                    intent.putExtra("Flag", flag);
+                    intent.putExtra("Name",full_name);
+                    intent.putExtra("mail",email);
+                    intent.putExtra("image",image);
+                    intent.putExtra("phone",phone_no);
+                    intent.putExtra("create",created);
+                    intent.putExtra("update",updated);
+                    intent.putExtra("id",id);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivityForResult(intent, 0);
+                    overridePendingTransition(0, 0);
                     finish();
                 }
                 //getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
