@@ -5,5 +5,13 @@
     <color name="colorAccent">#FFA700</color>
     <color name="colorTransparent">#800A0101</color>
     <color name="kesbokar">#FFA700</color>
+    <color name="red">#BD2020</color>
+    <color name="offWhite">#F3F2F2</color>
+    <color name="Black">#030101</color>
+    <color name="White">#FCFBFB</color>
+    <color name="White1">#F3EDED</color>
+    <color name="DarkOrange">#FF6F00</color>
+    <color name="Green">#33691E</color>
+
 
 </resources>
