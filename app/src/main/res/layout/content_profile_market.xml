@@ -8,6 +8,16 @@
     tools:context=".ProfileMarket"
     tools:showIn="@layout/app_bar_profile_market"
     >
+
+    <Button
+        android:id="@+id/btnProductManagement"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="300dp"
+        android:text="Create"
+        android:background="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

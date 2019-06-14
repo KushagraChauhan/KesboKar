@@ -58,6 +58,11 @@
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProductManagementActivity"
+            android:configChanges="orientation|screenLayout|screenSize|touchscreen"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

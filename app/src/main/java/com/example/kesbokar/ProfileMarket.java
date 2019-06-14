@@ -13,6 +13,8 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
     ListView listView;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
+    Button btnProductManagement;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,17 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
 
         listView = findViewById(R.id.listProfileMarket);
+        btnProductManagement =(Button) findViewById(R.id.btnProductManagement);
+
+        btnProductManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProductManagement = new Intent(ProfileMarket.this,ProductManagementActivity.class);
+                startActivity(intentProductManagement);
+            }
+        });
+
+
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<MarketProfileList>>() {
             @Override
             public Loader<ArrayList<MarketProfileList>> onCreateLoader(int i, Bundle bundle) {
