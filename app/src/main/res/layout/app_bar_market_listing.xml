@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Buisness_Listing">
+    tools:context=".MarketListing">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,6 +40,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/listinglayout" />
+    <include layout="@layout/marketlisting" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -18,10 +18,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/bln"
         android:layout_gravity="center_horizontal"/>
-    <androidx.appcompat.widget.AppCompatRatingBar
+    <TextView
         android:layout_width="wrap_content"
         android:fitsSystemWindows="true"
-        style="@style/customRatingBar"
         android:layout_height="wrap_content"
         android:id="@+id/blr"/>
     <TextView
@@ -35,13 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Request A Quote"
-        android:id="@+id/blrq"/>
 
 
 </LinearLayout>

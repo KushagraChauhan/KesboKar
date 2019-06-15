@@ -2,6 +2,7 @@ package com.example.kesbokar;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,11 +18,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -35,8 +38,9 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
     static String URL1;
     Document doc1;
     public static WebView webView;
-    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
-    int id,flag;
+    String loginId, loginPass, full_name, email, image1, phone_no,created,updated;
+    int id1,flag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +61,60 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         URL1 = extras.getString("URL");
         flag = extras.getInt("Flag");
         full_name=extras.getString("Name");
+        Menu show=navigationView.getMenu();
+        View ab = navigationView.getHeaderView(0);
+        TextView name1=(TextView)ab.findViewById(R.id.name_user);
+        Button signup=(Button)ab.findViewById(R.id.signup);
+        Button login=(Button)ab.findViewById(R.id.login);
+        Button logout=ab.findViewById(R.id.logout);
         email=extras.getString("mail");
-        image=extras.getString("image");
+        image1=extras.getString("image");
         phone_no=extras.getString("phone");
-        id=extras.getInt("id");
+        id1=extras.getInt("id");
         created=extras.getString("create");
         updated=extras.getString("update");
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WebViewActivity.this, Login.class);
+                startActivity(intent);
+            }
+        });
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WebViewActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(WebViewActivity.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+        getData();
+        if(flag==1)
+        {
+            name1.setText(full_name);
+            login.setVisibility(View.INVISIBLE);
+            signup.setVisibility(View.INVISIBLE);
+            show.findItem(R.id.nav_send).setVisible(true);
+            show.findItem(R.id.nav_share).setVisible(true);
+            show.findItem(R.id.advertise).setVisible(true);
+            logout.setVisibility(View.VISIBLE);
+            show.findItem(R.id.loginPage).setVisible(true);
+            show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
+        }
 
         new MyAsyncTask().execute();
         }
@@ -97,6 +149,13 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             startActivity(career);
 
         } else if (id == R.id.advertise) {
+
+        }else if (id == R.id.loginPage) {
+            Intent intent=new Intent(WebViewActivity.this,LoginData.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         }
 
@@ -143,11 +202,11 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         intent.putExtra("Flag", flag);
         intent.putExtra("Name",full_name);
         intent.putExtra("mail",email);
-        intent.putExtra("image",image);
+        intent.putExtra("image",image1);
         intent.putExtra("phone",phone_no);
         intent.putExtra("create",created);
         intent.putExtra("update",updated);
-        intent.putExtra("id",id);
+        intent.putExtra("id",id1);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivityForResult(intent, 0);
         overridePendingTransition(0, 0);
@@ -185,7 +244,20 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             webView.loadDataWithBaseURL(URL1,document.toString(),"text/html","utf-8","");
             //webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
-            webView.setWebViewClient(new WebViewClient());
+            
         }
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image1=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id1=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
     }
 }

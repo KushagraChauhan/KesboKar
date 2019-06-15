@@ -125,7 +125,20 @@
                             android:textColorHint="#C0C0C0"
                             android:selectAllOnFocus="true"
                             android:hint="Enter Type Or Name"
-                            android:id="@+id/bs1"/>
+                            android:id="@+id/bs1">
+                        </AutoCompleteTextView>
+
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="35dp"
+                        android:selectAllOnFocus="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="100dp"
+                        android:text="Location"
+                        android:visibility="invisible"
+                        android:textSize="5dp"
+                        android:id="@+id/location"/>
+
 
                     <AutoCompleteTextView
                         android:layout_width="320dp"
@@ -216,13 +229,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="15dp">
+            android:layout_margin="30dp">
 
             <ImageView
                 android:id="@+id/bi1"
@@ -246,13 +260,15 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/bd1"
                 android:text="Small Description"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="15dp">
+            android:layout_margin="30dp">
 
             <ImageView
                 android:id="@+id/bi2"
@@ -276,13 +292,15 @@
                 android:layout_height="wrap_content"
                 android:text="Small Description"
                 android:id="@+id/bd2"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="15dp">
+            android:layout_margin="30dp">
 
             <ImageView
                 android:id="@+id/bi3"
@@ -306,13 +324,15 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/bd3"
                 android:text="Small Description"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="15dp">
+            android:layout_margin="30dp">
 
             <ImageView
                 android:id="@+id/bi4"
@@ -336,7 +356,8 @@
                 android:text="Small Description"
                 android:id="@+id/bd4"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal"
+                android:textAlignment="center"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -358,7 +379,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="15dp">
+                    android:layout_margin="30dp">
 
                     <ImageView
                         android:layout_width="300dp"
@@ -379,13 +400,15 @@
                         android:layout_height="wrap_content"
                         android:text="Small Description"
                         android:layout_gravity="center_horizontal"
-                        android:id="@+id/md1"/>
+                        android:id="@+id/md1"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="15dp">
+                    android:layout_margin="30dp">
 
                     <ImageView
                         android:layout_width="300dp"
@@ -410,13 +433,14 @@
                         android:gravity="center_horizontal"
                         android:foregroundGravity="center_horizontal"
                         android:id="@+id/md2"
-                        android:layout_gravity="center_horizontal"/>
+                        android:layout_gravity="center_horizontal"
+                        android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="15dp">
+                    android:layout_margin="30dp">
 
                     <ImageView
                         android:layout_width="300dp"
@@ -437,7 +461,9 @@
                         android:layout_height="wrap_content"
                         android:text="Small Description"
                         android:id="@+id/md3"
-                        android:layout_gravity="center_horizontal"/>
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"/>
                 </LinearLayout>
             </LinearLayout>
             </LinearLayout>

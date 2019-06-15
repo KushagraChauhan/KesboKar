@@ -206,7 +206,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_marginTop="15dp">
+                            android:layout_margin="30dp">
 
                             <ImageView
                                 android:layout_width="300dp"
@@ -227,13 +227,15 @@
                                 android:layout_height="wrap_content"
                                 android:text="Small Description"
                                 android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:textAlignment="center"
                                 android:id="@+id/md1"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_marginTop="15dp">
+                            android:layout_margin="30dp">
 
                             <ImageView
                                 android:layout_width="300dp"
@@ -255,16 +257,22 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Small Description"
-                                android:gravity="center_horizontal"
                                 android:foregroundGravity="center_horizontal"
                                 android:id="@+id/md2"
-                                android:layout_gravity="center_horizontal"/>
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:textAlignment="center"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_marginTop="15dp">
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_margin="30dp">
 
                             <ImageView
                                 android:layout_width="300dp"
@@ -285,7 +293,10 @@
                                 android:layout_height="wrap_content"
                                 android:text="Small Description"
                                 android:id="@+id/md3"
-                                android:layout_gravity="center_horizontal"/>
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:textAlignment="center"/>
+                            </LinearLayout>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
@@ -313,7 +324,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
-                                    android:layout_marginTop="15dp">
+                                    android:layout_margin="30dp">
 
                                     <ImageView
                                         android:id="@+id/bi1"
@@ -337,13 +348,15 @@
                                         android:layout_height="wrap_content"
                                         android:id="@+id/bd1"
                                         android:text="Small Description"
-                                        android:layout_gravity="center_horizontal"/>
+                                        android:layout_gravity="center_horizontal"
+                                        android:gravity="center_horizontal"
+                                        android:textAlignment="center"/>
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
-                                    android:layout_marginTop="15dp">
+                                    android:layout_margin="30dp">
 
                                     <ImageView
                                         android:id="@+id/bi2"
@@ -367,13 +380,15 @@
                                         android:layout_height="wrap_content"
                                         android:text="Small Description"
                                         android:id="@+id/bd2"
-                                        android:layout_gravity="center_horizontal"/>
+                                        android:layout_gravity="center_horizontal"
+                                        android:gravity="center_horizontal"
+                                        android:textAlignment="center"/>
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
-                                    android:layout_marginTop="15dp">
+                                    android:layout_margin="30dp">
 
                                     <ImageView
                                         android:id="@+id/bi3"
@@ -397,13 +412,15 @@
                                         android:layout_height="wrap_content"
                                         android:id="@+id/bd3"
                                         android:text="Small Description"
-                                        android:layout_gravity="center_horizontal"/>
+                                        android:layout_gravity="center_horizontal"
+                                        android:gravity="center_horizontal"
+                                        android:textAlignment="center"/>
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
-                                    android:layout_marginTop="15dp">
+                                    android:layout_margin="30dp">
 
                                     <ImageView
                                         android:id="@+id/bi4"

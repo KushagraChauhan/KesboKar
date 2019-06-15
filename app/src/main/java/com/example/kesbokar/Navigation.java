@@ -4,6 +4,10 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,6 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.view.View;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -102,9 +109,15 @@ public class Navigation extends AppCompatActivity
         bi = new ImageView[4];
         mi = new ImageView[3];
         bc = new TextView[4];
+        Button location;
         mc = new TextView[3];
         md = new TextView[3];
         bd = new TextView[4];
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+
+        }
         textView2 = findViewById(R.id.bs2);
         search=findViewById(R.id.search);
         q = subV = querySub = "";
@@ -131,6 +144,7 @@ public class Navigation extends AppCompatActivity
         md[0] = findViewById(R.id.md1);
         md[1] = findViewById(R.id.md2);
         md[2] = findViewById(R.id.md3);
+        location=findViewById(R.id.location);
         category = findViewById(R.id.category);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -175,6 +189,12 @@ public class Navigation extends AppCompatActivity
 //            updated=extras.getString("update");
 //            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
 //        }
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLocation();
+            }
+        });
         if(flag==1)
         {
             name.setText(full_name);
@@ -395,21 +415,12 @@ public class Navigation extends AppCompatActivity
                                 imagebutton[i].setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        String url = "https://www.kesbokar.com.au/business/" + data.get(index).getUrl() + "/c" + data.get(index).getId();
-                                        Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-                                        intent.putExtra("URL", url);
-                                        intent.putExtra("Flag", flag);
-                                        intent.putExtra("Name",full_name);
-                                        intent.putExtra("mail",email);
-                                        intent.putExtra("image",image);
-                                        intent.putExtra("phone",phone_no);
-                                        intent.putExtra("create",created);
-                                        intent.putExtra("update",updated);
-                                        intent.putExtra("id",id);
+                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages?&caturl="+data.get(index).getUrl()+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                        Intent intent = new Intent(Navigation.this, Buisness_Listing.class);
+                                        intent.putExtra("URL",url);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         startActivityForResult(intent, 0);
                                         overridePendingTransition(0, 0);
-                                        finish();
                                     }
                                 });
                                 relativelayout.removeAllViews();
@@ -739,6 +750,39 @@ public class Navigation extends AppCompatActivity
         created=loginData.getString("create","");
         updated=loginData.getString("update","");
 
+    }
+    void getLocation() {
+        try {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, new LocationListener()
+            {
+                @Override
+                public void onLocationChanged(Location location) {
+                    Toast.makeText(Navigation.this, "Lat:"+location.getLatitude() + "\n Long: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+
+                    
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                    Toast.makeText(Navigation.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
     }
 
 }
