@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ProfileMarket"></activity>
+        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".ProfileMarket" />
         <activity android:name=".ProfileBusinessListing" />
         <activity android:name=".Profile" />
         <activity

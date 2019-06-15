@@ -40,7 +40,8 @@
                 android:layout_height="380dp"
                 android:layout_marginStart="9dp"
                 android:layout_marginTop="75dp"
-                android:background="@color/White1">
+                android:background="@color/White1"
+                android:saveEnabled="true">
 
                 <TextView
                     android:text="Product Title"
@@ -68,6 +69,7 @@
                     android:background="@color/DarkOrange"
                     android:layout_marginTop="99dp"
                     android:layout_marginStart="287dp"
+                    android:enabled="false"
                     />
 
                 <TextView
@@ -87,6 +89,7 @@
                     android:background="@color/Green"/>
 
             </RelativeLayout>
+
 
         </RelativeLayout>
 
