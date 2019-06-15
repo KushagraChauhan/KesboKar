@@ -22,19 +22,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:tabIndicatorFullWidth="true">
+            app:tabIndicatorFullWidth="true"
+            app:tabMode="scrollable">
 
         </com.google.android.material.tabs.TabLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:idd="@+id/main_tabs_pager"
+        android:id="@+id/main_tabs_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appBarLayout">
 
     </androidx.viewpager.widget.ViewPager>
+
 
 
 </RelativeLayout>
