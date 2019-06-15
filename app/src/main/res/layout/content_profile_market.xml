@@ -20,9 +20,13 @@
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,10 +72,12 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
+            <ListView
+                android:id="@+id/listProfileMarket"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </HorizontalScrollView>
 
-    <ListView
-        android:id="@+id/listProfileMarket"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 </LinearLayout>
