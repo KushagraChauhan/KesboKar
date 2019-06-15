@@ -6,6 +6,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -396,8 +397,9 @@ public class Navigation_market extends AppCompatActivity
                             imagebutton = new ImageButton[dataSize];
                             for (i = 0; i < dataSize; i++) {
                                 imagebutton[i] = new ImageButton(Navigation_market.this);
-//                    imagebutton[i].setImageResource(R.mipmap.ic_launcher_round);
-                                imagebutton[i].setBackground(getDrawable(R.drawable.button_bg_round_market));
+//                    imagebutto[i].setImageResource(R.mipmap.ic_launcher_round);
+                                Drawable drawable=getDrawable(R.drawable.button_bg_round_market);
+                                imagebutton[i].setBackground(drawable);
                                 imagebutton[i].setLayoutParams(params);
                                 imagebutton[i].setTag(data.get(i).getId());
                                 final int index = i;

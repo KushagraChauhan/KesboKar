@@ -6,23 +6,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 public class ProductManagementActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
 
-    EditText editText;
-    Button button;
+    private EditText editText;
+    private Button button;
+
+
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +48,46 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        editText = (EditText)findViewById(R.id.edtProductTitle);
-        button = (Button)findViewById(R.id.btnGo);
+        editText = findViewById(R.id.edtProductTitle);
+        button = findViewById(R.id.btnGo);
+        relativeLayout = findViewById(R.id.productTitle);
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductManagementActivity.this, Main2Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        editText.addTextChangedListener(inputTextWatcher);
 
     }
+
+    private TextWatcher inputTextWatcher = new TextWatcher()
+    {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            String inputEditText = editText.getText().toString();
+            button.setEnabled(!inputEditText.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
+
+        }
+    };
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
