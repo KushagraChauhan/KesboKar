@@ -7,12 +7,35 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.format.Formatter;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.nio.ByteOrder;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Help extends AppCompatActivity {
+    String ip;
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
@@ -25,7 +48,7 @@ public class Help extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         Button send=(Button)findViewById(R.id.send);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         flag = extras.getInt("Flag");
         full_name=extras.getString("Name");
@@ -34,23 +57,89 @@ public class Help extends AppCompatActivity {
         phone_no=extras.getString("phone");
         id=extras.getInt("id");
         created=extras.getString("create");
+        Context context;
+        context=Help.this;
         updated=extras.getString("update");
+        WifiManager wifiManager=(WifiManager)getApplicationContext().getSystemService(WIFI_SERVICE);
+        //=Formatter.formatIpAddress()
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        ip = Formatter.formatIpAddress(inetAddress.hashCode());
+                        Log.i("response", "***** IP="+ ip);
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Log.i("error", ex.toString());
+            ip="000.000.000.000";
+        }
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email=((EditText)findViewById(R.id.email)).getText().toString();
-                String message=((EditText)findViewById(R.id.mess)).getText().toString();
-                String phone=((EditText)findViewById(R.id.PhoneNo)).getText().toString();
-                String name=((EditText)findViewById(R.id.Name)).getText().toString();
-                Intent mail=new Intent(Intent.ACTION_SENDTO);
-                mail.setType("text/plain");
-                //mail.putExtra(Intent.EXTRA_EMAIL,new String[]{"ashubansal.ashishbansal@gmail.com"});
-                mail.setData(Uri.parse("mailto:ashubansal.ashishbansal@gmail.com"));
-                mail.putExtra(Intent.EXTRA_SUBJECT, email);
-                mail.putExtra(Intent.EXTRA_TEXT, message);
-                //mail.setType("message/rfc822");
-                mail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(mail);
+                final String email=((EditText)findViewById(R.id.email)).getText().toString();
+                final String message=((EditText)findViewById(R.id.mess)).getText().toString();
+                final String phone=((EditText)findViewById(R.id.PhoneNo)).getText().toString();
+                final String name=((EditText)findViewById(R.id.Name)).getText().toString();
+                RequestQueue queue= Volley.newRequestQueue(Help.this);
+                //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
+
+                String url="http://serv.kesbokar.com.au/jil.0.1/v2/feedback";
+                StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(Help.this, "Response"+"Your Query Has been Submitted", Toast.LENGTH_SHORT).show();
+                        Log.i("Resposnse",response);
+
+                    }
+                },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // errorLog.d("Error.Response", String.valueOf(error));
+                                Toast.makeText(Help.this, "Error"+error, Toast.LENGTH_SHORT).show();
+                            }
+                        }){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<String, String >();
+                        params.put("name", name);
+                        params.put("email", email);
+                        params.put("phone", phone);
+                        params.put("message", message);
+                        params.put("i6paddress",ip);
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+
+                        return params;
+                    }
+                };
+                RequestQueue requestQueue=Volley.newRequestQueue(Help.this);
+                queue.add(stringRequest);
+//                Intent mail=new Intent(Intent.ACTION_SENDTO);
+//                mail.setType("text/plain");
+//                //mail.putExtra(Intent.EXTRA_EMAIL,new String[]{"ashubansal.ashishbansal@gmail.com"});
+//                mail.setData(Uri.parse("mailto:ashubansal.ashishbansal@gmail.com"));
+//                mail.putExtra(Intent.EXTRA_SUBJECT, email);
+//                mail.putExtra(Intent.EXTRA_TEXT, message);
+//                //mail.setType("message/rfc822");
+//                mail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(mail);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent1=new Intent(Help.this,Navigation.class);
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivityForResult(intent1, 0);
+                        overridePendingTransition(0, 0);
+                        finish();
+                    }
+                },2000);
+
             }
         });
     }
@@ -71,4 +160,5 @@ public class Help extends AppCompatActivity {
         overridePendingTransition(0, 0);
         finish();
     }
+
 }
