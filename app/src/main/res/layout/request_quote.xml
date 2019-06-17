@@ -68,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
+        android:background="@color/White1"
         android:text="Select" />
 
     <EditText
@@ -90,14 +91,21 @@
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="Submit" />
+            android:background="@color/colorAccent"
+            android:text="Submit"
+            android:textColor="@color/White" />
 
         <Button
             android:id="@+id/btnClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:background="@color/White1"
             android:text="Close" />
     </LinearLayout>
 

@@ -8,11 +8,14 @@
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_margin="15dp"
-    android:layout_marginBottom="50dp">
+    android:layout_marginBottom="50dp"
+    android:background="@drawable/border">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:id="@+id/mli"/>
+        android:id="@+id/mli"
+        android:background="@drawable/image_border"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

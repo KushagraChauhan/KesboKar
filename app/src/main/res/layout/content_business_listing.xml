@@ -8,11 +8,13 @@
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_margin="15dp"
-    android:layout_marginBottom="30dp">
+    android:layout_marginBottom="30dp"
+    android:background="@drawable/border">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:id="@+id/bli"/>
+        android:id="@+id/bli"
+        android:background="@drawable/image_border"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,11 +42,13 @@
         android:layout_gravity="center_horizontal" />
 
     <Button
+        android:id="@+id/blrq"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:background="@color/colorAccent"
         android:text="Request A Quote"
-        android:id="@+id/blrq"/>
+        android:textColor="@color/White" />
 
 
 </LinearLayout>
