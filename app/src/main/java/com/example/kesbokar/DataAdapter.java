@@ -1,18 +1,25 @@
 package com.example.kesbokar;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.NonNull;
 import android.app.Activity;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -24,9 +31,11 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private ArrayList<ExampleItem> exampleItems;
-    public DataAdapter(Buisness_Listing activity ,ArrayList<ExampleItem> exampleList) {
+    private int isLoggedIn;
+    public DataAdapter(Buisness_Listing activity ,ArrayList<ExampleItem> exampleList, int flag) {
         this.mActivity = activity;
         exampleItems = exampleList;
+        isLoggedIn = flag;
     }
 
     @NonNull
@@ -46,12 +55,98 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewHolder instanceof MyViewHolder) {
 
             populateItemRows((MyViewHolder) viewHolder, position);
+
+            //Request A Quote
+            ((MyViewHolder) viewHolder).blrq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String[] preference = new String[1];
+                    final Dialog dialog = new Dialog(mActivity);
+                    dialog.setContentView(R.layout.request_quote);
+                    dialog.setTitle("Request A Quote");
+                    dialog.setCancelable(true); //none-dismiss when touching outside Dialog
+                    EditText name = (EditText) dialog.findViewById(R.id.etApiName);
+                    EditText email = (EditText) dialog.findViewById(R.id.etEmail);
+                    EditText phone = (EditText) dialog.findViewById(R.id.etPhone);
+                    EditText details = (EditText) dialog.findViewById(R.id.etDetails);
+                    TextView LoggedInName =(TextView) dialog.findViewById(R.id.etName);
+                    TextView FromName = (TextView) dialog.findViewById(R.id.etFromName);
+                    final String[] method = {"No Preference", "Email", "Mobile"};
+
+                    final Button[] btn = {dialog.findViewById(R.id.btnOpenDialog)};
+                    btn[0].setClickable(true);
+                    btn[0].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                            builder.setTitle("Select Option");
+                            builder.setItems(method, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int item) {
+                                    preference[0] = method[item];
+                                    btn[0].setText(preference[0]);
+                                }
+                            });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }
+
+
+                    });
+
+
+
+                    View btnSubmit = dialog.findViewById(R.id.btnSubmit);
+                    View btnClose = dialog.findViewById(R.id.btnClose);
+                    if (isLoggedIn == 0) {
+                        LoggedInName.setVisibility(View.GONE);
+                        FromName.setVisibility(View.GONE);
+                    }
+                    else {
+                        name.setVisibility(View.GONE);
+                        email.setVisibility(View.GONE);
+                        phone.setVisibility(View.GONE);
+                    }
+
+
+                    btnSubmit.setOnClickListener(onConfirmListener(name, email, phone, details, preference, dialog));
+                    btnClose.setOnClickListener(onCancelListener(dialog));
+                    dialog.show();
+                    Window window = dialog.getWindow();
+                    window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                }
+            });
+
+
+
         } else if (viewHolder instanceof LoadingViewHolder) {
             showLoadingView((LoadingViewHolder) viewHolder, position);
         }
 
+
     }
 
+    private View.OnClickListener onCancelListener(final Dialog dialog) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        };
+    }
+
+
+
+    private View.OnClickListener onConfirmListener(EditText name, EditText email, EditText phone, EditText details, String[] preference, final Dialog dialog) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               
+                dialog.dismiss();
+            }
+        };
+        
+    }
 
 
     @Override
@@ -63,7 +158,8 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView bln,bls,bld;
         RatingBar blr;
         ImageView bli;
-        private Button blrq,blw;
+        private Button blw;
+        Button blrq;
         public MyViewHolder(@NonNull View view) {
             super(view);
             bln=view.findViewById(R.id.bln);
@@ -73,7 +169,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //            bld=view.findViewById(R.id.bld);
             bli=view.findViewById(R.id.bli);
             blr=view.findViewById(R.id.blr);
-//            blrq=view.findViewById(R.id.blrq);
+            blrq=view.findViewById(R.id.blrq);
 //            blw=view.findViewById(R.id.blw);
         }
     }
@@ -133,6 +229,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         });
 
     }
+
 
 
 }

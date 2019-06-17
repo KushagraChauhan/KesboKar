@@ -173,7 +173,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                 id=dat.getInt("id");
                                 exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings));
                             }
-                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems);
+                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag);
                             recyclerView.setAdapter(dataAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
