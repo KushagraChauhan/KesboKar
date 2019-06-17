@@ -17,7 +17,7 @@ public class JsonParser {
             //Now from the object of each arrayItem
             buttonsDetails.setId(jsonObject.getInt("id"));
             buttonsDetails.setTitle(jsonObject.getString("title"));
-            buttonsDetails.setImage(jsonObject.getString("image"));
+            buttonsDetails.setImage(jsonObject.getString("icon"));
             buttonsDetails.setUrl(jsonObject.getString("url_name"));
             buttonsDetails.setIcon(jsonObject.getString("icon"));
             btnsDetails.add(buttonsDetails);

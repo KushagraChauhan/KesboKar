@@ -1,12 +1,20 @@
 package com.example.kesbokar;
 
+import android.Manifest;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -25,6 +33,7 @@ import android.widget.Button;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -57,13 +66,15 @@ import android.widget.Toast;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Navigation_market extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
     TextView ab;
     String about;
     LinearLayout.LayoutParams params;
@@ -97,6 +108,7 @@ public class Navigation_market extends AppCompatActivity
     private static ArrayList<String> tags;
     Toolbar toolbar;
     ImageView[] bi, mi;
+    Button location;
     TextView[] bc, bd, mc, md;
     private static final int LOADER_ID = 1;
     //Toolbar toolbar;
@@ -140,6 +152,7 @@ public class Navigation_market extends AppCompatActivity
         mc = new TextView[3];
         md = new TextView[3];
         bd = new TextView[4];
+        location=findViewById(R.id.location);
         bi[0] = findViewById(R.id.bi1);
         bi[1] = findViewById(R.id.bi2);
         bi[2] = findViewById(R.id.bi3);
@@ -269,6 +282,24 @@ public class Navigation_market extends AppCompatActivity
                 startActivityForResult(intent,0);
                 overridePendingTransition(0,0);
                 finish();
+            }
+        });
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(Navigation_market.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Navigation_market.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                onLocationChanged(location);
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
@@ -405,17 +436,19 @@ public class Navigation_market extends AppCompatActivity
                                 final int index = i;
                                 String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
                                 Picasso.with(Navigation_market.this).load(imgURL).into(imagebutton[i]);
+                                imagebutton[i].setAdjustViewBounds(true);
                                 //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
                                 imagebutton[i].setId(data.get(i).getId());
                                 int ID = imagebutton[i].getId();
                                 imagebutton[i].setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        String url = "https://www.kesbokar.com.au/marketplace/" + data.get(index).getUrl().replaceAll(" ","%20") + "/c" + data.get(index).getId();
-                                        Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
-                                        intent.putExtra("URL", url);
-                                        startActivity(intent);
-                                        finish();
+                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl="+data.get(index).getUrl().replace(" ","+")+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                        Intent intent = new Intent(Navigation_market.this, MarketListing.class);
+                                        intent.putExtra("URL",url);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        startActivityForResult(intent, 0);
+                                        overridePendingTransition(0, 0);
                                     }
                                 });
                                 relativelayout.removeAllViews();
@@ -668,6 +701,51 @@ public class Navigation_market extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double longitude=location.getLongitude();
+        double latitude=location.getLatitude();
+        Geocoder gc = new Geocoder(Navigation_market.this);
+
+        List<Address> list = null;
+        try {
+
+            list = gc.getFromLocation(latitude, longitude,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert list != null;
+        Address address = list.get(0);
+
+        StringBuffer str = new StringBuffer();
+        str.append("Name: " + address.getLocality() + "\n");
+        str.append("Sub-Admin Ares: " + address.getSubAdminArea() + "\n");
+        str.append("Admin Area: " + address.getAdminArea() + "\n");
+        str.append("Country: " + address.getCountryName() + "\n");
+        str.append("Country Code: " + address.getCountryCode() + "\n");
+
+        String strAddress = str.toString();
+
+        Toast.makeText(this, "Longitude"+longitude+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
     public class Description extends AsyncTask<Void,Void,Void>
     {
 

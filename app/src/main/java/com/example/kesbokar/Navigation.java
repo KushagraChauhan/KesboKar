@@ -1,10 +1,13 @@
 package com.example.kesbokar;
+import android.Manifest;
 import android.app.LoaderManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -41,9 +44,13 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,LocationListener {
     TextView ab;
     ImageButton[] imagebutton;
     LinearLayout relativelayout;
@@ -109,7 +116,7 @@ public class Navigation extends AppCompatActivity
         bi = new ImageView[4];
         mi = new ImageView[3];
         bc = new TextView[4];
-        Button location;
+        final Button location;
         mc = new TextView[3];
         md = new TextView[3];
         bd = new TextView[4];
@@ -191,8 +198,19 @@ public class Navigation extends AppCompatActivity
 //        }
         location.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                getLocation();
+            public void onClick(View v) {LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                onLocationChanged(location);
             }
         });
         if(flag==1)
@@ -409,6 +427,7 @@ public class Navigation extends AppCompatActivity
                                 final int index = i;
                                 String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
                                 Picasso.with(Navigation.this).load(imgURL).into(imagebutton[i]);
+                                imagebutton[i].setAdjustViewBounds(true);
                                 //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
                                 imagebutton[i].setId(data.get(i).getId());
                                 int ID = imagebutton[i].getId();
@@ -760,7 +779,7 @@ public class Navigation extends AppCompatActivity
                 public void onLocationChanged(Location location) {
                     Toast.makeText(Navigation.this, "Lat:"+location.getLatitude() + "\n Long: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
-                    
+
                 }
 
                 @Override
@@ -785,4 +804,48 @@ public class Navigation extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        double longitude=location.getLongitude();
+        double latitude=location.getLatitude();
+        Geocoder gc = new Geocoder(Navigation.this);
+
+        List<Address> list = null;
+        try {
+
+            list = gc.getFromLocation(latitude, longitude,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert list != null;
+        Address address = list.get(0);
+
+        StringBuffer str = new StringBuffer();
+        str.append("Name: " + address.getLocality() + "\n");
+        str.append("Sub-Admin Ares: " + address.getSubAdminArea() + "\n");
+        str.append("Admin Area: " + address.getAdminArea() + "\n");
+        str.append("Country: " + address.getCountryName() + "\n");
+        str.append("Country Code: " + address.getCountryCode() + "\n");
+
+        String strAddress = str.toString();
+
+        Toast.makeText(this, "Longitude"+longitude+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Toast.makeText(Navigation.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }

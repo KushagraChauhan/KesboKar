@@ -8,32 +8,31 @@
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_margin="15dp"
-    android:layout_marginBottom="30dp">
+    android:layout_marginBottom="50dp">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:id="@+id/bli"/>
+        android:id="@+id/mli"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bln"
+        android:id="@+id/mln"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textColor="@color/kesbokar"
         android:layout_gravity="center_horizontal"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:fitsSystemWindows="true"
         android:layout_height="wrap_content"
-        android:id="@+id/blr"/>
+        android:id="@+id/mlt"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:id="@+id/bls"/>
+        android:id="@+id/mld"/>
 
-    <TextView
-        android:id="@+id/bld"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+
 
 
 </LinearLayout>
