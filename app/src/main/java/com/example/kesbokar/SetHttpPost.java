@@ -93,8 +93,8 @@ public class SetHttpPost {
 
             JSONObject jsonParam = new JSONObject();
             //jsonParam.put("timestamp", 1488873360);
-            jsonParam.put("page",1);
-            jsonParam.put("per_page",15);
+            //jsonParam.put("page",1);
+            //jsonParam.put("per_page",15);
 
             jsonParam.put("q", queryValue);
             if(type!=null) {

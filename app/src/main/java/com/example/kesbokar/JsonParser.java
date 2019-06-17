@@ -209,4 +209,37 @@ public class JsonParser {
         }
         return btnsDetails;
     }
+
+    public ArrayList<MarketIem> getBtnSearchMarket(String url) throws JSONException{
+        ArrayList<MarketIem> btnsDetails = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        for (int index = 0; index < jsonArray.length(); index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            MarketIem buttonSearchData = new MarketIem();
+            buttonSearchData.setBusi_name(jsonObject.getString("name"));
+            buttonSearchData.setImg(jsonObject.getString("image"));
+            buttonSearchData.setUrl(jsonObject.getString("url_name"));
+//            if(jsonObject.getJSONArray("reviews").length()==0){
+//                buttonSearchData.setRatings(0.0);
+//            }else{
+//                JSONArray temp = jsonObject.getJSONArray("reviews");
+//                for(int i = 0; i < temp.length();i++){
+//                    JSONObject tempOb = temp.getJSONObject(i);
+//                    buttonSearchData.setRatings(tempOb.getDouble("ratings"));
+//                }
+//            }
+            buttonSearchData.setBusi_synop(jsonObject.getString("description"));
+            buttonSearchData.setId(jsonObject.getInt("id"));
+            String id = jsonObject.getString("city_id");
+            if(id=="null"){
+                buttonSearchData.setCity("city");
+            }else{
+                buttonSearchData.setCity(jsonObject.getJSONObject("city").getString("title"));
+            }
+            buttonSearchData.setTitle(jsonObject.getString("cat_title"));
+            btnsDetails.add(buttonSearchData);
+        }
+        return btnsDetails;
+    }
 }
