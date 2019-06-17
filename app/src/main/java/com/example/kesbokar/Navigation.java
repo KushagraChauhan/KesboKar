@@ -14,6 +14,8 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -46,6 +48,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +81,7 @@ public class Navigation extends AppCompatActivity
     private LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>> MarketPlaceApiCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
     private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
-    private LoaderManager.LoaderCallbacks<String> btnSearch;
+    private LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>> btnSearch;
     private String subType;
     //private static ArrayList<String> tags;
     Toolbar toolbar;
@@ -94,6 +97,8 @@ public class Navigation extends AppCompatActivity
 
     String q, subV;
     String querySub;
+    private double lat, longitude;
+    ArrayList<ExampleItem> exampleItems;
     int stateid = 0;
     private static final String[] COUNTRIES = new String[] { "Belgium","France", "France_", "Italy", "Germany", "Spain" };
     private boolean isNetworkAvailable(){
@@ -113,6 +118,7 @@ public class Navigation extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         valsBus = new ArrayList<>();
         valsSub = new ArrayList<>();
+        exampleItems = new ArrayList<>();
         bi = new ImageView[4];
         mi = new ImageView[3];
         bc = new TextView[4];
@@ -125,6 +131,8 @@ public class Navigation extends AppCompatActivity
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
 
         }
+        lat = 0.0;
+        longitude = 0.0;
         textView2 = findViewById(R.id.bs2);
         search=findViewById(R.id.search);
         q = subV = querySub = "";
@@ -323,27 +331,31 @@ public class Navigation extends AppCompatActivity
 
 
         //Loader
-        btnSearch = new LoaderManager.LoaderCallbacks<String>() {
+        btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>>() {
             @Override
-            public Loader<String> onCreateLoader(int id, Bundle args) {
-                LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Navigation.this,q,subV,"https://serv.kesbokar.com.au/jil.0.1/v2/yellowpages",stateid,subType);
+            public Loader<ArrayList<ExampleItem>> onCreateLoader(int id, Bundle args) {
+                LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Navigation.this,q,subV,"https://serv.kesbokar.com.au/jil.0.1/v2/yellowpages",stateid,subType,lat,longitude);
                 return loaderBtnSearch;
             }
 
             @Override
-            public void onLoadFinished(Loader<String> loader, String data) {
+            public void onLoadFinished(Loader<ArrayList<ExampleItem>> loader, ArrayList<ExampleItem> data) {
                 switch (loader.getId()){
                     case LOADER_ID_BTNSRCH:
                         if(data != null){
-                            Toast.makeText(Navigation.this, data, Toast.LENGTH_SHORT).show();
-                            Log.i("Search", data);
+                            exampleItems = data;
+                            Log.i("Search", data.toString());
+                            Intent intent = new Intent(Navigation.this,Buisness_Listing.class);
+                            intent.putExtra("CHOICE", "btnSearch");
+                            intent.putParcelableArrayListExtra("ARRAYLIST",exampleItems);
+                            startActivity(intent);
                         }
                         break;
                 }
             }
 
             @Override
-            public void onLoaderReset(Loader<String> loader) {
+            public void onLoaderReset(Loader<ArrayList<ExampleItem>> loader) {
 
             }
         };
@@ -437,6 +449,7 @@ public class Navigation extends AppCompatActivity
                                         String url = "http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages?&caturl="+data.get(index).getUrl()+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                                         Intent intent = new Intent(Navigation.this, Buisness_Listing.class);
                                         intent.putExtra("URL",url);
+                                        intent.putExtra("CHOICE","imgBtnService");
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         startActivityForResult(intent, 0);
                                         overridePendingTransition(0, 0);
@@ -608,7 +621,6 @@ public class Navigation extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 q = textView.getText().toString();
-                String addTok = "";
                 Log.i("Q and subV", q + " " + subV);
                 if(q.length() == 0 && subV.length() == 0){
                     Toast.makeText(Navigation.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
@@ -617,41 +629,7 @@ public class Navigation extends AppCompatActivity
                 {
                     Toast.makeText(Navigation.this, "Cannot Search Empty State", Toast.LENGTH_SHORT).show();
                 }
-                else if(subType.equals("state")) {
-                    String url = "https://www.kesbokar.com.au/business/" + subV + "/sl" + stateid + "?q=" + q;
-                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-                    intent.putExtra("URL", url);
-                    intent.putExtra("Flag", flag);
-                    intent.putExtra("Name",full_name);
-                    intent.putExtra("mail",email);
-                    intent.putExtra("image",image);
-                    intent.putExtra("phone",phone_no);
-                    intent.putExtra("create",created);
-                    intent.putExtra("update",updated);
-                    intent.putExtra("id",id);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivityForResult(intent, 0);
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-                else if(subType.equals("city")){
-                    String url = "https://www.kesbokar.com.au/business/" + subV + "/l" + stateid + "?q=" + q;
-                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-                    intent.putExtra("URL", url);
-                    intent.putExtra("Flag", flag);
-                    intent.putExtra("Name",full_name);
-                    intent.putExtra("mail",email);
-                    intent.putExtra("image",image);
-                    intent.putExtra("phone",phone_no);
-                    intent.putExtra("create",created);
-                    intent.putExtra("update",updated);
-                    intent.putExtra("id",id);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivityForResult(intent, 0);
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-                //getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
+                getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
             }
         });
     }
@@ -806,14 +784,14 @@ public class Navigation extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        double longitude=location.getLongitude();
+        double longitudeV=location.getLongitude();
         double latitude=location.getLatitude();
         Geocoder gc = new Geocoder(Navigation.this);
 
         List<Address> list = null;
         try {
 
-            list = gc.getFromLocation(latitude, longitude,1);
+            list = gc.getFromLocation(latitude, longitudeV,1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -829,7 +807,9 @@ public class Navigation extends AppCompatActivity
 
         String strAddress = str.toString();
 
-        Toast.makeText(this, "Longitude"+longitude+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Longitude"+longitudeV+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+        lat = latitude;
+        longitude = longitudeV;
     }
 
     @Override
@@ -847,4 +827,6 @@ public class Navigation extends AppCompatActivity
     public void onProviderDisabled(String provider) {
 
     }
+
+
 }

@@ -177,4 +177,36 @@ public class JsonParser {
         }
         return marketProfileLists;
     }
+
+    public ArrayList<ExampleItem> getBtnSrchData(String url) throws JSONException{
+        ArrayList<ExampleItem> btnsDetails = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        for (int index = 0; index < jsonArray.length(); index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            ExampleItem buttonSearchData = new ExampleItem();
+            buttonSearchData.setBusi_name(jsonObject.getString("name"));
+            buttonSearchData.setImg(jsonObject.getString("image"));
+            buttonSearchData.setUrl(jsonObject.getString("url_name"));
+            if(jsonObject.getJSONArray("reviews").length()==0){
+                buttonSearchData.setRatings(0.0);
+            }else{
+                JSONArray temp = jsonObject.getJSONArray("reviews");
+                for(int i = 0; i < temp.length();i++){
+                    JSONObject tempOb = temp.getJSONObject(i);
+                    buttonSearchData.setRatings(tempOb.getDouble("ratings"));
+                }
+            }
+            buttonSearchData.setBusi_synop(jsonObject.getString("synopsis"));
+            buttonSearchData.setId(jsonObject.getInt("id"));
+            String id = jsonObject.getString("city_id");
+            if(id=="null"){
+                buttonSearchData.setCity("city");
+            }else{
+                buttonSearchData.setCity(jsonObject.getJSONObject("city").getString("title"));
+            }
+            btnsDetails.add(buttonSearchData);
+        }
+        return btnsDetails;
+    }
 }
