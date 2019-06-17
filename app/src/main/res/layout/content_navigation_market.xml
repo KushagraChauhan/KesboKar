@@ -33,12 +33,14 @@
                 android:text="BUISNESS"
                 android:background="@drawable/rect_button"
                 android:id="@+id/buis"/>
+
             <Button
+                android:id="@+id/mar"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:text="MARKET"
                 android:background="@drawable/rect_button"
-                android:id="@+id/mar"/>
+                android:text="MARKET" />
+
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
@@ -60,12 +62,12 @@
                 android:layout_height="wrap_content">
 
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/map" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/map" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -148,317 +150,334 @@
                         android:selectAllOnFocus="true" />
 
                     <Button
-                        android:text="Search"
                         android:id="@+id/marBtnSrch"
                         style="@style/Animation.Design.BottomSheetDialog"
-                        android:textAllCaps="true"
-                        android:background="@color/colorPrimary"
-                        android:drawableStart="@drawable/ic_search_black_24dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="190dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="210dp"
+                        android:background="@color/colorPrimary"
+                        android:drawableStart="@drawable/ic_search_black_24dp"
+                        android:text="Search"
 
-                        android:layout_centerHorizontal="true"/>
+                        android:textAllCaps="true" />
 
                 </RelativeLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp">
+                android:layout_marginTop="140dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="250dp"
-                    android:layout_marginBottom="80dp">
+                    android:layout_marginBottom="80dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Market Place"
-                    android:textColor="#FFA000"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:id="@+id/category"
-                    android:layout_gravity="center"
-                    >
-                    <RelativeLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Market Place"
+                        android:textColor="#FFA000"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="40dp"
+                        android:scrollbars="none">
+
+                        <RelativeLayout
+                            android:id="@+id/category1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/abc1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="0dp"
+                                android:orientation="horizontal"></LinearLayout>
+                        </RelativeLayout>
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="40dp"
+                        android:gravity="center_horizontal"
+                        android:text="FEATURED ADS"
+                        android:textColor="#FFA000"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/category1">
+                        android:layout_margin="30dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/mi1"
+                            android:layout_width="300dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center_horizontal" />
+
+                        <TextView
+                            android:id="@+id/mc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Market Place Name"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/md1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Small Description"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="30dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/mi2"
+                            android:layout_width="300dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center_horizontal" />
+
+                        <TextView
+                            android:id="@+id/mc2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:foregroundGravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Market Place Name"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/md2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:foregroundGravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Small Description"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/abc1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="0dp"
-                            android:orientation="horizontal"></LinearLayout>
-                    </RelativeLayout>
-                </HorizontalScrollView>
-                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="30dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/mi3"
+                                android:layout_width="300dp"
+                                android:layout_height="150dp"
+                                android:layout_gravity="center_horizontal" />
+
+                            <TextView
+                                android:id="@+id/mc3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Market Place Name"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/md3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:text="Small Description"
+                                android:textAlignment="center" />
+                        </LinearLayout>
+
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:text="FEATURED ADS"
-                            android:textSize="25dp"
                             android:gravity="center_horizontal"
+                            android:text="YOUR SERVICE EXPERT"
                             android:textColor="#FFA000"
-                            android:textStyle="bold"
-                            />
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/about"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="We provide only verified, background checked and high quality professional"
+                            android:textColor="#000000"
+                            android:textSize="15dp" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_margin="30dp">
+                            android:layout_marginBottom="0dp"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:id="@+id/mi1" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Market Place Name"
-                                android:layout_gravity="center_horizontal"
-                                android:textStyle="bold"
-                                android:textSize="18dp"
-                                android:id="@+id/mc1"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Small Description"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:textAlignment="center"
-                                android:id="@+id/md1"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_margin="30dp">
-
-                            <ImageView
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:id="@+id/mi2" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Market Place Name"
-                                android:layout_gravity="center_horizontal"
-                                android:textStyle="bold"
-                                android:gravity="center_horizontal"
-                                android:foregroundGravity="center_horizontal"
-                                android:id="@+id/mc2"
-                                android:textSize="18dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Small Description"
-                                android:foregroundGravity="center_horizontal"
-                                android:id="@+id/md2"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:textAlignment="center"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_margin="30dp">
+                                android:layout_margin="30dp"
+                                android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:id="@+id/mi3"/>
+                                <ImageView
+                                    android:id="@+id/bi1"
+                                    android:layout_width="300dp"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:foregroundGravity="center_horizontal"
+                                    android:scaleType="fitXY" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Market Place Name"
-                                android:layout_gravity="center_horizontal"
-                                android:textStyle="bold"
-                                android:id="@+id/mc3"
-                                android:textSize="18dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Small Description"
-                                android:id="@+id/md3"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:textAlignment="center"/>
+                                <TextView
+                                    android:id="@+id/bc1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Company Name"
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/bd1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_horizontal"
+                                    android:text="Small Description"
+                                    android:textAlignment="center" />
                             </LinearLayout>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:text="YOUR SERVICE EXPERT"
-                                android:textSize="25dp"
-                                android:gravity="center_horizontal"
-                                android:textColor="#FFA000"
-                                android:textStyle="bold"
-                                />
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="We provide only verified, background checked and high quality professional"
-                                android:textSize="15dp"
-                                android:id="@+id/about"
-                                android:gravity="center_horizontal"
-                                android:textColor="#000000"/>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginBottom="0dp">
+                                android:layout_margin="30dp"
+                                android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                <ImageView
+                                    android:id="@+id/bi2"
+                                    android:layout_width="300dp"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:foregroundGravity="center_horizontal"
+                                    android:scaleType="fitXY" />
+
+                                <TextView
+                                    android:id="@+id/bc2"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_margin="30dp">
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Company Name"
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
 
-                                    <ImageView
-                                        android:id="@+id/bi1"
-                                        android:layout_width="300dp"
-                                        android:layout_height="150dp"
-                                        android:foregroundGravity="center_horizontal"
-                                        android:scaleType="fitXY"
-                                        android:layout_gravity="center_horizontal"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Company Name"
-                                        android:id="@+id/bc1"
-                                        android:layout_gravity="center_horizontal"
-                                        android:textStyle="bold"
-                                        android:textSize="18dp"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/bd1"
-                                        android:text="Small Description"
-                                        android:layout_gravity="center_horizontal"
-                                        android:gravity="center_horizontal"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                <TextView
+                                    android:id="@+id/bd2"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_margin="30dp">
-
-                                    <ImageView
-                                        android:id="@+id/bi2"
-                                        android:layout_width="300dp"
-                                        android:layout_height="150dp"
-                                        android:foregroundGravity="center_horizontal"
-                                        android:scaleType="fitXY"
-                                        android:layout_gravity="center_horizontal"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Company Name"
-                                        android:layout_gravity="center_horizontal"
-                                        android:id="@+id/bc2"
-                                        android:textStyle="bold"
-                                        android:textSize="18dp"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Small Description"
-                                        android:id="@+id/bd2"
-                                        android:layout_gravity="center_horizontal"
-                                        android:gravity="center_horizontal"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_margin="30dp">
-
-                                    <ImageView
-                                        android:id="@+id/bi3"
-                                        android:layout_width="300dp"
-                                        android:layout_height="150dp"
-                                        android:foregroundGravity="center_horizontal"
-                                        android:scaleType="fitXY"
-                                        android:layout_gravity="center_horizontal"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Company Name"
-                                        android:id="@+id/bc3"
-                                        android:layout_gravity="center_horizontal"
-                                        android:textStyle="bold"
-                                        android:textSize="18dp"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/bd3"
-                                        android:text="Small Description"
-                                        android:layout_gravity="center_horizontal"
-                                        android:gravity="center_horizontal"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_margin="30dp">
-
-                                    <ImageView
-                                        android:id="@+id/bi4"
-                                        android:layout_width="300dp"
-                                        android:layout_height="150dp"
-                                        android:foregroundGravity="center_horizontal"
-                                        android:scaleType="fitXY"
-                                        android:layout_gravity="center_horizontal" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Company Name"
-                                        android:id="@+id/bc4"
-                                        android:layout_gravity="center_horizontal"
-                                        android:textStyle="bold"
-                                        android:textSize="18dp"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Small Description"
-                                        android:id="@+id/bd4"
-                                        android:layout_gravity="center_horizontal"
-                                        android:gravity="center_horizontal"/>
-                                </LinearLayout>
-
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_horizontal"
+                                    android:text="Small Description"
+                                    android:textAlignment="center" />
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="30dp"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/bi3"
+                                    android:layout_width="300dp"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:foregroundGravity="center_horizontal"
+                                    android:scaleType="fitXY" />
+
+                                <TextView
+                                    android:id="@+id/bc3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Company Name"
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/bd3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_horizontal"
+                                    android:text="Small Description"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="30dp"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/bi4"
+                                    android:layout_width="300dp"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:foregroundGravity="center_horizontal"
+                                    android:scaleType="fitXY" />
+
+                                <TextView
+                                    android:id="@+id/bc4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Company Name"
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/bd4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_horizontal"
+                                    android:text="Small Description" />
+                            </LinearLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
-            </LinearLayout>
+                </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
