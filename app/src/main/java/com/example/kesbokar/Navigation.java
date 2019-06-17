@@ -799,17 +799,18 @@ public class Navigation extends AppCompatActivity
         Address address = list.get(0);
 
         StringBuffer str = new StringBuffer();
-        str.append("Name: " + address.getLocality() + "\n");
-        str.append("Sub-Admin Ares: " + address.getSubAdminArea() + "\n");
-        str.append("Admin Area: " + address.getAdminArea() + "\n");
-        str.append("Country: " + address.getCountryName() + "\n");
-        str.append("Country Code: " + address.getCountryCode() + "\n");
+        str.append(address.getLocality()+" " );
+        str.append(address.getSubAdminArea()+" " );
+        str.append(address.getAdminArea()+" ");
+        str.append(address.getCountryName()+" ");
+        str.append(address.getCountryCode()+" ");
 
         String strAddress = str.toString();
 
         Toast.makeText(this, "Longitude"+longitudeV+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
         lat = latitude;
         longitude = longitudeV;
+        textView2.setText(strAddress);
     }
 
     @Override
