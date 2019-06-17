@@ -112,7 +112,11 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.bls.setText(bSynop);
         float ratings=(float)current.getratings();
         holder.blr.setRating(ratings);
-        if(current.getImg()!="null") {
+        if(current.getImg()==null)
+        {
+            holder.bli.setImageResource(R.drawable.def);
+        }
+        else if(current.getImg()!="null") {
             Picasso.with(mActivity).load(image).fit().centerInside().into(holder.bli);
         }
         else {

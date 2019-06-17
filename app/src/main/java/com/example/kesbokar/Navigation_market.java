@@ -332,7 +332,7 @@ public class Navigation_market extends AppCompatActivity
             }
         });
 
-        btnSearch = new LoaderManager.LoaderCallbacks<String>() {
+        /*btnSearch = new LoaderManager.LoaderCallbacks<String>() {
             @Override
             public Loader<String> onCreateLoader(int id, Bundle args) {
                 LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Navigation_market.this,q,subV,"http://serv.kesbokar.com.au/jil.0.1/v2/product",stateid,subType);
@@ -355,7 +355,7 @@ public class Navigation_market extends AppCompatActivity
             public void onLoaderReset(Loader<String> loader) {
 
             }
-        };
+        };*/
         marketSub = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
             @Override
             public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
