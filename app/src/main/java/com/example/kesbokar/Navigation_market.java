@@ -69,6 +69,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -443,7 +444,7 @@ public class Navigation_market extends AppCompatActivity
                                 imagebutton[i].setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl="+data.get(index).getUrl().replace(" ","+")+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl="+ URLEncoder.encode(data.get(index).getUrl())+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                                         Intent intent = new Intent(Navigation_market.this, MarketListing.class);
                                         intent.putExtra("URL",url);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

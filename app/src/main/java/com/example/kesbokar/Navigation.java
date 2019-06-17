@@ -818,7 +818,6 @@ public class Navigation extends AppCompatActivity
             e.printStackTrace();
         }
 
-        assert list != null;
         Address address = list.get(0);
 
         StringBuffer str = new StringBuffer();

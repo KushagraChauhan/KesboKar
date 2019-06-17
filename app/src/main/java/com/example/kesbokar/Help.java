@@ -40,6 +40,8 @@ public class Help extends AppCompatActivity {
             public void onClick(View v) {
                 String email=((EditText)findViewById(R.id.email)).getText().toString();
                 String message=((EditText)findViewById(R.id.mess)).getText().toString();
+                String phone=((EditText)findViewById(R.id.PhoneNo)).getText().toString();
+                String name=((EditText)findViewById(R.id.Name)).getText().toString();
                 Intent mail=new Intent(Intent.ACTION_SENDTO);
                 mail.setType("text/plain");
                 //mail.putExtra(Intent.EXTRA_EMAIL,new String[]{"ashubansal.ashishbansal@gmail.com"});
