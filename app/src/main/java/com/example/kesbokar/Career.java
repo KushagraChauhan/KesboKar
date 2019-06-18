@@ -40,13 +40,27 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
 
+    private Button btnHel,btnBuis,btnMar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_career);
+        getData();
+
+        btnHel = (Button)findViewById(R.id.help);
+        btnBuis = (Button)findViewById(R.id.buis);
+        btnMar = (Button)findViewById(R.id.mar);
+
+
         contact=findViewById(R.id.contact);
         webView = (WebView) findViewById(R.id.webview);
+<<<<<<< HEAD
         getData();
+=======
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+>>>>>>> 56b38e225c736dba20274185522dc3e09992f01f
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +74,63 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
         });
         URL1 ="https://www.kesbokar.com.au/career";
         new Career.MyAsyncTask().execute();
+
+        btnHel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Career.this, Help.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnBuis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Career.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                startActivityForResult(intent,0);
+                overridePendingTransition(0,0);
+                finish();
+            }
+        });
+
+        btnMar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Career.this, Navigation_market.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
     }
     @Override
 

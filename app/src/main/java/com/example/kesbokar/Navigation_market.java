@@ -192,6 +192,8 @@ public class Navigation_market extends AppCompatActivity
 
         ms = findViewById(R.id.ms);
 
+
+
         layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         marketItems = new ArrayList<>();

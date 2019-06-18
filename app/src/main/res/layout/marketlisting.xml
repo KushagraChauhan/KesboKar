@@ -8,10 +8,14 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MarketListing"
     tools:showIn="@layout/app_bar_navigation_listing">
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
-        android:scrollbars="none"></androidx.recyclerview.widget.RecyclerView>
+        android:scrollbars="none">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

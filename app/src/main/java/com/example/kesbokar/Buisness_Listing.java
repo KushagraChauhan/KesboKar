@@ -64,6 +64,8 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     private ArrayList<ExampleItem> exampleItems;
     private RequestQueue requestQueue;
 
+    private Button btnHelp,btnBuis,btnMar,btnTop;
+
     private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
     private Button btnAlertDialogSearch;
     private static final int LOADER_ID_BUSVAL = 3;
@@ -88,17 +90,28 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     double ratings;
     Intent intent;
     Bundle bundle;
+<<<<<<< HEAD
     SharedPreferences loginData;
+=======
+    ScrollView scrollView;
+>>>>>>> 56b38e225c736dba20274185522dc3e09992f01f
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buisness__listing);
-        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
         getData();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        btnHelp = (Button)findViewById(R.id.help);
+        btnBuis = (Button)findViewById(R.id.buis);
+        btnMar = (Button)findViewById(R.id.mar);
+        btnTop = (Button)findViewById(R.id.top);
+
+        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -108,6 +121,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         View ab = navigationView.getHeaderView(0);
         Menu show=navigationView.getMenu();
         TextView name1=(TextView)ab.findViewById(R.id.name_user);
+
         Button signup=(Button)ab.findViewById(R.id.signup);
         Button login=(Button)ab.findViewById(R.id.login);
         Button logout=ab.findViewById(R.id.logout);
@@ -125,6 +139,70 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         exampleItems = new ArrayList<>();
+
+        btnHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Buisness_Listing.this,Help.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnBuis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Buisness_Listing.this, Navigation.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnMar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Buisness_Listing.this, Navigation_market.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.smoothScrollTo(0, 0);
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

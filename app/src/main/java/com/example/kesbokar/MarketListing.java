@@ -59,6 +59,10 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     private ArrayList<MarketIem> marketIems;
     private RequestQueue requestQueue;
 
+    private Button btnHelp,btnBuis,btnMar,btnTop;
+
+    private ScrollView scrollView;
+
     private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
     private Button btnAlertDialogSearch;
 
@@ -90,7 +94,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buisness__listing);
-        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
+
         getData();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,6 +111,14 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
         Button signup=(Button)ab.findViewById(R.id.signup);
         Button login=(Button)ab.findViewById(R.id.login);
         Button logout=ab.findViewById(R.id.logout);
+
+        btnHelp = (Button)findViewById(R.id.help);
+        btnBuis = (Button)findViewById(R.id.buis);
+        btnMar = (Button)findViewById(R.id.mar);
+        btnTop = (Button)findViewById(R.id.top);
+
+        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
+
         intent=getIntent();
         bundle=intent.getExtras();
         recyclerView = findViewById(R.id.recyclerView);
@@ -118,16 +130,14 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
         querySub = subV = subType = q = "";
 
         ImageView imageView = (ImageView)findViewById(R.id.imgSearch);
+
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RequestAlertDialogBox();
             }
         });
-
-
-
-
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +168,52 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
                 finish();
             }
         });
+
+        btnHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MarketListing.this,Help.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnBuis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MarketListing.this,Navigation.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.smoothScrollTo(0, 0);
+            }
+        });
+
 
         if(flag==1)
         {
