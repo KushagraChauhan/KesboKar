@@ -1,6 +1,7 @@
 package com.example.kesbokar;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -8,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -17,15 +19,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -48,6 +55,11 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     private DataAdapter dataAdapter;
     private ArrayList<ExampleItem> exampleItems;
     private RequestQueue requestQueue;
+
+    private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
+    private Button btnAlertDialogSearch;
+
+
     boolean isLoading = false;
     String name,image,synopsis,url1,city,city_id;
     int id;
@@ -78,17 +90,30 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         Button signup=(Button)ab.findViewById(R.id.signup);
         Button login=(Button)ab.findViewById(R.id.login);
         Button logout=ab.findViewById(R.id.logout);
+        ImageView imageView = (ImageView)findViewById(R.id.imgSearch);
+
+        autoCompleteTextViewOne = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewOne);
+        autoCompleteTextViewTwo = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTwo);
+
         intent=getIntent();
         bundle=intent.getExtras();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         exampleItems = new ArrayList<>();
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Buisness_Listing.this, Login.class);
                 startActivity(intent);
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestAlertDialogBox();
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +155,23 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         parseJSON();
         initScrollListener();
     }
+
+
+
+    private void RequestAlertDialogBox()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        // inflate and set the layout for the dialog
+        // pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.search_alert_dialog_box, null))
+                .show();
+    }
+
+
 
     private void parseJSON() {
         String url =bundle.getString("URL");

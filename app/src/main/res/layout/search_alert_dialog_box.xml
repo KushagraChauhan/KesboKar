@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialogBox">
+
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/autoCompleteTextViewOne"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="20dp"
+        android:hint="Eter type or name"
+        android:background="#FFFFFF"
+        android:inputType="textAutoComplete" />
+
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/autoCompleteTextViewTwo"
+        android:layout_width="match_parent"
+        android:background="#FFFFFF"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif"
+        android:hint="Suburb or State"
+        android:inputType="textAutoComplete" />
+
+    <Button
+        android:id="@+id/btnAlertDialogSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="15dp"
+        android:background="@color/colorPrimary"
+        android:text="Search  "
+        android:drawableStart="@drawable/ic_search_black_24dp"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        android:layout_marginBottom="20dp"/>
+
+</LinearLayout>
+
