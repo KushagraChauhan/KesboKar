@@ -139,7 +139,13 @@ public class Navigation_market extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation_market);
+        if(!isNetworkAvailable())
+        {
+            setContentView(R.layout.no_internet);
+        }
+        else {
+            setContentView(R.layout.activity_navigation_market);
+        }
         final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -231,7 +237,7 @@ public class Navigation_market extends AppCompatActivity
             id=extras.getInt("id");
             created=extras.getString("create");
             updated=extras.getString("update");
-            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
         }
         if(flag==1)
         {
@@ -388,7 +394,7 @@ public class Navigation_market extends AppCompatActivity
 
                     ms.setAdapter(adapter);
                 } else {
-                    Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
                 getLoaderManager().destroyLoader(LOADER_ID_MARVAL);
             }
@@ -415,7 +421,7 @@ public class Navigation_market extends AppCompatActivity
                     ml.setAdapter(adapter);
                     getLoaderManager().initLoader(LOADER_ID_MARSUB,null,marketSub);
                 } else {
-                    Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -478,6 +484,10 @@ public class Navigation_market extends AppCompatActivity
                             } else {
                                 Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                             }
+
+                        } else {
+                           // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+
                         }
                         break;
                 }
@@ -740,7 +750,7 @@ public class Navigation_market extends AppCompatActivity
 
         String strAddress = str.toString();
 
-        Toast.makeText(this, "Longitude"+longitude+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Longitude"+longitude+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
     }
 
     @Override

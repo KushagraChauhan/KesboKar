@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="HELP"
                 android:background="@drawable/rect_button"
@@ -124,6 +124,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="100dp"
                         android:background="#FFFFFF"
+                        android:paddingStart="15dp"
                         android:hint="Enter Type Or Name"
                         android:textColorHint="#C0C0C0"
                         android:id="@+id/ml"
@@ -136,6 +137,7 @@
                         android:layout_marginTop="100dp"
                         android:text="Location"
                         android:textSize="5dp"
+                        android:visibility="invisible"
                         android:id="@+id/location"/>
 
                     <AutoCompleteTextView
@@ -144,6 +146,7 @@
                         android:hint="Suburb Or State"
                         android:textColorHint="#C0C0C0"
                         android:id="@+id/ms"
+                        android:paddingStart="15dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="150dp"
                         android:background="#FFFFFF"

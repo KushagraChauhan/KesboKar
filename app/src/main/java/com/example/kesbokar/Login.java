@@ -44,7 +44,13 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        if(!isNetworkAvailable())
+        {
+            setContentView(R.layout.no_internet);
+        }
+        else {
+            setContentView(R.layout.activity_login);
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         edtLoginId = findViewById(R.id.edtLoginId);

@@ -114,7 +114,7 @@ public class Navigation extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
         a = false;
-        Toast.makeText(this, ""+a, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, ""+a, Toast.LENGTH_SHORT).show();
         toolbar = findViewById(R.id.toolbar);
         valsBus = new ArrayList<>();
         valsSub = new ArrayList<>();
@@ -376,7 +376,7 @@ public class Navigation extends AppCompatActivity
                     textView2.setAdapter(adapter);
                     getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
                 } else {
-                    Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -402,7 +402,7 @@ public class Navigation extends AppCompatActivity
                     textView.setAdapter(adapter);
                     getLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
                 } else {
-                    Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -461,7 +461,7 @@ public class Navigation extends AppCompatActivity
                                 getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
                             }
                         } else {
-                            Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
@@ -629,6 +629,10 @@ public class Navigation extends AppCompatActivity
                 {
                     Toast.makeText(Navigation.this, "Cannot Search Empty State", Toast.LENGTH_SHORT).show();
                 }
+                else if (q.length()==0)
+                {
+                    Toast.makeText(Navigation.this, "Cannot Search Empty Query", Toast.LENGTH_SHORT).show();
+                }
                 getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
             }
         });
@@ -755,7 +759,7 @@ public class Navigation extends AppCompatActivity
             {
                 @Override
                 public void onLocationChanged(Location location) {
-                    Toast.makeText(Navigation.this, "Lat:"+location.getLatitude() + "\n Long: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Navigation.this, "Lat:"+location.getLatitude() + "\n Long: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -807,7 +811,7 @@ public class Navigation extends AppCompatActivity
 
         String strAddress = str.toString();
 
-        Toast.makeText(this, "Longitude"+longitudeV+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Longitude"+longitudeV+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
         lat = latitude;
         longitude = longitudeV;
         textView2.setText(strAddress);
