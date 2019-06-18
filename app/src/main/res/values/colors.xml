@@ -17,6 +17,7 @@
     <color name="colorPrimary1">#008577</color>
     <color name="colorPrimaryDark1">#00574B</color>
     <color name="colorAccent1">#FFFFFF</color>
+    <color name="dialogBox">#A89E9E</color>
 
 
 </resources>

@@ -80,6 +80,7 @@
                     android:layout_marginStart="34dp"/>
 
                 <Button
+                    android:id="@+id/btnPostACarAdd"
                     android:text=" Post a Car Ad"
                     android:layout_width="155dp"
                     android:layout_height="50dp"
