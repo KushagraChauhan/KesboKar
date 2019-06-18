@@ -68,18 +68,27 @@ public class Login extends AppCompatActivity {
         logbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginId = edtLoginId.getText().toString();
-                loginPass = edtLoginPass.getText().toString();
-                progressDialog = new ProgressDialog(Login.this);
-                progressDialog.setMessage("Logging In...");
-                progressDialog.show();
-                getLoaderManager().restartLoader(LOADER_LOGIN_ID,null,login_info_loader);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onBackPressed();
-                    }
-                },4000);
+                if(isNetworkAvailable()) {
+                    loginId = edtLoginId.getText().toString();
+                    loginPass = edtLoginPass.getText().toString();
+                    progressDialog = new ProgressDialog(Login.this);
+                    progressDialog.setMessage("Logging In...");
+                    progressDialog.show();
+                    getLoaderManager().restartLoader(LOADER_LOGIN_ID, null, login_info_loader);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            if (flag == 1) {
+                                onBackPressed();
+                            } else {
+                                Toast.makeText(Login.this, "Invalid Email or Password.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }, 4000);
+                }else{
+                    setContentView(R.layout.no_internet);
+                }
             }
         });
 
