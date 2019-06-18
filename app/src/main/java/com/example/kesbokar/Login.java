@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -34,6 +36,11 @@ public class Login extends AppCompatActivity {
     SharedPreferences loginData;
     private static final int LOADER_LOGIN_ID = 35;
     private LoaderManager.LoaderCallbacks<LoginInfo> login_info_loader;
+    private boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,18 +62,27 @@ public class Login extends AppCompatActivity {
         logbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginId = edtLoginId.getText().toString();
-                loginPass = edtLoginPass.getText().toString();
-                progressDialog = new ProgressDialog(Login.this);
-                progressDialog.setMessage("Logging In...");
-                progressDialog.show();
-                getLoaderManager().restartLoader(LOADER_LOGIN_ID,null,login_info_loader);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onBackPressed();
-                    }
-                },4000);
+                if(isNetworkAvailable()) {
+                    loginId = edtLoginId.getText().toString();
+                    loginPass = edtLoginPass.getText().toString();
+                    progressDialog = new ProgressDialog(Login.this);
+                    progressDialog.setMessage("Logging In...");
+                    progressDialog.show();
+                    getLoaderManager().restartLoader(LOADER_LOGIN_ID, null, login_info_loader);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            if (flag == 1) {
+                                onBackPressed();
+                            } else {
+                                Toast.makeText(Login.this, "Invalid Email or Password.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }, 4000);
+                }else{
+                    setContentView(R.layout.no_internet);
+                }
             }
         });
 
