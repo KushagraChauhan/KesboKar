@@ -151,6 +151,27 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             show.findItem(R.id.loginPage).setVisible(true);
             show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
+        String denote = bundle.getString("CHOICE");
+        if(denote.equals("imgBtnService")){
+            imgBtnService();
+        }else if(denote.equals("btnSearch")){
+            exampleItems = bundle.getParcelableArrayList("ARRAYLIST");
+            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag);
+            recyclerView.setAdapter(dataAdapter);
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(Buisness_Listing.this,Navigation.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(0, 0); startActivity(intent);
+        finish();
+    }
+
+    public void imgBtnService(){
         requestQueue = Volley.newRequestQueue(this);
         parseJSON();
         initScrollListener();
@@ -215,7 +236,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                 id=dat.getInt("id");
                                 exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings));
                             }
-                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems);
+                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag);
                             recyclerView.setAdapter(dataAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

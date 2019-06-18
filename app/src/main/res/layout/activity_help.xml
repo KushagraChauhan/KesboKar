@@ -34,10 +34,20 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/Name"
+        android:hint="Name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/email"
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textEmailAddress"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PhoneNo"
+        android:hint="Phone Number"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

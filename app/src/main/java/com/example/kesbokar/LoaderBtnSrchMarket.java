@@ -5,14 +5,14 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
-public class LoaderBtnSearch extends AsyncTaskLoader<ArrayList<ExampleItem>> {
+public class LoaderBtnSrchMarket extends AsyncTaskLoader<ArrayList<MarketIem>> {
     private String Query;
     private String Suburb;
     private String BaseUrl;
     private int stateId;
     private String type;
     private double  lat, longitude;
-    public LoaderBtnSearch(Context context, String Query, String suburb, String url, int stateId, String type, double lat, double longitude){
+    public LoaderBtnSrchMarket(Context context, String Query, String suburb, String url, int stateId, String type, double lat, double longitude){
         super(context);
         this.Query = Query;
         this.Suburb = suburb;
@@ -30,14 +30,14 @@ public class LoaderBtnSearch extends AsyncTaskLoader<ArrayList<ExampleItem>> {
     }
 
     @Override
-    public ArrayList<ExampleItem> loadInBackground() {
-        ArrayList<ExampleItem> btnSearchData = new ArrayList<>();
+    public ArrayList<MarketIem> loadInBackground() {
+        ArrayList<MarketIem> btnSearchData = new ArrayList<>();
         String data = (new SetHttpPost()).sendPostSearchBtn(Query,Suburb,stateId,type,lat,longitude,BaseUrl);
         //call jsonParser only if the data is not null
         if(data != null){
             try {
                 JsonParser jsonBtnSrch = new JsonParser();
-                btnSearchData = jsonBtnSrch.getBtnSrchData(data);
+                btnSearchData = jsonBtnSrch.getBtnSearchMarket(data);
             }catch (Throwable t){
                 t.printStackTrace();
             }

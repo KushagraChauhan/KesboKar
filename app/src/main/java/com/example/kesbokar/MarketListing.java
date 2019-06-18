@@ -126,6 +126,27 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             show.findItem(R.id.loginPage).setVisible(true);
             show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
+        String denote = bundle.getString("CHOICE");
+        if(denote.equals("imgBtnService")){
+            imgBtnService();
+        }else if(denote.equals("btnSearch")){
+            marketIems = bundle.getParcelableArrayList("ARRAYLIST");
+            dataAdapter = new DataAdapterMarket(MarketListing.this,marketIems);
+            recyclerView.setAdapter(dataAdapter);
+        }
+
+
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(MarketListing.this,Navigation.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(0, 0); startActivity(intent);
+        finish();
+    }
+
+    public void imgBtnService(){
         requestQueue = Volley.newRequestQueue(this);
         parseJSON();
         initScrollListener();

@@ -69,7 +69,11 @@ public class SetHttpConnection {
                 if(inputStream != null)
                     inputStream.close();
 
-                inputStream.close();
+                try {
+                    inputStream.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 httpURLConnection.disconnect();
                 //httpURLConnection.getInputStream().close();
 

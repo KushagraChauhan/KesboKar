@@ -69,6 +69,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class Navigation_market extends AppCompatActivity
     private LoaderManager.LoaderCallbacks<ArrayList<MarketPlaceApi>> MarketPlaceApiCallbacks;
     private LoaderManager.LoaderCallbacks<ArrayList<String>> marketSearch;
     private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> marketSub;
-    private LoaderManager.LoaderCallbacks<String> btnSearch;
+    private LoaderManager.LoaderCallbacks<ArrayList<MarketIem>> btnSearch;
 
     private ArrayList<String> valsMarket;
     private ArrayList<StateAndSuburb> valsSub;
@@ -125,7 +126,7 @@ public class Navigation_market extends AppCompatActivity
     String subType;
     int stateid;
     Button btnSrch;
-
+    private ArrayList<MarketIem> marketItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +180,7 @@ public class Navigation_market extends AppCompatActivity
 
         layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
-
+        marketItems = new ArrayList<>();
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toggle = new ActionBarDrawerToggle(
@@ -199,6 +200,7 @@ public class Navigation_market extends AppCompatActivity
         RadioButton rb_marketplace=findViewById(R.id.rb_marketplace);
         RadioButton rb_business=findViewById(R.id.rb_businesses);
         business=findViewById(R.id.buis);
+        ml=findViewById(R.id.ml);
         help=(Button)findViewById(R.id.help);
         top.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,27 +333,32 @@ public class Navigation_market extends AppCompatActivity
             }
         });
 
-        btnSearch = new LoaderManager.LoaderCallbacks<String>() {
+        btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<MarketIem>>() {
             @Override
-            public Loader<String> onCreateLoader(int id, Bundle args) {
-                LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Navigation_market.this,q,subV,"http://serv.kesbokar.com.au/jil.0.1/v2/product",stateid,subType);
+            public Loader<ArrayList<MarketIem>> onCreateLoader(int id, Bundle args) {
+                LoaderBtnSrchMarket loaderBtnSearch = new LoaderBtnSrchMarket(Navigation_market.this,q,subV,"http://serv.kesbokar.com.au/jil.0.1/v2/product",stateid,subType,0.0,0.0);
                 return loaderBtnSearch;
             }
 
             @Override
-            public void onLoadFinished(Loader<String> loader, String data) {
+            public void onLoadFinished(Loader<ArrayList<MarketIem>> loader, ArrayList<MarketIem> data) {
                 switch (loader.getId()){
                     case LOADER_ID_BTNSRCH:
                         if(data != null){
-                            Toast.makeText(Navigation_market.this, data, Toast.LENGTH_SHORT).show();
-                            Log.i("Search", data);
+                            marketItems = data;
+                            Log.i("Search", data.toString());
+                            Intent intent = new Intent(Navigation_market.this,MarketListing.class);
+                            intent.putExtra("CHOICE", "btnSearch");
+                            intent.putParcelableArrayListExtra("ARRAYLIST",marketItems);
+                            startActivity(intent);
+                            //Toast.makeText(Navigation_market.this, data, Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
             }
 
             @Override
-            public void onLoaderReset(Loader<String> loader) {
+            public void onLoaderReset(Loader<ArrayList<MarketIem>> loader) {
 
             }
         };
@@ -394,7 +401,7 @@ public class Navigation_market extends AppCompatActivity
                     valsMarket = data;
                     Log.i("Tag", valsMarket + "");
                     ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation_market.this,android.R.layout.simple_dropdown_item_1line,valsMarket);
-                    ml=findViewById(R.id.ml);
+
                     ml.setAdapter(adapter);
                     getLoaderManager().initLoader(LOADER_ID_MARSUB,null,marketSub);
                 } else {
@@ -443,9 +450,10 @@ public class Navigation_market extends AppCompatActivity
                                 imagebutton[i].setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl="+data.get(index).getUrl().replace(" ","+")+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl="+ URLEncoder.encode(data.get(index).getUrl())+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                                         Intent intent = new Intent(Navigation_market.this, MarketListing.class);
                                         intent.putExtra("URL",url);
+                                        intent.putExtra("CHOICE","imgBtnService");
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         startActivityForResult(intent, 0);
                                         overridePendingTransition(0, 0);
@@ -610,20 +618,7 @@ public class Navigation_market extends AppCompatActivity
                 {
                     Toast.makeText(Navigation_market.this, "Cannot Search Empty State", Toast.LENGTH_SHORT).show();
                 }
-                else if(subType.equals("state")) {
-                    String url = "https://www.kesbokar.com.au/marketplace/" + subV + "/sl" + stateid + "?q=" + q;
-                    Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
-                    intent.putExtra("URL", url);
-                    startActivity(intent);
-                    finish();
-                }
-                else if(subType.equals("city")){
-                    String url = "https://www.kesbokar.com.au/marketplace/" + subV + "/l" + stateid + "?q=" + q;
-                    Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
-                    intent.putExtra("URL", url);
-                    startActivity(intent);
-                    finish();
-                }
+                getLoaderManager().initLoader(LOADER_ID_BTNSRCH, null, btnSearch);
             }
         });
 
