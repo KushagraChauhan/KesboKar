@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="HELP"
                 android:background="@drawable/rect_button"
@@ -136,6 +136,7 @@
                         android:layout_marginTop="100dp"
                         android:text="Location"
                         android:textSize="5dp"
+                        android:visibility="invisible"
                         android:id="@+id/location"/>
 
                     <AutoCompleteTextView

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,15 +46,20 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     EditText name,email,phone,details;
+    String loginId, loginPass, full_name, email1, image, phone_no,created,updated;
+    int Id,flag;
     private ArrayList<ExampleItem> exampleItems;
     String ip;
     int id;
+    SharedPreferences loginData;
     String url;
     private int isLoggedIn;
-    public DataAdapter(Buisness_Listing activity ,ArrayList<ExampleItem> exampleList, int flag) {
+    public DataAdapter(Buisness_Listing activity , ArrayList<ExampleItem> exampleList, int flag, SharedPreferences logindata) {
         this.mActivity = activity;
         exampleItems = exampleList;
         isLoggedIn = flag;
+        loginData=logindata;
+        getData();
     }
 
     @NonNull
@@ -75,65 +81,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             populateItemRows((MyViewHolder) viewHolder, position);
 
             //Request A Quote
-            ((MyViewHolder) viewHolder).blrq.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final String[] preference = new String[1];
-                    final Dialog dialog = new Dialog(mActivity);
-                    dialog.setContentView(R.layout.request_quote);
-                    dialog.setTitle("Request A Quote");
-                    dialog.setCancelable(true); //none-dismiss when touching outside Dialog
-                    name = (EditText) dialog.findViewById(R.id.etApiName);
-                    email = (EditText) dialog.findViewById(R.id.etEmail);
-                    phone = (EditText) dialog.findViewById(R.id.etPhone);
-                    details = (EditText) dialog.findViewById(R.id.etDetails);
-                    TextView LoggedInName =(TextView) dialog.findViewById(R.id.etName);
-                    TextView FromName = (TextView) dialog.findViewById(R.id.etFromName);
-                    final String[] method = {"No Preference", "Email", "Mobile"};
 
-                    final Button[] btn = {dialog.findViewById(R.id.btnOpenDialog)};
-                    btn[0].setClickable(true);
-                    btn[0].setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                            builder.setTitle("Select Option");
-                            builder.setItems(method, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int item) {
-                                    preference[0] = method[item];
-                                    btn[0].setText(preference[0]);
-                                }
-                            });
-                            AlertDialog alert = builder.create();
-                            alert.show();
-                        }
-
-
-                    });
-
-
-
-                    View btnSubmit = dialog.findViewById(R.id.btnSubmit);
-                    View btnClose = dialog.findViewById(R.id.btnClose);
-                    if (isLoggedIn == 0) {
-                        LoggedInName.setVisibility(View.GONE);
-                        FromName.setVisibility(View.GONE);
-                    }
-                    else {
-                        name.setVisibility(View.GONE);
-                        email.setVisibility(View.GONE);
-                        phone.setVisibility(View.GONE);
-                    }
-
-
-                    btnSubmit.setOnClickListener(onConfirmListener(name, email, phone, details, preference, dialog));
-                    btnClose.setOnClickListener(onCancelListener(dialog));
-                    dialog.show();
-                    Window window = dialog.getWindow();
-                    window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                }
-            });
 
 
 
@@ -155,7 +103,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 
-    private View.OnClickListener onConfirmListener(final EditText name, final EditText email, final EditText phone, final EditText details, final String[] preference, final Dialog dialog) {
+    private View.OnClickListener onConfirmListener(final EditText name, final EditText email, final EditText phone, final EditText details, final String[] preference, final Dialog dialog , final int id2, final String url_name) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +112,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final String Phone=phone.getText().toString();
                 final String Quotes=details.getText().toString();
                 RequestQueue queue= Volley.newRequestQueue(mActivity);
-                final String url="http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/enquiry";
+                final String url="https://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/enquiry";
                 try {
                 for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
                     NetworkInterface intf = en.nextElement();
@@ -180,11 +128,12 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Log.i("error", ex.toString());
                 ip="000.000.000.000";
             }
+
                 StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(mActivity, "Response"+"Your Query Has been Submitted", Toast.LENGTH_SHORT).show();
-                        Log.i("Resposnse",response);
+                        Toast.makeText(mActivity, "Response"+"Query submitted", Toast.LENGTH_SHORT).show();
+                        Log.i("Response",response);
 
                     }
                 },
@@ -193,30 +142,55 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // errorLog.d("Error.Response", String.valueOf(error));
-                                Toast.makeText(mActivity, "Error"+error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mActivity, "Error", Toast.LENGTH_SHORT).show();
                             }
                         }){
                     @Override
                     protected Map<String, String> getParams()
                     {
-                        String id1=""+id;
-                        Map<String, String>  params = new HashMap<String, String >();
-                        params.put("name", Name);
-                        params.put("email", Email);
-                        params.put("mobile", Phone);
-                        params.put("message",Quotes);
-                        params.put("ipaddress",ip);
-                        params.put("urlname",url);
-                        params.put("yellowpage_id",id1);
-                        params.put("user_id","312");
-                        params.put("preferred_method","Email");
-                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        Map<String, String> params = new HashMap<String, String>();
+                        if(flag==0) {
+                            String id1 = "" + id2;
+                            params.put("name", Name);
+                            params.put("email", Email);
+                            params.put("mobile", Phone);
+                            params.put("message", Quotes);
+                            params.put("ipaddress", ip);
+                            params.put("urlname", url_name);
+                            params.put("yellowpage_id", id1);
+                            params.put("user_id", "");
+                            if(preference[0]!=null){
+                                params.put("preferred_method", preference[0]);}
+                            else {
+                                params.put("preferred_method", "no preference");
+                            }
+                            params.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        }
+                        if(flag==1){
+                            String id1 = "" + id2;
+                            String user_id=""+Id;
+                            params.put("name", full_name);
+                            params.put("email",email1);
+                            params.put("mobile", phone_no);
+                            params.put("message", Quotes);
+                            params.put("ipaddress", ip);
+                            params.put("urlname", url_name);
+                            params.put("yellowpage_id", id1);
+                            params.put("user_id", user_id);
+                            if(preference[0]!=null){
+                            params.put("preferred_method", preference[0]);}
+                            else {
+                                params.put("preferred_method", "no preference");
+                            }
+                            params.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+
+                        }
 
                         return params;
                     }
                 };
                 RequestQueue requestQueue= Volley.newRequestQueue(mActivity);
-                queue.add(stringRequest);
+                requestQueue.add(stringRequest);
                 dialog.dismiss();
             }
 
@@ -307,6 +281,80 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             }
         });
+        holder.blrq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] preference = new String[1];
+                final Dialog dialog = new Dialog(mActivity);
+                dialog.setContentView(R.layout.request_quote);
+                dialog.setTitle("Request A Quote");
+                dialog.setCancelable(true); //none-dismiss when touching outside Dialog
+                name = (EditText) dialog.findViewById(R.id.etApiName);
+                email = (EditText) dialog.findViewById(R.id.etEmail);
+                phone = (EditText) dialog.findViewById(R.id.etPhone);
+                details = (EditText) dialog.findViewById(R.id.etDetails);
+                TextView LoggedInName =(TextView) dialog.findViewById(R.id.etName);
+                TextView FromName = (TextView) dialog.findViewById(R.id.etFromName);
+                final String[] method = {"No Preference", "Email", "Mobile"};
+
+                final Button[] btn = {dialog.findViewById(R.id.btnOpenDialog)};
+                btn[0].setClickable(true);
+                btn[0].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                        builder.setTitle("Select Option");
+                        builder.setItems(method, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                preference[0] = method[item];
+                                btn[0].setText(preference[0]);
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+
+
+                });
+
+
+
+                View btnSubmit = dialog.findViewById(R.id.btnSubmit);
+                View btnClose = dialog.findViewById(R.id.btnClose);
+                if (isLoggedIn == 0) {
+                    LoggedInName.setVisibility(View.GONE);
+                    FromName.setVisibility(View.GONE);
+
+                }
+                else {
+                    name.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    phone.setVisibility(View.GONE);
+                    LoggedInName.setText(full_name);
+                }
+
+
+                btnSubmit.setOnClickListener(onConfirmListener(name, email, phone, details, preference, dialog,id,url));
+                btnClose.setOnClickListener(onCancelListener(dialog));
+                dialog.show();
+                Window window = dialog.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            }
+        });
+
+    }
+
+    public void getData()
+    {
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email1=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        Id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
 
     }
 

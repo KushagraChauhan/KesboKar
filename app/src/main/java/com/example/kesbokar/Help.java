@@ -101,7 +101,7 @@ public class Help extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // errorLog.d("Error.Response", String.valueOf(error));
-                                Toast.makeText(Help.this, "Error"+error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Help.this, "Error", Toast.LENGTH_SHORT).show();
                             }
                         }){
                     @Override

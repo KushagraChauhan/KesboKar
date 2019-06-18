@@ -221,7 +221,7 @@ public class Navigation_market extends AppCompatActivity
             id=extras.getInt("id");
             created=extras.getString("create");
             updated=extras.getString("update");
-            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
         }
         if(flag==1)
         {
@@ -378,7 +378,7 @@ public class Navigation_market extends AppCompatActivity
 
                     ms.setAdapter(adapter);
                 } else {
-                    Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
                 getLoaderManager().destroyLoader(LOADER_ID_MARVAL);
             }
@@ -405,7 +405,7 @@ public class Navigation_market extends AppCompatActivity
                     ml.setAdapter(adapter);
                     getLoaderManager().initLoader(LOADER_ID_MARSUB,null,marketSub);
                 } else {
-                    Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -465,7 +465,7 @@ public class Navigation_market extends AppCompatActivity
                                 getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
                             }
                         } else {
-                            Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
@@ -723,7 +723,7 @@ public class Navigation_market extends AppCompatActivity
 
         String strAddress = str.toString();
 
-        Toast.makeText(this, "Longitude"+longitude+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Longitude"+longitude+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
     }
 
     @Override

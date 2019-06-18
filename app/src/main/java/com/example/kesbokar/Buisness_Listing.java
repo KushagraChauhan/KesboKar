@@ -56,6 +56,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     double ratings;
     Intent intent;
     Bundle bundle;
+    SharedPreferences loginData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +132,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             imgBtnService();
         }else if(denote.equals("btnSearch")){
             exampleItems = bundle.getParcelableArrayList("ARRAYLIST");
-            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag);
+            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag,loginData);
             recyclerView.setAdapter(dataAdapter);
         }
 
@@ -194,7 +195,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                 id=dat.getInt("id");
                                 exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings));
                             }
-                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag);
+                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag,loginData);
                             recyclerView.setAdapter(dataAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -297,7 +298,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     }
     public void getData()
     {
-        SharedPreferences loginData=getSharedPreferences("data",0);
+        loginData=getSharedPreferences("data",0);
         flag = loginData.getInt("Flag",0);
         full_name=loginData.getString("Name","");
         email=loginData.getString("mail","");

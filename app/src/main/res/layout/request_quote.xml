@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="15dp"
-        android:text="From Name" />
+        android:text="From" />
 
     <TextView
         android:id="@+id/etName"
