@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#FFA700</color>
     <color name="colorAccent">#FFA700</color>
     <color name="colorTransparent">#800A0101</color>
-    <color name="kesbokar">#FFA700</color>
-    <color name="red">#BD2020</color>
+    <color name="kesbokar">#E0FFA700</color>
+    <color name="red">#FC3126</color>
     <color name="offWhite">#F3F2F2</color>
-    <color name="Black">#030101</color>
+    <color name="Black">#000000</color>
     <color name="White">#FCFBFB</color>
     <color name="White1">#E4DDDD</color>
     <color name="DarkOrange">#FF6F00</color>
@@ -17,6 +17,7 @@
     <color name="colorPrimary1">#008577</color>
     <color name="colorPrimaryDark1">#00574B</color>
     <color name="colorAccent1">#FFFFFF</color>
+    <color name="dialogBox">#A89E9E</color>
 
 
 </resources>

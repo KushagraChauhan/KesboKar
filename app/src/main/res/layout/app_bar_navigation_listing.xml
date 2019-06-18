@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/logo" />
                 <ImageView
+                    android:id="@+id/imgSearch"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

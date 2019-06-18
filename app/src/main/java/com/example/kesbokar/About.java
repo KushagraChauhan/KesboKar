@@ -22,6 +22,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ScrollView;
 
 import org.jsoup.Jsoup;
@@ -37,10 +38,13 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         flag = extras.getInt("Flag");
@@ -55,6 +59,7 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
         webView = (WebView) findViewById(R.id.webview);
         URL1 ="https://www.kesbokar.com.au/about-us";
         new About.MyAsyncTask().execute();
+
     }
     @Override
 

@@ -14,6 +14,7 @@ public class Main2Activity extends AppCompatActivity {
     private TabLayout myTabLayout;
     private TabsAccessorAdapter myTabsAccessorAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,5 @@ public class Main2Activity extends AppCompatActivity {
         myTabLayout.setupWithViewPager(myViewPager);
 
     }
-
 
 }

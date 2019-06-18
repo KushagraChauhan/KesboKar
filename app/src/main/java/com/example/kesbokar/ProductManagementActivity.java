@@ -28,8 +28,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
     int id,flag;
 
     private EditText editText;
-    private Button button;
-
+    private Button button, postACarAdd;
 
     RelativeLayout relativeLayout;
 
@@ -50,10 +49,25 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
 
         editText = findViewById(R.id.edtProductTitle);
         button = findViewById(R.id.btnGo);
+        postACarAdd = findViewById(R.id.btnPostACarAdd);
         relativeLayout = findViewById(R.id.productTitle);
 
 
         button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* String data = editText.getText().toString();
+                Bundle bundle = new Bundle();
+                bundle.putString("EDITTEXT_VALUE", data);
+                BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
+                basicInfoFragment.setArguments(bundle);*/
+                Intent intent = new Intent(ProductManagementActivity.this, Main2Activity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        postACarAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProductManagementActivity.this, Main2Activity.class);
@@ -62,6 +76,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
         });
 
         editText.addTextChangedListener(inputTextWatcher);
+
 
     }
 

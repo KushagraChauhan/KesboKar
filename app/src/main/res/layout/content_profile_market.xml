@@ -11,12 +11,24 @@
 
     <Button
         android:id="@+id/btnProductManagement"
+
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorPrimary"
+        android:text="Create New"
+        android:textColor="@color/White" />
+
         android:layout_marginTop="5dp"
         android:layout_marginStart="300dp"
         android:text="Create"
         android:background="@color/red"
+        android:textColor="@color/White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
