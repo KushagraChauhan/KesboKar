@@ -64,7 +64,13 @@ public class Login extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        onBackPressed();
+                        progressDialog.dismiss();
+                        if(flag == 1) {
+                            onBackPressed();
+                        }
+                        else {
+                            Toast.makeText(Login.this, "Invalid Email or Password.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },4000);
             }
