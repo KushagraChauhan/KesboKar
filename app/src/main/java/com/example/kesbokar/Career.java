@@ -3,6 +3,7 @@ package com.example.kesbokar;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,22 +40,24 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
 
+    private Button btnHel,btnBuis,btnMar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_career);
+        getData();
+
+        btnHel = (Button)findViewById(R.id.help);
+        btnBuis = (Button)findViewById(R.id.buis);
+        btnMar = (Button)findViewById(R.id.mar);
+
+
         contact=findViewById(R.id.contact);
         webView = (WebView) findViewById(R.id.webview);
+        getData();
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        flag = extras.getInt("Flag");
-        full_name=extras.getString("Name");
-        email=extras.getString("mail");
-        image=extras.getString("image");
-        phone_no=extras.getString("phone");
-        id=extras.getInt("id");
-        created=extras.getString("create");
-        updated=extras.getString("update");
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +71,63 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
         });
         URL1 ="https://www.kesbokar.com.au/career";
         new Career.MyAsyncTask().execute();
+
+        btnHel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Career.this, Help.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnBuis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Career.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                startActivityForResult(intent,0);
+                overridePendingTransition(0,0);
+                finish();
+            }
+        });
+
+        btnMar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Career.this, Navigation_market.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
     }
     @Override
 
@@ -184,5 +244,18 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
             webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
         }
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
     }
 }

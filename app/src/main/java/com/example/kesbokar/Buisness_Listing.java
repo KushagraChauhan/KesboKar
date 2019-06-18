@@ -1,6 +1,7 @@
 package com.example.kesbokar;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -8,7 +9,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.app.LoaderManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,17 +22,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,6 +63,25 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     private DataAdapter dataAdapter;
     private ArrayList<ExampleItem> exampleItems;
     private RequestQueue requestQueue;
+
+    private Button btnHelp,btnBuis,btnMar,btnTop;
+
+    private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
+    private Button btnAlertDialogSearch;
+    private static final int LOADER_ID_BUSVAL = 3;
+    private static final int LOADER_ID_BUSSUB = 4;
+    private static final int LOADER_ID_BTNSRCH = 5;
+
+    private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
+    private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
+    private LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>> btnSearch;
+
+    private ArrayList<String> valsBus;
+    private ArrayList<StateAndSuburb> valsSub;
+    private String query = "";
+    String querySub,subV,subType,q;
+    int stateid = 0;
+
     boolean isLoading = false;
     String name,image,synopsis,url1,city,city_id;
     int id;
@@ -56,16 +90,26 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     double ratings;
     Intent intent;
     Bundle bundle;
+    SharedPreferences loginData;
+
+    ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buisness__listing);
-        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
         getData();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        btnHelp = (Button)findViewById(R.id.help);
+        btnBuis = (Button)findViewById(R.id.buis);
+        btnMar = (Button)findViewById(R.id.mar);
+        btnTop = (Button)findViewById(R.id.top);
+
+        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,20 +119,101 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         View ab = navigationView.getHeaderView(0);
         Menu show=navigationView.getMenu();
         TextView name1=(TextView)ab.findViewById(R.id.name_user);
+
         Button signup=(Button)ab.findViewById(R.id.signup);
         Button login=(Button)ab.findViewById(R.id.login);
         Button logout=ab.findViewById(R.id.logout);
+        ImageView imageView = (ImageView)findViewById(R.id.imgSearch);
+        valsBus = new ArrayList<>();
+        valsSub = new ArrayList<>();
+        querySub = subV = subType = q = "";
+
+//        autoCompleteTextViewOne = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewOne);
+//        autoCompleteTextViewTwo = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTwo);
+//        btnAlertDialogSearch = findViewById(R.id.btnAlertDialogSearch);
         intent=getIntent();
         bundle=intent.getExtras();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         exampleItems = new ArrayList<>();
+
+        btnHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Buisness_Listing.this,Help.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnBuis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Buisness_Listing.this, Navigation.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        btnMar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Buisness_Listing.this, Navigation_market.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
+        /*btnTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.smoothScrollTo(0, 0);
+            }
+        }*/
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Buisness_Listing.this, Login.class);
                 startActivity(intent);
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestAlertDialogBox();
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +239,9 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             }
         });
 
+
+
+
         if(flag==1)
         {
             name1.setText(full_name);
@@ -131,7 +259,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             imgBtnService();
         }else if(denote.equals("btnSearch")){
             exampleItems = bundle.getParcelableArrayList("ARRAYLIST");
-            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag);
+            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag,loginData);
             recyclerView.setAdapter(dataAdapter);
         }
 
@@ -151,6 +279,156 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         parseJSON();
         initScrollListener();
     }
+
+
+
+    private void RequestAlertDialogBox()
+    {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        // get the layout inflater
+//        LayoutInflater inflater = this.getLayoutInflater();
+//
+//        // inflate and set the layout for the dialog
+//        // pass null as the parent view because its going in the dialog layout
+//        builder.setView(inflater.inflate(R.layout.search_alert_dialog_box, null))
+//                .show();
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.search_alert_dialog_box);
+        autoCompleteTextViewOne = dialog.findViewById(R.id.autoCompleteTextViewOne);
+        autoCompleteTextViewTwo = dialog.findViewById(R.id.autoCompleteTextViewTwo);
+        btnAlertDialogSearch = dialog.findViewById(R.id.btnAlertDialogSearch);
+
+
+        btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>>() {
+            @Override
+            public Loader<ArrayList<ExampleItem>> onCreateLoader(int id, Bundle args) {
+                LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Buisness_Listing.this,q,subV,"https://serv.kesbokar.com.au/jil.0.1/v2/yellowpages",stateid,subType,0.0,0.0);
+                return loaderBtnSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<ExampleItem>> loader, ArrayList<ExampleItem> data) {
+                switch (loader.getId()){
+                    case LOADER_ID_BTNSRCH:
+                        if(data != null){
+                            exampleItems = data;
+                            Log.i("Search", data.toString());
+                            Intent intent = new Intent(Buisness_Listing.this,Buisness_Listing.class);
+                            intent.putExtra("CHOICE", "btnSearch");
+                            intent.putParcelableArrayListExtra("ARRAYLIST",exampleItems);
+                            startActivity(intent);
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<ExampleItem>> loader) {
+
+            }
+        };
+        businessSuburb = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+            @Override
+            public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(Buisness_Listing.this,querySub,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search/cities");
+                return loaderBusSuburb;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
+                if (data.size() != 0) {
+                    valsSub = data;
+                    Log.i("Tag", valsSub + "");
+                    ArrayAdapter<StateAndSuburb> adapter=new ArrayAdapter<StateAndSuburb>(Buisness_Listing.this,android.R.layout.simple_dropdown_item_1line,valsSub);
+                    autoCompleteTextViewTwo.setAdapter(adapter);
+                    getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
+                } else {
+                    Toast.makeText(Buisness_Listing.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<StateAndSuburb>> loader) {
+
+            }
+        };
+        businessSearch = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+            @Override
+            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSearch loaderBusSearch = new LoaderBusSearch(Buisness_Listing.this,query,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search");
+                return loaderBusSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+                if (data.size() != 0) {
+                    valsBus = data;
+                    Log.i("Tag", valsBus + "");
+                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Buisness_Listing.this,android.R.layout.simple_dropdown_item_1line,valsBus);
+                    autoCompleteTextViewOne.setAdapter(adapter);
+                    getLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+                } else {
+                    Toast.makeText(Buisness_Listing.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+
+            }
+        };
+
+        getLoaderManager().initLoader(LOADER_ID_BUSVAL, null, businessSearch);
+        dialog.show();
+        btnAlertDialogSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                q = autoCompleteTextViewOne.getText().toString();
+                Log.i("Q and subV", q + " " + subV);
+                if(q.length() == 0 && subV.length() == 0){
+                    Toast.makeText(Buisness_Listing.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
+                }
+                else if (subV.length()==0)
+                {
+                    Toast.makeText(Buisness_Listing.this, "Cannot Search Empty State", Toast.LENGTH_SHORT).show();
+                }
+                getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
+            }
+        });
+
+        autoCompleteTextViewTwo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
+                subV = stateAndSuburb.getValue();
+                stateid = stateAndSuburb.getId();
+                subType = stateAndSuburb.getType();
+            }
+        });
+        autoCompleteTextViewTwo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                querySub = s.toString();
+                getLoaderManager().restartLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+
 
     private void parseJSON() {
         String url =bundle.getString("URL");
@@ -194,7 +472,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                 id=dat.getInt("id");
                                 exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings));
                             }
-                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag);
+                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag,loginData);
                             recyclerView.setAdapter(dataAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -297,7 +575,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     }
     public void getData()
     {
-        SharedPreferences loginData=getSharedPreferences("data",0);
+        loginData=getSharedPreferences("data",0);
         flag = loginData.getInt("Flag",0);
         full_name=loginData.getString("Name","");
         email=loginData.getString("mail","");

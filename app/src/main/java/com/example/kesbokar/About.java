@@ -3,6 +3,7 @@ package com.example.kesbokar;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ScrollView;
 
 import org.jsoup.Jsoup;
@@ -37,24 +39,19 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        flag = extras.getInt("Flag");
-        full_name=extras.getString("Name");
-        email=extras.getString("mail");
-        image=extras.getString("image");
-        phone_no=extras.getString("phone");
-        id=extras.getInt("id");
-        created=extras.getString("create");
-        updated=extras.getString("update");
+
+        getData();
 
         webView = (WebView) findViewById(R.id.webview);
         URL1 ="https://www.kesbokar.com.au/about-us";
         new About.MyAsyncTask().execute();
+
     }
     @Override
 
@@ -174,5 +171,18 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
             webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
         }
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
     }
 }
