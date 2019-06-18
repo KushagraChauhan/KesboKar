@@ -79,6 +79,7 @@
         android:layout_gravity="center_horizontal"
         android:background="#FFFFFF"
         android:textColor="#000000"
+        android:visibility="invisible"
         android:layout_margin="10dp"
         android:text="Sign Up" />
                 </LinearLayout>

@@ -15,6 +15,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -127,11 +129,22 @@ public class Navigation_market extends AppCompatActivity
     int stateid;
     Button btnSrch;
     private ArrayList<MarketIem> marketItems;
+    private boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation_market);
+        if(!isNetworkAvailable())
+        {
+            setContentView(R.layout.no_internet);
+        }
+        else {
+            setContentView(R.layout.activity_navigation_market);
+        }
         final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

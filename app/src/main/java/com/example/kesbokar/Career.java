@@ -3,6 +3,7 @@ package com.example.kesbokar;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,16 +46,7 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
         setContentView(R.layout.activity_career);
         contact=findViewById(R.id.contact);
         webView = (WebView) findViewById(R.id.webview);
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        flag = extras.getInt("Flag");
-        full_name=extras.getString("Name");
-        email=extras.getString("mail");
-        image=extras.getString("image");
-        phone_no=extras.getString("phone");
-        id=extras.getInt("id");
-        created=extras.getString("create");
-        updated=extras.getString("update");
+        getData();
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,5 +176,18 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
             webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
         }
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
     }
 }

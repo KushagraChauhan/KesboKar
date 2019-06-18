@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -34,10 +36,21 @@ public class Login extends AppCompatActivity {
     SharedPreferences loginData;
     private static final int LOADER_LOGIN_ID = 35;
     private LoaderManager.LoaderCallbacks<LoginInfo> login_info_loader;
+    private boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        if(!isNetworkAvailable())
+        {
+            setContentView(R.layout.no_internet);
+        }
+        else {
+            setContentView(R.layout.activity_login);
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         edtLoginId = findViewById(R.id.edtLoginId);

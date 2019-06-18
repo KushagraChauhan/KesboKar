@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -48,18 +49,9 @@ public class Help extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         Button send=(Button)findViewById(R.id.send);
-        final Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        flag = extras.getInt("Flag");
-        full_name=extras.getString("Name");
-        email=extras.getString("mail");
-        image=extras.getString("image");
-        phone_no=extras.getString("phone");
-        id=extras.getInt("id");
-        created=extras.getString("create");
+        getData();
         Context context;
         context=Help.this;
-        updated=extras.getString("update");
         WifiManager wifiManager=(WifiManager)getApplicationContext().getSystemService(WIFI_SERVICE);
         //=Formatter.formatIpAddress()
         try {
@@ -159,6 +151,19 @@ public class Help extends AppCompatActivity {
         startActivityForResult(intent, 0);
         overridePendingTransition(0, 0);
         finish();
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+
     }
 
 }
