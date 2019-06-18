@@ -193,12 +193,12 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             }
         });
 
-        btnTop.setOnClickListener(new View.OnClickListener() {
+        /*btnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scrollView.smoothScrollTo(0, 0);
             }
-        });
+        }*/
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
