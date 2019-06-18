@@ -129,11 +129,6 @@ public class Navigation_market extends AppCompatActivity
     int stateid;
     Button btnSrch;
     private ArrayList<MarketIem> marketItems;
-    private boolean isNetworkAvailable(){
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnected();
-    }
 
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -487,11 +482,10 @@ public class Navigation_market extends AppCompatActivity
                             } else {
                                 Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                             }
-<<<<<<< HEAD
+
                         } else {
                            // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
-=======
->>>>>>> 6905713ae3c2d5fc288887eb7212de14cad34c38
+
                         }
                         break;
                 }

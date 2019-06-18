@@ -262,7 +262,11 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         {
             holder.bli.setImageResource(R.drawable.def);
         }
-        else if(current.getImg()!="null") {
+        else if (image.equals("https://www.kesbokar.com.au/uploads/yellowpage/null"))
+        {
+            holder.bli.setImageResource(R.drawable.def);
+        }
+        else if(current.getImg()!=null) {
             Picasso.with(mActivity).load(image).fit().centerInside().into(holder.bli);
         }
         else {
