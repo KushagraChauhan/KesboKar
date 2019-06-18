@@ -26,6 +26,7 @@ import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -109,6 +110,7 @@ public class Navigation_market extends AppCompatActivity
     private static ArrayList<String> tags;
     Toolbar toolbar;
     ImageView[] bi, mi;
+    TextView[] dynamicTxt;
     Button location;
     TextView[] bc, bd, mc, md;
     private static final int LOADER_ID = 1;
@@ -143,6 +145,7 @@ public class Navigation_market extends AppCompatActivity
         search=findViewById(R.id.search);
         params.height=300;
         params.rightMargin=15;
+        final LinearLayout layoutsec;
         valsMarket = new ArrayList<>();
         valsSub = new ArrayList<>();
         q = subV = querySub = "";
@@ -195,6 +198,7 @@ public class Navigation_market extends AppCompatActivity
         signup=(Button)ab.findViewById(R.id.signup);
         login=(Button)ab.findViewById(R.id.login);
         logout=ab.findViewById(R.id.logout);
+        layoutsec=findViewById(R.id.bcd);
         btnSrch = findViewById(R.id.marBtnSrch);
         RadioGroup radioGroup=findViewById(R.id.radio_group);
         RadioButton rb_marketplace=findViewById(R.id.rb_marketplace);
@@ -433,8 +437,10 @@ public class Navigation_market extends AppCompatActivity
                             LinearLayout layout = new LinearLayout(Navigation_market.this);
                             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                             imagebutton = new ImageButton[dataSize];
+                            dynamicTxt = new TextView[dataSize];
                             for (i = 0; i < dataSize; i++) {
                                 imagebutton[i] = new ImageButton(Navigation_market.this);
+                                dynamicTxt[i] = new TextView(Navigation_market.this);
 //                    imagebutto[i].setImageResource(R.mipmap.ic_launcher_round);
                                 Drawable drawable=getDrawable(R.drawable.button_bg_round_market);
                                 imagebutton[i].setBackground(drawable);
@@ -459,9 +465,13 @@ public class Navigation_market extends AppCompatActivity
                                         overridePendingTransition(0, 0);
                                     }
                                 });
+                                dynamicTxt[i].setText(data.get(i).getTitle());
+                                dynamicTxt[i].setLayoutParams(params);
+                                dynamicTxt[i].setGravity(Gravity.CENTER_HORIZONTAL);
                                 relativelayout.removeAllViews();
                                 relativelayout.addView(layout);
                                 layout.addView(imagebutton[i]);
+                                layoutsec.addView(dynamicTxt[i]);
                                 getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
                             }
                         } else {
