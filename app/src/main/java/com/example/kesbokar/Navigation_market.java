@@ -91,6 +91,7 @@ public class Navigation_market extends AppCompatActivity
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id;
     private static int dataSize = 0;
+    LinearLayout.LayoutParams params1;
     ImageButton[] imagebutton;
     private static final int LOADER_ID_BUSINESS = 0;
     private static final int LOADER_ID_SERVICES = 1;
@@ -227,6 +228,10 @@ public class Navigation_market extends AppCompatActivity
         });
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        params1 = new LinearLayout
+                .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params1.width = 300;
+        params1.rightMargin = 15;
         if (extras != null) {
             //Intent intent = getIntent();
 
@@ -479,7 +484,7 @@ public class Navigation_market extends AppCompatActivity
                                     }
                                 });
                                 dynamicTxt[i].setText(data.get(i).getTitle());
-                                dynamicTxt[i].setLayoutParams(params);
+                                dynamicTxt[i].setLayoutParams(params1);
                                 dynamicTxt[i].setGravity(Gravity.CENTER_HORIZONTAL);
                                 relativelayout.removeAllViews();
                                 relativelayout.addView(layout);
