@@ -11,7 +11,7 @@
 
     <Button
         android:id="@+id/btnProductManagement"
-<<<<<<< HEAD
+
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="130dp"
@@ -20,7 +20,7 @@
         android:background="@color/colorPrimary"
         android:text="Create New"
         android:textColor="@color/White" />
-=======
+
         android:layout_marginTop="5dp"
         android:layout_marginStart="300dp"
         android:text="Create"
@@ -28,7 +28,7 @@
         android:textColor="@color/White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
->>>>>>> 191beeb68df07d21119ea8a38e9e3cafc8456a60
+
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
