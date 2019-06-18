@@ -15,6 +15,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -127,6 +129,12 @@ public class Navigation_market extends AppCompatActivity
     int stateid;
     Button btnSrch;
     private ArrayList<MarketIem> marketItems;
+
+    private boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -428,44 +436,46 @@ public class Navigation_market extends AppCompatActivity
                 switch (loader.getId()) {
                     case LOADER_ID_BUSINESS:
                         // Add image path for imagebutton from drawable folder.
-                        if (data.size() != 0) {
-                            dataSize = data.size();
-                            LinearLayout layout = new LinearLayout(Navigation_market.this);
-                            layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                            imagebutton = new ImageButton[dataSize];
-                            for (i = 0; i < dataSize; i++) {
-                                imagebutton[i] = new ImageButton(Navigation_market.this);
+                        if(data!=null) {
+                            if (data.size() != 0) {
+                                dataSize = data.size();
+                                LinearLayout layout = new LinearLayout(Navigation_market.this);
+                                layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                imagebutton = new ImageButton[dataSize];
+                                for (i = 0; i < dataSize; i++) {
+                                    imagebutton[i] = new ImageButton(Navigation_market.this);
 //                    imagebutto[i].setImageResource(R.mipmap.ic_launcher_round);
-                                Drawable drawable=getDrawable(R.drawable.button_bg_round_market);
-                                imagebutton[i].setBackground(drawable);
-                                imagebutton[i].setLayoutParams(params);
-                                imagebutton[i].setTag(data.get(i).getId());
-                                final int index = i;
-                                String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
-                                Picasso.with(Navigation_market.this).load(imgURL).into(imagebutton[i]);
-                                imagebutton[i].setAdjustViewBounds(true);
-                                //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
-                                imagebutton[i].setId(data.get(i).getId());
-                                int ID = imagebutton[i].getId();
-                                imagebutton[i].setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl="+ URLEncoder.encode(data.get(index).getUrl())+"&catid="+data.get(index).getId()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
-                                        Intent intent = new Intent(Navigation_market.this, MarketListing.class);
-                                        intent.putExtra("URL",url);
-                                        intent.putExtra("CHOICE","imgBtnService");
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                        startActivityForResult(intent, 0);
-                                        overridePendingTransition(0, 0);
-                                    }
-                                });
-                                relativelayout.removeAllViews();
-                                relativelayout.addView(layout);
-                                layout.addView(imagebutton[i]);
-                                getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
+                                    Drawable drawable = getDrawable(R.drawable.button_bg_round_market);
+                                    imagebutton[i].setBackground(drawable);
+                                    imagebutton[i].setLayoutParams(params);
+                                    imagebutton[i].setTag(data.get(i).getId());
+                                    final int index = i;
+                                    String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
+                                    Picasso.with(Navigation_market.this).load(imgURL).into(imagebutton[i]);
+                                    imagebutton[i].setAdjustViewBounds(true);
+                                    //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
+                                    imagebutton[i].setId(data.get(i).getId());
+                                    int ID = imagebutton[i].getId();
+                                    imagebutton[i].setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl=" + URLEncoder.encode(data.get(index).getUrl()) + "&catid=" + data.get(index).getId() + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                            Intent intent = new Intent(Navigation_market.this, MarketListing.class);
+                                            intent.putExtra("URL", url);
+                                            intent.putExtra("CHOICE", "imgBtnService");
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                            startActivityForResult(intent, 0);
+                                            overridePendingTransition(0, 0);
+                                        }
+                                    });
+                                    relativelayout.removeAllViews();
+                                    relativelayout.addView(layout);
+                                    layout.addView(imagebutton[i]);
+                                    getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
+                                }
+                            } else {
+                                Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
@@ -622,7 +632,12 @@ public class Navigation_market extends AppCompatActivity
             }
         });
 
-        getLoaderManager().initLoader(LOADER_ID_BUSINESS,null,buttonsDetailsLoaderCallbacks);
+        if(isNetworkAvailable()) {
+            getLoaderManager().initLoader(LOADER_ID_BUSINESS, null, buttonsDetailsLoaderCallbacks);
+
+        }else{
+            setContentView(R.layout.no_internet);
+        }
     }
 
     @Override
