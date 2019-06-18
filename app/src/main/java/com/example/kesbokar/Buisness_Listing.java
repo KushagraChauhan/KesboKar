@@ -9,8 +9,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.app.LoaderManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,17 +27,22 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -58,7 +66,19 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 
     private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
     private Button btnAlertDialogSearch;
+    private static final int LOADER_ID_BUSVAL = 3;
+    private static final int LOADER_ID_BUSSUB = 4;
+    private static final int LOADER_ID_BTNSRCH = 5;
 
+    private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
+    private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
+    private LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>> btnSearch;
+
+    private ArrayList<String> valsBus;
+    private ArrayList<StateAndSuburb> valsSub;
+    private String query = "";
+    String querySub,subV,subType,q;
+    int stateid = 0;
 
     boolean isLoading = false;
     String name,image,synopsis,url1,city,city_id;
@@ -91,10 +111,13 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         Button login=(Button)ab.findViewById(R.id.login);
         Button logout=ab.findViewById(R.id.logout);
         ImageView imageView = (ImageView)findViewById(R.id.imgSearch);
+        valsBus = new ArrayList<>();
+        valsSub = new ArrayList<>();
+        querySub = subV = subType = q = "";
 
-        autoCompleteTextViewOne = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewOne);
-        autoCompleteTextViewTwo = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTwo);
-
+//        autoCompleteTextViewOne = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewOne);
+//        autoCompleteTextViewTwo = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTwo);
+//        btnAlertDialogSearch = findViewById(R.id.btnAlertDialogSearch);
         intent=getIntent();
         bundle=intent.getExtras();
         recyclerView = findViewById(R.id.recyclerView);
@@ -139,6 +162,9 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             }
         });
 
+
+
+
         if(flag==1)
         {
             name1.setText(full_name);
@@ -181,15 +207,148 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 
     private void RequestAlertDialogBox()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        // get the layout inflater
+//        LayoutInflater inflater = this.getLayoutInflater();
+//
+//        // inflate and set the layout for the dialog
+//        // pass null as the parent view because its going in the dialog layout
+//        builder.setView(inflater.inflate(R.layout.search_alert_dialog_box, null))
+//                .show();
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.search_alert_dialog_box);
+        autoCompleteTextViewOne = dialog.findViewById(R.id.autoCompleteTextViewOne);
+        autoCompleteTextViewTwo = dialog.findViewById(R.id.autoCompleteTextViewTwo);
+        btnAlertDialogSearch = dialog.findViewById(R.id.btnAlertDialogSearch);
 
-        // get the layout inflater
-        LayoutInflater inflater = this.getLayoutInflater();
 
-        // inflate and set the layout for the dialog
-        // pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.search_alert_dialog_box, null))
-                .show();
+        btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>>() {
+            @Override
+            public Loader<ArrayList<ExampleItem>> onCreateLoader(int id, Bundle args) {
+                LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Buisness_Listing.this,q,subV,"https://serv.kesbokar.com.au/jil.0.1/v2/yellowpages",stateid,subType,0.0,0.0);
+                return loaderBtnSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<ExampleItem>> loader, ArrayList<ExampleItem> data) {
+                switch (loader.getId()){
+                    case LOADER_ID_BTNSRCH:
+                        if(data != null){
+                            exampleItems = data;
+                            Log.i("Search", data.toString());
+                            Intent intent = new Intent(Buisness_Listing.this,Buisness_Listing.class);
+                            intent.putExtra("CHOICE", "btnSearch");
+                            intent.putParcelableArrayListExtra("ARRAYLIST",exampleItems);
+                            startActivity(intent);
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<ExampleItem>> loader) {
+
+            }
+        };
+        businessSuburb = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+            @Override
+            public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(Buisness_Listing.this,querySub,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search/cities");
+                return loaderBusSuburb;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
+                if (data.size() != 0) {
+                    valsSub = data;
+                    Log.i("Tag", valsSub + "");
+                    ArrayAdapter<StateAndSuburb> adapter=new ArrayAdapter<StateAndSuburb>(Buisness_Listing.this,android.R.layout.simple_dropdown_item_1line,valsSub);
+                    autoCompleteTextViewTwo.setAdapter(adapter);
+                    getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
+                } else {
+                    Toast.makeText(Buisness_Listing.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<StateAndSuburb>> loader) {
+
+            }
+        };
+        businessSearch = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
+            @Override
+            public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
+                LoaderBusSearch loaderBusSearch = new LoaderBusSearch(Buisness_Listing.this,query,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search");
+                return loaderBusSearch;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+                if (data.size() != 0) {
+                    valsBus = data;
+                    Log.i("Tag", valsBus + "");
+                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Buisness_Listing.this,android.R.layout.simple_dropdown_item_1line,valsBus);
+                    autoCompleteTextViewOne.setAdapter(adapter);
+                    getLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+                } else {
+                    Toast.makeText(Buisness_Listing.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<String>> loader) {
+
+            }
+        };
+
+        getLoaderManager().initLoader(LOADER_ID_BUSVAL, null, businessSearch);
+        dialog.show();
+        btnAlertDialogSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                q = autoCompleteTextViewOne.getText().toString();
+                Log.i("Q and subV", q + " " + subV);
+                if(q.length() == 0 && subV.length() == 0){
+                    Toast.makeText(Buisness_Listing.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
+                }
+                else if (subV.length()==0)
+                {
+                    Toast.makeText(Buisness_Listing.this, "Cannot Search Empty State", Toast.LENGTH_SHORT).show();
+                }
+                getLoaderManager().initLoader(LOADER_ID_BTNSRCH,null,btnSearch);
+            }
+        });
+
+        autoCompleteTextViewTwo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
+                subV = stateAndSuburb.getValue();
+                stateid = stateAndSuburb.getId();
+                subType = stateAndSuburb.getType();
+            }
+        });
+        autoCompleteTextViewTwo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                querySub = s.toString();
+                getLoaderManager().restartLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
 
