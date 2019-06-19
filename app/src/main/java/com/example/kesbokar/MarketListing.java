@@ -282,7 +282,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             public void onLoadFinished(Loader<ArrayList<MarketIem>> loader, ArrayList<MarketIem> data) {
                 switch (loader.getId()){
                     case LOADER_ID_BTNSRCH:
-                        if(data != null){
+                        if(data != null && q.length()!=0){
                             marketItems = data;
                             Log.i("Search", data.toString());
                             Intent intent = new Intent(MarketListing.this,MarketListing.class);
