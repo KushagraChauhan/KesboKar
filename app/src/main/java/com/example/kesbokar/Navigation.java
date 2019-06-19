@@ -74,6 +74,7 @@ public class Navigation extends AppCompatActivity
     String loginId, loginPass, full_name, email, image, phone_no,created,updated, title;
     boolean a;
     LinearLayout.LayoutParams params;
+    LinearLayout.LayoutParams params1;
     int i;
     private static int dataSize = 0;
     private static final int LOADER_ID_BUSINESS = 0;
@@ -198,6 +199,10 @@ public class Navigation extends AppCompatActivity
         params.width = 300;
         params.height = 300;
         params.rightMargin = 15;
+        params1 = new LinearLayout
+                .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params1.width = 300;
+        params1.rightMargin = 15;
         getData();
 //        Intent intent = getIntent();
 //        Bundle extras = intent.getExtras();
@@ -473,7 +478,7 @@ public class Navigation extends AppCompatActivity
                                 });
 
                                 dynamicTxt[i].setText(data.get(i).getTitle());
-                                dynamicTxt[i].setLayoutParams(params);
+                                dynamicTxt[i].setLayoutParams(params1);
                                 dynamicTxt[i].setGravity(Gravity.CENTER_HORIZONTAL);
                                 layoutmain.removeAllViews();
                                 //layoutmain.addView(layout);
