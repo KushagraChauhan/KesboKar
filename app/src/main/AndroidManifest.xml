@@ -24,6 +24,9 @@
         <activity android:name=".Main2Activity"></activity>
         <activity android:name=".ProfileMarket" />
         <activity android:name=".ProfileBusinessListing" />
+
+        <activity android:name=".inbox_business"/>
+        <activity android:name=".inbox_market"/>
         <activity android:name=".Profile" />
         <activity
             android:name=".LoginData"
