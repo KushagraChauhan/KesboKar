@@ -164,10 +164,10 @@ public class Navigation_market extends AppCompatActivity
         q = subV = querySub = "";
         layout = new LinearLayout(Navigation_market.this);
         bi = new ImageView[4];
-        mi = new ImageView[3];
+        mi = new ImageView[4];
         bc = new TextView[4];
-        mc = new TextView[3];
-        md = new TextView[3];
+        mc = new TextView[4];
+        md = new TextView[4];
         bd = new TextView[4];
         location = findViewById(R.id.location);
         bi[0] = findViewById(R.id.bi1);
@@ -191,7 +191,9 @@ public class Navigation_market extends AppCompatActivity
         md[0] = findViewById(R.id.md1);
         md[1] = findViewById(R.id.md2);
         md[2] = findViewById(R.id.md3);
-
+        md[3] = findViewById(R.id.md4);
+        mc[3] = findViewById(R.id.mc4);
+        mi[3] = findViewById(R.id.mi4);
         ms = findViewById(R.id.ms);
 
 
@@ -576,7 +578,7 @@ public class Navigation_market extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketPlaceApi>> loader, final ArrayList<MarketPlaceApi> marketPlaceApis) {
                 switch (loader.getId()) {
                     case LOADER_ID_MARKET:
-                        for (int j = 0; j < 3; j++) {
+                        for (int j = 0; j < 4; j++) {
                             mc[j].setText(marketPlaceApis.get(j).getName());
                             md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
 
