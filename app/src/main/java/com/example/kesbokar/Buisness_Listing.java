@@ -311,7 +311,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             public void onLoadFinished(Loader<ArrayList<ExampleItem>> loader, ArrayList<ExampleItem> data) {
                 switch (loader.getId()){
                     case LOADER_ID_BTNSRCH:
-                        if(data != null){
+                        if(data != null && q.length()!=0){
                             exampleItems = data;
                             Log.i("Search", data.toString());
                             Intent intent = new Intent(Buisness_Listing.this,Buisness_Listing.class);

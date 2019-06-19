@@ -367,7 +367,7 @@ public class Navigation_market extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketIem>> loader, ArrayList<MarketIem> data) {
                 switch (loader.getId()) {
                     case LOADER_ID_BTNSRCH:
-                        if (data != null) {
+                        if (data != null && q.length()!=0) {
                             marketItems = data;
                             Log.i("Search", data.toString());
                             Intent intent = new Intent(Navigation_market.this, MarketListing.class);
@@ -458,6 +458,7 @@ public class Navigation_market extends AppCompatActivity
                             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                             imagebutton = new ImageButton[dataSize];
                             dynamicTxt = new TextView[dataSize];
+                            layoutsec.removeAllViews();
                             for (i = 0; i < dataSize; i++) {
                                 imagebutton[i] = new ImageButton(Navigation_market.this);
                                 dynamicTxt[i] = new TextView(Navigation_market.this);

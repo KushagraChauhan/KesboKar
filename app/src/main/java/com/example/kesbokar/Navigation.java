@@ -361,7 +361,7 @@ public class Navigation extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<ExampleItem>> loader, ArrayList<ExampleItem> data) {
                 switch (loader.getId()){
                     case LOADER_ID_BTNSRCH:
-                        if(data != null){
+                        if(data != null && q.length()!=0){
                             exampleItems = data;
                             Log.i("Search", data.toString());
                             Intent intent = new Intent(Navigation.this,Buisness_Listing.class);
@@ -452,6 +452,8 @@ public class Navigation extends AppCompatActivity
                             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                             imagebutton = new ImageButton[dataSize];
                             dynamicTxt = new TextView[dataSize];
+                            layoutsec.removeAllViews();
+
                             for (i = 0; i < dataSize; i++) {
                                 imagebutton[i] = new ImageButton(Navigation.this);
                                 dynamicTxt[i] = new TextView(Navigation.this);
@@ -485,6 +487,7 @@ public class Navigation extends AppCompatActivity
                                 dynamicTxt[i].setLayoutParams(params1);
                                 dynamicTxt[i].setGravity(Gravity.CENTER_HORIZONTAL);
                                 layoutmain.removeAllViews();
+
                                 //layoutmain.addView(layout);
                                 //layout.removeAllViews();
                                 layout.addView(imagebutton[i]);
