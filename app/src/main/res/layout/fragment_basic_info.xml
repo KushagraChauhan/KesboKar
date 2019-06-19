@@ -140,22 +140,36 @@
                         android:id="@+id/btnCatFirst"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:text="SELECT" />
+                        android:background="@color/colorAccent"
+                        android:text="SELECT"
+                        android:textColor="@color/White" />
 
                     <Button
                         android:id="@+id/btnCatSecond"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:text="SELECT" />
+                        android:background="@color/colorAccent"
+                        android:text="SELECT"
+                        android:textColor="@color/White"
+                        android:visibility="invisible" />
 
                     <Button
                         android:id="@+id/btnCatThird"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:text="SELECT" />
+                        android:background="@color/colorAccent"
+                        android:text="SELECT"
+                        android:textColor="@color/White"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
             </LinearLayout>
