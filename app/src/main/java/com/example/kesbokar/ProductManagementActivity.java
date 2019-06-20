@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -62,6 +63,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
                 BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
                 basicInfoFragment.setArguments(bundle);*/
                 Intent intent = new Intent(ProductManagementActivity.this, Main2Activity.class);
+                intent.putExtra("CAR_YES_OR_NO", false);
                 startActivity(intent);
             }
         });
@@ -71,7 +73,10 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProductManagementActivity.this, Main2Activity.class);
+                intent.putExtra("CAR_YES_OR_NO", true);
                 startActivity(intent);
+
+
             }
         });
 
