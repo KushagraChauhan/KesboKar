@@ -242,4 +242,23 @@ public class JsonParser {
         }
         return btnsDetails;
     }
+
+    public ArrayList<InboxMarketList> getInboxMarketList(String url) throws JSONException {
+        ArrayList<InboxMarketList> inboxMarketLists = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(url);
+
+        for (int index = 0; index < jsonArray.length(); index++) {
+            int i = index+1;
+            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            InboxMarketList inboxMarketList = new InboxMarketList();
+            inboxMarketList.setTxtName(jsonObject.getString("name"));
+            inboxMarketList.setTxtSno(i + "");
+            inboxMarketList.setTxtMessage(jsonObject.getString("message"));
+            inboxMarketList.setTxtProduct(jsonObject.getString("product"));
+            inboxMarketList.setTxtDate(jsonObject.getInt("date"));
+            inboxMarketLists.add(inboxMarketList);
+        }
+        return inboxMarketLists;
+    }
+
 }
