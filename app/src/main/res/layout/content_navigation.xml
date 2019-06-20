@@ -201,7 +201,10 @@
                             android:id="@+id/category1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
                             <LinearLayout
                                 android:id="@+id/abc"
                                 android:layout_width="wrap_content"
@@ -209,6 +212,14 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginEnd="0dp"
                                 android:orientation="horizontal"></LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/bcd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                            </LinearLayout>
+                            </LinearLayout>
                         </RelativeLayout>
                     </HorizontalScrollView>
 
@@ -216,7 +227,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="50dp"
                         android:gravity="center_horizontal"
                         android:text="YOUR SERVICE EXPERT"
                         android:textColor="#FFA000"
@@ -242,7 +253,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/border">
 
                             <ImageView
                                 android:id="@+id/bi1"
@@ -250,7 +262,8 @@
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
                                 android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
+                                android:scaleType="fitXY"
+                                android:background="@drawable/image_border"/>
 
                             <TextView
                                 android:id="@+id/bc1"
@@ -275,7 +288,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/border">
 
                             <ImageView
                                 android:id="@+id/bi2"
@@ -283,7 +297,8 @@
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
                                 android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
+                                android:scaleType="fitXY"
+                                android:background="@drawable/image_border"/>
 
                             <TextView
                                 android:id="@+id/bc2"
@@ -308,7 +323,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/border">
 
                             <ImageView
                                 android:id="@+id/bi3"
@@ -316,7 +332,8 @@
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
                                 android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
+                                android:scaleType="fitXY"
+                                android:background="@drawable/image_border"/>
 
                             <TextView
                                 android:id="@+id/bc3"
@@ -341,7 +358,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/border">
 
                             <ImageView
                                 android:id="@+id/bi4"
@@ -349,7 +367,8 @@
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
                                 android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
+                                android:scaleType="fitXY"
+                                android:background="@drawable/image_border"/>
 
                             <TextView
                                 android:id="@+id/bc4"
@@ -381,6 +400,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
                             android:gravity="center_horizontal"
                             android:text="FEATURED ADS"
                             android:textColor="#FFA000"
@@ -391,13 +411,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/border">
 
                             <ImageView
                                 android:id="@+id/mi1"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal" />
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/image_border"/>
 
                             <TextView
                                 android:id="@+id/mc1"
@@ -422,13 +444,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/border">
 
                             <ImageView
                                 android:id="@+id/mi2"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal" />
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/image_border"/>
 
                             <TextView
                                 android:id="@+id/mc2"
@@ -456,13 +480,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/border">
 
                             <ImageView
                                 android:id="@+id/mi3"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal" />
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/image_border"/>
 
                             <TextView
                                 android:id="@+id/mc3"

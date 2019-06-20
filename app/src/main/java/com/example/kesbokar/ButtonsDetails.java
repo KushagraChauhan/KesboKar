@@ -1,10 +1,12 @@
 package com.example.kesbokar;
 
-public class ButtonsDetails {private String title;
+public class ButtonsDetails {
+    private String title;
     private String image;
     private String url;
     private String icon;
     private int id;
+
 
     public String getTitle() {
         return title;

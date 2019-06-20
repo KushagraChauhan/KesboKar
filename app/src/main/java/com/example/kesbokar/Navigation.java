@@ -17,8 +17,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,6 +49,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,15 +62,19 @@ public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,LocationListener {
     TextView ab;
     ImageButton[] imagebutton;
-    LinearLayout relativelayout;
+    TextView[] dynamicTxt;
+    LinearLayout layoutmain;
+    LinearLayout layout;
+    LinearLayout layoutsec;
     int id;
     ImageView search;
     Button btnSrch,logout;
     String about;
     TextView name;
-    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated, title;
     boolean a;
     LinearLayout.LayoutParams params;
+    LinearLayout.LayoutParams params1;
     int i;
     private static int dataSize = 0;
     private static final int LOADER_ID_BUSINESS = 0;
@@ -182,12 +192,17 @@ public class Navigation extends AppCompatActivity
         RadioButton rb_business = findViewById(R.id.rb_businesses);
         market = findViewById(R.id.mar);
         help = (Button) findViewById(R.id.help);
-        relativelayout = findViewById(R.id.abc);
+        layoutmain = findViewById(R.id.abc);
+        layoutsec = findViewById(R.id.bcd);
         params = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.width = 300;
         params.height = 300;
         params.rightMargin = 15;
+        params1 = new LinearLayout
+                .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params1.width = 300;
+        params1.rightMargin = 15;
         getData();
 //        Intent intent = getIntent();
 //        Bundle extras = intent.getExtras();
@@ -427,11 +442,17 @@ public class Navigation extends AppCompatActivity
                         // Add image path for imagebutton from drawable folder.
                         if (data.size() != 0) {
                             dataSize = data.size();
+                            layoutmain.setOrientation(LinearLayout.HORIZONTAL);
                             LinearLayout layout = new LinearLayout(Navigation.this);
+                            layout.setOrientation(LinearLayout.HORIZONTAL);
                             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                             imagebutton = new ImageButton[dataSize];
+                            dynamicTxt = new TextView[dataSize];
                             for (i = 0; i < dataSize; i++) {
                                 imagebutton[i] = new ImageButton(Navigation.this);
+                                dynamicTxt[i] = new TextView(Navigation.this);
+                               // layout[] = new LinearLayout();
+
 //                    imagebutton[i].setImageResource(R.mipmap.ic_launcher_round);
                                 imagebutton[i].setBackground(getDrawable(R.drawable.button_bg_round));
                                 imagebutton[i].setLayoutParams(params);
@@ -455,9 +476,17 @@ public class Navigation extends AppCompatActivity
                                         overridePendingTransition(0, 0);
                                     }
                                 });
-                                relativelayout.removeAllViews();
-                                relativelayout.addView(layout);
+
+                                dynamicTxt[i].setText(data.get(i).getTitle());
+                                dynamicTxt[i].setLayoutParams(params1);
+                                dynamicTxt[i].setGravity(Gravity.CENTER_HORIZONTAL);
+                                layoutmain.removeAllViews();
+                                //layoutmain.addView(layout);
+                                //layout.removeAllViews();
                                 layout.addView(imagebutton[i]);
+                                layoutsec.addView(dynamicTxt[i]);
+                                layoutmain.addView(layout);
+
                                 getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
                             }
                         } else {
@@ -484,6 +513,10 @@ public class Navigation extends AppCompatActivity
 //                String BASE_URL = "https://serv.kesbokar.com.au/jil.0.1/v2/yellowpage-featured?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";;
                 switch (loader.getId()) {
                     case LOADER_ID_SERVICES:
+                        // Prepare textview object programmatically
+
+
+
                         //if(serviceExpertSpaces.size()!=0){
                         for (i = 0; i < 4; i++) {
                             bc[i].setText(serviceExpertSpaces.get(i).getName());
@@ -491,6 +524,7 @@ public class Navigation extends AppCompatActivity
 
                             String imgURL = "https://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
                             Picasso.with(Navigation.this).load(imgURL).into(bi[i]);
+
                             //new DownLoadImageTask(bi[i]).execute(imgURL);
                             final int index = i;
                             final String ab = serviceExpertSpaces.get(i).getCity().getTitle().replaceAll(" ", "+");
@@ -513,6 +547,7 @@ public class Navigation extends AppCompatActivity
                                     startActivityForResult(intent, 0);
                                     overridePendingTransition(0, 0);
                                     finish();
+
                                 }
                             });
                             getLoaderManager().initLoader(LOADER_ID_MARKET, null, MarketPlaceApiCallbacks);

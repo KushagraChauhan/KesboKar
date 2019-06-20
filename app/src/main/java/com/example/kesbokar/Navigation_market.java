@@ -28,6 +28,7 @@ import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -90,6 +91,7 @@ public class Navigation_market extends AppCompatActivity
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id;
     private static int dataSize = 0;
+    LinearLayout.LayoutParams params1;
     ImageButton[] imagebutton;
     private static final int LOADER_ID_BUSINESS = 0;
     private static final int LOADER_ID_SERVICES = 1;
@@ -111,6 +113,7 @@ public class Navigation_market extends AppCompatActivity
     private static ArrayList<String> tags;
     Toolbar toolbar;
     ImageView[] bi, mi;
+    TextView[] dynamicTxt;
     Button location;
     TextView[] bc, bd, mc, md;
     private static final int LOADER_ID = 1;
@@ -139,24 +142,23 @@ public class Navigation_market extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!isNetworkAvailable())
-        {
+        if (!isNetworkAvailable()) {
             setContentView(R.layout.no_internet);
-        }
-        else {
+        } else {
             setContentView(R.layout.activity_navigation_market);
         }
-        final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ab=(TextView)findViewById(R.id.about);
+        ab = (TextView) findViewById(R.id.about);
         relativelayout = findViewById(R.id.abc1);
         params = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.width=300;
-        search=findViewById(R.id.search);
-        params.height=300;
-        params.rightMargin=15;
+        params.width = 300;
+        search = findViewById(R.id.search);
+        params.height = 300;
+        params.rightMargin = 15;
+        final LinearLayout layoutsec;
         valsMarket = new ArrayList<>();
         valsSub = new ArrayList<>();
         q = subV = querySub = "";
@@ -167,7 +169,7 @@ public class Navigation_market extends AppCompatActivity
         mc = new TextView[3];
         md = new TextView[3];
         bd = new TextView[4];
-        location=findViewById(R.id.location);
+        location = findViewById(R.id.location);
         bi[0] = findViewById(R.id.bi1);
         bi[1] = findViewById(R.id.bi2);
         bi[2] = findViewById(R.id.bi3);
@@ -193,7 +195,6 @@ public class Navigation_market extends AppCompatActivity
         ms = findViewById(R.id.ms);
 
 
-
         layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         marketItems = new ArrayList<>();
@@ -204,43 +205,47 @@ public class Navigation_market extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        top=(Button)findViewById(R.id.top);
+        top = (Button) findViewById(R.id.top);
         View ab = navigationView.getHeaderView(0);
-        Menu show=navigationView.getMenu();
-        name=(TextView)ab.findViewById(R.id.name_user);
-        signup=(Button)ab.findViewById(R.id.signup);
-        login=(Button)ab.findViewById(R.id.login);
-        logout=ab.findViewById(R.id.logout);
+        Menu show = navigationView.getMenu();
+        name = (TextView) ab.findViewById(R.id.name_user);
+        signup = (Button) ab.findViewById(R.id.signup);
+        login = (Button) ab.findViewById(R.id.login);
+        logout = ab.findViewById(R.id.logout);
+        layoutsec = findViewById(R.id.bcd);
         btnSrch = findViewById(R.id.marBtnSrch);
-        RadioGroup radioGroup=findViewById(R.id.radio_group);
-        RadioButton rb_marketplace=findViewById(R.id.rb_marketplace);
-        RadioButton rb_business=findViewById(R.id.rb_businesses);
-        business=findViewById(R.id.buis);
-        ml=findViewById(R.id.ml);
-        help=(Button)findViewById(R.id.help);
+        RadioGroup radioGroup = findViewById(R.id.radio_group);
+        RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
+        RadioButton rb_business = findViewById(R.id.rb_businesses);
+        business = findViewById(R.id.buis);
+        ml = findViewById(R.id.ml);
+        help = (Button) findViewById(R.id.help);
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scrollView.smoothScrollTo(0,0);
+                scrollView.smoothScrollTo(0, 0);
             }
         });
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        if (extras!=null) {
+        params1 = new LinearLayout
+                .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params1.width = 300;
+        params1.rightMargin = 15;
+        if (extras != null) {
             //Intent intent = getIntent();
 
             flag = extras.getInt("Flag");
-            full_name=extras.getString("Name");
-            email=extras.getString("mail");
-            image=extras.getString("image");
-            phone_no=extras.getString("phone");
-            id=extras.getInt("id");
-            created=extras.getString("create");
-            updated=extras.getString("update");
-           // Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
+            full_name = extras.getString("Name");
+            email = extras.getString("mail");
+            image = extras.getString("image");
+            phone_no = extras.getString("phone");
+            id = extras.getInt("id");
+            created = extras.getString("create");
+            updated = extras.getString("update");
+            // Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
         }
-        if(flag==1)
-        {
+        if (flag == 1) {
             name.setText(full_name);
             login.setVisibility(View.INVISIBLE);
             signup.setVisibility(View.INVISIBLE);
@@ -249,35 +254,35 @@ public class Navigation_market extends AppCompatActivity
             show.findItem(R.id.advertise).setVisible(true);
             logout.setVisibility(View.VISIBLE);
             show.findItem(R.id.loginPage).setVisible(true);
-            show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
+            show.findItem(R.id.loginPage).setTitle(full_name + "  GO!!");
         }
         rb_business.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Navigation_market.this,Navigation.class);
+                Intent intent = new Intent(Navigation_market.this, Navigation.class);
                 intent.putExtra("Flag", flag);
-                intent.putExtra("Name",full_name);
-                intent.putExtra("mail",email);
-                intent.putExtra("image",image);
-                intent.putExtra("phone",phone_no);
-                intent.putExtra("create",created);
-                intent.putExtra("update",updated);
-                intent.putExtra("id",id);
+                intent.putExtra("Name", full_name);
+                intent.putExtra("mail", email);
+                intent.putExtra("image", image);
+                intent.putExtra("phone", phone_no);
+                intent.putExtra("create", created);
+                intent.putExtra("update", updated);
+                intent.putExtra("id", id);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivityForResult(intent,0);
-                overridePendingTransition(0,0);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
                 finish();
             }
         });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flag=0;
-                SharedPreferences loginData= getSharedPreferences("data",0);
-                SharedPreferences.Editor editor=loginData.edit();
-                editor.putInt("Flag",flag);
+                flag = 0;
+                SharedPreferences loginData = getSharedPreferences("data", 0);
+                SharedPreferences.Editor editor = loginData.edit();
+                editor.putInt("Flag", flag);
                 editor.apply();
-                Intent intent=new Intent(Navigation_market.this,Navigation.class);
+                Intent intent = new Intent(Navigation_market.this, Navigation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
@@ -287,18 +292,18 @@ public class Navigation_market extends AppCompatActivity
         business.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Navigation_market.this,Navigation.class);
+                Intent intent = new Intent(Navigation_market.this, Navigation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtra("Flag", flag);
-                intent.putExtra("Name",full_name);
-                intent.putExtra("mail",email);
-                intent.putExtra("image",image);
-                intent.putExtra("phone",phone_no);
-                intent.putExtra("create",created);
-                intent.putExtra("update",updated);
-                intent.putExtra("id",id);
-                startActivityForResult(intent,0);
-                overridePendingTransition(0,0);
+                intent.putExtra("Name", full_name);
+                intent.putExtra("mail", email);
+                intent.putExtra("image", image);
+                intent.putExtra("phone", phone_no);
+                intent.putExtra("create", created);
+                intent.putExtra("update", updated);
+                intent.putExtra("id", id);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
                 finish();
             }
         });
@@ -329,14 +334,14 @@ public class Navigation_market extends AppCompatActivity
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Navigation_market.this,Login.class);
+                Intent intent = new Intent(Navigation_market.this, Login.class);
                 startActivity(intent);
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Navigation_market.this,SignUp.class);
+                Intent intent = new Intent(Navigation_market.this, SignUp.class);
                 startActivity(intent);
             }
         });
@@ -344,7 +349,7 @@ public class Navigation_market extends AppCompatActivity
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent help1=new Intent(Navigation_market.this,Help.class);
+                Intent help1 = new Intent(Navigation_market.this, Help.class);
                 startActivity(help1);
             }
         });
@@ -352,20 +357,20 @@ public class Navigation_market extends AppCompatActivity
         btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<MarketIem>>() {
             @Override
             public Loader<ArrayList<MarketIem>> onCreateLoader(int id, Bundle args) {
-                LoaderBtnSrchMarket loaderBtnSearch = new LoaderBtnSrchMarket(Navigation_market.this,q,subV,"http://serv.kesbokar.com.au/jil.0.1/v2/product",stateid,subType,0.0,0.0);
+                LoaderBtnSrchMarket loaderBtnSearch = new LoaderBtnSrchMarket(Navigation_market.this, q, subV, "http://serv.kesbokar.com.au/jil.0.1/v2/product", stateid, subType, 0.0, 0.0);
                 return loaderBtnSearch;
             }
 
             @Override
             public void onLoadFinished(Loader<ArrayList<MarketIem>> loader, ArrayList<MarketIem> data) {
-                switch (loader.getId()){
+                switch (loader.getId()) {
                     case LOADER_ID_BTNSRCH:
-                        if(data != null){
+                        if (data != null) {
                             marketItems = data;
                             Log.i("Search", data.toString());
-                            Intent intent = new Intent(Navigation_market.this,MarketListing.class);
+                            Intent intent = new Intent(Navigation_market.this, MarketListing.class);
                             intent.putExtra("CHOICE", "btnSearch");
-                            intent.putParcelableArrayListExtra("ARRAYLIST",marketItems);
+                            intent.putParcelableArrayListExtra("ARRAYLIST", marketItems);
                             startActivity(intent);
                             //Toast.makeText(Navigation_market.this, data, Toast.LENGTH_SHORT).show();
                         }
@@ -381,7 +386,7 @@ public class Navigation_market extends AppCompatActivity
         marketSub = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
             @Override
             public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
-                LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(Navigation_market.this,querySub,"http://serv.kesbokar.com.au/jil.0.1/v2/product/search/cities");
+                LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(Navigation_market.this, querySub, "http://serv.kesbokar.com.au/jil.0.1/v2/product/search/cities");
                 return loaderBusSuburb;
             }
 
@@ -390,11 +395,11 @@ public class Navigation_market extends AppCompatActivity
                 if (data.size() != 0) {
                     valsSub = data;
                     Log.i("Tag Sub", valsSub + "");
-                    ArrayAdapter<StateAndSuburb> adapter=new ArrayAdapter<StateAndSuburb>(Navigation_market.this,android.R.layout.simple_dropdown_item_1line,valsSub);
+                    ArrayAdapter<StateAndSuburb> adapter = new ArrayAdapter<StateAndSuburb>(Navigation_market.this, android.R.layout.simple_dropdown_item_1line, valsSub);
 
                     ms.setAdapter(adapter);
                 } else {
-                   // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
                 getLoaderManager().destroyLoader(LOADER_ID_MARVAL);
             }
@@ -407,7 +412,7 @@ public class Navigation_market extends AppCompatActivity
         marketSearch = new LoaderManager.LoaderCallbacks<ArrayList<String>>() {
             @Override
             public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
-                LoaderMarketSearch loaderMarketSearch= new LoaderMarketSearch(Navigation_market.this,"","http://serv.kesbokar.com.au/jil.0.1/v2/product/search");
+                LoaderMarketSearch loaderMarketSearch = new LoaderMarketSearch(Navigation_market.this, "", "http://serv.kesbokar.com.au/jil.0.1/v2/product/search");
                 return loaderMarketSearch;
             }
 
@@ -416,12 +421,12 @@ public class Navigation_market extends AppCompatActivity
                 if (data.size() != 0) {
                     valsMarket = data;
                     Log.i("Tag", valsMarket + "");
-                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation_market.this,android.R.layout.simple_dropdown_item_1line,valsMarket);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(Navigation_market.this, android.R.layout.simple_dropdown_item_1line, valsMarket);
 
                     ml.setAdapter(adapter);
-                    getLoaderManager().initLoader(LOADER_ID_MARSUB,null,marketSub);
+                    getLoaderManager().initLoader(LOADER_ID_MARSUB, null, marketSub);
                 } else {
-                  //  Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -430,7 +435,7 @@ public class Navigation_market extends AppCompatActivity
             public void onLoaderReset(Loader<ArrayList<String>> loader) {
 
             }
-        };
+                };
         buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
             @Override
             public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
@@ -445,60 +450,71 @@ public class Navigation_market extends AppCompatActivity
                 switch (loader.getId()) {
                     case LOADER_ID_BUSINESS:
                         // Add image path for imagebutton from drawable folder.
-                        if(data!=null) {
-                            if (data.size() != 0) {
-                                dataSize = data.size();
-                                LinearLayout layout = new LinearLayout(Navigation_market.this);
-                                layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                                imagebutton = new ImageButton[dataSize];
-                                for (i = 0; i < dataSize; i++) {
-                                    imagebutton[i] = new ImageButton(Navigation_market.this);
-//                    imagebutto[i].setImageResource(R.mipmap.ic_launcher_round);
-                                    Drawable drawable = getDrawable(R.drawable.button_bg_round_market);
-                                    imagebutton[i].setBackground(drawable);
-                                    imagebutton[i].setLayoutParams(params);
-                                    imagebutton[i].setTag(data.get(i).getId());
-                                    final int index = i;
-                                    String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
-                                    Picasso.with(Navigation_market.this).load(imgURL).into(imagebutton[i]);
-                                    imagebutton[i].setAdjustViewBounds(true);
-                                    //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
-                                    imagebutton[i].setId(data.get(i).getId());
-                                    int ID = imagebutton[i].getId();
-                                    imagebutton[i].setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl=" + URLEncoder.encode(data.get(index).getUrl()) + "&catid=" + data.get(index).getId() + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
-                                            Intent intent = new Intent(Navigation_market.this, MarketListing.class);
-                                            intent.putExtra("URL", url);
-                                            intent.putExtra("CHOICE", "imgBtnService");
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                            startActivityForResult(intent, 0);
-                                            overridePendingTransition(0, 0);
-                                        }
-                                    });
-                                    relativelayout.removeAllViews();
-                                    relativelayout.addView(layout);
-                                    layout.addView(imagebutton[i]);
-                                    getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
-                                }
-                            } else {
-                                Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
-                            }
 
+                        if (data.size() != 0) {
+                            dataSize = data.size();
+                            LinearLayout layout = new LinearLayout(Navigation_market.this);
+                            layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                            imagebutton = new ImageButton[dataSize];
+                            dynamicTxt = new TextView[dataSize];
+                            for (i = 0; i < dataSize; i++) {
+                                imagebutton[i] = new ImageButton(Navigation_market.this);
+                                dynamicTxt[i] = new TextView(Navigation_market.this);
+//                    imagebutto[i].setImageResource(R.mipmap.ic_launcher_round);
+                                Drawable drawable = getDrawable(R.drawable.button_bg_round_market);
+                                imagebutton[i].setBackground(drawable);
+                                imagebutton[i].setLayoutParams(params);
+                                imagebutton[i].setTag(data.get(i).getId());
+                                final int index = i;
+                                String imgURL = "https://www.kesbokar.com.au/uploads/category/" + data.get(i).getImage();
+                                Picasso.with(Navigation_market.this).load(imgURL).into(imagebutton[i]);
+                                imagebutton[i].setAdjustViewBounds(true);
+                                //new DownLoadImageTask(imagebutton[i]).execute(imgURL);
+                                imagebutton[i].setId(data.get(i).getId());
+                                int ID = imagebutton[i].getId();
+                                imagebutton[i].setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String url = "http://serv.kesbokar.com.au/jil.0.1/v2/product?caturl=" + URLEncoder.encode(data.get(index).getUrl()) + "&catid=" + data.get(index).getId() + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                        Intent intent = new Intent(Navigation_market.this, MarketListing.class);
+                                        intent.putExtra("URL", url);
+                                        intent.putExtra("CHOICE", "imgBtnService");
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        startActivityForResult(intent, 0);
+                                        overridePendingTransition(0, 0);
+                                    }
+                                });
+                                dynamicTxt[i].setText(data.get(i).getTitle());
+                                dynamicTxt[i].setLayoutParams(params1);
+                                dynamicTxt[i].setGravity(Gravity.CENTER_HORIZONTAL);
+                                relativelayout.removeAllViews();
+                                relativelayout.addView(layout);
+                                layout.addView(imagebutton[i]);
+                                layoutsec.addView(dynamicTxt[i]);
+                                getLoaderManager().initLoader(LOADER_ID_SERVICES, null, serviceExpertSpaceLoaderCallbacks);
+
+                            }
                         } else {
-                           // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
 
                         }
-                        break;
+
                 }
+                // Toast.makeText(Navigation_market.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onLoaderReset(Loader<ArrayList<ButtonsDetails>> loader) {
 
             }
+
+
         };
+
+
+
+
         serviceExpertSpaceLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>>() {
             @Override
             public Loader<ArrayList<ServiceExpertSpace>> onCreateLoader(int id, Bundle args) {
