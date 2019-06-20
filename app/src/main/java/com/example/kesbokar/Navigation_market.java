@@ -164,10 +164,10 @@ public class Navigation_market extends AppCompatActivity
         q = subV = querySub = "";
         layout = new LinearLayout(Navigation_market.this);
         bi = new ImageView[4];
-        mi = new ImageView[3];
+        mi = new ImageView[4];
         bc = new TextView[4];
-        mc = new TextView[3];
-        md = new TextView[3];
+        mc = new TextView[4];
+        md = new TextView[4];
         bd = new TextView[4];
         location = findViewById(R.id.location);
         bi[0] = findViewById(R.id.bi1);
@@ -191,7 +191,9 @@ public class Navigation_market extends AppCompatActivity
         md[0] = findViewById(R.id.md1);
         md[1] = findViewById(R.id.md2);
         md[2] = findViewById(R.id.md3);
-
+        md[3] = findViewById(R.id.md4);
+        mc[3] = findViewById(R.id.mc4);
+        mi[3] = findViewById(R.id.mi4);
         ms = findViewById(R.id.ms);
 
 
@@ -365,7 +367,7 @@ public class Navigation_market extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketIem>> loader, ArrayList<MarketIem> data) {
                 switch (loader.getId()) {
                     case LOADER_ID_BTNSRCH:
-                        if (data != null) {
+                        if (data != null && q.length()!=0) {
                             marketItems = data;
                             Log.i("Search", data.toString());
                             Intent intent = new Intent(Navigation_market.this, MarketListing.class);
@@ -457,6 +459,7 @@ public class Navigation_market extends AppCompatActivity
                             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                             imagebutton = new ImageButton[dataSize];
                             dynamicTxt = new TextView[dataSize];
+                            layoutsec.removeAllViews();
                             for (i = 0; i < dataSize; i++) {
                                 imagebutton[i] = new ImageButton(Navigation_market.this);
                                 dynamicTxt[i] = new TextView(Navigation_market.this);
@@ -577,7 +580,7 @@ public class Navigation_market extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketPlaceApi>> loader, final ArrayList<MarketPlaceApi> marketPlaceApis) {
                 switch (loader.getId()) {
                     case LOADER_ID_MARKET:
-                        for (int j = 0; j < 3; j++) {
+                        for (int j = 0; j < 4; j++) {
                             mc[j].setText(marketPlaceApis.get(j).getName());
                             md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
 

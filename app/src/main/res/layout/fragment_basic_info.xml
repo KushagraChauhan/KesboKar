@@ -36,8 +36,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Enter ..." />
+                    android:hint="Enter ..."
+                    android:inputType="textPersonName" />
 
             </LinearLayout>
 
@@ -131,13 +131,48 @@
                     android:layout_height="wrap_content"
                     android:text="Category" />
 
-                <EditText
-                    android:id="@+id/etCategory"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="CallFromApi" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCatFirst"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorAccent"
+                        android:text="SELECT"
+                        android:textColor="@color/White" />
+
+                    <Button
+                        android:id="@+id/btnCatSecond"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorAccent"
+                        android:text="SELECT"
+                        android:textColor="@color/White"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/btnCatThird"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorAccent"
+                        android:text="SELECT"
+                        android:textColor="@color/White"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
