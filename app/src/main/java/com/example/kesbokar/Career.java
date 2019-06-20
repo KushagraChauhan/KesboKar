@@ -56,16 +56,18 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
         contact=findViewById(R.id.contact);
         webView = (WebView) findViewById(R.id.webview);
 
-
         getData();
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
+<<<<<<< HEAD
+=======
 
         getData();
         intent = getIntent();
         extras = intent.getExtras();
+>>>>>>> 8411258a6b1022391d06c24494b97ac4157eb057
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
