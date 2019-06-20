@@ -37,9 +37,9 @@ public class BasicInfoFragment extends Fragment {
 
         // Categories
         final String[] value = new String[3];
-        btnCatFirst =(Button) getView().findViewById(R.id.btnCatFirst);
-        btnCatSecond =(Button) getView().findViewById(R.id.btnCatSecond);
-        btnCatThird =(Button) getView().findViewById(R.id.btnCatThird);
+        btnCatFirst =(Button) view.findViewById(R.id.btnCatFirst);
+        btnCatSecond =(Button) view.findViewById(R.id.btnCatSecond);
+        btnCatThird =(Button) view.findViewById(R.id.btnCatThird);
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;

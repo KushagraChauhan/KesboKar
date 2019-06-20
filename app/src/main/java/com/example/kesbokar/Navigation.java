@@ -586,6 +586,7 @@ public class Navigation extends AppCompatActivity
                 switch (loader.getId()) {
                     case LOADER_ID_MARKET:
                         for (int j = 0; j < 4; j++) {
+
                             mc[j].setText(marketPlaceApis.get(j).getName());
                             md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
 
