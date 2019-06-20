@@ -1,9 +1,13 @@
 package com.example.kesbokar;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,9 +18,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+
 public class inbox_market extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
+    private LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>> busLoader;
+    private static final int LOADER_BUS_PRO_LIST = 66;
+    ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +40,36 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(inbox_market.this);
+
+        listView = findViewById(R.id.listProfileBusiness);
+        busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>>() {
+            @Override
+            public Loader<ArrayList<InboxMarketList>> onCreateLoader(int i, Bundle bundle) {
+                LoaderInboxMarketList loaderInboxMarketList = new LoaderInboxMarketList (inbox_market.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product/2" + id);
+                return loaderInboxMarketList;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<InboxMarketList>> loader, ArrayList<InboxMarketList> inboxMarketLists) {
+                if(inboxMarketLists!=null) {
+                    if (inboxMarketLists.size() != 0) {
+                        AdapterInboxMarket adapterInboxMarket = new AdapterInboxMarket(inbox_market.this, inboxMarketLists);
+                        listView.setAdapter(adapterInboxMarket);
+                    } else {
+                        Toast.makeText(inbox_market.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<InboxMarketList>> loader) {
+
+            }
+        };
+        getLoaderManager().initLoader(LOADER_BUS_PRO_LIST,null,busLoader);
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

@@ -90,10 +90,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     double ratings;
     Intent intent;
     Bundle bundle;
-<<<<<<< HEAD
-
-=======
->>>>>>> 9f10be125f70cae4d84de1fb44ea2bb4c0cfa3b0
     SharedPreferences loginData;
 
     ScrollView scrollView;
