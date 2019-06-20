@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_manage_help_desk"
+    tools:context=".ManageHelpDeskActivity">
 
     <Button
         android:text="Create new"
+        android:id="@+id/mng_helpdesk_new"
         android:textColor="@color/White"
         android:textSize="15sp"
         android:layout_width="120dp"

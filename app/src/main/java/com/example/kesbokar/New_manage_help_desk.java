@@ -10,20 +10,34 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 
-public class ManageHelpDeskActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.HashMap;
+import java.util.Map;
+
+public class New_manage_help_desk extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
-    Button mng_helpdesk_new;
+    EditText subject_helpdesk,message_helpdesk;
+    Button create_helpdesk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_help_desk);
+        setContentView(R.layout.activity_new_manage_help_desk);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -32,17 +46,62 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(ManageHelpDeskActivity.this);
-        mng_helpdesk_new=findViewById(R.id.mng_helpdesk_new);
-        mng_helpdesk_new.setOnClickListener(new View.OnClickListener() {
+        navigationView.setNavigationItemSelectedListener(New_manage_help_desk.this);
+        getData();
+        subject_helpdesk=findViewById(R.id.subject_helpdesk);
+        message_helpdesk=findViewById(R.id.message_helpdesk);
+        create_helpdesk=findViewById(R.id.create_helpdesk);
+        create_helpdesk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ManageHelpDeskActivity.this,New_manage_help_desk.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivityForResult(intent, 0);
-                overridePendingTransition(0, 0);
+                final String Subject=subject_helpdesk.getText().toString();
+                final String Message=message_helpdesk.getText().toString();
+                RequestQueue queue= Volley.newRequestQueue(New_manage_help_desk.this);
+                String url1="http://serv.kesbokar.com.au/jil.0.1/v1/helpdesk";
+                StringRequest stringRequest=new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(New_manage_help_desk.this, "Response"+"Your Query Has been Submitted", Toast.LENGTH_SHORT).show();
+                        Log.i("Resposnse",response);
+
+                    }
+                },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // errorLog.d("Error.Response", String.valueOf(error));
+                                Toast.makeText(New_manage_help_desk.this, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        String id1=""+id;
+                        Map<String, String>  params = new HashMap<String, String >();
+                        params.put("subject", Subject);
+                        params.put("message", Message);
+                        params.put("sender_id", id1);
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+
+                        return params;
+                    }
+                };
+                RequestQueue requestQueue= Volley.newRequestQueue(New_manage_help_desk.this);
+                queue.add(stringRequest);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent1=new Intent(New_manage_help_desk.this,ManageHelpDeskActivity.class);
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivityForResult(intent1, 0);
+                        overridePendingTransition(0, 0);
+                        finish();
+                    }
+                },2000);
             }
         });
+
     }
 
     @Override
@@ -54,7 +113,7 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
         } else if (Id == R.id.dashboard) {
 
         } else if (Id == R.id.profile) {
-            Intent intent = new Intent(ManageHelpDeskActivity.this, Profile.class);
+            Intent intent = new Intent(New_manage_help_desk.this, Profile.class);
             intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
@@ -69,7 +128,7 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
             finish();
 
         } else if (Id == R.id.business_lg_page) {
-            Intent intent=new Intent(ManageHelpDeskActivity.this,ProfileBusinessListing.class);
+            Intent intent=new Intent(New_manage_help_desk.this,ProfileBusinessListing.class);
             intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
@@ -84,7 +143,7 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
             finish();
 
         } else if (Id == R.id.market_lg_page) {
-            Intent intent=new Intent(ManageHelpDeskActivity.this,ProfileMarket.class);
+            Intent intent=new Intent(New_manage_help_desk.this,ProfileMarket.class);
             intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
