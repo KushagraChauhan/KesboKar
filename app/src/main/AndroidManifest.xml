@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -20,8 +20,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MarketListing"></activity>
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".ManageHelpDeskActivity"></activity>
+        <activity android:name=".MarketListing" />
+        <activity android:name=".Main2Activity" />
         <activity android:name=".ProfileMarket" />
         <activity android:name=".ProfileBusinessListing" />
 

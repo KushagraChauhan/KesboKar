@@ -135,6 +135,9 @@ public class LoginData extends AppCompatActivity
 
         } else if (Id == R.id.market_in) {
 
+        }else if(Id == R.id.manage_help_desk){
+            Intent intent = new Intent(LoginData.this, ManageHelpDeskActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

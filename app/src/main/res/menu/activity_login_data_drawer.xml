@@ -20,6 +20,10 @@
             android:id="@+id/market_lg_page"
             android:icon="@drawable/more"
             android:title="Marketplace" />
+        <item
+            android:id="@+id/manage_help_desk"
+            android:icon="@drawable/more"
+            android:title="Manage Help Desk" />
     </group>
 
     <item android:title="Inbox Message">

@@ -29,11 +29,9 @@ public class BasicInfoFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
-
 
         // Categories
         final String[] value = new String[3];
@@ -43,11 +41,7 @@ public class BasicInfoFragment extends Fragment {
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
-        btnCatFirst.setClickable(true);
-        btnCatSecond.setClickable(true);
-        btnCatThird.setClickable(true);
-        btnCatSecond.setVisibility(View.INVISIBLE);
-        btnCatThird.setVisibility(View.INVISIBLE);
+
         btnCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
