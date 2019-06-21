@@ -61,7 +61,6 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-
         getData();
         intent = getIntent();
         extras = intent.getExtras();
