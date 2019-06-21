@@ -2,7 +2,9 @@ package com.example.kesbokar;
 
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -29,6 +31,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     LocationManager locationManager;
     String provider;
     Location location;
+
 
 
     public BasicInfoBusinessFragment() {
@@ -63,29 +66,75 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         btnCountry = view.findViewById(R.id.btnCountry);
         getLocationBtn = view.findViewById(R.id.btnDetect);
         btnSave = view.findViewById(R.id.btnSave);
+        final String[] firstValueArray = {"API1", "API1", "API1"};
+        final String[] secondValueArray;
+        final String[] thirdValueArray;
+        final String[] value = new String[3];
+
 
 
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select Option");
+                builder.setItems(firstValueArray, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        value[0] = firstValueArray[item];
+                        btnFirst.setText(value[0]);
+                        btnSecond.setVisibility(View.VISIBLE);
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
 
-                btnSecond.setVisibility(View.VISIBLE);
 
             }
         });
+
+        secondValueArray = new String[]{"API2", "API2", "API2"};
+
 
         btnSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                btnThird.setVisibility(View.VISIBLE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select Option");
+                builder.setItems(secondValueArray, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        value[1] = secondValueArray[item];
+                        btnSecond.setText(value[1]);
+                        btnThird.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+
 
             }
         });
 
+        thirdValueArray = new String[]{"API3", "API3", "API3"};
+
+
         btnThird.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select Option");
+                builder.setItems(thirdValueArray, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        value[2] = thirdValueArray[item];
+                        btnThird.setText(value[2]);
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+
 
             }
         });
@@ -126,32 +175,32 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
             }
         });
 
-            getLocationBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    locationManager =(LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                    Criteria c=new Criteria();
-                    //if we pass false than
-                    //it will check first satellite location than Internet and than Sim Network
-                    provider=locationManager.getBestProvider(c, false);
-                    if ((ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
-                        location=locationManager.getLastKnownLocation(provider);
-                    }
-
-                    if(location!=null)
-                    {
-                        double lng=location.getLongitude();
-                        double lat=location.getLatitude();
-                        etLatitude.setText(""+lat);
-                        etLongitude.setText(""+lng);
-                    }
-                    else
-                    {
-                        etLatitude.setText("No Provider");
-                        etLongitude.setText("No Provider");
-                    }
+        getLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                locationManager =(LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+                Criteria c=new Criteria();
+                //if we pass false than
+                //it will check first satellite location than Internet and than Sim Network
+                provider=locationManager.getBestProvider(c, false);
+                if ((ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                    location=locationManager.getLastKnownLocation(provider);
                 }
-            });
+
+                if(location!=null)
+                {
+                    double lng=location.getLongitude();
+                    double lat=location.getLatitude();
+                    etLatitude.setText(""+lat);
+                    etLongitude.setText(""+lng);
+                }
+                else
+                {
+                    etLatitude.setText("No Provider");
+                    etLongitude.setText("No Provider");
+                }
+            }
+        });
 
         return view;
     }
