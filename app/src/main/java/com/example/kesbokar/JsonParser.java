@@ -242,4 +242,52 @@ public class JsonParser {
         }
         return btnsDetails;
     }
+
+    public ArrayList<CategoryBase> getCategoryBase(String url) throws JSONException {
+        ArrayList<CategoryBase> categoryBaseArrayList = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+        for (int index = 0; index < jsonArray.length(); index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            CategoryBase categoryBase = new CategoryBase();
+            categoryBase.setId(jsonObject.getString("id"));
+            categoryBase.setTitle(jsonObject.getString("title"));
+            categoryBase.setImage(jsonObject.getString("image"));
+            categoryBaseArrayList.add(categoryBase);
+        }
+        return categoryBaseArrayList;
+    }
+
+    public ArrayList<CategorySecond> getCategorySecond(String url) throws JSONException {
+        ArrayList<CategorySecond> categorySecondArrayList = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+        for (int index = 0; index < jsonArray.length(); index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            CategorySecond categorySecond = new CategorySecond();
+            categorySecond.setId(jsonObject.getString("id"));
+            categorySecond.setTitle(jsonObject.getString("title"));
+            categorySecondArrayList.add(categorySecond);
+        }
+        return categorySecondArrayList;
+    }
+
+    public ArrayList<CategoryThird> getCategoryThird(String url) throws JSONException {
+        ArrayList<CategoryThird> categoryThirdArrayList = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+        for (int index = 0; index < jsonArray.length(); index++) {
+            jsonObject = jsonArray.getJSONObject(index);
+            CategoryThird categoryThird = new CategoryThird();
+            categoryThird.setId(jsonObject.getString("id"));
+            categoryThird.setTitle(jsonObject.getString("title"));
+            categoryThird.setTags(jsonObject.getString("tags"));
+            categoryThirdArrayList.add(categoryThird);
+        }
+        return categoryThirdArrayList;
+    }
+
 }
