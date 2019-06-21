@@ -90,14 +90,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     double ratings;
     Intent intent;
     Bundle bundle;
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 8411258a6b1022391d06c24494b97ac4157eb057
->>>>>>> 6d21fccc818002876c785c3a1e4b8c827ff5f410
     SharedPreferences loginData;
 
     ScrollView scrollView;
@@ -480,7 +472,8 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                 id=dat.getInt("id");
                                 exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings));
                             }
-                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag,loginData);
+
+                            dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag, loginData);
                             recyclerView.setAdapter(dataAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

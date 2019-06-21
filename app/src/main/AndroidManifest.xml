@@ -20,14 +20,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-<<<<<<< HEAD
+        <activity android:name=".Main3BusinessActivity"></activity>
         <activity
-            android:name=".PostACarAdActivity"
-            android:label="@string/title_activity_post_acar_ad"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-=======
-        <activity android:name=".New_manage_help_desk"></activity>
->>>>>>> 6d21fccc818002876c785c3a1e4b8c827ff5f410
+            android:name=".Main3MarketActivity"
+            android:label="@string/title_activity_main3_market"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".New_manage_help_desk" />
         <activity android:name=".ManageHelpDeskActivity" />
         <activity android:name=".MarketListing" />
         <activity android:name=".Main2Activity" />

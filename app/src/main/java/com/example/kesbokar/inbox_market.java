@@ -6,6 +6,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -124,6 +125,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
             overridePendingTransition(0, 0);
             finish();
         } else if (Id == R.id.business_in) {
+
 
         } else if (Id == R.id.market_in) {
 

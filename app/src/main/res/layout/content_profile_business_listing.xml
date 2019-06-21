@@ -8,6 +8,12 @@
     tools:context=".ProfileBusinessListing"
     tools:showIn="@layout/app_bar_profile_business_listing"
     >
+    <Button
+        android:id="@+id/btnCreate_new_business_listing"
+        android:text="Create New"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
