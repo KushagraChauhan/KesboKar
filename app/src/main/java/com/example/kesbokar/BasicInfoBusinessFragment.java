@@ -1,36 +1,34 @@
 package com.example.kesbokar;
 
 
+
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class BasicInfoBusinessFragment extends Fragment {
+public class BasicInfoBusinessFragment extends Fragment implements LocationListener {
 
 
     Button btnFirst, btnSecond, btnThird, btnVerify, btnState, btnSuburb, btnCountry, getLocationBtn, btnSave;
     EditText etCompany, etABN, etLicense, etWebsite, etQuote, etPhone, etEmail, etStreet, etLongitude, etLatitude;
     AutoCompleteTextView acTags;
     LocationManager locationManager;
+    String provider;
+    Location location;
 
 
     public BasicInfoBusinessFragment() {
@@ -128,7 +126,55 @@ public class BasicInfoBusinessFragment extends Fragment {
             }
         });
 
+            getLocationBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    locationManager =(LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+                    Criteria c=new Criteria();
+                    //if we pass false than
+                    //it will check first satellite location than Internet and than Sim Network
+                    provider=locationManager.getBestProvider(c, false);
+                    if ((ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                        location=locationManager.getLastKnownLocation(provider);
+                    }
+
+                    if(location!=null)
+                    {
+                        double lng=location.getLongitude();
+                        double lat=location.getLatitude();
+                        etLatitude.setText(""+lat);
+                        etLongitude.setText(""+lng);
+                    }
+                    else
+                    {
+                        etLatitude.setText("No Provider");
+                        etLongitude.setText("No Provider");
+                    }
+                }
+            });
+
         return view;
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
 
