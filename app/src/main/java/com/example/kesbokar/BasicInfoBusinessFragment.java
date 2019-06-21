@@ -69,7 +69,14 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
+        final String[] locationValueArray1;
+        final String[] locationValueArray2;
+        final String[] locationValueArray3;
         final String[] value = new String[3];
+        final String[] state = {""};
+        final String[] suburb = {""};
+        final String[] country = {""};
+
 
 
 
@@ -139,9 +146,25 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
             }
         });
 
+
+        locationValueArray1 = new String[]{"L1", "L1", "L1"};
+        locationValueArray2 = new String[]{"L2", "L2", "L2"};
+        locationValueArray3 = new String[]{"L3", "L3", "L3"};
+
         btnState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select Option");
+                builder.setItems(locationValueArray1, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        state[0] = locationValueArray1[item];
+                        btnState.setText(state[0]);
+
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
 
             }
         });
@@ -149,6 +172,17 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         btnSuburb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select Option");
+                builder.setItems(locationValueArray2, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        suburb[0] = locationValueArray2[item];
+                        btnSuburb.setText(suburb[0]);
+
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
 
             }
         });
@@ -156,6 +190,17 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         btnCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select Option");
+                builder.setItems(locationValueArray3, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        country[0] = locationValueArray3[item];
+                        btnCountry.setText(country[0]);
+
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
 
             }
         });
