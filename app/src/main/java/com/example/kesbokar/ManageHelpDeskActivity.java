@@ -34,6 +34,7 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
     ListView listView;
+    int id1;
     Button mng_helpdesk_new;
     String date,reply,subject;
     RequestQueue requestQueue;
@@ -81,11 +82,12 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
                         date=dat.getString("created_at");
                         subject=dat.getString("subject");
                         reply=dat.getString("reply_by_name");
-                        getHelpDesks.add(new GetHelpDesk(date,subject,reply));
+                        id1=dat.getInt("id");
+                        getHelpDesks.add(new GetHelpDesk(date,subject,reply,id1));
 
                     }
                     if (getHelpDesks!=null) {
-                        AdapterhelpDesk adapterhelpDesk = new AdapterhelpDesk(ManageHelpDeskActivity.this, getHelpDesks);
+                        AdapterhelpDesk adapterhelpDesk = new AdapterhelpDesk(ManageHelpDeskActivity.this,ManageHelpDeskActivity.this , getHelpDesks);
                         listView.setAdapter(adapterhelpDesk);
                     }
                 } catch (JSONException e) {
