@@ -10,21 +10,42 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class ManageHelpDeskActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
+    ListView listView;
+    int id1;
     Button mng_helpdesk_new;
+    String date,reply,subject;
+    RequestQueue requestQueue;
+    ArrayList<GetHelpDesk> getHelpDesks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_help_desk);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        getHelpDesks=new ArrayList<GetHelpDesk>();
+        listView=findViewById(R.id.listhelpdesk);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -32,8 +53,11 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        getData();
         navigationView.setNavigationItemSelectedListener(ManageHelpDeskActivity.this);
         mng_helpdesk_new=findViewById(R.id.mng_helpdesk_new);
+        requestQueue = Volley.newRequestQueue(this);
+        jsonParser();
         mng_helpdesk_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +68,42 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
             }
         });
     }
+    private void jsonParser()
+    {
+        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/helpdesk?user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+        final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray=response.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject dat = jsonArray.getJSONObject(i);
+                        Log.i("JSON Help", dat.toString());
+                        date=dat.getString("created_at");
+                        subject=dat.getString("subject");
+                        reply=dat.getString("reply_by_name");
+                        id1=dat.getInt("id");
+                        getHelpDesks.add(new GetHelpDesk(date,subject,reply,id1));
+
+                    }
+                    if (getHelpDesks!=null) {
+                        AdapterhelpDesk adapterhelpDesk = new AdapterhelpDesk(ManageHelpDeskActivity.this,ManageHelpDeskActivity.this , getHelpDesks);
+                        listView.setAdapter(adapterhelpDesk);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
