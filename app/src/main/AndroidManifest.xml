@@ -20,15 +20,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-<<<<<<< HEAD
+
         <activity android:name=".Main3BusinessActivity"></activity>
-        <activity
-            android:name=".Main3MarketActivity"
-            android:label="@string/title_activity_main3_market"
-            android:theme="@style/AppTheme.NoActionBar" />
-=======
+
         <activity android:name=".Reply_Help_Desk"></activity>
->>>>>>> 1dbfe1bf1efbe2c503ae4e9028f9bc310ddeb5f2
+
         <activity android:name=".New_manage_help_desk" />
         <activity android:name=".ManageHelpDeskActivity" />
         <activity android:name=".MarketListing" />
