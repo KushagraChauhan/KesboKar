@@ -20,14 +20,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ManageHelpDeskActivity"></activity>
+        <activity android:name=".Reply_Help_Desk"></activity>
+        <activity android:name=".New_manage_help_desk" />
+        <activity android:name=".ManageHelpDeskActivity" />
         <activity android:name=".MarketListing" />
         <activity android:name=".Main2Activity" />
         <activity android:name=".ProfileMarket" />
         <activity android:name=".ProfileBusinessListing" />
-
-        <activity android:name=".inbox_business"/>
-        <activity android:name=".inbox_market"/>
+        <activity android:name=".inbox_business" />
+        <activity android:name=".inbox_market" />
         <activity android:name=".Profile" />
         <activity
             android:name=".LoginData"

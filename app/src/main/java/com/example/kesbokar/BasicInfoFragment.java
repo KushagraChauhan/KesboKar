@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 
 /**
@@ -21,6 +22,8 @@ import android.widget.EditText;
 public class BasicInfoFragment extends Fragment {
 
     private Button btnCatFirst, btnCatSecond, btnCatThird;
+    String condition1, condition2;
+    RadioGroup rgProductCondition, rgProductSelection;
 
     EditText edtProductTitle;
     public BasicInfoFragment() {
@@ -29,10 +32,11 @@ public class BasicInfoFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
-
+        rgProductCondition = view.findViewById(R.id.rgProductCondition);
+        rgProductSelection = view.findViewById(R.id.rgProductSelection);
         // Categories
         final String[] value = new String[3];
         btnCatFirst =(Button) view.findViewById(R.id.btnCatFirst);
@@ -59,6 +63,7 @@ public class BasicInfoFragment extends Fragment {
             }
 
         });
+
 
 
         secondValueArray = new String[]{"API2", "API2", "API2"};
@@ -101,6 +106,35 @@ public class BasicInfoFragment extends Fragment {
                 });
                 AlertDialog alert = builder.create();
                 alert.show();
+            }
+        });
+
+
+
+        rgProductCondition.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.rbNew:condition1="New";
+                        break;
+
+                    case R.id.rbUsed:condition1="used";
+                }
+            }
+        });
+
+
+        rgProductSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId)
+                {
+                    case R.id.rbSell:condition2="rbSell";
+                        break;
+
+                    case R.id.rbRent:condition2="rbRent";
+                }
             }
         });
 
