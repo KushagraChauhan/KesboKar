@@ -1,9 +1,13 @@
 package com.example.kesbokar;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,8 +18,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+
 public class inbox_business extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    private LoaderManager.LoaderCallbacks<ArrayList<InboxBusinessList>> busLoader;
+    private static final int LOADER_BUS_PRO_LIST = 66;
+    ListView listView;
+
     int id,flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +40,37 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(inbox_business.this);
+
+        listView = findViewById(R.id.listProfileBusiness);
+        busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxBusinessList>>() {
+            @Override
+            public Loader<ArrayList<InboxBusinessList>> onCreateLoader(int i, Bundle bundle) {
+                LoaderInboxBusinessList loaderInboxBusinessList = new LoaderInboxBusinessList (inbox_business.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage?user_id=312&" + id);
+                return loaderInboxBusinessList;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<InboxBusinessList>> loader, ArrayList<InboxBusinessList> inboxBusinessLists) {
+                if(inboxBusinessLists!=null) {
+                    if (inboxBusinessLists.size() != 0) {
+                        AdapterInboxBusiness adapterInboxBusiness = new AdapterInboxBusiness(inbox_business.this, inboxBusinessLists);
+                        listView.setAdapter(adapterInboxBusiness);
+                    } else {
+                        Toast.makeText(inbox_business.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<InboxBusinessList>> loader) {
+
+            }
+        };
+        getLoaderManager().initLoader(LOADER_BUS_PRO_LIST,null,busLoader);
+
+
+
     }
 
     @Override

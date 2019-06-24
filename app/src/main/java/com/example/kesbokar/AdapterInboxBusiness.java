@@ -9,24 +9,24 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AdapterInboxMarket extends BaseAdapter {
-    private final ArrayList<InboxMarketList> inboxMarketLists;
+public class AdapterInboxBusiness extends BaseAdapter {
+    private final ArrayList<InboxBusinessList> inboxBusinessLists;
     LayoutInflater layoutInflater;
     TextView txtSno,txtTitle,txtAbn,txtPhone,txtStatus;
     Context context;
-    public AdapterInboxMarket(Context context, ArrayList<InboxMarketList> inboxMarketLists){
+    public AdapterInboxBusiness(Context context, ArrayList<InboxBusinessList> inboxBusinessLists){
         this.context = context;
-        this.inboxMarketLists = inboxMarketLists;
+        this.inboxBusinessLists = inboxBusinessLists;
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount() {
-        return inboxMarketLists.size();
+        return inboxBusinessLists.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return inboxMarketLists.get(i);
+        return inboxBusinessLists.get(i);
     }
 
     @Override
@@ -36,18 +36,18 @@ public class AdapterInboxMarket extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = layoutInflater.inflate(R.layout.adapter_inbox_market,null);
+        view = layoutInflater.inflate(R.layout.adapter_inbox_business,null);
         txtSno = view.findViewById(R.id.adapTxtSno);
         txtTitle = view.findViewById(R.id.adapTxtTitle);
         txtAbn = view.findViewById(R.id.adapTxtABN);
         txtPhone = view.findViewById(R.id.adapTxtPhone);
         txtStatus = view.findViewById(R.id.adapTxtStatus);
 
-        txtSno.setText(inboxMarketLists.get(i).getTxtSno());
-        txtTitle.setText(inboxMarketLists.get(i).getTxtName());
-        txtPhone.setText(inboxMarketLists.get(i).getTxtMessage());
-        txtAbn.setText(inboxMarketLists.get(i).getTxtProduct());
-        txtStatus.setText(inboxMarketLists.get(i).getTxtDate());
+        txtSno.setText(inboxBusinessLists.get(i).getTxtSno());
+        txtTitle.setText(inboxBusinessLists.get(i).getTxtName());
+        txtPhone.setText(inboxBusinessLists.get(i).getTxtMessage());
+        txtAbn.setText(inboxBusinessLists.get(i).getTxtBusiness());
+        txtStatus.setText(inboxBusinessLists.get(i).getTxtDate());
         return view;
     }
 }

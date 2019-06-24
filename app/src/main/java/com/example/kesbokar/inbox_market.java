@@ -45,7 +45,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>>() {
             @Override
             public Loader<ArrayList<InboxMarketList>> onCreateLoader(int i, Bundle bundle) {
-                LoaderInboxMarketList loaderInboxMarketList = new LoaderInboxMarketList (inbox_market.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product/2" + id);
+                LoaderInboxMarketList loaderInboxMarketList = new LoaderInboxMarketList (inbox_market.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product?user_id=312&"   + id);
                 return loaderInboxMarketList;
             }
 

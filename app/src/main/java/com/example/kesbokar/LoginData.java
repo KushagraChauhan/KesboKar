@@ -132,8 +132,14 @@ public class LoginData extends AppCompatActivity
             overridePendingTransition(0, 0);
             finish();
         } else if (Id == R.id.business_in) {
+            Intent intent=new Intent(LoginData.this,inbox_business.class);
+            startActivity(intent);
+            finish();
 
         } else if (Id == R.id.market_in) {
+            Intent intent=new Intent(LoginData.this,inbox_market.class);
+            startActivity(intent);
+            finish();
 
         }else if(Id == R.id.manage_help_desk){
             Intent intent = new Intent(LoginData.this, ManageHelpDeskActivity.class);
