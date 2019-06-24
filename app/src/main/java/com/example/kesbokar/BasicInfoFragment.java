@@ -2,7 +2,9 @@ package com.example.kesbokar;
 
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,9 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioGroup;
+
+import java.util.ArrayList;
 
 
 /**
@@ -35,6 +41,8 @@ public class BasicInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
+
+
         rgProductCondition = view.findViewById(R.id.rgProductCondition);
         rgProductSelection = view.findViewById(R.id.rgProductSelection);
         // Categories
@@ -42,6 +50,8 @@ public class BasicInfoFragment extends Fragment {
         btnCatFirst =(Button) view.findViewById(R.id.btnCatFirst);
         btnCatSecond =(Button) view.findViewById(R.id.btnCatSecond);
         btnCatThird =(Button) view.findViewById(R.id.btnCatThird);
+
+
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
@@ -49,6 +59,7 @@ public class BasicInfoFragment extends Fragment {
         btnCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Select Option");
                 builder.setItems(firstValueArray, new DialogInterface.OnClickListener() {
@@ -139,8 +150,6 @@ public class BasicInfoFragment extends Fragment {
         });
 
 
-
-
 //        edtProductTitle = view.findViewById(R.id.etProductTitle);
 //        String data = "fail";
 //        if(savedInstanceState!=null)
@@ -149,5 +158,4 @@ public class BasicInfoFragment extends Fragment {
 //        edtProductTitle.setText(data);
         return view;
     }
-
 }

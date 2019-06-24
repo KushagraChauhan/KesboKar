@@ -80,6 +80,19 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
         if (Id == R.id.nav_home) {
             // Handle the camera action
         } else if (Id == R.id.dashboard) {
+            Intent intent = new Intent(inbox_business.this, LoginData.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (Id == R.id.profile) {
             Intent intent = new Intent(inbox_business.this, Profile.class);
@@ -111,7 +124,23 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             overridePendingTransition(0, 0);
             finish();
 
-        } else if (Id == R.id.market_lg_page) {
+        }else if (Id == R.id.manage_help_desk){
+            Intent intent=new Intent(inbox_business.this,ManageHelpDeskActivity.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
+
+        }
+        else if (Id == R.id.market_lg_page) {
             Intent intent=new Intent(inbox_business.this,ProfileMarket.class);
             intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
@@ -125,10 +154,23 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             startActivityForResult(intent, 0);
             overridePendingTransition(0, 0);
             finish();
+
         } else if (Id == R.id.business_in) {
 
         } else if (Id == R.id.market_in) {
-
+            Intent intent = new Intent(inbox_business.this, inbox_market.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
