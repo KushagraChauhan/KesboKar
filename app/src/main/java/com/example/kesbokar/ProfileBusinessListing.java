@@ -13,6 +13,8 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +28,9 @@ public class ProfileBusinessListing extends AppCompatActivity implements Navigat
     ListView listView;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
+
+    Button btnCreateNewBusinessListing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,16 @@ public class ProfileBusinessListing extends AppCompatActivity implements Navigat
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        btnCreateNewBusinessListing = (Button)findViewById(R.id.btnCreate_new_business_listing);
+
+        btnCreateNewBusinessListing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileBusinessListing.this, Main3BusinessActivity.class);
+                startActivity(intent);
+            }
+        });
 
         listView = findViewById(R.id.listProfileBusiness);
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<BusinessProfileList>>() {

@@ -42,7 +42,6 @@ public class AdapterBusListProfile extends BaseAdapter {
         txtAbn = view.findViewById(R.id.adapTxtABN);
         txtPhone = view.findViewById(R.id.adapTxtPhone);
         txtStatus = view.findViewById(R.id.adapTxtStatus);
-
         txtSno.setText(businessProfileLists.get(i).getTxtSno());
         txtTitle.setText(businessProfileLists.get(i).getTxtTitle());
         txtPhone.setText(businessProfileLists.get(i).getTxtPhone());

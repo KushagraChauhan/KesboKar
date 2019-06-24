@@ -56,8 +56,8 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
         contact=findViewById(R.id.contact);
         webView = (WebView) findViewById(R.id.webview);
 
-        getData();
 
+        getData();
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
