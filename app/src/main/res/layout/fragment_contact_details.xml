@@ -79,7 +79,7 @@
                     android:text="State" />
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/etState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -102,7 +102,7 @@
                     android:text="Suburb" />
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/etSuburb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
