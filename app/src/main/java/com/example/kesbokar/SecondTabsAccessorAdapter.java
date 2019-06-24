@@ -1,16 +1,13 @@
 package com.example.kesbokar;
 
-import android.view.View;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class TabsAccessorAdapter extends FragmentPagerAdapter
-{
+public class SecondTabsAccessorAdapter extends FragmentPagerAdapter {
 
-    public TabsAccessorAdapter(FragmentManager fm)
+    public SecondTabsAccessorAdapter(FragmentManager fm)
     {
         super(fm);
     }
@@ -21,27 +18,31 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter
         switch (i)
         {
             case 0:
+                CarDetailsFragment carDetailsFragment = new CarDetailsFragment();
+                return  carDetailsFragment;
+
+            case 1:
                 BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
                 return basicInfoFragment;
 
 
-            case 1:
+            case 2:
                 ContactDetailsFragment contactDetailsFragment = new ContactDetailsFragment();
                 return contactDetailsFragment;
 
-            case 2:
+            case 3:
                 DescriptionFragment descriptionFragment = new DescriptionFragment();
                 return descriptionFragment;
 
-            case 3:
+            case 4:
                 PhotosFragment photosFragment = new PhotosFragment();
                 return photosFragment;
 
-            case 4:
+            case 5:
                 AttributeFragment attributeFragment = new AttributeFragment();
                 return attributeFragment;
 
-            case 5:
+            case 6:
                 StatusFragment statusFragment = new StatusFragment();
                 return statusFragment;
 
@@ -54,7 +55,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter
     @Override
     public int getCount()
     {
-        return 6;
+        return 7;
     }
 
     @Nullable
@@ -64,21 +65,24 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter
         switch (position)
         {
             case 0:
-                return "BasicInfo";
+                return "CarDetails";
 
             case 1:
-                return "Contact Details";
+                return "BasicInfo";
 
             case 2:
-                return "Description";
+                return "ContactDetails";
 
             case 3:
-                return "Photos";
+                return "Description";
 
             case 4:
-                return "Attribute";
+                return "Photos";
 
             case 5:
+                return "Attribute";
+
+            case 6:
                 return "Status";
 
             default:

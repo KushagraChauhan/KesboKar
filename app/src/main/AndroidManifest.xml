@@ -20,7 +20,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".Main3BusinessActivity"></activity>
+
         <activity android:name=".Reply_Help_Desk"></activity>
+
         <activity android:name=".New_manage_help_desk" />
         <activity android:name=".ManageHelpDeskActivity" />
         <activity android:name=".MarketListing" />
