@@ -138,11 +138,7 @@ public class LoginData extends AppCompatActivity
 
         } else if (Id == R.id.market_in) {
             Intent intent=new Intent(LoginData.this,inbox_market.class);
-
-            startActivity(intent);
-            finish();
-
-  intent.putExtra("Flag",flag);
+            intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
             intent.putExtra("image",image);
@@ -158,6 +154,7 @@ public class LoginData extends AppCompatActivity
         }else if(Id == R.id.manage_help_desk){
             Intent intent = new Intent(LoginData.this, ManageHelpDeskActivity.class);
             startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -270,7 +270,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         Intent intent=new Intent(Buisness_Listing.this,Navigation.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivityForResult(intent, 0);
-        overridePendingTransition(0, 0); startActivity(intent);
+        overridePendingTransition(0, 0);
         finish();
     }
 
@@ -318,6 +318,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                             intent.putExtra("CHOICE", "btnSearch");
                             intent.putParcelableArrayListExtra("ARRAYLIST",exampleItems);
                             startActivity(intent);
+                            finish();
                         }
                         break;
                 }

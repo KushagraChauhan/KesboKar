@@ -123,9 +123,26 @@ public class ProfileBusinessListing extends AppCompatActivity implements Navigat
             overridePendingTransition(0, 0);
             finish();
 
+        } else if (id == R.id.manage_help_desk) {
+            Intent intent = new Intent(ProfileBusinessListing.this, ManageHelpDeskActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
+
         } else if (id == R.id.business_in) {
+            Intent intent = new Intent(ProfileBusinessListing.this, inbox_business.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.market_in) {
+            Intent intent = new Intent(ProfileBusinessListing.this, inbox_market.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         }
 

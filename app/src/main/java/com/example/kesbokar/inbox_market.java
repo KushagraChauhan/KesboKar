@@ -70,6 +70,12 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         };
         getLoaderManager().initLoader(LOADER_BUS_PRO_LIST,null,busLoader);
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(inbox_market.this,Navigation.class);
+        startActivity(intent);
+        finish();
+    }
 
 
     @Override
@@ -161,6 +167,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void getData()
     {
         SharedPreferences loginData=getSharedPreferences("data",0);

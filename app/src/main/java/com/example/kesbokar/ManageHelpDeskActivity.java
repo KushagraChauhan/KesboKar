@@ -171,8 +171,34 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
             overridePendingTransition(0, 0);
             finish();
         } else if (Id == R.id.business_in) {
+            Intent intent = new Intent(ManageHelpDeskActivity.this, inbox_business.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (Id == R.id.market_in) {
+            Intent intent = new Intent(ManageHelpDeskActivity.this, inbox_market.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         }
 

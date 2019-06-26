@@ -74,6 +74,13 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(inbox_business.this,Navigation.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int Id = menuItem.getItemId();
 
