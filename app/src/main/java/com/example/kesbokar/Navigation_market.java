@@ -532,7 +532,7 @@ public class Navigation_market extends AppCompatActivity
                 switch (loader.getId()) {
                     case LOADER_ID_SERVICES:
                         //if(serviceExpertSpaces.size()!=0){
-                        for (i = 0; i < 3; i++) {
+                        for (i = 0; i < 4; i++) {
                             bc[i].setText(serviceExpertSpaces.get(i).getName());
                             bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
 
@@ -581,7 +581,7 @@ public class Navigation_market extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketPlaceApi>> loader, final ArrayList<MarketPlaceApi> marketPlaceApis) {
                 switch (loader.getId()) {
                     case LOADER_ID_MARKET:
-                        for (int j = 0; j < 3; j++) {
+                        for (int j = 0; j < 4; j++) {
                             mc[j].setText(marketPlaceApis.get(j).getName());
                             md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
 
