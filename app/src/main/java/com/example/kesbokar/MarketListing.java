@@ -243,7 +243,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
         Intent intent=new Intent(MarketListing.this,Navigation.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivityForResult(intent, 0);
-        overridePendingTransition(0, 0); startActivity(intent);
+        overridePendingTransition(0, 0);
         finish();
     }
 

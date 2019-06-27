@@ -292,6 +292,7 @@ public class JsonParser {
 
 
     public ArrayList<InboxMarketList> getInboxMarketList(String url) throws JSONException {
+
         ArrayList<InboxMarketList> inboxMarketLists = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(url);
 
@@ -299,14 +300,42 @@ public class JsonParser {
             int i = index+1;
             JSONObject jsonObject = jsonArray.getJSONObject(index);
             InboxMarketList inboxMarketList = new InboxMarketList();
-            inboxMarketList.setTxtName(jsonObject.getString("name"));
             inboxMarketList.setTxtSno(i + "");
             inboxMarketList.setTxtMessage(jsonObject.getString("message"));
-            inboxMarketList.setTxtProduct(jsonObject.getString("product"));
-            inboxMarketList.setTxtDate(jsonObject.getInt("date"));
+            //inboxMarketList.setTxtProduct(jsonObject.getString("product"));
+            inboxMarketList.setTxtDate(jsonObject.getString("created_at"));
+            JSONObject jsonObject1 = jsonObject.getJSONObject("product");
+            inboxMarketList.setTxtName(jsonObject1.getString("name"));
+            JSONObject jsonObject2 = jsonObject.getJSONObject("user");
+            inboxMarketList.setTxtProduct(jsonObject2.getString("first_name"));
+
+
             inboxMarketLists.add(inboxMarketList);
         }
         return inboxMarketLists;
     }
 
+    public ArrayList<InboxBusinessList> getInboxBusinessList(String url) throws JSONException {
+        ArrayList<InboxBusinessList> inboxBusinessLists = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(url);
+
+        for (int index = 0; index < jsonArray.length(); index++) {
+            int i = index+1;
+            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            InboxBusinessList inboxBusinessList = new InboxBusinessList();
+           // inboxBusinessList.setTxtName(jsonObject.getString("name"));
+            inboxBusinessList.setTxtSno(i + "");
+            inboxBusinessList.setTxtMessage(jsonObject.getString("message"));
+            //inboxBusinessList.setTxtBusiness(jsonObject.getString("business"));
+            inboxBusinessList.setTxtDate(jsonObject.getString("created_at"));
+
+            JSONObject jsonObject1 = jsonObject.getJSONObject("yellowpage");
+            inboxBusinessList.setTxtName(jsonObject1.getString("name"));
+            JSONObject jsonObject2 = jsonObject.getJSONObject("user");
+            inboxBusinessList.setTxtBusiness(jsonObject2.getString("first_name"));
+            inboxBusinessLists.add(inboxBusinessList);
+
+        }
+        return inboxBusinessLists;
+    }
 }

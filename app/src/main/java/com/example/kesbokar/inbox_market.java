@@ -46,7 +46,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>>() {
             @Override
             public Loader<ArrayList<InboxMarketList>> onCreateLoader(int i, Bundle bundle) {
-                LoaderInboxMarketList loaderInboxMarketList = new LoaderInboxMarketList (inbox_market.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product/2" + id);
+                LoaderInboxMarketList loaderInboxMarketList = new LoaderInboxMarketList (inbox_market.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product?user_id=312&"   + id);
                 return loaderInboxMarketList;
             }
 
@@ -70,6 +70,12 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         };
         getLoaderManager().initLoader(LOADER_BUS_PRO_LIST,null,busLoader);
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(inbox_market.this,Navigation.class);
+        startActivity(intent);
+        finish();
+    }
 
 
     @Override
@@ -79,6 +85,19 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         if (Id == R.id.nav_home) {
             // Handle the camera action
         } else if (Id == R.id.dashboard) {
+            Intent intent = new Intent(inbox_market.this, LoginData.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (Id == R.id.profile) {
             Intent intent = new Intent(inbox_market.this, Profile.class);
@@ -125,6 +144,19 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
             overridePendingTransition(0, 0);
             finish();
         } else if (Id == R.id.business_in) {
+            Intent intent = new Intent(inbox_market.this, inbox_business.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
 
         } else if (Id == R.id.market_in) {
@@ -135,6 +167,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void getData()
     {
         SharedPreferences loginData=getSharedPreferences("data",0);

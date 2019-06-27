@@ -361,7 +361,7 @@ public class Navigation extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<ExampleItem>> loader, ArrayList<ExampleItem> data) {
                 switch (loader.getId()){
                     case LOADER_ID_BTNSRCH:
-                        if(data != null && q.length()!=0){
+                        if(data != null && q.length()>=2){
                             exampleItems = data;
                             Log.i("Search", data.toString());
                             Intent intent = new Intent(Navigation.this,Buisness_Listing.class);
@@ -387,17 +387,18 @@ public class Navigation extends AppCompatActivity
 
             @Override
             public void onLoadFinished(Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
-                if (data.size() != 0) {
-                    valsSub = data;
-                    Log.i("Tag", valsSub + "");
-                    ArrayAdapter<StateAndSuburb> adapter=new ArrayAdapter<StateAndSuburb>(Navigation.this,android.R.layout.simple_dropdown_item_1line,valsSub);
-                    textView2=findViewById(R.id.bs2);
-                    textView2.setAdapter(adapter);
-                    getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
-                } else {
-                   // Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                if(data!=null) {
+                    if (data.size() != 0) {
+                        valsSub = data;
+                        Log.i("Tag", valsSub + "");
+                        ArrayAdapter<StateAndSuburb> adapter = new ArrayAdapter<StateAndSuburb>(Navigation.this, android.R.layout.simple_dropdown_item_1line, valsSub);
+                        textView2 = findViewById(R.id.bs2);
+                        textView2.setAdapter(adapter);
+                        getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
+                    } else {
+                        // Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
             }
 
             @Override
@@ -480,6 +481,7 @@ public class Navigation extends AppCompatActivity
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         startActivityForResult(intent, 0);
                                         overridePendingTransition(0, 0);
+                                        finish();
                                     }
                                 });
 
@@ -699,6 +701,7 @@ public class Navigation extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

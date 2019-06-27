@@ -1,6 +1,6 @@
 package com.example.kesbokar;
 
-public class InboxMarketList {
+class InboxBusinessList {
     private String txtSno;
     private String txtName;
     private String txtMessage;
@@ -14,15 +14,15 @@ public class InboxMarketList {
     }
 
     private String txtDate;
-    private String txtProduct;
+    private String txtBusiness;
 
 
-    public String getTxtProduct() {
-        return txtProduct;
+    public String getTxtBusiness() {
+        return txtBusiness;
     }
 
-    public void setTxtProduct(String txtProduct) {
-        this.txtProduct = txtProduct;
+    public void setTxtBusiness(String txtBusiness) {
+        this.txtBusiness = txtBusiness;
     }
 
     public String getTxtSno() {
@@ -48,7 +48,5 @@ public class InboxMarketList {
     public void setTxtMessage(String txtMessage) {
         this.txtMessage = txtMessage;
     }
-
-
 
 }

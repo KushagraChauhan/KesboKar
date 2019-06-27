@@ -61,6 +61,7 @@ public class ExampleItem implements Parcelable {
 
     }
 
+
     public ExampleItem(String img,String busi_name,String busi_synop,String url,String city,int id, double ratings)
     {
         this.img=img;
