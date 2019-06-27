@@ -164,6 +164,7 @@
                         android:textColor="@color/White" />
 
                     <Button
+                        android:id="@+id/btnCancel_1"
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:layout_gravity="end"
@@ -194,6 +195,7 @@
                         android:textColor="@color/White" />
 
                     <Button
+                        android:id="@+id/btnCancel_2"
                         android:layout_width="wrap_content"
                         android:layout_height="41dp"
                         android:layout_marginLeft="-8dp"
@@ -223,6 +225,7 @@
                         android:textColor="@color/White" />
 
                     <Button
+                        android:id="@+id/btnCancel_3"
                         android:layout_width="wrap_content"
                         android:layout_height="41dp"
                         android:layout_marginLeft="-8dp"
