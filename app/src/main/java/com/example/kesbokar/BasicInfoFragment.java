@@ -14,8 +14,6 @@ import android.content.DialogInterface;
 
 import androidx.loader.content.Loader;
 
-import android.content.Intent;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,11 +23,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -39,7 +36,7 @@ import java.util.ArrayList;
  */
 public class BasicInfoFragment extends Fragment {
 
-    private Button btnCatFirst, btnCatSecond, btnCatThird;
+    private TextView txtCatFirst, txtCatSecond, txtCatThird;
     String condition1, condition2;
     RadioGroup rgProductCondition, rgProductSelection;
     private Context context;
@@ -54,6 +51,8 @@ public class BasicInfoFragment extends Fragment {
 
     private ListView listCategoriesBase;
     private ArrayList<CategoryBase> categoryBaseArrayList;
+    private ArrayList<CategorySecond> categorySecondArrayList;
+    private ArrayList<CategoryThird> categoryThirdArrayList;
 
     EditText edtProductTitle;
     public BasicInfoFragment() {
@@ -72,21 +71,25 @@ public class BasicInfoFragment extends Fragment {
         context = view.getContext();
         // Categories
         final String[] value = new String[3];
-        btnCatFirst =(Button) view.findViewById(R.id.btnCatFirst);
-        btnCatSecond =(Button) view.findViewById(R.id.btnCatSecond);
-        btnCatThird =(Button) view.findViewById(R.id.btnCatThird);
+        txtCatFirst =(TextView) view.findViewById(R.id.txtCatFirst);
+        txtCatSecond =(TextView) view.findViewById(R.id.txtCatSecond);
+        txtCatThird =(TextView) view.findViewById(R.id.txtCatThird);
 
+        txtCatSecond.setVisibility(View.GONE);
+        txtCatThird.setVisibility(View.GONE);
 
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
         categoryBaseArrayList = new ArrayList<>();
+        categorySecondArrayList = new ArrayList<>();
+        categoryThirdArrayList = new ArrayList<>();
 
-        btnCatFirst.setOnClickListener(new View.OnClickListener() {
+        txtCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getLoaderManager().restartLoader(LOADER_FIRST_CATEGORY, null, firstCategoryLoader);
-                Dialog dialog = new Dialog(getActivity());
+                final Dialog dialog = new Dialog(getActivity());
                 View view1 = getActivity().getLayoutInflater().inflate(R.layout.category_base_dialog, null);
                 dialog.setContentView(view1);
                 listCategoriesBase = view1.findViewById(R.id.categoriesBaseListView);
@@ -97,17 +100,18 @@ public class BasicInfoFragment extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         CategoryBase categoryBase = (CategoryBase) adapterView.getAdapter().getItem(i);
                         parent_id = categoryBase.getId();
+                        txtCatFirst.setText(categoryBase.getTitle());
+                        getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
                         Log.i("Parent id", parent_id);
+                        txtCatSecond.setVisibility(View.VISIBLE);
+                        txtCatFirst.setEnabled(false);
+                        dialog.dismiss();
                     }
                 });
                 dialog.show();
             }
 
         });
-
-
-
-        secondValueArray = new String[]{"API2", "API2", "API2"};
 
         firstCategoryLoader = new LoaderManager.LoaderCallbacks<ArrayList<CategoryBase>>(){
             @Override
@@ -140,6 +144,7 @@ public class BasicInfoFragment extends Fragment {
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<CategorySecond>> loader, ArrayList<CategorySecond> data) {
                 if(data!=null){
+                    categorySecondArrayList = data;
                     Log.i("API SECOND", data.get(0).getTitle());
                 }
             }
@@ -149,25 +154,53 @@ public class BasicInfoFragment extends Fragment {
 
             }
         };
+        thirdCategoryLoader = new LoaderManager.LoaderCallbacks<ArrayList<CategoryThird>>() {
+            @NonNull
+            @Override
+            public Loader<ArrayList<CategoryThird>> onCreateLoader(int id, @Nullable Bundle args) {
+                LoaderCategoriesThird loaderCategoriesThird = new LoaderCategoriesThird(context, "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=" + parent_id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                return loaderCategoriesThird;
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<ArrayList<CategoryThird>> loader, ArrayList<CategoryThird> data) {
+                if(data!=null){
+                    categoryThirdArrayList = data;
+                    Log.i("API THIRD Cat", data + "");
+                }
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<ArrayList<CategoryThird>> loader) {
+
+            }
+        };
 
         getLoaderManager().initLoader(LOADER_FIRST_CATEGORY, null, firstCategoryLoader);
-        getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
-        btnCatSecond.setOnClickListener(new View.OnClickListener() {
+        txtCatSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(secondValueArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        value[1] = secondValueArray[item];
-                        btnCatSecond.setText(value[1]);
-                        btnCatThird.setVisibility(View.VISIBLE);
-
+                getLoaderManager().restartLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
+                final Dialog dialog = new Dialog(getActivity());
+                View view1 = getActivity().getLayoutInflater().inflate(R.layout.category_base_dialog, null);
+                dialog.setContentView(view1);
+                listCategoriesBase = view1.findViewById(R.id.categoriesBaseListView);
+                CategoriesSecondAdapter categoriesSecondAdapter = new CategoriesSecondAdapter(getActivity(), categorySecondArrayList);
+                listCategoriesBase.setAdapter(categoriesSecondAdapter);
+                listCategoriesBase.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        CategorySecond categorySecond = (CategorySecond) adapterView.getAdapter().getItem(i);
+                        parent_id = categorySecond.getId();
+                        txtCatSecond.setText(categorySecond.getTitle());
+                        Log.i("Parent id", parent_id);
+                        txtCatThird.setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                        getLoaderManager().initLoader(LOADER_THIRD_CATEGORY, null, thirdCategoryLoader);
+                        txtCatSecond.setEnabled(false);
                     }
                 });
-                AlertDialog alert = builder.create();
-                alert.show();
-
+                dialog.show();
             }
         });
 
@@ -175,19 +208,28 @@ public class BasicInfoFragment extends Fragment {
 
 
 
-        btnCatThird.setOnClickListener(new View.OnClickListener() {
+        txtCatThird.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(thirdValueArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        value[2] = thirdValueArray[item];
-                        btnCatThird.setText(value[2]);
+                getLoaderManager().restartLoader(LOADER_THIRD_CATEGORY, null, thirdCategoryLoader);
+                final Dialog dialog = new Dialog(getActivity());
+                View view1 = getActivity().getLayoutInflater().inflate(R.layout.category_base_dialog, null);
+                dialog.setContentView(view1);
+                listCategoriesBase = view1.findViewById(R.id.categoriesBaseListView);
+                CategoriesThirdAdapter categoriesThirdAdapter = new CategoriesThirdAdapter(getActivity(), categoryThirdArrayList);
+                listCategoriesBase.setAdapter(categoriesThirdAdapter);
+                listCategoriesBase.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        CategoryThird categoryThird = (CategoryThird) adapterView.getAdapter().getItem(i);
+                        parent_id = categoryThird.getId();
+                        txtCatThird.setText(categoryThird.getTitle());
+                        Log.i("Parent id", parent_id);
+                        txtCatThird.setEnabled(false);
+                        dialog.dismiss();
                     }
                 });
-                AlertDialog alert = builder.create();
-                alert.show();
+                dialog.show();
             }
         });
 

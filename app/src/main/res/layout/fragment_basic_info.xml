@@ -151,7 +151,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/btnCatFirst"
+                        android:id="@+id/txtCatFirst"
                         android:layout_width="320dp"
                         android:layout_height="29.9dp"
                         android:layout_marginLeft="5dp"
@@ -181,6 +181,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/txtCatSecond"
                         android:layout_width="320dp"
                         android:layout_height="29.9dp"
                         android:layout_marginLeft="5dp"
@@ -209,6 +210,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/txtCatThird"
                         android:layout_width="320dp"
                         android:layout_height="29.9dp"
                         android:layout_marginLeft="5dp"
