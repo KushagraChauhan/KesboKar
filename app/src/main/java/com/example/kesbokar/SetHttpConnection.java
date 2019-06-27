@@ -145,20 +145,20 @@ public class SetHttpConnection {
         return null;
     }
 
-    public String getTopCategoryBase(String baseUrl){
+    /*public String getTopCategoryBase(String baseUrl){
         String ResponseData;
         try{
             URL url = new URL(baseUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             conn.setRequestProperty("Accept","application/json");
             conn.setDoOutput(true);
             conn.setDoInput(true);
 
-            JSONObject jsonParam = new JSONObject();
-            jsonParam.put("parent_id",0);
-            jsonParam.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+//            JSONObject jsonParam = new JSONObject();
+//            jsonParam.put("parent_id",0);
+//            jsonParam.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
 
             Log.i("JSON", jsonParam.toString());
             DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -181,7 +181,7 @@ public class SetHttpConnection {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     public String getTopCategoryOther(String baseUrl, int id) {
         String ResponseData;

@@ -2,7 +2,10 @@ package com.example.kesbokar;
 
 
 import android.app.AlertDialog;
+import androidx.loader.app.LoaderManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import androidx.loader.content.Loader;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +29,16 @@ public class BasicInfoFragment extends Fragment {
     private Button btnCatFirst, btnCatSecond, btnCatThird;
     String condition1, condition2;
     RadioGroup rgProductCondition, rgProductSelection;
+    private Context context;
+    private int parent_id = 0;
+    private static final int LOADER_FIRST_CATEGORY = 101;
+    private static final int LOADER_SECOND_CATEGORY = 102;
+    private static final int LOADER_THIRD_CATEGORY = 103;
+
+    private LoaderManager.LoaderCallbacks<ArrayList<CategoryBase>> firstCategoryLoader;
+    private LoaderManager.LoaderCallbacks<ArrayList<CategorySecond>> secondCategoryLoader;
+    private LoaderManager.LoaderCallbacks<ArrayList<CategoryThird>> thirdCategoryLoader;
+
 
     EditText edtProductTitle;
     public BasicInfoFragment() {
@@ -37,6 +52,7 @@ public class BasicInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
         rgProductCondition = view.findViewById(R.id.rgProductCondition);
         rgProductSelection = view.findViewById(R.id.rgProductSelection);
+        context = view.getContext();
         // Categories
         final String[] value = new String[3];
         btnCatFirst =(Button) view.findViewById(R.id.btnCatFirst);
@@ -68,6 +84,25 @@ public class BasicInfoFragment extends Fragment {
 
         secondValueArray = new String[]{"API2", "API2", "API2"};
 
+        firstCategoryLoader = new LoaderManager.LoaderCallbacks<ArrayList<CategoryBase>>(){
+            @Override
+            public Loader<ArrayList<CategoryBase>> onCreateLoader(int i, Bundle bundle) {
+                LoaderFirstCategory loaderFirstCategory = new LoaderFirstCategory(context, "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                return loaderFirstCategory;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<CategoryBase>> loader, ArrayList<CategoryBase> categoryBases) {
+                if(categoryBases!=null){
+                    Log.i("API RESULT Category", "onLoadFinished: " + categoryBases);
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<ArrayList<CategoryBase>> loader) {
+
+            }
+        };
 
 
         btnCatSecond.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +174,7 @@ public class BasicInfoFragment extends Fragment {
         });
 
 
-
+        getLoaderManager().initLoader(LOADER_FIRST_CATEGORY, null, firstCategoryLoader);
 
 //        edtProductTitle = view.findViewById(R.id.etProductTitle);
 //        String data = "fail";
