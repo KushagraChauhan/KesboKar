@@ -160,7 +160,6 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         }
 
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -241,6 +240,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             //webView.setWebViewClient(new WebViewClient());
             WebSettings webSettings=webView.getSettings();
             webSettings.setBuiltInZoomControls(true);
+            webSettings.setPluginState(WebSettings.PluginState.ON);
             webView.loadDataWithBaseURL(URL1,document.toString(),"text/html","utf-8","");
             //webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
