@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class BasicInfoFragment extends Fragment {
     private TextView txtCatFirst, txtCatSecond, txtCatThird;
     String condition1, condition2;
     RadioGroup rgProductCondition, rgProductSelection;
+    private MultiAutoCompleteTextView mltAutoKeyWords;
 
     private Button btnCancel_1, btnCancel_2, btnCancel_3;
 
@@ -95,6 +97,8 @@ public class BasicInfoFragment extends Fragment {
         btnCancel_1.setVisibility(View.GONE);
         btnCancel_2.setVisibility(View.GONE);
         btnCancel_3.setVisibility(View.GONE);
+
+        mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords);
 
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
