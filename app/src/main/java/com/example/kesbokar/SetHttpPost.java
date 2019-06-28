@@ -185,4 +185,43 @@ public class SetHttpPost {
         return null;
     }
 
+    public String sendPostTags(String tags, String baseUrl){
+        String ResponseData;
+        try{
+            URL url = new URL(baseUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+
+            JSONObject jsonParam = new JSONObject();
+
+            jsonParam.put("ids", tags);
+            jsonParam.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+
+
+            Log.i("JSON", jsonParam.toString());
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+            os.writeBytes(jsonParam.toString());
+
+            os.flush();
+            os.close();
+
+            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+            Log.i("MSG" , conn.getResponseMessage());
+            InputStream inputStream = new BufferedInputStream(conn.getInputStream());
+            ResponseData = convertStreamToString(inputStream);
+            Log.i("API" , ResponseData);
+
+
+            conn.disconnect();
+            return ResponseData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

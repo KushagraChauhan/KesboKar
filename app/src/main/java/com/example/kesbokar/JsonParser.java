@@ -338,4 +338,17 @@ public class JsonParser {
         }
         return inboxBusinessLists;
     }
+    public ArrayList<TagsObject> getTags(String url, ArrayList<String> tagsID) throws JSONException {
+        JSONObject jsonObject = new JSONObject(url);
+        ArrayList<TagsObject> tagsObjectArrayList = new ArrayList<>();
+        for(int i = 0;i<tagsID.size();i++){
+            TagsObject tagsObject = new TagsObject();
+            String idName = tagsID.get(i);
+            tagsObject.setId(idName);
+            tagsObject.setValue(jsonObject.getString(idName));
+            tagsObjectArrayList.add(tagsObject);
+        }
+        return tagsObjectArrayList;
+    }
+
 }

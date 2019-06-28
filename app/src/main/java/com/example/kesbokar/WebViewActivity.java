@@ -239,12 +239,12 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             super.onPostExecute(document);
             //webView.setWebViewClient(new WebViewClient());
             WebSettings webSettings=webView.getSettings();
-<<<<<<< HEAD
+
             //webSettings.setBuiltInZoomControls(true);
-=======
+
             webSettings.setBuiltInZoomControls(true);
             webSettings.setPluginState(WebSettings.PluginState.ON);
->>>>>>> 807353c8e55c2de163c2ab3e7c26c706ec243f33
+
             webView.loadDataWithBaseURL(URL1,document.toString(),"text/html","utf-8","");
             //webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);

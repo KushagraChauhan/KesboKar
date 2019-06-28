@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -34,6 +35,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 
 /**
@@ -50,21 +52,28 @@ public class BasicInfoFragment extends Fragment {
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
     private Button btnCancel_1, btnCancel_2, btnCancel_3;
+    private String tags;
 
     private Context context;
     private String parent_id = "";
     private static final int LOADER_FIRST_CATEGORY = 101;
     private static final int LOADER_SECOND_CATEGORY = 102;
     private static final int LOADER_THIRD_CATEGORY = 103;
+    private static final int LOADER_TAGS = 104;
 
     private LoaderManager.LoaderCallbacks<ArrayList<CategoryBase>> firstCategoryLoader;
     private LoaderManager.LoaderCallbacks<ArrayList<CategorySecond>> secondCategoryLoader;
     private LoaderManager.LoaderCallbacks<ArrayList<CategoryThird>> thirdCategoryLoader;
+    private LoaderManager.LoaderCallbacks<ArrayList<TagsObject>> tagsObjectLoader;
 
     private ListView listCategoriesBase,listCategoriesSecond,listCategoriesThird;
     private ArrayList<CategoryBase> categoryBaseArrayList;
     private ArrayList<CategorySecond> categorySecondArrayList;
     private ArrayList<CategoryThird> categoryThirdArrayList;
+    private ArrayList<TagsObject> tagsObjectArrayList;
+
+    ArrayAdapter<TagsObject> tagsObjectArrayAdapter;
+    private ArrayList<String> tagsName;
 
     EditText edtProductTitle;
     public BasicInfoFragment() {
@@ -106,6 +115,8 @@ public class BasicInfoFragment extends Fragment {
         categoryBaseArrayList = new ArrayList<>();
         categorySecondArrayList = new ArrayList<>();
         categoryThirdArrayList = new ArrayList<>();
+        tagsObjectArrayList = new ArrayList<>();
+        tagsName = new ArrayList<>();
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
@@ -209,8 +220,36 @@ public class BasicInfoFragment extends Fragment {
                 categoryThirdArrayList.removeAll(null);
             }
         };
+        tagsObjectLoader = new LoaderManager.LoaderCallbacks<ArrayList<TagsObject>>() {
+            @NonNull
+            @Override
+            public Loader<ArrayList<TagsObject>> onCreateLoader(int id, @Nullable Bundle args) {
+                LoaderGetTags loaderGetTags = new LoaderGetTags(context, tags, tagsName, "http://serv.kesbokar.com.au/jil.0.1/v1/tags/dd");
+                return loaderGetTags;
+            }
 
-        getLoaderManager().initLoader(LOADER_FIRST_CATEGORY, null, firstCategoryLoader);
+            @Override
+            public void onLoadFinished(@NonNull Loader<ArrayList<TagsObject>> loader, ArrayList<TagsObject> data) {
+                if(data!=null){
+                    tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,data);
+                    mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                    mltAutoKeyWords.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                    mltAutoKeyWords.setThreshold(1);
+                    Log.i("TAGS ", "onLoadFinished: " + data);
+                }else{
+                    Log.i("ERROR", "WTF");
+                }
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<ArrayList<TagsObject>> loader) {
+
+            }
+        };
+
+
+
+        //getLoaderManager().initLoader(LOADER_FIRST_CATEGORY, null, firstCategoryLoader);
         txtCatSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,9 +311,16 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategoryThird categoryThird = (CategoryThird) adapterView.getAdapter().getItem(i);
                                 parent_id = categoryThird.getId();
+                                tags = categoryThird.getTags();
+                                StringTokenizer stringTokenizer = new StringTokenizer(tags,",");
+                                while(stringTokenizer.hasMoreTokens()){
+                                    tagsName.add(stringTokenizer.nextToken());
+                                }
                                 txtCatThird.setText(categoryThird.getTitle());
                                 Log.i("Parent id", parent_id);
+                                Log.i("tags", "onItemClick: "+tags + "**********"+tagsName);
                                 txtCatThird.setEnabled(false);
+                                getLoaderManager().initLoader(LOADER_TAGS, null, tagsObjectLoader);
                                 //btnCancel_3.setVisibility(View.VISIBLE);
                                 dialog.dismiss();
                             }
@@ -282,6 +328,8 @@ public class BasicInfoFragment extends Fragment {
                         dialog.show();
                     }
                 }, 1800);
+
+
             }
         });
 
