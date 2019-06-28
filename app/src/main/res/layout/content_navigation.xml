@@ -123,6 +123,8 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="100dp"
                             android:background="#FFFFFF"
+                            android:isScrollContainer="true"
+                            android:scrollbars="horizontal"
                             android:paddingStart="15dp"
                             android:textColorHint="#C0C0C0"
                             android:selectAllOnFocus="true"
