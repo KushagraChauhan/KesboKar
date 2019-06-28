@@ -132,7 +132,7 @@ public class Navigation extends AppCompatActivity
         bi = new ImageView[4];
         mi = new ImageView[4];
         bc = new TextView[4];
-        final Button location;
+        final ImageView location;
         mc = new TextView[4];
         md = new TextView[4];
         bd = new TextView[4];
@@ -361,7 +361,8 @@ public class Navigation extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<ExampleItem>> loader, ArrayList<ExampleItem> data) {
                 switch (loader.getId()){
                     case LOADER_ID_BTNSRCH:
-                        if(data != null && q.length()>=2){
+                        if(data != null && q.length()>
+                                2){
                             exampleItems = data;
                             Log.i("Search", data.toString());
                             Intent intent = new Intent(Navigation.this,Buisness_Listing.class);
@@ -527,7 +528,7 @@ public class Navigation extends AppCompatActivity
 
 
                         //if(serviceExpertSpaces.size()!=0){
-                        for (i = 0; i < 3; i++) {
+                        for (i = 0; i < 4; i++) {
                             bc[i].setText(serviceExpertSpaces.get(i).getName());
                             bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
 
@@ -587,7 +588,7 @@ public class Navigation extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketPlaceApi>> loader, final ArrayList<MarketPlaceApi> marketPlaceApis) {
                 switch (loader.getId()) {
                     case LOADER_ID_MARKET:
-                        for (int j = 0; j < 3; j++) {
+                        for (int j = 0; j < 4; j++) {
 
                             mc[j].setText(marketPlaceApis.get(j).getName());
                             md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
