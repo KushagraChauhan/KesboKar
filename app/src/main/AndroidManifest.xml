@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.kesbokar">
+    package="com.kesbokar.kesbokar">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,64 +22,64 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".Main3BusinessActivity"></activity>
+        <activity android:name="com.kesbokar.kesbokar.Main3BusinessActivity"></activity>
 
-        <activity android:name=".Reply_Help_Desk"></activity>
+        <activity android:name="com.kesbokar.kesbokar.Reply_Help_Desk"></activity>
 
-        <activity android:name=".New_manage_help_desk" />
-        <activity android:name=".ManageHelpDeskActivity" />
-        <activity android:name=".MarketListing" />
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".ProfileMarket" />
-        <activity android:name=".ProfileBusinessListing" />
-        <activity android:name=".inbox_business" />
-        <activity android:name=".inbox_market" />
-        <activity android:name=".Profile" />
+        <activity android:name="com.kesbokar.kesbokar.New_manage_help_desk" />
+        <activity android:name="com.kesbokar.kesbokar.ManageHelpDeskActivity" />
+        <activity android:name="com.kesbokar.kesbokar.MarketListing" />
+        <activity android:name="com.kesbokar.kesbokar.Main2Activity" />
+        <activity android:name="com.kesbokar.kesbokar.ProfileMarket" />
+        <activity android:name="com.kesbokar.kesbokar.ProfileBusinessListing" />
+        <activity android:name="com.kesbokar.kesbokar.inbox_business" />
+        <activity android:name="com.kesbokar.kesbokar.inbox_market" />
+        <activity android:name="com.kesbokar.kesbokar.Profile" />
         <activity
-            android:name=".LoginData"
+            android:name="com.kesbokar.kesbokar.LoginData"
             android:label="@string/title_activity_login_data"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Buisness_Listing" />
+        <activity android:name="com.kesbokar.kesbokar.Buisness_Listing" />
         <activity
-            android:name=".SignUp"
+            android:name="com.kesbokar.kesbokar.SignUp"
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Login" />
+        <activity android:name="com.kesbokar.kesbokar.Login" />
         <!--
 <activity
             android:name=".ui.login.LoginActivity"
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_login" />
         -->
-        <activity android:name=".Career" />
+        <activity android:name="com.kesbokar.kesbokar.Career" />
         <activity
-            android:name=".About"
+            android:name="com.kesbokar.kesbokar.About"
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_about"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Help" />
+        <activity android:name="com.kesbokar.kesbokar.Help" />
         <activity
-            android:name=".WebViewActivity"
+            android:name="com.kesbokar.kesbokar.WebViewActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_web_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Navigation_market"
+            android:name="com.kesbokar.kesbokar.Navigation_market"
             android:configChanges="orientation"
             android:label="@string/title_activity_web_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Navigation"
+            android:name="com.kesbokar.kesbokar.Navigation"
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ProductManagementActivity"
+            android:name="com.kesbokar.kesbokar.ProductManagementActivity"
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.kesbokar.kesbokar.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
