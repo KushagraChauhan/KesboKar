@@ -35,6 +35,7 @@
         <activity android:name="com.kesbokar.kesbokar.inbox_business" />
         <activity android:name="com.kesbokar.kesbokar.inbox_market" />
         <activity android:name="com.kesbokar.kesbokar.Profile" />
+
         <activity
             android:name="com.kesbokar.kesbokar.LoginData"
             android:label="@string/title_activity_login_data"
