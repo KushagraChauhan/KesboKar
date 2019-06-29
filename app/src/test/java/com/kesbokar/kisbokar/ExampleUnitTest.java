@@ -1,4 +1,4 @@
-package com.kesbokar.pagination;
+package com.kesbokar.kisbokar;
 
 import org.junit.Test;
 

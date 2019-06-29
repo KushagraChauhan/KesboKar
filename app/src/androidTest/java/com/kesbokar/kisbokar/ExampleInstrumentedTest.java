@@ -1,4 +1,4 @@
-package com.kesbokar.pagination;
+package com.kesbokar.kisbokar;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.pagination", appContext.getPackageName());
+        assertEquals("com.example.kisbokar", appContext.getPackageName());
     }
 }
