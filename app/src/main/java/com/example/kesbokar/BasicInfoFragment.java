@@ -51,6 +51,7 @@ public class BasicInfoFragment extends Fragment {
     RadioGroup rgProductCondition, rgProductSelection;
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
+    private ArrayList<TagsObject> tagsSelectedArrayList;
     private Button btnCancel_1, btnCancel_2, btnCancel_3;
     private String tags;
 
@@ -117,6 +118,7 @@ public class BasicInfoFragment extends Fragment {
         categoryThirdArrayList = new ArrayList<>();
         tagsObjectArrayList = new ArrayList<>();
         tagsName = new ArrayList<>();
+        tagsSelectedArrayList = new ArrayList<>();
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
@@ -231,10 +233,27 @@ public class BasicInfoFragment extends Fragment {
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<TagsObject>> loader, ArrayList<TagsObject> data) {
                 if(data!=null){
-                    tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,data);
+                    tagsObjectArrayList = data;
+                    tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                     mltAutoKeyWords.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
                     mltAutoKeyWords.setThreshold(1);
+                    mltAutoKeyWords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            TagsObject tagsObject = (TagsObject) adapterView.getAdapter().getItem(i);
+                            //long id = adapterView.getAdapter().getItemId(i);
+                            if(!tagsSelectedArrayList.contains(tagsObject)){
+                                if(tagsSelectedArrayList.size() < 5) {
+                                    tagsSelectedArrayList.add(tagsObject);
+                                    tagsObjectArrayAdapter.remove(tagsObject);
+                                    tagsObjectArrayAdapter.notifyDataSetChanged();
+                                }else{
+
+                                }
+                            }
+                        }
+                    });
                     Log.i("TAGS ", "onLoadFinished: " + data);
                 }else{
                     Log.i("ERROR", "WTF");
