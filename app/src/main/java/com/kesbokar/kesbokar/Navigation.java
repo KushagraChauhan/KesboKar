@@ -790,7 +790,6 @@ public class Navigation extends AppCompatActivity
         id=loginData.getInt("id",0);
         created=loginData.getString("create","");
         updated=loginData.getString("update","");
-
     }
     void getLocation() {
         try {
