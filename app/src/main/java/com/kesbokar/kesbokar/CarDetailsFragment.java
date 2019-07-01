@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,10 +47,13 @@ public class CarDetailsFragment extends Fragment {
     TextView make_text,model_text,year_text,variant_text,color_text,air_text,registered_text,state_text,number_text,expiry_text;
     ArrayList<String> make_array,model_array,year_array,variant_array;
     String [] color_array,response,state_array;
-    String color_response,registered_response,air_response,state,number,expiry;
+    String color_response,registered_response,air_response,state,number,expiry,id_series,name_series,des_body,des_engine;
     DatePicker car_expiry;
     EditText car_number;
     Button next_frag;
+    int id;
+    ListView lvSeries;
+    ArrayList<CarDetailsSeries> carDetailsSeries;
     public CarDetailsFragment() {
         // Required empty public constructor
     }
@@ -72,6 +76,7 @@ public class CarDetailsFragment extends Fragment {
         car_number=view.findViewById(R.id.car_number);
         car_expiry=view.findViewById(R.id.car_expiry);
         make_text=view.findViewById(R.id.make);
+        lvSeries=view.findViewById(R.id.lvSeries);
         model_text=view.findViewById(R.id.model);
         year_text=view.findViewById(R.id.year);
         car_number=view.findViewById(R.id.car_number);
@@ -91,6 +96,7 @@ public class CarDetailsFragment extends Fragment {
         make_array=new ArrayList<String>();
         year_array=new ArrayList<String>();
         variant_array = new ArrayList<String>();
+        carDetailsSeries=new ArrayList<>();
         next_frag=view.findViewById(R.id.next_frag);
         color_array=new String[]{"Black","Blue","Bronze","Brown","Burgandy","Cream","Gold","Grey","Green","Orange","Pink","Purple","Red","Silver","White","Yellow","Tan","Turquoise","Other"};
         response = new String[]{"Yes","No"};
@@ -179,7 +185,11 @@ public class CarDetailsFragment extends Fragment {
                 car_color.setVisibility(View.VISIBLE);
                 car_air.setVisibility(View.VISIBLE);
                 car_registered.setVisibility(View.VISIBLE);
+                variant_id=variant_dictionary.get(car_variant.getText().toString());
                 next_frag.setVisibility(View.VISIBLE);
+                lvSeries.setVisibility(View.VISIBLE);
+                url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/detail/get?make_id="+id_make+"&model_id="+id_model+"&year="+year+"&variant_id="+variant_id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                jsonParserSeries();
 
             }
         });
@@ -425,6 +435,44 @@ public class CarDetailsFragment extends Fragment {
                         //                 Log.i("Dictionary", model_dictionary.get(model_title));
                         variant_array.add(variant_title);
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+    public void jsonParserSeries()
+    {
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    Log.i("Series Array",jsonArray.toString());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject=jsonArray.getJSONObject(i);
+                        int k = i + 1;
+                        String j = "" + k;
+                        int p = jsonObject.length();
+                        String l = "" + p;
+                        Log.i("Length", l);
+                        Log.i("Series Object",jsonObject.toString());
+                        id=jsonObject.getInt("id");
+                        name_series=jsonObject.getString("name");
+                        des_body=jsonObject.getString("des_body");
+                        des_engine=jsonObject.getString("des_engine");
+                        carDetailsSeries.add(new CarDetailsSeries(id,name_series,des_body,des_engine));
+                    }
+                    AdapterCarDetailsSeries adapterCarDetailsSeries=new AdapterCarDetailsSeries(getActivity(),getActivity(),carDetailsSeries);
+                    lvSeries.setAdapter(adapterCarDetailsSeries);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
