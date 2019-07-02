@@ -1,5 +1,4 @@
 package com.kesbokar.kesbokar;
-
 import android.Manifest;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -36,6 +35,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< HEAD
+=======
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+>>>>>>> d5c66d1074921e69805bda64abc2255ce44e0c47
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -792,7 +798,6 @@ public class Navigation extends AppCompatActivity
         id=loginData.getInt("id",0);
         created=loginData.getString("create","");
         updated=loginData.getString("update","");
-
     }
     void getLocation() {
         try {
