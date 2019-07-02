@@ -1,4 +1,4 @@
-package com.example.pagination;
+package com.kesbokar.pagination;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

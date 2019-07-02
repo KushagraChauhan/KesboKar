@@ -1,4 +1,4 @@
-package com.example.pagination;
+package com.kesbokar.pagination;
 
 import org.junit.Test;
 

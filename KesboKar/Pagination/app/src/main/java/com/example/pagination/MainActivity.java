@@ -1,4 +1,4 @@
-package com.example.pagination;
+package com.kesbokar.pagination;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
