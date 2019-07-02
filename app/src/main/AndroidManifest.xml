@@ -31,7 +31,7 @@
         <activity android:name="com.kesbokar.kesbokar.MarketListing" />
         <activity android:name="com.kesbokar.kesbokar.Main2Activity" />
         <activity android:name="com.kesbokar.kesbokar.ProfileMarket" />
-        <activity android:name="com.kesbokar.kesbokar.ProfileBusinessListing" />
+        <activity android:name=".ProfileBusinessListing" />
         <activity android:name="com.kesbokar.kesbokar.inbox_business" />
         <activity android:name="com.kesbokar.kesbokar.inbox_market" />
         <activity android:name="com.kesbokar.kesbokar.Profile" />

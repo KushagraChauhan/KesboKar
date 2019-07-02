@@ -1,4 +1,5 @@
 package com.kesbokar.kesbokar;
+
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
@@ -24,6 +25,14 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -236,12 +245,9 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             super.onPostExecute(document);
             //webView.setWebViewClient(new WebViewClient());
             WebSettings webSettings=webView.getSettings();
-<<<<<<< HEAD
-            //webSettings.setBuiltInZoomControls(true);
-=======
-            webSettings.setBuiltInZoomControls(true);
+
+
             webSettings.setPluginState(WebSettings.PluginState.ON);
->>>>>>> 807353c8e55c2de163c2ab3e7c26c706ec243f33
             webView.loadDataWithBaseURL(URL1,document.toString(),"text/html","utf-8","");
             //webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
