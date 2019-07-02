@@ -27,12 +27,12 @@
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Slider Image" />
+                    android:text="Upload Image" />
 
                 <ImageView
                     android:id="@+id/ivImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="400dp"
+                    android:layout_height="220dp"
                     android:src="@drawable/def" />
 
                 <TextView
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginRight="60dp"
-                    android:text="Upload Slider Image" />
+                    android:text="Upload Image" />
             </LinearLayout>
 
             <LinearLayout
