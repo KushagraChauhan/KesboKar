@@ -12,13 +12,17 @@ import android.app.Dialog;
 
 import androidx.loader.content.Loader;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,6 +33,7 @@ import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -42,7 +47,7 @@ public class BasicInfoFragment extends Fragment {
     CategoriesThirdAdapter categoriesThirdAdapter;
     CategoriesBaseAdapter categoriesBaseAdapter;
     CategoriesSecondAdapter categoriesSecondAdapter;
-    private TextView txtCatFirst, txtCatSecond, txtCatThird;
+    private TextView txtCatFirst, txtCatSecond, txtCatThird,etPostProduct;
     String condition1, condition2;
     RadioGroup rgProductCondition, rgProductSelection;
     private MultiAutoCompleteTextView mltAutoKeyWords;
@@ -50,6 +55,8 @@ public class BasicInfoFragment extends Fragment {
     private ArrayList<TagsObject> tagsSelectedArrayList;
     private Button btnCancel_1, btnCancel_2, btnCancel_3;
     private String tags;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id,flag;
 
     private Context context;
     private String parent_id = "";
@@ -71,6 +78,7 @@ public class BasicInfoFragment extends Fragment {
 
     ArrayAdapter<TagsObject> tagsObjectArrayAdapter;
     private ArrayList<String> tagsName;
+    Button cancel_tag;
 
     EditText edtProductTitle;
     public BasicInfoFragment() {
@@ -92,7 +100,9 @@ public class BasicInfoFragment extends Fragment {
         txtCatFirst =(TextView) view.findViewById(R.id.txtCatFirst);
         txtCatSecond =(TextView) view.findViewById(R.id.txtCatSecond);
         txtCatThird =(TextView) view.findViewById(R.id.txtCatThird);
+        etPostProduct= view.findViewById(R.id.etPostProduct);
 
+        cancel_tag= view.findViewById(R.id.cancel_tag);
         btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
         btnCancel_2 = (Button) view.findViewById(R.id.btnCancel_2);
         btnCancel_3 = (Button) view.findViewById(R.id.btnCancel_3);
@@ -118,6 +128,8 @@ public class BasicInfoFragment extends Fragment {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
+        getData();
+        etPostProduct.setText(full_name);
         txtCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,21 +241,70 @@ public class BasicInfoFragment extends Fragment {
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<TagsObject>> loader, ArrayList<TagsObject> data) {
                 if(data!=null){
+                    tagsObjectArrayList.clear();
+                    tagsSelectedArrayList.clear();
+                    Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
                     tagsObjectArrayList = data;
                     tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                     mltAutoKeyWords.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
                     mltAutoKeyWords.setThreshold(1);
+                    mltAutoKeyWords.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                if (tagsSelectedArrayList.size()<5) {
+                                    mltAutoKeyWords.showDropDown();
+                                }
+                                else
+                                {
+                                    mltAutoKeyWords.dismissDropDown();
+                                    mltAutoKeyWords.setEnabled(false);
+                                }
+                                return false;
+                            }
+                    });
+                    cancel_tag.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mltAutoKeyWords.setText("");
+                            mltAutoKeyWords.setEnabled(true);
+                            tagsObjectArrayList.addAll(tagsSelectedArrayList);
+                            Toast.makeText(context, ""+tagsObjectArrayList.toString(), Toast.LENGTH_SHORT).show();
+                            tagsSelectedArrayList.clear();
+                            tagsObjectArrayAdapter.notifyDataSetChanged();
+                            tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                            mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                        }
+                    });
+                    mltAutoKeyWords.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
                     mltAutoKeyWords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             TagsObject tagsObject = (TagsObject) adapterView.getAdapter().getItem(i);
+                            Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
                             //long id = adapterView.getAdapter().getItemId(i);
                             if(!tagsSelectedArrayList.contains(tagsObject)){
                                 if(tagsSelectedArrayList.size() < 5) {
                                     tagsSelectedArrayList.add(tagsObject);
                                     tagsObjectArrayAdapter.remove(tagsObject);
                                     tagsObjectArrayAdapter.notifyDataSetChanged();
+                                    tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                                    mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                                 }else{
 
                                 }
@@ -456,5 +517,17 @@ public class BasicInfoFragment extends Fragment {
 //        Log.i("DATA KI MA KI CHOOT", data);
 //        edtProductTitle.setText(data);
         return view;
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
     }
 }

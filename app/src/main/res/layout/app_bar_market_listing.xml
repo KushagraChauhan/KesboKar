@@ -47,15 +47,10 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="20dp"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scroll"
-            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,14 +69,13 @@
                     android:background="@drawable/rect_button"
                     android:id="@+id/buis"/>
                 <Button
-                    android:layout_width="137dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:text="MARKET"
                     android:background="@drawable/rect_button"
                     android:id="@+id/mar"/>
 
             </LinearLayout>
-        </ScrollView>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>

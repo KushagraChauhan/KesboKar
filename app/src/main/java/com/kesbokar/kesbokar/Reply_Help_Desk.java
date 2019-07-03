@@ -96,7 +96,7 @@ public class Reply_Help_Desk extends AppCompatActivity implements NavigationView
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(Reply_Help_Desk.this, "Response"+"Your Query Has been Submitted", Toast.LENGTH_SHORT).show();
-                        Log.i("Resposnse",response);
+                        Log.i("Response",response);
 
                     }
                 },

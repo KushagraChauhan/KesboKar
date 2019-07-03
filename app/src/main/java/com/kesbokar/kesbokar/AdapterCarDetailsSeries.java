@@ -1,6 +1,7 @@
 package com.kesbokar.kesbokar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,10 @@ public class AdapterCarDetailsSeries extends BaseAdapter{
                 id=CarDetailsSeriesModelArrayList.get(position).getId();
                 id_series=""+id;
                 Toast.makeText(context, ""+id_series, Toast.LENGTH_SHORT).show();
+                SharedPreferences get= activity.getSharedPreferences("data1",0);
+                SharedPreferences.Editor editor=get.edit();
+                editor.putString("series",id_series);
+                editor.apply();
                 rbName.setEnabled(false);
             }
         });

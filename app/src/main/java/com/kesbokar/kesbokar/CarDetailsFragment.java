@@ -2,6 +2,7 @@ package com.kesbokar.kesbokar;
 
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,11 +21,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -33,7 +36,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 
 /**
@@ -52,7 +57,10 @@ public class CarDetailsFragment extends Fragment {
     EditText car_number;
     Button next_frag;
     int id;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id1,flag;
     ListView lvSeries;
+    String series_id;
     ArrayList<CarDetailsSeries> carDetailsSeries;
     public CarDetailsFragment() {
         // Required empty public constructor
@@ -188,6 +196,7 @@ public class CarDetailsFragment extends Fragment {
                 variant_id=variant_dictionary.get(car_variant.getText().toString());
                 next_frag.setVisibility(View.VISIBLE);
                 lvSeries.setVisibility(View.VISIBLE);
+                lvSeries.setAdapter(null);
                 url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/detail/get?make_id="+id_make+"&model_id="+id_model+"&year="+year+"&variant_id="+variant_id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 jsonParserSeries();
 
@@ -207,14 +216,7 @@ public class CarDetailsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String Answer=car_color.getText().toString();
-                if(Answer=="Yes")
-                {
-
-                    color_response="y";
-                }
-                else{
-                    color_response="n";
-                }
+                color_response=Answer;
 
 
             }
@@ -233,7 +235,7 @@ public class CarDetailsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String Answer=car_air.getText().toString();
-                if(Answer=="Yes")
+                if(Answer.equals("Yes"))
                 {
 
                     air_response="y";
@@ -294,6 +296,7 @@ public class CarDetailsFragment extends Fragment {
         next_frag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getData();
                 number=car_number.getText().toString();
                 int d=car_expiry.getDayOfMonth();
                 int mon=car_expiry.getMonth()+1;
@@ -309,8 +312,61 @@ public class CarDetailsFragment extends Fragment {
                 }
                 expiry=car_expiry.getYear()+"-"+month+"-"+day;
                 Toast.makeText(getActivity(), number+"     and     "+expiry+"   and   "+registered_response+"   and   "+color_response+"   and   "+air_response, Toast.LENGTH_SHORT).show();
+                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/product";
+                RequestQueue queue= Volley.newRequestQueue(getActivity());
+                //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
+                final JSONObject jsonObject=new JSONObject();
+                try {
+                    jsonObject.put("make_id",id_make);
+                    jsonObject.put("model_id",id_model);
+                    jsonObject.put("year",year);
+                    jsonObject.put("variant_id",variant_id);
+                    jsonObject.put("vehicle_id",series_id);
+                    jsonObject.put("colour",color_response);
+                    jsonObject.put("airconditioning",air_response);
+                    jsonObject.put("registered",registered_response);
+                    jsonObject.put("registration_state",state);
+                    jsonObject.put("registration_number",number);
+                    jsonObject.put("registration_expiry",expiry);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("JSONObject",jsonObject.toString());
+                StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getActivity(), "Response"+"Your Query Has been Submitted", Toast.LENGTH_SHORT).show();
+                        Log.i("Response",response);
 
+
+                    }
+                },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // errorLog.d("Error.Response", String.valueOf(error));
+                                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        String user_id;
+                        user_id=""+id1;
+                        Map<String, String>  params = new HashMap<String, String >();
+                        Map<String,JSONObject> params1=new HashMap<>();
+                        params.put("category_id","16");
+                        params.put("user_id",user_id);
+                        params.put("vehicle",jsonObject.toString());
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        return params;
+                    }
+                };
+                RequestQueue requestQueue=Volley.newRequestQueue(getActivity());
+                queue.add(stringRequest);
             }
+
         });
         //Toast.makeText(getActivity(), "" + make_dictionary.get("ZX Auto"), Toast.LENGTH_SHORT).show();
         //Log.i("Dictionary",make_dictionary.get("BMW"));
@@ -485,5 +541,20 @@ public class CarDetailsFragment extends Fragment {
             }
         });
         requestQueue.add(jsonObjectRequest);
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id1=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+        SharedPreferences get=getActivity().getSharedPreferences("data1",0);
+        series_id=get.getString("series","");
+
     }
 }
