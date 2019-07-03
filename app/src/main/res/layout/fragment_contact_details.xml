@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:text="State" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/etState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="Suburb" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/etSuburb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.kesbokar.kesbokar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -62,7 +63,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     private static final int LOADER_ID_BTNSRCH = 5;
 
     private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
-    private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
+    private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
     private LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>> btnSearch;
 
     private ArrayList<String> valsBus;
@@ -318,15 +319,16 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 
             }
         };
-        businessSuburb = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+        businessSuburb = new androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+            @NonNull
             @Override
-            public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
+            public androidx.loader.content.Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, @Nullable Bundle args) {
                 LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(Buisness_Listing.this,querySub,"http://serv.kesbokar.com.au/jil.0.1/v2/yellowpages/search/cities");
                 return loaderBusSuburb;
             }
 
             @Override
-            public void onLoadFinished(Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
+            public void onLoadFinished(@NonNull androidx.loader.content.Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data){
                 if (data.size() != 0) {
                     valsSub = data;
                     Log.i("Tag", valsSub + "");
@@ -340,7 +342,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             }
 
             @Override
-            public void onLoaderReset(Loader<ArrayList<StateAndSuburb>> loader) {
+            public void onLoaderReset(@NonNull androidx.loader.content.Loader<ArrayList<StateAndSuburb>> loader) {
 
             }
         };
@@ -358,7 +360,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                     Log.i("Tag", valsBus + "");
                     ArrayAdapter<String> adapter=new ArrayAdapter<String>(Buisness_Listing.this,android.R.layout.simple_dropdown_item_1line,valsBus);
                     autoCompleteTextViewOne.setAdapter(adapter);
-                    getLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+                    getSupportLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
                 } else {
                     Toast.makeText(Buisness_Listing.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
@@ -407,7 +409,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 querySub = s.toString();
-                getLoaderManager().restartLoader(LOADER_ID_BUSSUB,null,businessSuburb);
+                getSupportLoaderManager().restartLoader(LOADER_ID_BUSSUB,null,businessSuburb);
             }
 
             @Override

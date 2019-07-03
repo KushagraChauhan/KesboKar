@@ -1,5 +1,6 @@
 package com.kesbokar.kesbokar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -65,7 +66,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     private static final int LOADER_ID_BTNSRCH = 5;
 
     private LoaderManager.LoaderCallbacks<ArrayList<String>> marketSearch;
-    private LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> marketSub;
+    private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> marketSub;
     private LoaderManager.LoaderCallbacks<ArrayList<MarketIem>> btnSearch;
 
     private ArrayList<String> valsMarket;
@@ -294,15 +295,16 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
 
             }
         };
-        marketSub = new LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+        marketSub = new androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+            @NonNull
             @Override
-            public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, Bundle args) {
+            public androidx.loader.content.Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, @Nullable Bundle args){
                 LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(MarketListing.this,querySub,"http://serv.kesbokar.com.au/jil.0.1/v2/product/search/cities");
                 return loaderBusSuburb;
             }
 
             @Override
-            public void onLoadFinished(Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
+            public void onLoadFinished(@NonNull androidx.loader.content.Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data){
                 if (data.size() != 0) {
                     valsSub = data;
                     Log.i("Tag Sub", valsSub + "");
@@ -316,7 +318,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             }
 
             @Override
-            public void onLoaderReset(Loader<ArrayList<StateAndSuburb>> loader) {
+            public void onLoaderReset(@NonNull androidx.loader.content.Loader<ArrayList<StateAndSuburb>> loader) {
 
             }
         };
@@ -335,7 +337,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
                     ArrayAdapter<String> adapter=new ArrayAdapter<String>(MarketListing.this,android.R.layout.simple_dropdown_item_1line,valsMarket);
 
                     autoCompleteTextViewOne.setAdapter(adapter);
-                    getLoaderManager().initLoader(LOADER_ID_MARSUB,null,marketSub);
+                    getSupportLoaderManager().initLoader(LOADER_ID_MARSUB,null,marketSub);
                 } else {
                     Toast.makeText(MarketListing.this, "No internet Connection", Toast.LENGTH_SHORT).show();
                 }
@@ -384,7 +386,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 querySub = s.toString();
-                getLoaderManager().restartLoader(LOADER_ID_MARSUB,null,marketSub);            }
+                getSupportLoaderManager().restartLoader(LOADER_ID_MARSUB,null,marketSub);            }
 
             @Override
             public void afterTextChanged(Editable s) {

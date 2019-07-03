@@ -1,7 +1,8 @@
 package com.kesbokar.kesbokar;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+
+import androidx.loader.content.AsyncTaskLoader;
 
 import java.util.ArrayList;
 
