@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
-<<<<<<< HEAD
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
-=======
->>>>>>> d5c66d1074921e69805bda64abc2255ce44e0c47
+
 public class MainActivity extends AppCompatActivity {
     public static int SPLASH_SCREEN_TIME=3000;
     @Override

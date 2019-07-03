@@ -42,9 +42,11 @@ public class BasicInfoFragment extends Fragment {
     CategoriesThirdAdapter categoriesThirdAdapter;
     CategoriesBaseAdapter categoriesBaseAdapter;
     CategoriesSecondAdapter categoriesSecondAdapter;
+
     private TextView txtCatFirst, txtCatSecond, txtCatThird;
     String condition1, condition2;
     RadioGroup rgProductCondition, rgProductSelection;
+
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
     private ArrayList<TagsObject> tagsSelectedArrayList;

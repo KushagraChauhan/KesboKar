@@ -2,8 +2,7 @@ package com.kesbokar.kesbokar;
 
 
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
->>>>>>> d5c66d1074921e69805bda64abc2255ce44e0c47
+
 
 import androidx.fragment.app.Fragment;
 
@@ -26,15 +25,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CarDetailsFragment extends Fragment {
-<<<<<<< HEAD
 
-
-=======
     AutoCompleteTextView car_make, car_model, car_year, car_variant,car_color,car_air,car_registered,car_state;
     String make,id_make,make1,model_id,model_title,model1,url1,id_model,model_year,year,variant_id,variant_title;
     RequestQueue requestQueue;
@@ -49,7 +60,7 @@ public class CarDetailsFragment extends Fragment {
     int id;
     ListView lvSeries;
     ArrayList<CarDetailsSeries> carDetailsSeries;
->>>>>>> d5c66d1074921e69805bda64abc2255ce44e0c47
+
     public CarDetailsFragment() {
         // Required empty public constructor
     }
@@ -59,9 +70,9 @@ public class CarDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-<<<<<<< HEAD
-        return inflater.inflate(R.layout.fragment_car_details, container, false);
-=======
+
+        //return inflater.inflate(R.layout.fragment_car_details, container, false);
+
         View view = inflater.inflate(R.layout.fragment_car_details, container, false);
 
         car_make = view.findViewById(R.id.car_make);
@@ -274,6 +285,7 @@ public class CarDetailsFragment extends Fragment {
 
             }
         });
+
         ArrayAdapter<String> adapter_state = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, state_array);
         car_state.setThreshold(0);
         car_state.setAdapter(adapter_state);
@@ -284,12 +296,14 @@ public class CarDetailsFragment extends Fragment {
                 return false;
             }
         });
+
         car_state.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 state=car_state.getText().toString();
             }
         });
+
         next_frag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -347,11 +361,9 @@ public class CarDetailsFragment extends Fragment {
             }
         });
         requestQueue.add(jsonObjectRequest);
->>>>>>> d5c66d1074921e69805bda64abc2255ce44e0c47
     }
-
-<<<<<<< HEAD
-=======
+    public void jsonParserModel()
+    {
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -386,6 +398,7 @@ public class CarDetailsFragment extends Fragment {
         });
         requestQueue.add(jsonObjectRequest);
     }
+
     private void jsonParserYear()
     {
 
@@ -486,5 +499,4 @@ public class CarDetailsFragment extends Fragment {
         });
         requestQueue.add(jsonObjectRequest);
     }
->>>>>>> d5c66d1074921e69805bda64abc2255ce44e0c47
 }

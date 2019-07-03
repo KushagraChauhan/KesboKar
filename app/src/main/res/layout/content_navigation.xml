@@ -132,11 +132,6 @@
                             android:id="@+id/bs1">
                         </AutoCompleteTextView>
 
-
-
-
-
-
                     <AutoCompleteTextView
                         android:layout_width="320dp"
                         android:layout_height="35dp"
