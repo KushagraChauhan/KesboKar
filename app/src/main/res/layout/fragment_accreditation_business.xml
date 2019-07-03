@@ -32,6 +32,7 @@
                     android:id="@+id/ivImage"
                     android:layout_width="400dp"
                     android:layout_height="220dp"
+                    android:layout_marginTop="5dp"
                     android:src="@drawable/def" />
 
                 <TextView
@@ -53,7 +54,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Choose Files" />
+                    android:background="@color/colorAccent"
+                    android:text="Choose Files"
+                    android:textColor="@color/White"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvChosen"
@@ -97,7 +101,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginRight="60dp"
-                    android:text="Upload Image" />
+                    android:background="@color/red"
+                    android:text="Upload Image"
+                    android:textColor="@color/White"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -110,15 +117,23 @@
                     android:id="@+id/btnPrevious"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Previous" />
+                    android:background="@color/colorPrimary1"
+                    android:text="Previous"
+                    android:textColor="@color/White"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btnSave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:text="Save &amp; Continue" />
+                    android:background="@color/colorPrimary1"
+                    android:text="Save &amp; Continue"
+                    android:textColor="@color/White"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 

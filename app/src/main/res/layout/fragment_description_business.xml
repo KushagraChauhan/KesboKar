@@ -34,6 +34,7 @@
                 android:layout_height="220dp"
 
 
+                android:layout_marginTop="5dp"
                 app:srcCompat="@drawable/def" />
 
             <TextView
@@ -55,7 +56,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Choose File" />
+                android:background="@color/colorAccent"
+                android:text="Choose File"
+                android:textColor="@color/White"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvImageChosen"
@@ -120,15 +124,23 @@
                 android:id="@+id/btnPrevious"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:text="Previous" />
+                android:background="@color/colorPrimary1"
+                android:text="Previous"
+                android:textColor="@color/White"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:text="Save &amp; Continue" />
+                android:background="@color/colorPrimary1"
+                android:text="Save &amp; Continue"
+                android:textColor="@color/White"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
     </androidx.core.widget.NestedScrollView>
