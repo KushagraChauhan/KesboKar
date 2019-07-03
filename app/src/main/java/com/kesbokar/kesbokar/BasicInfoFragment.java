@@ -42,9 +42,11 @@ public class BasicInfoFragment extends Fragment {
     CategoriesThirdAdapter categoriesThirdAdapter;
     CategoriesBaseAdapter categoriesBaseAdapter;
     CategoriesSecondAdapter categoriesSecondAdapter;
+
     private TextView txtCatFirst, txtCatSecond, txtCatThird;
     String condition1, condition2;
     RadioGroup rgProductCondition, rgProductSelection;
+
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
     private ArrayList<TagsObject> tagsSelectedArrayList;
@@ -72,7 +74,8 @@ public class BasicInfoFragment extends Fragment {
     ArrayAdapter<TagsObject> tagsObjectArrayAdapter;
     private ArrayList<String> tagsName;
 
-    EditText edtProductTitle;
+    EditText edtProductTitle, etPrice;
+
     public BasicInfoFragment() {
         // Required empty public constructor
     }
@@ -104,6 +107,8 @@ public class BasicInfoFragment extends Fragment {
         btnCancel_2.setVisibility(View.GONE);
         btnCancel_3.setVisibility(View.GONE);
 
+        etPrice = (EditText)  view.findViewById(R.id.etPrice);
+
         mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords);
 
         final String[] firstValueArray = {"API1", "API1", "API1"};
@@ -118,6 +123,14 @@ public class BasicInfoFragment extends Fragment {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
+
+        etPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         txtCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
