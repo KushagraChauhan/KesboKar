@@ -306,6 +306,7 @@ public class Navigation extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, Login.class);
                 startActivity(intent);
+                finish();
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {

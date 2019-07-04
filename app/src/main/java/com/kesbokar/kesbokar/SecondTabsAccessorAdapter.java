@@ -4,12 +4,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 public class SecondTabsAccessorAdapter extends FragmentPagerAdapter {
+    ViewPager viewPager;
 
-    public SecondTabsAccessorAdapter(FragmentManager fm)
+    public SecondTabsAccessorAdapter(FragmentManager fm, ViewPager viewPager)
     {
         super(fm);
+        this.viewPager=viewPager;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class SecondTabsAccessorAdapter extends FragmentPagerAdapter {
 
 
             case 2:
-                ContactDetailsFragment contactDetailsFragment = new ContactDetailsFragment();
+                ContactDetailsFragment contactDetailsFragment = new ContactDetailsFragment(viewPager);
                 return contactDetailsFragment;
 
             case 3:

@@ -41,6 +41,7 @@
             android:label="@string/title_activity_login_data"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.kesbokar.kesbokar.Buisness_Listing" />
+
         <activity
             android:name="com.kesbokar.kesbokar.SignUp"
             android:configChanges="orientation|screenLayout|screenSize|touchscreen"
@@ -81,6 +82,7 @@
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.kesbokar.kesbokar.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
