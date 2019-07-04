@@ -2,7 +2,9 @@ package com.kesbokar.kesbokar;
 
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +30,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -51,9 +58,11 @@ public class ContactDetailsFragment extends Fragment {
     private static final int LOADER_ID_BUSVAL = 10101;
     private ArrayList<StateAndSuburb> valsBus;
     private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
+    ViewPager viewPager;
 
 
-    public ContactDetailsFragment() {
+    public ContactDetailsFragment(ViewPager viewPager) {
+        this.viewPager=viewPager;
         // Required empty public constructor
     }
 
@@ -62,7 +71,7 @@ public class ContactDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_contact_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_contact_details, container, false);
 
         tvEmail = view.findViewById(R.id.tvEmail);
         etPhone = view.findViewById(R.id.etPhone);
@@ -93,8 +102,9 @@ public class ContactDetailsFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
+                int item=viewPager.getCurrentItem();
+                viewPager.setCurrentItem(item+1);
+             }
         });
 
 
@@ -185,6 +195,7 @@ public class ContactDetailsFragment extends Fragment {
 
         getLoaderManager().initLoader(LOADER_ID_BUSVAL,null, businessSuburb);
         return view;
+
 
     }
 

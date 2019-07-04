@@ -49,8 +49,9 @@ public class BasicInfoFragment extends Fragment {
     CategoriesSecondAdapter categoriesSecondAdapter;
     private TextView txtCatFirst, txtCatSecond, txtCatThird,etPostProduct;
 
-    String condition1, condition2;
+    String condition1, condition2, product_name, product_id;
     RadioGroup rgProductCondition, rgProductSelection;
+    int entry_state;
 
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
@@ -104,6 +105,7 @@ public class BasicInfoFragment extends Fragment {
         txtCatSecond =(TextView) view.findViewById(R.id.txtCatSecond);
         txtCatThird =(TextView) view.findViewById(R.id.txtCatThird);
         etPostProduct= view.findViewById(R.id.etPostProduct);
+        edtProductTitle=view.findViewById(R.id.etProductTitle);
 
         cancel_tag= view.findViewById(R.id.cancel_tag);
         btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
@@ -135,12 +137,19 @@ public class BasicInfoFragment extends Fragment {
         progressDialog.setTitle("Loading...");
         getData();
         etPostProduct.setText(full_name);
-        etPrice.setOnClickListener(new View.OnClickListener() {
+        edtProductTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (entry_state==1)
+                {
+                    assert getFragmentManager() != null;
+                    assert getTargetFragment() != null;
+                    getFragmentManager().beginTransaction().detach(getTargetFragment()).attach(getTargetFragment()).commit();
+                    edtProductTitle.setText(product_name);
+                }
             }
         });
+
 
         txtCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -541,5 +550,10 @@ public class BasicInfoFragment extends Fragment {
         id=loginData.getInt("id",0);
         created=loginData.getString("create","");
         updated=loginData.getString("update","");
+        SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
+        product_id =get_product_detail.getString("product_id","");
+        product_name=get_product_detail.getString("product_name","");
+        SharedPreferences entry=getActivity().getSharedPreferences("product_detail",0);
+        entry_state =entry.getInt("entry_state",0);
     }
 }
