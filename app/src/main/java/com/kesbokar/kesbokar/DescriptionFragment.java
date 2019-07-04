@@ -30,7 +30,8 @@ public class DescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_description, container, false);
-
+        getFragmentManager().beginTransaction().add(new DescriptionFragment(),"desc_frag");
+        //getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder, new AwesomeFragment()).commit();
         etDescription = view.findViewById(R.id.etDescription);
         btnBack = view.findViewById(R.id.btnBack);
         btnSubmit = view.findViewById(R.id.btnSubmit);

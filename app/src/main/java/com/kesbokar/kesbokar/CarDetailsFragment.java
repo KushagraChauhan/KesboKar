@@ -63,11 +63,11 @@ public class CarDetailsFragment extends Fragment {
     DatePicker car_expiry;
     EditText car_number;
     Button next_frag;
-    int id;
+    int id,entry_state;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id1,flag;
     ListView lvSeries;
-    String series_id;
+    String series_id,product_id,title_name;
     ArrayList<CarDetailsSeries> carDetailsSeries;
 
     public CarDetailsFragment() {
@@ -324,7 +324,14 @@ public class CarDetailsFragment extends Fragment {
                 {
                     day="0"+day;
                 }
-                expiry=car_expiry.getYear()+"-"+month+"-"+day;
+                if (registered_response.equals("y"))
+                {
+                    expiry = car_expiry.getYear() + "-" + month + "-" + day;
+                }
+                else
+                {
+                    expiry="";
+                }
                 Toast.makeText(getActivity(), number+"     and     "+expiry+"   and   "+registered_response+"   and   "+color_response+"   and   "+air_response, Toast.LENGTH_SHORT).show();
                 final String url="http://serv.kesbokar.com.au/jil.0.1/v1/product";
                 RequestQueue queue= Volley.newRequestQueue(getActivity());
@@ -351,6 +358,19 @@ public class CarDetailsFragment extends Fragment {
                     public void onResponse(String response) {
                         Toast.makeText(getActivity(), "Response"+"Your Query Has been Submitted", Toast.LENGTH_SHORT).show();
                         Log.i("Response",response);
+                        try {
+                            JSONObject jsonObject1=new JSONObject(response);
+                            product_id=jsonObject1.getString("product_id");
+                            title_name=jsonObject1.getString("name");
+                            Log.i("fetched data","id:"+product_id+"name:"+title_name);
+                            SharedPreferences get_product_detail= getActivity().getSharedPreferences("product_detail",0);
+                            SharedPreferences.Editor editor=get_product_detail.edit();
+                            editor.putString("product_id",product_id);
+                            editor.putString("product_name",title_name);
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
 
                     }
@@ -379,6 +399,12 @@ public class CarDetailsFragment extends Fragment {
                 };
                 RequestQueue requestQueue=Volley.newRequestQueue(getActivity());
                 queue.add(stringRequest);
+                entry_state=1;
+                SharedPreferences get_entry_state= getActivity().getSharedPreferences("entry_state",0);
+                SharedPreferences.Editor editor=get_entry_state.edit();
+                editor.putInt("entry_state",entry_state);
+                editor.apply();
+
             }
 
         });
