@@ -35,7 +35,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 
@@ -55,7 +67,7 @@ public class BasicInfoFragment extends Fragment {
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
     private ArrayList<TagsObject> tagsSelectedArrayList;
-    private Button btnCancel_1, btnCancel_2, btnCancel_3;
+    private Button buttonSaveAndNext, btnCancel_1, btnCancel_2, btnCancel_3;
     private String tags;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
@@ -109,6 +121,36 @@ public class BasicInfoFragment extends Fragment {
         btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
         btnCancel_2 = (Button) view.findViewById(R.id.btnCancel_2);
         btnCancel_3 = (Button) view.findViewById(R.id.btnCancel_3);
+
+        buttonSaveAndNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (entry)
+                String url = "";
+                RequestQueue queue = Volley.newRequestQueue(getActivity());
+                StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("Response asic Info",response);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("Error Basic Info",error.toString());
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+
+                        Map<String, String>  params = new HashMap<String, String >();
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        return params;
+                    }
+                };
+            }
+        });
 
         txtCatSecond.setVisibility(View.GONE);
         txtCatThird.setVisibility(View.GONE);
