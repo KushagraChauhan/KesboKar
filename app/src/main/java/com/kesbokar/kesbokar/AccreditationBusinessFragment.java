@@ -114,6 +114,8 @@ public class AccreditationBusinessFragment extends Fragment {
                     e.printStackTrace();
                 }
                 ivImage.setImageBitmap(bitmapImage);
+                btnChooseFiles.setText("Selected");
+                tvChosen.setText("");
             }
         }
 
