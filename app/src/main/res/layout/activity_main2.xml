@@ -28,10 +28,6 @@
 
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
-    <fragment android:name="com.kesbokar.kesbokar.DescriptionFragment"
-        android:id="@+id/list"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
     <com.kesbokar.kesbokar.CustomViewPager
         android:id="@+id/main_tabs_pager"
         android:layout_width="match_parent"

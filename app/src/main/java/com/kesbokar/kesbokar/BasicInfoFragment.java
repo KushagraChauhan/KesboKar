@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
 import android.text.Editable;
@@ -35,7 +36,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONObject;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 
@@ -52,6 +64,8 @@ public class BasicInfoFragment extends Fragment {
     String condition1, condition2, product_name, product_id;
     RadioGroup rgProductCondition, rgProductSelection;
     int entry_state;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
@@ -81,11 +95,14 @@ public class BasicInfoFragment extends Fragment {
 
     ArrayAdapter<TagsObject> tagsObjectArrayAdapter;
     private ArrayList<String> tagsName;
-    Button cancel_tag;
+    Button cancel_tag, btn_save_and_nxt;
 
     EditText edtProductTitle, etPrice;
 
-    public BasicInfoFragment() {
+    public BasicInfoFragment(ViewPager viewPager, TabLayout tabLayout)
+    {
+        this.viewPager=viewPager;
+        this.tabLayout=tabLayout;
         // Required empty public constructor
     }
 
@@ -111,7 +128,7 @@ public class BasicInfoFragment extends Fragment {
         btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
         btnCancel_2 = (Button) view.findViewById(R.id.btnCancel_2);
         btnCancel_3 = (Button) view.findViewById(R.id.btnCancel_3);
-
+        btn_save_and_nxt=view.findViewById(R.id.btn_save_and_next);
         txtCatSecond.setVisibility(View.GONE);
         txtCatThird.setVisibility(View.GONE);
 
@@ -122,7 +139,6 @@ public class BasicInfoFragment extends Fragment {
         etPrice = (EditText)  view.findViewById(R.id.etPrice);
 
         mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords);
-
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
@@ -525,6 +541,51 @@ public class BasicInfoFragment extends Fragment {
 
                     case R.id.rbRent:condition2="rbRent";
                 }
+            }
+        });
+        btn_save_and_nxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url;
+                if(entry_state==1)
+                {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
+                }
+                else {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<String, String >();
+//                        params.put("name",edtProductTitle.getText().toString());
+//                        params.put("product_condition",);
+//                        params.put("product_section",);
+//                        params.put("topcat_id",);
+//                        params.put("parentcat_id",);
+//                        params.put("category_id",);
+//                        params.put("tags",);
+//                        params.put("price",);
+
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        return params;
+                    }
+                };
+                int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
+                viewPager.setCurrentItem(item+1);
             }
         });
 

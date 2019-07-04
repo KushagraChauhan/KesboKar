@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,8 +71,13 @@ public class CarDetailsFragment extends Fragment {
     ListView lvSeries;
     String series_id,product_id,title_name;
     ArrayList<CarDetailsSeries> carDetailsSeries;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
-    public CarDetailsFragment() {
+    public CarDetailsFragment(ViewPager viewPager, TabLayout tabLayout)
+    {
+        this.viewPager=viewPager;
+        this.tabLayout=tabLayout;
         // Required empty public constructor
     }
 
@@ -404,6 +411,11 @@ public class CarDetailsFragment extends Fragment {
                 SharedPreferences.Editor editor=get_entry_state.edit();
                 editor.putInt("entry_state",entry_state);
                 editor.apply();
+
+                int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                viewPager.setCurrentItem(item+1);
+
 
             }
 

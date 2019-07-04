@@ -32,21 +32,36 @@ public class Main2Activity extends AppCompatActivity {
         boolean car_yes_or_no = extras.getBoolean("CAR_YES_OR_NO");
 
         myViewPager = (CustomViewPager) findViewById(R.id.main_tabs_pager);
+        myTabLayout =  findViewById(R.id.main_tabs);
+        myTabLayout.setupWithViewPager(myViewPager);
+
         if(!car_yes_or_no) {
-            myTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(),myViewPager);
+            myTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(),myViewPager,myTabLayout);
             myViewPager.setAdapter(myTabsAccessorAdapter);
         }else{
 //            Fragment fragment = new CarDetailsFragment();
 //            FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
 //            tr.add(frag_id,fragment).commit();
-            secondTabsAccessorAdapter = new SecondTabsAccessorAdapter(getSupportFragmentManager(),myViewPager);
+            secondTabsAccessorAdapter = new SecondTabsAccessorAdapter(getSupportFragmentManager(),myViewPager,myTabLayout);
             myViewPager.setAdapter(secondTabsAccessorAdapter);
+            View tab6= Objects.requireNonNull(myTabLayout.getTabAt(6)).view;
+            tab6.setEnabled(false);
         }
-        myTabLayout =  findViewById(R.id.main_tabs);
-        myTabLayout.setupWithViewPager(myViewPager);
+
+
         myViewPager.setPagingEnabled(false);
-        View tab= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
-        tab.setEnabled(false);
+        View tab1= Objects.requireNonNull(myTabLayout.getTabAt(1)).view;
+        View tab2= Objects.requireNonNull(myTabLayout.getTabAt(2)).view;
+        View tab3= Objects.requireNonNull(myTabLayout.getTabAt(3)).view;
+        View tab4= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
+        View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
+
+        tab1.setEnabled(false);
+        tab2.setEnabled(false);
+        tab3.setEnabled(false);
+        tab4.setEnabled(false);
+        tab5.setEnabled(false);
+
 
     }
 

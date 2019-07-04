@@ -4,12 +4,15 @@ package com.kesbokar.kesbokar;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
+
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -20,8 +23,13 @@ public class StatusFragment extends Fragment {
     RadioGroup rgStatus;
     Button btnBack, btnSubmit;
     String condition;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
-    public StatusFragment() {
+    public StatusFragment(ViewPager viewPager, TabLayout tabLayout)
+    {
+        this.viewPager=viewPager;
+        this.tabLayout=tabLayout;
         // Required empty public constructor
     }
 

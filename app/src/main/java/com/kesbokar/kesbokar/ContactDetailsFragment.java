@@ -59,10 +59,13 @@ public class ContactDetailsFragment extends Fragment {
     private ArrayList<StateAndSuburb> valsBus;
     private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
     ViewPager viewPager;
+    TabLayout tabLayout;
 
 
-    public ContactDetailsFragment(ViewPager viewPager) {
+    public ContactDetailsFragment(ViewPager viewPager, TabLayout tabLayout)
+    {
         this.viewPager=viewPager;
+        this.tabLayout=tabLayout;
         // Required empty public constructor
     }
 

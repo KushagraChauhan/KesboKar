@@ -4,12 +4,15 @@ package com.kesbokar.kesbokar;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -19,9 +22,14 @@ public class AttributeFragment extends Fragment {
 
     EditText etSpecification, etAdditional;
     Button btnBack, btnSubmit;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
 
-    public AttributeFragment() {
+    public AttributeFragment(ViewPager viewPager, TabLayout tabLayout)
+    {
+        this.viewPager=viewPager;
+        this.tabLayout=tabLayout;
         // Required empty public constructor
     }
 
