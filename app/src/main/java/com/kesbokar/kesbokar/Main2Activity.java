@@ -38,6 +38,8 @@ public class Main2Activity extends AppCompatActivity {
         if(!car_yes_or_no) {
             myTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(),myViewPager,myTabLayout);
             myViewPager.setAdapter(myTabsAccessorAdapter);
+            myTabLayout.removeTabAt(3);
+            myTabLayout.removeTabAt(4);
         }else{
 //            Fragment fragment = new CarDetailsFragment();
 //            FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
@@ -46,6 +48,8 @@ public class Main2Activity extends AppCompatActivity {
             myViewPager.setAdapter(secondTabsAccessorAdapter);
             View tab6= Objects.requireNonNull(myTabLayout.getTabAt(6)).view;
             tab6.setEnabled(false);
+            myTabLayout.removeTabAt(3);
+            myTabLayout.removeTabAt(4);
         }
 
 
@@ -53,14 +57,14 @@ public class Main2Activity extends AppCompatActivity {
         View tab1= Objects.requireNonNull(myTabLayout.getTabAt(1)).view;
         View tab2= Objects.requireNonNull(myTabLayout.getTabAt(2)).view;
         View tab3= Objects.requireNonNull(myTabLayout.getTabAt(3)).view;
-        View tab4= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
-        View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
+//        View tab4= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
+//        View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
 
         tab1.setEnabled(false);
         tab2.setEnabled(false);
         tab3.setEnabled(false);
-        tab4.setEnabled(false);
-        tab5.setEnabled(false);
+//        tab4.setEnabled(false);
+//        tab5.setEnabled(false);
 
 
     }
