@@ -38,18 +38,14 @@ public class Main2Activity extends AppCompatActivity {
         if(!car_yes_or_no) {
             myTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(),myViewPager,myTabLayout);
             myViewPager.setAdapter(myTabsAccessorAdapter);
-            myTabLayout.removeTabAt(3);
-            myTabLayout.removeTabAt(4);
         }else{
 //            Fragment fragment = new CarDetailsFragment();
 //            FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
 //            tr.add(frag_id,fragment).commit();
             secondTabsAccessorAdapter = new SecondTabsAccessorAdapter(getSupportFragmentManager(),myViewPager,myTabLayout);
             myViewPager.setAdapter(secondTabsAccessorAdapter);
-            View tab6= Objects.requireNonNull(myTabLayout.getTabAt(6)).view;
-            tab6.setEnabled(false);
-            myTabLayout.removeTabAt(3);
-            myTabLayout.removeTabAt(4);
+            View tab4= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
+            tab4.setEnabled(false);
         }
 
 

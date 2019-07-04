@@ -31,9 +31,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -54,6 +62,8 @@ public class ContactDetailsFragment extends Fragment {
     private String subType;
 
     private String q, subV;
+
+    private String product_id, product_name;
 
     private static final int LOADER_ID_BUSVAL = 10101;
     private ArrayList<StateAndSuburb> valsBus;
@@ -91,7 +101,7 @@ public class ContactDetailsFragment extends Fragment {
         q = subV = querySub = "au";
 
 
-        getData();
+
         tvEmail.setText(email);
 
 
@@ -105,7 +115,54 @@ public class ContactDetailsFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getData();
+                RequestQueue queue= Volley.newRequestQueue(getActivity());
+                String url;
+
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("Response",response);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("Error",error.toString());
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<String, String >();
+//                        params.put("name",edtProductTitle.getText().toString());
+//                        params.put("product_condition",);
+//                        params.put("product_section",);
+//                        params.put("topcat_id",);
+//                        params.put("parentcat_id",);
+//                        params.put("category_id",);
+//                        params.put("tags",);
+//                        params.put("price",);
+                        Log.i("state",id+"  "+ stateid+"  "+subUrbID+"  "+ product_id);
+                        String st_Id = ""+stateid;
+                        String subUrb = ""+subUrbID;
+                        params.put("state_id",st_Id);
+                        params.put("city_id",subUrb);
+                        String user_id=""+id;
+                        params.put("user_id",user_id);
+                        params.put("phone", etPhone.getText().toString());
+                        params.put("zipcode","");
+                        params.put("address",etStreet.getText().toString());
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        return params;
+                    }
+                };
+                queue.add(stringRequest);
                 int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
                 viewPager.setCurrentItem(item+1);
              }
         });
@@ -203,17 +260,21 @@ public class ContactDetailsFragment extends Fragment {
     }
 
 
-    public void getData(){
-        SharedPreferences contactDetailsFragment = getContext().getSharedPreferences("data",0);
-        flag = contactDetailsFragment.getInt("Flag",0);
-        full_name=contactDetailsFragment.getString("Name","");
-        email=contactDetailsFragment.getString("mail","");
-        image=contactDetailsFragment.getString("image","");
-        phone_no=contactDetailsFragment.getString("phone","");
-        id=contactDetailsFragment.getInt("id",0);
-        created=contactDetailsFragment.getString("create","");
-        updated=contactDetailsFragment.getString("update","");
+    public void getData()
+    {
+        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+        SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
+        product_id =get_product_detail.getString("product_id","");
+        product_name=get_product_detail.getString("product_name","");
+
 
     }
-
 }
