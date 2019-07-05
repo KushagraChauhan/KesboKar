@@ -66,6 +66,8 @@ public class BasicInfoFragment extends Fragment {
     int entry_state;
     ViewPager viewPager;
     TabLayout tabLayout;
+    String firstCat, secondCat, thirdCat;
+    String tagsIds = "";
 
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
@@ -74,7 +76,7 @@ public class BasicInfoFragment extends Fragment {
     private String tags;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
-
+    int count = 0;
     private Context context;
     private String parent_id = "";
     private static final int LOADER_FIRST_CATEGORY = 101;
@@ -111,7 +113,6 @@ public class BasicInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
-
 
         rgProductCondition = view.findViewById(R.id.rgProductCondition);
         rgProductSelection = view.findViewById(R.id.rgProductSelection);
@@ -188,6 +189,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategoryBase categoryBase = (CategoryBase) adapterView.getAdapter().getItem(i);
                                 parent_id = categoryBase.getId();
+                                firstCat = parent_id;
                                 txtCatFirst.setText(categoryBase.getTitle());
                                 getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
                                 Log.i("Parent id", parent_id);
@@ -294,6 +296,7 @@ public class BasicInfoFragment extends Fragment {
                                 }
                                 else
                                 {
+                                    Log.i("TAGSIDS", "onTouch: " + tagsIds);
                                     mltAutoKeyWords.dismissDropDown();
                                     mltAutoKeyWords.setEnabled(false);
                                 }
@@ -337,11 +340,17 @@ public class BasicInfoFragment extends Fragment {
                             //long id = adapterView.getAdapter().getItemId(i);
                             if(!tagsSelectedArrayList.contains(tagsObject)){
                                 if(tagsSelectedArrayList.size() < 5) {
+                                    if(count==4){
+                                        tagsIds += tagsObject.getId();
+                                    }else{
+                                        tagsIds += tagsObject.getId() + ",";
+                                    }
                                     tagsSelectedArrayList.add(tagsObject);
                                     tagsObjectArrayAdapter.remove(tagsObject);
                                     tagsObjectArrayAdapter.notifyDataSetChanged();
                                     tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
                                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                                    count++;
                                 }else{
 
                                 }
@@ -384,6 +393,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategorySecond categorySecond = (CategorySecond) adapterView.getAdapter().getItem(i);
                                 parent_id = categorySecond.getId();
+                                secondCat = parent_id;
                                 txtCatSecond.setText(categorySecond.getTitle());
                                 Log.i("Parent id", parent_id);
                                 txtCatThird.setVisibility(View.VISIBLE);
@@ -424,6 +434,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategoryThird categoryThird = (CategoryThird) adapterView.getAdapter().getItem(i);
                                 parent_id = categoryThird.getId();
+                                thirdCat = parent_id;
                                 tags = categoryThird.getTags();
                                 StringTokenizer stringTokenizer = new StringTokenizer(tags,",");
                                 while(stringTokenizer.hasMoreTokens()){
@@ -572,10 +583,10 @@ public class BasicInfoFragment extends Fragment {
 //                        params.put("name",edtProductTitle.getText().toString());
 //                        params.put("product_condition",);
 //                        params.put("product_section",);
-//                        params.put("topcat_id",);
-//                        params.put("parentcat_id",);
-//                        params.put("category_id",);
-//                        params.put("tags",);
+//                        params.put("topcat_id", firstCat);
+//                        params.put("parentcat_id",secondCat);
+//                        params.put("category_id",thirdCat);
+//                        params.put("tags",tagsIds);
 //                        params.put("price",);
 
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
