@@ -5,16 +5,18 @@
 
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-
-        android:text="Please Update First..!!"
-        android:textSize="20dp"
-        android:textColor="#46a5df"
-        android:textAlignment="center"
-        android:layout_marginTop="50dp"
         android:id="@+id/textMessage"
-        />
+        android:layout_width="match_parent"
+
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorAccent"
+        android:gravity="center|center_horizontal"
+        android:text="Please Update First..!!"
+        android:textAlignment="center"
+        android:textColor="@color/White"
+        android:textSize="20sp"
+        android:textStyle="bold" />
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -27,15 +29,25 @@
             android:id="@+id/buttonUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update"
+            android:layout_marginLeft="20dp"
             android:background="@color/kesbokar"
-            android:textAlignment="center" />
+            android:text="Update"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textStyle="bold" />
+
         <Button
+            android:id="@+id/remindlater"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Remind Me Later"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
             android:background="@color/kesbokar"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Remind Me Later"
             android:textAlignment="center"
-            android:id="@+id/remindlater"/>
+            android:textColor="@color/White"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>
