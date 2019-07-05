@@ -32,14 +32,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONObject;
@@ -61,7 +64,7 @@ public class BasicInfoFragment extends Fragment {
     CategoriesSecondAdapter categoriesSecondAdapter;
     private TextView txtCatFirst, txtCatSecond, txtCatThird,etPostProduct;
 
-    String condition1, condition2, product_name, product_id;
+    String condition1, condition2, product_name, product_id, condition1Value, condition2Value;
     RadioGroup rgProductCondition, rgProductSelection;
     int entry_state;
     ViewPager viewPager;
@@ -152,7 +155,7 @@ public class BasicInfoFragment extends Fragment {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
-        getData();
+
         etPostProduct.setText(full_name);
         edtProductTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -533,11 +536,14 @@ public class BasicInfoFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId)
                 {
+
                     case R.id.rbNew:condition1="New";
+                    condition1Value = "N";
                         break;
 
                     case R.id.rbUsed:condition1="used";
-                }
+                    condition1Value = "U";
+                                    }
             }
         });
 
@@ -548,16 +554,23 @@ public class BasicInfoFragment extends Fragment {
                 switch(checkedId)
                 {
                     case R.id.rbSell:condition2="rbSell";
+                        condition2Value = "S";
                         break;
 
                     case R.id.rbRent:condition2="rbRent";
+                        condition2Value = "R";
+
                 }
             }
         });
         btn_save_and_nxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getData();
                 String url;
+                RequestQueue queue= Volley.newRequestQueue(getActivity());
+                final String price = etPrice.getText().toString();
+
                 if(entry_state==1)
                 {
                     url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
@@ -568,12 +581,13 @@ public class BasicInfoFragment extends Fragment {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("Response",response);
 
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.i("Error",error.toString());
                     }
                 }){
                     @Override
@@ -581,18 +595,28 @@ public class BasicInfoFragment extends Fragment {
                     {
                         Map<String, String>  params = new HashMap<String, String >();
 //                        params.put("name",edtProductTitle.getText().toString());
+                        params.put("product_condition",condition1Value);
+                        params.put("product_section",condition2Value);
+//                        params.put("topcat_id",);
+//                        params.put("parentcat_id",);
+//                        params.put("category_id",);
+//                        params.put("tags",);
+                        params.put("price",price);
 //                        params.put("product_condition",);
 //                        params.put("product_section",);
-//                        params.put("topcat_id", firstCat);
-//                        params.put("parentcat_id",secondCat);
-//                        params.put("category_id",thirdCat);
-//                        params.put("tags",tagsIds);
+                        params.put("topcat_id", firstCat);
+                        params.put("parentcat_id",secondCat);
+                        String user_id=""+id;
+                        params.put("user_id",user_id);
+                        params.put("category_id",thirdCat);
+                        params.put("tags",tagsIds);
 //                        params.put("price",);
 
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                         return params;
                     }
                 };
+                queue.add(stringRequest);
                 int item=viewPager.getCurrentItem();
                 View tab=tabLayout.getTabAt(item+1).view;
                 tab.setEnabled(true);
@@ -625,7 +649,7 @@ public class BasicInfoFragment extends Fragment {
         SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
-        SharedPreferences entry=getActivity().getSharedPreferences("product_detail",0);
-        entry_state =entry.getInt("entry_state",0);
+        SharedPreferences entry=getActivity().getSharedPreferences("entry_state",0);
+        entry_state =entry.getInt("entry_state1",0);
     }
 }
