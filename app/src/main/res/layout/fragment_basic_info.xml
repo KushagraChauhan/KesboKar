@@ -249,15 +249,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Key words" />
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_cancel_black_24dp"
+                        android:id="@+id/cancel_tag"
+                        android:layout_gravity="end"/>
                 <MultiAutoCompleteTextView
                     android:id="@+id/mltAutoKeyWords"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:gravity="start|top"
                     android:hint="CallFromApi"
                     android:inputType="textMultiLine" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView20"
@@ -304,8 +315,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="$ " />
+                    android:hint="In $"
+                    android:inputType="number" />
             </LinearLayout>
 
             <LinearLayout
@@ -315,7 +326,7 @@
                 android:paddingTop="10dp">
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btn_save_and_next"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="130dp"

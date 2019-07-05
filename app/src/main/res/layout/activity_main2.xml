@@ -17,6 +17,7 @@
             layout="@layout/app_bar_layout">
         </include>
 
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_tabs"
             android:layout_width="match_parent"
@@ -27,14 +28,15 @@
 
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager.widget.ViewPager
+    <com.kesbokar.kesbokar.CustomViewPager
         android:id="@+id/main_tabs_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appBarLayout">
 
-    </androidx.viewpager.widget.ViewPager>
+
+    </com.kesbokar.kesbokar.CustomViewPager>
+
 
 
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 
@@ -32,9 +35,14 @@ public class PhotosFragment extends Fragment {
     Button btnChoose, btnUpload, btnBack,btnSubmit;
     TextView tvChosen;
     ImageView ivImage;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
 
-    public PhotosFragment() {
+    public PhotosFragment(ViewPager viewPager, TabLayout tabLayout)
+    {
+        this.viewPager=viewPager;
+        this.tabLayout=tabLayout;
         // Required empty public constructor
     }
 

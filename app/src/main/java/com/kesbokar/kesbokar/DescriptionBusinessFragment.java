@@ -115,6 +115,8 @@ public class DescriptionBusinessFragment extends Fragment {
                     e.printStackTrace();
                 }
                 ivImage.setImageBitmap(bitmapImage);
+                btnChooseFile.setText("Selected");
+                tvImageChosen.setText("");
             }
         }
 

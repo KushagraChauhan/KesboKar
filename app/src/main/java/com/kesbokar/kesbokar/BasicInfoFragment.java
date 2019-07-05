@@ -12,13 +12,18 @@ import android.app.Dialog;
 
 import androidx.loader.content.Loader;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,10 +32,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONObject;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 
@@ -42,15 +62,24 @@ public class BasicInfoFragment extends Fragment {
     CategoriesThirdAdapter categoriesThirdAdapter;
     CategoriesBaseAdapter categoriesBaseAdapter;
     CategoriesSecondAdapter categoriesSecondAdapter;
-    private TextView txtCatFirst, txtCatSecond, txtCatThird;
-    String condition1, condition2;
+    private TextView txtCatFirst, txtCatSecond, txtCatThird,etPostProduct;
+
+    String condition1, condition2, product_name, product_id, condition1Value, condition2Value;
     RadioGroup rgProductCondition, rgProductSelection;
+    int entry_state;
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    String firstCat, secondCat, thirdCat;
+    String tagsIds = "";
+
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
     private ArrayList<TagsObject> tagsSelectedArrayList;
     private Button btnCancel_1, btnCancel_2, btnCancel_3;
     private String tags;
-
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id,flag;
+    int count = 0;
     private Context context;
     private String parent_id = "";
     private static final int LOADER_FIRST_CATEGORY = 101;
@@ -71,9 +100,14 @@ public class BasicInfoFragment extends Fragment {
 
     ArrayAdapter<TagsObject> tagsObjectArrayAdapter;
     private ArrayList<String> tagsName;
+    Button cancel_tag, btn_save_and_nxt;
 
-    EditText edtProductTitle;
-    public BasicInfoFragment() {
+    EditText edtProductTitle, etPrice;
+
+    public BasicInfoFragment(ViewPager viewPager, TabLayout tabLayout)
+    {
+        this.viewPager=viewPager;
+        this.tabLayout=tabLayout;
         // Required empty public constructor
     }
 
@@ -83,7 +117,6 @@ public class BasicInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
 
-
         rgProductCondition = view.findViewById(R.id.rgProductCondition);
         rgProductSelection = view.findViewById(R.id.rgProductSelection);
         context = view.getContext();
@@ -92,11 +125,14 @@ public class BasicInfoFragment extends Fragment {
         txtCatFirst =(TextView) view.findViewById(R.id.txtCatFirst);
         txtCatSecond =(TextView) view.findViewById(R.id.txtCatSecond);
         txtCatThird =(TextView) view.findViewById(R.id.txtCatThird);
+        etPostProduct= view.findViewById(R.id.etPostProduct);
+        edtProductTitle=view.findViewById(R.id.etProductTitle);
 
+        cancel_tag= view.findViewById(R.id.cancel_tag);
         btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
         btnCancel_2 = (Button) view.findViewById(R.id.btnCancel_2);
         btnCancel_3 = (Button) view.findViewById(R.id.btnCancel_3);
-
+        btn_save_and_nxt=view.findViewById(R.id.btn_save_and_next);
         txtCatSecond.setVisibility(View.GONE);
         txtCatThird.setVisibility(View.GONE);
 
@@ -104,8 +140,9 @@ public class BasicInfoFragment extends Fragment {
         btnCancel_2.setVisibility(View.GONE);
         btnCancel_3.setVisibility(View.GONE);
 
-        mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords);
+        etPrice = (EditText)  view.findViewById(R.id.etPrice);
 
+        mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords);
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
@@ -118,6 +155,22 @@ public class BasicInfoFragment extends Fragment {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
+
+        etPostProduct.setText(full_name);
+        edtProductTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (entry_state==1)
+                {
+                    assert getFragmentManager() != null;
+                    assert getTargetFragment() != null;
+                    getFragmentManager().beginTransaction().detach(getTargetFragment()).attach(getTargetFragment()).commit();
+                    edtProductTitle.setText(product_name);
+                }
+            }
+        });
+
+
         txtCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +192,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategoryBase categoryBase = (CategoryBase) adapterView.getAdapter().getItem(i);
                                 parent_id = categoryBase.getId();
+                                firstCat = parent_id;
                                 txtCatFirst.setText(categoryBase.getTitle());
                                 getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
                                 Log.i("Parent id", parent_id);
@@ -229,21 +283,77 @@ public class BasicInfoFragment extends Fragment {
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<TagsObject>> loader, ArrayList<TagsObject> data) {
                 if(data!=null){
+                    tagsObjectArrayList.clear();
+                    tagsSelectedArrayList.clear();
+                    Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
                     tagsObjectArrayList = data;
                     tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                     mltAutoKeyWords.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
                     mltAutoKeyWords.setThreshold(1);
+                    mltAutoKeyWords.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                if (tagsSelectedArrayList.size()<5) {
+                                    mltAutoKeyWords.showDropDown();
+                                }
+                                else
+                                {
+                                    Log.i("TAGSIDS", "onTouch: " + tagsIds);
+                                    mltAutoKeyWords.dismissDropDown();
+                                    mltAutoKeyWords.setEnabled(false);
+                                }
+                                return false;
+                            }
+                    });
+                    cancel_tag.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mltAutoKeyWords.setText("");
+                            mltAutoKeyWords.setEnabled(true);
+                            tagsObjectArrayList.addAll(tagsSelectedArrayList);
+                            Toast.makeText(context, ""+tagsObjectArrayList.toString(), Toast.LENGTH_SHORT).show();
+                            tagsSelectedArrayList.clear();
+                            tagsObjectArrayAdapter.notifyDataSetChanged();
+                            tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                            mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                        }
+                    });
+                    mltAutoKeyWords.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
                     mltAutoKeyWords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             TagsObject tagsObject = (TagsObject) adapterView.getAdapter().getItem(i);
+                            Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
                             //long id = adapterView.getAdapter().getItemId(i);
                             if(!tagsSelectedArrayList.contains(tagsObject)){
                                 if(tagsSelectedArrayList.size() < 5) {
+                                    if(count==4){
+                                        tagsIds += tagsObject.getId();
+                                    }else{
+                                        tagsIds += tagsObject.getId() + ",";
+                                    }
                                     tagsSelectedArrayList.add(tagsObject);
                                     tagsObjectArrayAdapter.remove(tagsObject);
                                     tagsObjectArrayAdapter.notifyDataSetChanged();
+                                    tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                                    mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                                    count++;
                                 }else{
 
                                 }
@@ -286,6 +396,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategorySecond categorySecond = (CategorySecond) adapterView.getAdapter().getItem(i);
                                 parent_id = categorySecond.getId();
+                                secondCat = parent_id;
                                 txtCatSecond.setText(categorySecond.getTitle());
                                 Log.i("Parent id", parent_id);
                                 txtCatThird.setVisibility(View.VISIBLE);
@@ -326,6 +437,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategoryThird categoryThird = (CategoryThird) adapterView.getAdapter().getItem(i);
                                 parent_id = categoryThird.getId();
+                                thirdCat = parent_id;
                                 tags = categoryThird.getTags();
                                 StringTokenizer stringTokenizer = new StringTokenizer(tags,",");
                                 while(stringTokenizer.hasMoreTokens()){
@@ -424,11 +536,14 @@ public class BasicInfoFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId)
                 {
+
                     case R.id.rbNew:condition1="New";
+                    condition1Value = "N";
                         break;
 
                     case R.id.rbUsed:condition1="used";
-                }
+                    condition1Value = "U";
+                                    }
             }
         });
 
@@ -439,10 +554,73 @@ public class BasicInfoFragment extends Fragment {
                 switch(checkedId)
                 {
                     case R.id.rbSell:condition2="rbSell";
+                        condition2Value = "S";
                         break;
 
                     case R.id.rbRent:condition2="rbRent";
+                        condition2Value = "R";
+
                 }
+            }
+        });
+        btn_save_and_nxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+                String url;
+                RequestQueue queue= Volley.newRequestQueue(getActivity());
+                final String price = etPrice.getText().toString();
+
+                if(entry_state==1)
+                {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
+                }
+                else {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("Response",response);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("Error",error.toString());
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<String, String >();
+//                        params.put("name",edtProductTitle.getText().toString());
+                        params.put("product_condition",condition1Value);
+                        params.put("product_section",condition2Value);
+//                        params.put("topcat_id",);
+//                        params.put("parentcat_id",);
+//                        params.put("category_id",);
+//                        params.put("tags",);
+                        params.put("price",price);
+//                        params.put("product_condition",);
+//                        params.put("product_section",);
+                        params.put("topcat_id", firstCat);
+                        params.put("parentcat_id",secondCat);
+                        String user_id=""+id;
+                        params.put("user_id",user_id);
+                        params.put("category_id",thirdCat);
+                        params.put("tags",tagsIds);
+//                        params.put("price",);
+
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        return params;
+                    }
+                };
+                queue.add(stringRequest);
+                int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
+                viewPager.setCurrentItem(item+1);
             }
         });
 
@@ -456,5 +634,22 @@ public class BasicInfoFragment extends Fragment {
 //        Log.i("DATA KI MA KI CHOOT", data);
 //        edtProductTitle.setText(data);
         return view;
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+        SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
+        product_id =get_product_detail.getString("product_id","");
+        product_name=get_product_detail.getString("product_name","");
+        SharedPreferences entry=getActivity().getSharedPreferences("entry_state",0);
+        entry_state =entry.getInt("entry_state1",0);
     }
 }

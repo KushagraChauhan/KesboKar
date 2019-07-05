@@ -12,13 +12,13 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="25dp"
         android:layout_marginTop="500dp"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <Button
@@ -30,7 +30,7 @@
             <Button
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:text="BUISNESS"
+                android:text="BUSINESS"
                 android:background="@drawable/rect_button"
                 android:id="@+id/buis"/>
 
@@ -99,6 +99,7 @@
                         android:background="@color/colorTransparent"
                         android:text="Businesses"
                         android:textColor="#FFFFFF"
+                        android:paddingEnd="8dp"
                         android:textSize="20sp" />
 
                     <RadioButton
@@ -108,6 +109,7 @@
                         android:background="@color/kesbokar"
                         android:text="Market Place"
                         android:textColor="#FFFFFF"
+                        android:paddingEnd="8dp"
                         android:textSize="20sp" />
 
                 </RadioGroup>
@@ -177,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="250dp"
-                    android:layout_marginBottom="80dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -236,16 +238,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="30dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/border">
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/border"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/mi1"
                             android:layout_width="300dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center_horizontal"
-                            android:background="@drawable/image_border"/>
+                            android:background="@drawable/image_border" />
 
                         <TextView
                             android:id="@+id/mc1"
@@ -269,16 +274,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="30dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/border">
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/border"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/mi2"
                             android:layout_width="300dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center_horizontal"
-                            android:background="@drawable/image_border"/>
+                            android:background="@drawable/image_border" />
 
                         <TextView
                             android:id="@+id/mc2"
@@ -310,9 +318,12 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="30dp"
-                            android:orientation="vertical"
-                            android:background="@drawable/border">
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/border"
+                            android:orientation="vertical">
 
                             <ImageView
                                 android:id="@+id/mi3"
@@ -343,16 +354,19 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="30dp"
-                            android:orientation="vertical"
-                            android:background="@drawable/border">
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/border"
+                            android:orientation="vertical">
 
                             <ImageView
                                 android:id="@+id/mi4"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border"/>
+                                android:background="@drawable/image_border" />
 
                             <TextView
                                 android:id="@+id/mc4"
@@ -401,18 +415,21 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="30dp"
-                                android:orientation="vertical"
-                                android:background="@drawable/border">
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/border"
+                                android:orientation="vertical">
 
                                 <ImageView
                                     android:id="@+id/bi1"
                                     android:layout_width="300dp"
                                     android:layout_height="150dp"
                                     android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/image_border"
                                     android:foregroundGravity="center_horizontal"
-                                    android:scaleType="fitXY"
-                                    android:background="@drawable/image_border"/>
+                                    android:scaleType="fitXY" />
 
                                 <TextView
                                     android:id="@+id/bc1"
@@ -436,18 +453,21 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="30dp"
-                                android:orientation="vertical"
-                                android:background="@drawable/border">
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/border"
+                                android:orientation="vertical">
 
                                 <ImageView
                                     android:id="@+id/bi2"
                                     android:layout_width="300dp"
                                     android:layout_height="150dp"
                                     android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/image_border"
                                     android:foregroundGravity="center_horizontal"
-                                    android:scaleType="fitXY"
-                                    android:background="@drawable/image_border"/>
+                                    android:scaleType="fitXY" />
 
                                 <TextView
                                     android:id="@+id/bc2"
@@ -471,18 +491,21 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="30dp"
-                                android:orientation="vertical"
-                                android:background="@drawable/border">
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/border"
+                                android:orientation="vertical">
 
                                 <ImageView
                                     android:id="@+id/bi3"
                                     android:layout_width="300dp"
                                     android:layout_height="150dp"
                                     android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/image_border"
                                     android:foregroundGravity="center_horizontal"
-                                    android:scaleType="fitXY"
-                                    android:background="@drawable/image_border"/>
+                                    android:scaleType="fitXY" />
 
                                 <TextView
                                     android:id="@+id/bc3"
@@ -506,18 +529,21 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="30dp"
-                                android:orientation="vertical"
-                                android:background="@drawable/border">
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/border"
+                                android:orientation="vertical">
 
                                 <ImageView
                                     android:id="@+id/bi4"
                                     android:layout_width="300dp"
                                     android:layout_height="150dp"
                                     android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/image_border"
                                     android:foregroundGravity="center_horizontal"
-                                    android:scaleType="fitXY"
-                                    android:background="@drawable/image_border"/>
+                                    android:scaleType="fitXY" />
 
                                 <TextView
                                     android:id="@+id/bc4"

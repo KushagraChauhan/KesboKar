@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/colorAccent"
-        android:text="Request A Quote"
+        android:text="Get In Touch"
         android:textColor="@color/White" />
 
 </LinearLayout>

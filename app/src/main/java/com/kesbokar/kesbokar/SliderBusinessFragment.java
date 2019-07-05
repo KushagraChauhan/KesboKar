@@ -115,6 +115,8 @@ public class SliderBusinessFragment extends Fragment {
                     e.printStackTrace();
                 }
                 ivImage.setImageBitmap(bitmapImage);
+                btnChooseFiles.setText("Selected");
+                tvChosen.setText("");
             }
         }
 
