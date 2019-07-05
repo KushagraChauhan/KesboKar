@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -53,7 +54,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     private DataAdapter dataAdapter;
     private ArrayList<ExampleItem> exampleItems;
     private RequestQueue requestQueue;
-
+    private ProgressDialog progressDialog;
     private Button btnHelp,btnBuis,btnMar,btnTop;
 
     private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
@@ -117,6 +118,8 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         valsBus = new ArrayList<>();
         valsSub = new ArrayList<>();
         querySub = subV = subType = q = "";
+        progressDialog = new ProgressDialog(Buisness_Listing.this);
+        progressDialog.setTitle("Loading...");
 
 //        autoCompleteTextViewOne = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewOne);
 //        autoCompleteTextViewTwo = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewTwo);
@@ -246,6 +249,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         }
         String denote = bundle.getString("CHOICE");
         if(denote.equals("imgBtnService")){
+
             imgBtnService();
         }else if(denote.equals("btnSearch")){
             exampleItems = bundle.getParcelableArrayList("ARRAYLIST");
@@ -265,6 +269,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     }
 
     public void imgBtnService(){
+        progressDialog.show();
         requestQueue = Volley.newRequestQueue(this);
         parseJSON();
         initScrollListener();
