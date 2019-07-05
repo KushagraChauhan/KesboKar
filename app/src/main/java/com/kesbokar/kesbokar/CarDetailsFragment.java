@@ -409,7 +409,7 @@ public class CarDetailsFragment extends Fragment {
                 entry_state=1;
                 SharedPreferences get_entry_state= getActivity().getSharedPreferences("entry_state",0);
                 SharedPreferences.Editor editor=get_entry_state.edit();
-                editor.putInt("entry_state",entry_state);
+                editor.putInt("entry_state1",entry_state);
                 editor.apply();
 
                 int item=viewPager.getCurrentItem();

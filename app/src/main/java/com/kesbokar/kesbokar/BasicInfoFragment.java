@@ -38,9 +38,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONObject;
@@ -153,7 +155,7 @@ public class BasicInfoFragment extends Fragment {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
-        getData();
+
         etPostProduct.setText(full_name);
         edtProductTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -564,7 +566,9 @@ public class BasicInfoFragment extends Fragment {
         btn_save_and_nxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getData();
                 String url;
+                RequestQueue queue= Volley.newRequestQueue(getActivity());
                 final String price = etPrice.getText().toString();
 
                 if(entry_state==1)
@@ -577,12 +581,13 @@ public class BasicInfoFragment extends Fragment {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("Response",response);
 
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.i("Error",error.toString());
                     }
                 }){
                     @Override
@@ -599,16 +604,19 @@ public class BasicInfoFragment extends Fragment {
                         params.put("price",price);
 //                        params.put("product_condition",);
 //                        params.put("product_section",);
-//                        params.put("topcat_id", firstCat);
-//                        params.put("parentcat_id",secondCat);
-//                        params.put("category_id",thirdCat);
-//                        params.put("tags",tagsIds);
+                        params.put("topcat_id", firstCat);
+                        params.put("parentcat_id",secondCat);
+                        String user_id=""+id;
+                        params.put("user_id",user_id);
+                        params.put("category_id",thirdCat);
+                        params.put("tags",tagsIds);
 //                        params.put("price",);
 
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                         return params;
                     }
                 };
+                queue.add(stringRequest);
                 int item=viewPager.getCurrentItem();
                 View tab=tabLayout.getTabAt(item+1).view;
                 tab.setEnabled(true);
@@ -641,7 +649,7 @@ public class BasicInfoFragment extends Fragment {
         SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
-        SharedPreferences entry=getActivity().getSharedPreferences("product_detail",0);
-        entry_state =entry.getInt("entry_state",0);
+        SharedPreferences entry=getActivity().getSharedPreferences("entry_state",0);
+        entry_state =entry.getInt("entry_state1",0);
     }
 }
