@@ -1,6 +1,7 @@
 package com.kesbokar.kesbokar;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,8 @@ public class AttributeFragment extends Fragment {
     Button btnBack, btnSubmit;
     ViewPager viewPager;
     TabLayout tabLayout;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info;
+    int id,flag,entry_state;
 
 
     public AttributeFragment(ViewPager viewPager, TabLayout tabLayout)
@@ -87,6 +90,25 @@ public class AttributeFragment extends Fragment {
 
 
         return view;
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+        SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
+        product_id =get_product_detail.getString("product_id","");
+        product_name=get_product_detail.getString("product_name","");
+        SharedPreferences entry=getActivity().getSharedPreferences("entry_state",0);
+        entry_state =entry.getInt("entry_state1",0);
+        SharedPreferences attribute=getActivity().getSharedPreferences("attributes",0);
+        attribute_info = attribute.getString("attribute_info","");
     }
 
 }
