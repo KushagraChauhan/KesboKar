@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,11 +22,13 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Context context;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
+
     private ArrayList<MarketIem> marketItems;
     public DataAdapterMarket(MarketListing activity ,ArrayList<MarketIem> marketItems) {
         this.mActivity = activity;
         this.marketItems = marketItems;
     }
+
 
     @NonNull
     @Override
@@ -58,6 +61,7 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ProgressBar progressBar;
+        LinearLayout parent;
         private TextView mln,mlt,mld,price,heading_text;
         ImageView mli;
         private Button blrq,blw;
@@ -67,6 +71,7 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
             mln=view.findViewById(R.id.mln);
             progressBar=view.findViewById(R.id.progressBar);
             price=view.findViewById(R.id.price);
+            parent = view.findViewById(R.id.parent);
             //url1=view.findViewById(R.id.url);
 //            bld=view.findViewById(R.id.bld);
             mlt=view.findViewById(R.id.mlt);
@@ -147,7 +152,18 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
                 mActivity.finish();
             }
         });
-
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String finalUrl="https://www.kesbokar.com.au/marketplace/"+city+"/"+title+"/"+url+"/"+id;
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra("URL", finalUrl);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                mActivity.startActivityForResult(intent,0);
+                mActivity.overridePendingTransition(0,0);
+                mActivity.finish();
+            }
+        });
     }
 
 

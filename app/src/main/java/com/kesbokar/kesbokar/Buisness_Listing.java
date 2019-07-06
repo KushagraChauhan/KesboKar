@@ -300,6 +300,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 //                .show();
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.search_alert_dialog_box);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         autoCompleteTextViewOne = dialog.findViewById(R.id.autoCompleteTextViewOne);
         autoCompleteTextViewTwo = dialog.findViewById(R.id.autoCompleteTextViewTwo);
         btnAlertDialogSearch = dialog.findViewById(R.id.btnAlertDialogSearch);

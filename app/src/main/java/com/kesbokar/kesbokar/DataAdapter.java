@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -213,6 +214,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView bln,bls,bld,heading_text;
         RatingBar blr;
         ImageView bli;
+        LinearLayout clickable;
         private Button blw;
         Button blrq;
         public MyViewHolder(@NonNull View view) {
@@ -220,6 +222,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             bln=view.findViewById(R.id.bln);
             bls=view.findViewById(R.id.bls);
             progressBar=view.findViewById(R.id.progressBar);
+            clickable=view.findViewById(R.id.clickable);
             //url1=view.findViewById(R.id.url);
 //            bld=view.findViewById(R.id.bld);
             bli=view.findViewById(R.id.bli);
@@ -364,6 +367,18 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Window window = dialog.getWindow();
                 window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+            }
+        });
+        holder.clickable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra("URL", finalUrl);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                mActivity.startActivityForResult(intent,0);
+                mActivity.overridePendingTransition(0,0);
+                mActivity.finish();
             }
         });
 
