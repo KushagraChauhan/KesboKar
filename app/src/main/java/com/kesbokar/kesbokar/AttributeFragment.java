@@ -44,7 +44,7 @@ public class AttributeFragment extends Fragment {
 
     ViewPager viewPager;
     TabLayout tabLayout;
-    String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info,attribute_id;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info,attribute_id,attribute="";
     int id,flag,entry_state;
     Button btnRefresh;
 
@@ -72,8 +72,8 @@ public class AttributeFragment extends Fragment {
                 int totalSpace = 0;
                 getData();
                 int count =0;
-                String temp = "";
-                int pos1=0, pos2=0;
+                String temp = "",id="";
+                int pos1=0, pos2=0, pos3=0;
                 btnRefresh.setVisibility(View.INVISIBLE);
                 for(int k=0;k<attribute_info.length();k++)
                 {
@@ -82,9 +82,11 @@ public class AttributeFragment extends Fragment {
                         count++;
                     }
                 }
+                final String[] resultId = new String[count];
                 final String[] result = new String[count];
                 for (int i=0;i<count;i++) {
                     temp = "";
+                    id="";
 
 
                     for(int n=pos1;n<attribute_info.length();n++)
@@ -104,10 +106,30 @@ public class AttributeFragment extends Fragment {
                         }
                     }
 
+                    for(int r=pos3;r<pos1-1;r++)
+                    {
+                        id = id + attribute_info.charAt(r);
+                    }
+
+                    for(int p=pos3;p<attribute_info.length();p++)
+                    {
+                        pos3++;
+                        if(attribute_info.charAt(p)==',')
+                        {
+                            break;
+                        }
+                    }
+
+
+
                     for (int l=pos1;l<pos2-1;l++)
                     {
                         temp = temp + attribute_info.charAt(l);
                     }
+
+
+
+                    resultId[i] = id;
 
 
                     TextView tv = new TextView(getContext());
@@ -179,21 +201,26 @@ public class AttributeFragment extends Fragment {
                         for (int i = 0; i< finalCount; i++)
                         {
 
+
                             JSONObject jsonObject=new JSONObject();
                             try {
                                 jsonObject.put("product_id",product_id);
-                                jsonObject.put("attribute_id",result_id[i]);
+                                jsonObject.put("attribute_id",resultId[i]);
                                 jsonObject.put("attribute_value",result[i]);
                                 jsonArray.put(i,jsonObject);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            attribute=attribute+resultId[i]+",";
+
+
+                            Toast.makeText(getContext(),resultId[i],Toast.LENGTH_SHORT).show();
 
                         }
                         RequestQueue queue= Volley.newRequestQueue(getActivity());
                         String url;
 
-                        url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
+                        url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id+"/attributes";
 
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
@@ -212,18 +239,23 @@ public class AttributeFragment extends Fragment {
                             {
                                 Map<String, String>  params = new HashMap<String, String >();
                                 params.put("product_id",product_id);
-                                params.put("attributes",attribute_id);
                                 params.put("data",jsonArray.toString());
+                                Log.i("jsonarray",jsonArray.toString());
                                 params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                                 return params;
                             }
                         };
                         queue.add(stringRequest);
+                        int item=viewPager.getCurrentItem();
+                        View tab=tabLayout.getTabAt(item+1).view;
+                        tab.setEnabled(true);
+                        viewPager.setCurrentItem(item+1);
 
                     }
                 });
 
                 fragment_container.addView(btnSave, btnSaveParams);
+
             }
         });
 
