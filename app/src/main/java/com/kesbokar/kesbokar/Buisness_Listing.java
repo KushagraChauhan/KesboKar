@@ -58,6 +58,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     private RequestQueue requestQueue;
     private ProgressDialog progressDialog;
     private Button btnHelp,btnBuis,btnMar,btnTop;
+    String heading,state_id,state_name;
 
     private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
     private Button btnAlertDialogSearch;
@@ -76,7 +77,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     int stateid = 0;
 
     boolean isLoading = false;
-    String name,image,synopsis,url1,city,city_id;
+    String name,image,synopsis,url1,city,city_id,cat_title;
     int id;
     String loginId, loginPass, full_name, email, image1, phone_no,created,updated;
     int id1,flag;
@@ -453,7 +454,17 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                 image = dat.getString("image");
                                 url1=dat.getString("url_name");
                                 city_id=dat.getString("city_id");
+                                state_id=dat.getString("state_id");
+                                cat_title=dat.getString("cat_title");
+
                                 JSONArray rate=dat.getJSONArray("reviews");
+                                if (state_id!="null") {
+                                    JSONObject stateob = dat.getJSONObject("state");
+                                    state_name = stateob.getString("title");
+                                }
+                                else {
+                                    state_name="";
+                                }
                                 if(rate.length()>0) {
                                     for (int j = 0; j < rate.length(); j++) {
                                         JSONObject review = rate.getJSONObject(j);
@@ -475,9 +486,16 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                 {
                                     city="city";
                                 }
+                                if (state_id!="null") {
+                                    heading = cat_title + " - " + state_name + " , " + city;
+                                }
+                                else
+                                {
+                                    heading=cat_title;
+                                }
 
                                 id=dat.getInt("id");
-                                exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings));
+                                exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings,heading));
                             }
 
                             dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag, loginData);
@@ -537,7 +555,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                 int nextLimit = currentSize + 10;
 
                 while (currentSize - 1 < nextLimit) {
-                    exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings));
+                    exampleItems.add(new ExampleItem(image, name, synopsis,url1,city,id,ratings,heading));
                     currentSize++;
                 }
 

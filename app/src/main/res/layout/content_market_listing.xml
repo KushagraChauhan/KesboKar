@@ -20,11 +20,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/heading"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/mln"
         android:textSize="25dp"
         android:textStyle="bold"
         android:textColor="@color/kesbokar"
         android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/price"
+        android:textSize="15sp"
+        />
     <TextView
         android:layout_width="match_parent"
         android:fitsSystemWindows="true"

@@ -4,11 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class MarketIem implements Parcelable {
-    private String img,busi_name,busi_synop,url,city,title;
+    private String img,busi_name,busi_synop,url,city,title,price,heading;
     int id;
 
     public MarketIem(){}
-    public MarketIem(String img,String busi_name,String busi_synop,String url,String city,int id, String title)
+    public MarketIem(String img,String busi_name,String busi_synop,String url,String city,int id, String title, String price,String heading)
     {
         this.img=img;
         this.title=title;
@@ -17,6 +17,8 @@ public class MarketIem implements Parcelable {
         this.city=city;
         this.url=url;
         this.id=id;
+        this.price=price;
+        this.heading=heading;
     }
 
     protected MarketIem(Parcel in) {
@@ -85,6 +87,10 @@ public class MarketIem implements Parcelable {
     {
         return id;
     }
+    public String getprice()
+    {
+        return price;
+    }
     public String getTitle()
     {
         return title;
@@ -96,6 +102,10 @@ public class MarketIem implements Parcelable {
     public String getBusi_synop()
     {
         return busi_synop;
+    }
+    public String getHeading()
+    {
+        return heading;
     }
 
     @Override
