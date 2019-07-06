@@ -86,7 +86,7 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
     }
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        Intent intent = new Intent(ProfileMarket.this,Navigation.class );
+        Intent intent = new Intent(ProfileMarket.this,LoginData.class );
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivityForResult(intent, 0);
         overridePendingTransition(0, 0);
@@ -121,11 +121,26 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
             overridePendingTransition(0, 0);
             finish();
 
-        } else if (id == R.id.market_lg_page) {
+        } else if (id == R.id.manage_help_desk) {
+            Intent intent = new Intent(ProfileMarket.this, ManageHelpDeskActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.business_in) {
+            Intent intent = new Intent(ProfileMarket.this, inbox_business.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         } else if (id == R.id.market_in) {
+            Intent intent = new Intent(ProfileMarket.this, inbox_market.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
         }
 

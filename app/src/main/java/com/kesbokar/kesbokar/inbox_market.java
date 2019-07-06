@@ -71,7 +71,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
     }
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(inbox_market.this,Navigation.class);
+        Intent intent=new Intent(inbox_market.this,LoginData.class);
         startActivity(intent);
         finish();
     }
