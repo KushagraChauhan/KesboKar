@@ -90,6 +90,7 @@ public class BasicInfoFragment extends Fragment {
     private static final int LOADER_SECOND_CATEGORY = 102;
     private static final int LOADER_THIRD_CATEGORY = 103;
     private static final int LOADER_TAGS = 104;
+    String attribute_id;
 
     private LoaderManager.LoaderCallbacks<ArrayList<CategoryBase>> firstCategoryLoader;
     private LoaderManager.LoaderCallbacks<ArrayList<CategorySecond>> secondCategoryLoader;
@@ -664,6 +665,7 @@ public class BasicInfoFragment extends Fragment {
                 };
                 queue.add(stringRequest);
 
+
                 RequestQueue queue1= Volley.newRequestQueue(getActivity());
                 final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
                     @Override
@@ -672,7 +674,7 @@ public class BasicInfoFragment extends Fragment {
                             JSONArray jsonArray=response.getJSONArray("data");
                             for (int i=0;i<jsonArray.length();i++) {
                                 JSONObject jsonObject=jsonArray.getJSONObject(i);
-                                String attribute_id=jsonObject.getString("id");
+                                attribute_id=jsonObject.getString("id");
                                 String attribute_name=jsonObject.getString("title");
                                 String attribute_cat_title=jsonObject.getString("attr_cat_title");
                                 attributes_data=attributes_data+attribute_id+":"+attribute_name+"?"+attribute_cat_title+",";
@@ -685,6 +687,7 @@ public class BasicInfoFragment extends Fragment {
                         SharedPreferences attribute_info=getActivity().getSharedPreferences("attributes",0);
                         SharedPreferences.Editor editor=attribute_info.edit();
                         editor.putString("attribute_info",attributes_data);
+                        editor.putString("attrribute_id",attribute_id);
                         editor.commit();
 
                     }
