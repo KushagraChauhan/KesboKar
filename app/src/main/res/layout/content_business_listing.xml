@@ -13,8 +13,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:id="@+id/bli"
-        android:background="@drawable/image_border"/>
+        android:id="@+id/bli"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

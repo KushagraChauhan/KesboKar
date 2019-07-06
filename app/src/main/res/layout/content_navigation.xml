@@ -266,7 +266,6 @@
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border"
                                 android:foregroundGravity="center_horizontal"
                                 android:scaleType="fitXY" />
 
@@ -304,7 +303,6 @@
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border"
                                 android:foregroundGravity="center_horizontal"
                                 android:scaleType="fitXY" />
 
@@ -342,7 +340,6 @@
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border"
                                 android:foregroundGravity="center_horizontal"
                                 android:scaleType="fitXY" />
 
@@ -380,7 +377,6 @@
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border"
                                 android:foregroundGravity="center_horizontal"
                                 android:scaleType="fitXY" />
 
@@ -435,8 +431,7 @@
                                 android:id="@+id/mi1"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border" />
+                                android:layout_gravity="center_horizontal" />
 
                             <TextView
                                 android:id="@+id/mc1"
@@ -471,8 +466,7 @@
                                 android:id="@+id/mi2"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border" />
+                                android:layout_gravity="center_horizontal" />
 
                             <TextView
                                 android:id="@+id/mc2"
@@ -510,8 +504,7 @@
                                 android:id="@+id/mi3"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border" />
+                                android:layout_gravity="center_horizontal" />
 
                             <TextView
                                 android:id="@+id/mc3"
@@ -546,8 +539,7 @@
                                 android:id="@+id/mi4"
                                 android:layout_width="300dp"
                                 android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:background="@drawable/image_border" />
+                                android:layout_gravity="center_horizontal" />
 
                             <TextView
                                 android:id="@+id/mc4"

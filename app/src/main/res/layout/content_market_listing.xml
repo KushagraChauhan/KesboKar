@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:id="@+id/mli"
-        android:background="@drawable/image_border"
         />
     <TextView
         android:layout_width="match_parent"
