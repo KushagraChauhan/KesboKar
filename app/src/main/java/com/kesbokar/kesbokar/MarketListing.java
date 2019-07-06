@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -84,11 +85,15 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     double ratings;
     Intent intent;
     Bundle bundle;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buisness__listing);
+        progressDialog = new ProgressDialog(MarketListing.this);
+        progressDialog.setTitle("Loading...");
+        progressDialog.show();
 
         getData();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -229,6 +234,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             marketIems = bundle.getParcelableArrayList("ARRAYLIST");
             dataAdapter = new DataAdapterMarket(MarketListing.this,marketIems);
             recyclerView.setAdapter(dataAdapter);
+            progressDialog.dismiss();
         }
 
 
@@ -430,6 +436,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
                             }
                             dataAdapter = new DataAdapterMarket(MarketListing.this, marketIems);
                             recyclerView.setAdapter(dataAdapter);
+                            progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

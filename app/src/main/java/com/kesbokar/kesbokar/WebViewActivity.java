@@ -34,6 +34,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -57,6 +58,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
     public static WebView webView;
     String loginId, loginPass, full_name, email, image1, phone_no,created,updated;
     int id1,flag;
+    ImageView search_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         webView = (WebView) findViewById(R.id.webview);
+        search_btn=findViewById(R.id.search_btn);
         Intent intent = getIntent();
         Bundle extras=intent.getExtras();
         URL1 = extras.getString("URL");
@@ -117,6 +120,12 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
                 startActivity(intent);
                 overridePendingTransition(0, 0);
                 finish();
+            }
+        });
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         getData();
