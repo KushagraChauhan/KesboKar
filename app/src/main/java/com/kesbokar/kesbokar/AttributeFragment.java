@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
 /**
@@ -65,6 +71,7 @@ public class AttributeFragment extends Fragment {
                         count++;
                     }
                 }
+                final String[] result = new String[count];
                 for (int i=0;i<count;i++) {
                     temp = "";
 
@@ -107,6 +114,26 @@ public class AttributeFragment extends Fragment {
                     FrameLayout.LayoutParams editTextParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
                     editTextParams.setMargins(500, 90 * i, 20, 20);
                     fragment_container.addView(et, editTextParams);
+                    final int finalI = i;
+                    et.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+
+                            result[finalI] = String.valueOf(s);
+
+                        }
+                    });
 
                     totalSpace = totalSpace + (90*(i+1));
                 }
@@ -126,9 +153,15 @@ public class AttributeFragment extends Fragment {
                 FrameLayout.LayoutParams btnSaveParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
                 btnSaveParams.setMargins(600,totalSpace,100,20);
 
+                final int finalCount = count;
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        for (int i = 0; i< finalCount; i++)
+                        {
+                            Toast.makeText(getContext(),result[i],Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
 
