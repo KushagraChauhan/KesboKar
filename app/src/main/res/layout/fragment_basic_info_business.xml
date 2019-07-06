@@ -41,63 +41,123 @@
 
         </LinearLayout>
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView4"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:hint="Required"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtCatFirst"
+                    android:layout_width="320dp"
+                    android:layout_height="29.9dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="6.5dp"
+                    android:background="@color/colorAccent"
+                    android:textAlignment="center"
+                    android:text="SELECT"
+                    android:textSize="20sp"
+                    android:textColor="@color/White" />
 
                 <Button
-                    android:id="@+id/btnFirst"
+                    android:id="@+id/btnCancel_1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:text="SELECT"
-                    android:textColor="@color/White"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:layout_height="41dp"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="-8dp"
+                    android:layout_marginRight="5dp"
+                    android:drawableStart="@drawable/ic_cancel_black_24dp"/>
 
-                <Button
-                    android:id="@+id/btnSecond"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:text="SELECT"
-                    android:textColor="@color/White"
-                    android:textStyle="bold"
-                    android:visibility="invisible" />
 
-                <Button
-                    android:id="@+id/btnThird"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:text="SELECT"
-                    android:textColor="@color/White"
-                    android:textStyle="bold"
-                    android:visibility="invisible" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtCatSecond"
+                    android:layout_width="320dp"
+                    android:layout_height="29.9dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="6.5dp"
+                    android:background="@color/colorAccent"
+                    android:textAlignment="center"
+                    android:text="SELECT"
+                    android:textSize="20sp"
+                    android:textColor="@color/White" />
+
+                <Button
+                    android:id="@+id/btnCancel_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    android:layout_marginLeft="-8dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_gravity="right"
+                    android:drawableStart="@drawable/ic_cancel_black_24dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtCatThird"
+                    android:layout_width="320dp"
+                    android:layout_height="29.9dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="6.5dp"
+                    android:background="@color/colorAccent"
+                    android:textAlignment="center"
+                    android:text="SELECT"
+                    android:textSize="20sp"
+                    android:textColor="@color/White" />
+
+                <Button
+                    android:id="@+id/btnCancel_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    android:layout_marginLeft="-8dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_gravity="right"
+                    android:drawableStart="@drawable/ic_cancel_black_24dp"/>
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -439,8 +499,8 @@
             android:text="Save And Continue"
             android:textColor="@color/White"
             android:textStyle="bold" />
+        </LinearLayout>
 
-    </LinearLayout>
 
 
     </androidx.core.widget.NestedScrollView>

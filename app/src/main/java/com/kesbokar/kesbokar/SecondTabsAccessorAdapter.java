@@ -44,11 +44,11 @@ public class SecondTabsAccessorAdapter extends FragmentPagerAdapter {
 //                PhotosFragment photosFragment = new PhotosFragment(viewPager,tabLayout);
 //                return photosFragment;
 //
-//            case 5:
-//                AttributeFragment attributeFragment = new AttributeFragment(viewPager,tabLayout);
-//                return attributeFragment;
-
             case 4:
+                AttributeFragment attributeFragment = new AttributeFragment(viewPager,tabLayout);
+                return attributeFragment;
+
+            case 5:
                 StatusFragment statusFragment = new StatusFragment(viewPager,tabLayout);
                 return statusFragment;
 
@@ -61,7 +61,7 @@ public class SecondTabsAccessorAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount()
     {
-        return 5;
+        return 6;
     }
 
     @Nullable
@@ -85,10 +85,10 @@ public class SecondTabsAccessorAdapter extends FragmentPagerAdapter {
 //            case 4:
 //                return "Photos";
 //
-//            case 5:
-//                return "Attribute";
-
             case 4:
+                return "Attribute";
+
+            case 5:
                 return "Status";
 
             default:

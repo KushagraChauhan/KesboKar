@@ -44,8 +44,8 @@ public class Main2Activity extends AppCompatActivity {
 //            tr.add(frag_id,fragment).commit();
             secondTabsAccessorAdapter = new SecondTabsAccessorAdapter(getSupportFragmentManager(),myViewPager,myTabLayout);
             myViewPager.setAdapter(secondTabsAccessorAdapter);
-            View tab4= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
-            tab4.setEnabled(false);
+            View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
+            tab5.setEnabled(false);
         }
 
 
@@ -53,13 +53,13 @@ public class Main2Activity extends AppCompatActivity {
         View tab1= Objects.requireNonNull(myTabLayout.getTabAt(1)).view;
         View tab2= Objects.requireNonNull(myTabLayout.getTabAt(2)).view;
         View tab3= Objects.requireNonNull(myTabLayout.getTabAt(3)).view;
-//        View tab4= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
+        View tab4= Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
 //        View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
 
         tab1.setEnabled(false);
         tab2.setEnabled(false);
         tab3.setEnabled(false);
-//        tab4.setEnabled(false);
+        tab4.setEnabled(false);
 //        tab5.setEnabled(false);
 
 

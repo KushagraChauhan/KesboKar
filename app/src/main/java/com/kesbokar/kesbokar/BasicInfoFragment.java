@@ -32,16 +32,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
@@ -62,11 +68,14 @@ public class BasicInfoFragment extends Fragment {
     CategoriesSecondAdapter categoriesSecondAdapter;
     private TextView txtCatFirst, txtCatSecond, txtCatThird,etPostProduct;
 
-    String condition1, condition2, product_name, product_id;
+    String condition1, condition2, product_name, product_id, condition1Value, condition2Value;
     RadioGroup rgProductCondition, rgProductSelection;
     int entry_state;
     ViewPager viewPager;
     TabLayout tabLayout;
+    String firstCat, secondCat, thirdCat;
+    String tagsIds = "";
+    String attributes_data="";
 
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
@@ -75,7 +84,7 @@ public class BasicInfoFragment extends Fragment {
     private String tags;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
-
+    int count = 0;
     private Context context;
     private String parent_id = "";
     private static final int LOADER_FIRST_CATEGORY = 101;
@@ -99,6 +108,7 @@ public class BasicInfoFragment extends Fragment {
     Button cancel_tag, btn_save_and_nxt;
 
     EditText edtProductTitle, etPrice;
+    String attributes;
 
     public BasicInfoFragment(ViewPager viewPager, TabLayout tabLayout)
     {
@@ -113,10 +123,10 @@ public class BasicInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
 
-
         rgProductCondition = view.findViewById(R.id.rgProductCondition);
         rgProductSelection = view.findViewById(R.id.rgProductSelection);
         context = view.getContext();
+        entry_state=0;
         // Categories
         final String[] value = new String[3];
         txtCatFirst =(TextView) view.findViewById(R.id.txtCatFirst);
@@ -152,7 +162,7 @@ public class BasicInfoFragment extends Fragment {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
-        getData();
+
         etPostProduct.setText(full_name);
 
         edtProductTitle.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +200,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategoryBase categoryBase = (CategoryBase) adapterView.getAdapter().getItem(i);
                                 parent_id = categoryBase.getId();
+                                firstCat = parent_id;
                                 txtCatFirst.setText(categoryBase.getTitle());
                                 getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
                                 Log.i("Parent id", parent_id);
@@ -296,6 +307,7 @@ public class BasicInfoFragment extends Fragment {
                                 }
                                 else
                                 {
+                                    Log.i("TAGSIDS", "onTouch: " + tagsIds);
                                     mltAutoKeyWords.dismissDropDown();
                                     mltAutoKeyWords.setEnabled(false);
                                 }
@@ -339,11 +351,17 @@ public class BasicInfoFragment extends Fragment {
                             //long id = adapterView.getAdapter().getItemId(i);
                             if(!tagsSelectedArrayList.contains(tagsObject)){
                                 if(tagsSelectedArrayList.size() < 5) {
+                                    if(count==4){
+                                        tagsIds += tagsObject.getId();
+                                    }else{
+                                        tagsIds += tagsObject.getId() + ",";
+                                    }
                                     tagsSelectedArrayList.add(tagsObject);
                                     tagsObjectArrayAdapter.remove(tagsObject);
                                     tagsObjectArrayAdapter.notifyDataSetChanged();
                                     tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
                                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                                    count++;
                                 }else{
 
                                 }
@@ -386,6 +404,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategorySecond categorySecond = (CategorySecond) adapterView.getAdapter().getItem(i);
                                 parent_id = categorySecond.getId();
+                                secondCat = parent_id;
                                 txtCatSecond.setText(categorySecond.getTitle());
                                 Log.i("Parent id", parent_id);
                                 txtCatThird.setVisibility(View.VISIBLE);
@@ -426,6 +445,7 @@ public class BasicInfoFragment extends Fragment {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 CategoryThird categoryThird = (CategoryThird) adapterView.getAdapter().getItem(i);
                                 parent_id = categoryThird.getId();
+                                thirdCat = parent_id;
                                 tags = categoryThird.getTags();
                                 StringTokenizer stringTokenizer = new StringTokenizer(tags,",");
                                 while(stringTokenizer.hasMoreTokens()){
@@ -436,7 +456,31 @@ public class BasicInfoFragment extends Fragment {
                                 Log.i("tags", "onItemClick: "+tags + "**********"+tagsName);
                                 txtCatThird.setEnabled(false);
                                 getLoaderManager().initLoader(LOADER_TAGS, null, tagsObjectLoader);
-                                //btnCancel_3.setVisibility(View.VISIBLE);
+                                //btnCancel_3.setVisibility(View.VISIBLE);;
+                                String url;
+                                RequestQueue queue= Volley.newRequestQueue(getActivity());
+                                final String price = etPrice.getText().toString();
+                                    url="http://serv.kesbokar.com.au/jil.0.1/v1/category/"+thirdCat+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                    final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            JSONObject jsonObject = response.getJSONObject("data");
+                                            attributes=jsonObject.getString("attributes");
+                                            Log.i("Response",jsonObject.toString());
+                                            Log.i("Attributes",attributes);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        error.printStackTrace();
+                                    }
+                                });
+                                queue.add(jsonObjectRequest);
                                 dialog.dismiss();
                             }
                         });
@@ -524,11 +568,14 @@ public class BasicInfoFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId)
                 {
+
                     case R.id.rbNew:condition1="New";
+                    condition1Value = "N";
                         break;
 
                     case R.id.rbUsed:condition1="used";
-                }
+                    condition1Value = "U";
+                                    }
             }
         });
 
@@ -539,32 +586,56 @@ public class BasicInfoFragment extends Fragment {
                 switch(checkedId)
                 {
                     case R.id.rbSell:condition2="rbSell";
+                        condition2Value = "S";
                         break;
 
                     case R.id.rbRent:condition2="rbRent";
+                        condition2Value = "R";
+
                 }
             }
         });
         btn_save_and_nxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getData();
                 String url;
+                String url1;
+                RequestQueue queue= Volley.newRequestQueue(getActivity());
+                final String price = etPrice.getText().toString();
+
                 if(entry_state==1)
                 {
                     url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
+                    url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id+"/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 }
                 else {
                     url="http://serv.kesbokar.com.au/jil.0.1/v1/product";
+                    url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 }
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("Response",response);
+                        try {
+                            JSONObject jsonObject1=new JSONObject(response);
+                            product_id=jsonObject1.getString("product_id");
+                            String title_name=jsonObject1.getString("name");
+                            Log.i("fetched data","id:"+product_id+"name:"+title_name);
+                            SharedPreferences get_product_detail= getActivity().getSharedPreferences("product_detail",0);
+                            SharedPreferences.Editor editor=get_product_detail.edit();
+                            editor.putString("product_id",product_id);
+                            editor.putString("product_name",title_name);
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.i("Error",error.toString());
                     }
                 }){
                     @Override
@@ -572,18 +643,60 @@ public class BasicInfoFragment extends Fragment {
                     {
                         Map<String, String>  params = new HashMap<String, String >();
 //                        params.put("name",edtProductTitle.getText().toString());
-//                        params.put("product_condition",);
-//                        params.put("product_section",);
+                        params.put("product_condition",condition1Value);
+                        params.put("product_section",condition2Value);
 //                        params.put("topcat_id",);
 //                        params.put("parentcat_id",);
 //                        params.put("category_id",);
 //                        params.put("tags",);
+                        params.put("price",price);
+//                        params.put("product_condition",);
+//                        params.put("product_section",);
+                        params.put("topcat_id", firstCat);
+                        params.put("parentcat_id",secondCat);
+                        String user_id=""+id;
+                        params.put("user_id",user_id);
+                        params.put("category_id",thirdCat);
+                        params.put("tags",tagsIds);
 //                        params.put("price",);
 
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                         return params;
                     }
                 };
+                queue.add(stringRequest);
+
+                RequestQueue queue1= Volley.newRequestQueue(getActivity());
+                final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray=response.getJSONArray("data");
+                            for (int i=0;i<jsonArray.length();i++) {
+                                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                                String attribute_id=jsonObject.getString("id");
+                                String attribute_name=jsonObject.getString("title");
+                                String attribute_cat_title=jsonObject.getString("attr_cat_title");
+                                attributes_data=attributes_data+attribute_id+":"+attribute_name+"?"+attribute_cat_title+",";
+                                Log.i("Response", jsonObject.toString());
+                                Log.i("Attributes", attributes_data);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences attribute_info=getActivity().getSharedPreferences("attributes",0);
+                        SharedPreferences.Editor editor=attribute_info.edit();
+                        editor.putString("attribute_info",attributes_data);
+                        editor.commit();
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+                queue1.add(jsonObjectRequest);
                 int item=viewPager.getCurrentItem();
                 View tab=tabLayout.getTabAt(item+1).view;
                 tab.setEnabled(true);
@@ -607,7 +720,7 @@ public class BasicInfoFragment extends Fragment {
         SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
-        SharedPreferences entry=getActivity().getSharedPreferences("product_detail",0);
-        entry_state =entry.getInt("entry_state",0);
+        SharedPreferences entry=getActivity().getSharedPreferences("entry_state",0);
+        entry_state =entry.getInt("entry_state1",0);
     }
 }

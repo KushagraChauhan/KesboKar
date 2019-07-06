@@ -1,6 +1,7 @@
 package com.kesbokar.kesbokar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +50,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<ExampleItem> exampleItems;
     String ip;
     int id;
+    private ProgressDialog progressDialog;
     SharedPreferences loginData;
     String url;
     private int isLoggedIn;
@@ -58,11 +60,15 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         isLoggedIn = flag;
         loginData=logindata;
         getData();
+
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        progressDialog = new ProgressDialog(mActivity);
+        progressDialog.setTitle("Loading...");
+
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_business_listing, parent, false);
             return new MyViewHolder(view);
@@ -77,6 +83,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewHolder instanceof MyViewHolder) {
 
             populateItemRows((MyViewHolder) viewHolder, position);
+            progressDialog.dismiss();
 
             //Request A Quote
 
