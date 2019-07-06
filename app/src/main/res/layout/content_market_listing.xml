@@ -17,13 +17,16 @@
         android:layout_height="180dp"
         android:id="@+id/mli"
         />
+
     <TextView
+        android:id="@+id/price"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/heading"
-        android:textSize="10dp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/Black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,22 +35,28 @@
         android:textStyle="bold"
         android:textColor="@color/kesbokar"
         android:layout_gravity="center_horizontal"/>
+
     <TextView
+        android:id="@+id/heading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/price"
-        android:textSize="15sp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
         android:layout_height="wrap_content"
-        android:id="@+id/mlt"/>
+        android:layout_gravity="center_horizontal"
+        android:textSize="10dp"
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:id="@+id/mld"/>
+
+    <TextView
+        android:id="@+id/mlt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="0dp"
+        android:fitsSystemWindows="true"
+        android:visibility="invisible" />
 
 
 </LinearLayout>
