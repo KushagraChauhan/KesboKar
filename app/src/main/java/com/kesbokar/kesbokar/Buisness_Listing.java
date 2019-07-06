@@ -257,6 +257,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 
             imgBtnService();
         }else if(denote.equals("btnSearch")){
+            progressDialog.show();
             exampleItems = bundle.getParcelableArrayList("ARRAYLIST");
             dataAdapter = new DataAdapter(Buisness_Listing.this, exampleItems,flag,loginData);
             recyclerView.setAdapter(dataAdapter);
