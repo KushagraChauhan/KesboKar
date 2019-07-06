@@ -210,7 +210,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ProgressBar progressBar;
-        private TextView bln,bls,bld;
+        private TextView bln,bls,bld,heading_text;
         RatingBar blr;
         ImageView bli;
         private Button blw;
@@ -223,6 +223,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             //url1=view.findViewById(R.id.url);
 //            bld=view.findViewById(R.id.bld);
             bli=view.findViewById(R.id.bli);
+            heading_text=view.findViewById(R.id.heading);
             blr=view.findViewById(R.id.blr);
             blrq=view.findViewById(R.id.blrq);
 //            blw=view.findViewById(R.id.blw);
@@ -257,10 +258,12 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         String bName=current.getBusi_name();
         String bSynop=current.getBusi_synop();
         final String city=current.getCity();
+        String heading=current.getHeading();
         url=current.getUrl();
         id=current.getId();
         holder.bln.setText(bName);
         holder.bls.setText(bSynop);
+        holder.heading_text.setText(heading);
         float ratings=(float)current.getratings();
         holder.blr.setRating(ratings);
         if(current.getImg()==null)
@@ -288,6 +291,18 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mActivity.overridePendingTransition(0,0);
                 mActivity.finish();
 
+            }
+        });
+        holder.bln.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra("URL", finalUrl);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                mActivity.startActivityForResult(intent,0);
+                mActivity.overridePendingTransition(0,0);
+                mActivity.finish();
             }
         });
         holder.blrq.setOnClickListener(new View.OnClickListener() {
