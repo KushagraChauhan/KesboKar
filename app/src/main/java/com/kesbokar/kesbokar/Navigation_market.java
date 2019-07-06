@@ -115,7 +115,7 @@ public class Navigation_market extends AppCompatActivity
     LinearLayout layout;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
-    Button top,signup,login,help,business;
+    Button top, signup, login, btnNavHelp, btnBusinessNavMark;
     AutoCompleteTextView ml;
     AutoCompleteTextView ms;
     String q, subV;
@@ -211,9 +211,9 @@ public class Navigation_market extends AppCompatActivity
         RadioGroup radioGroup = findViewById(R.id.radio_group);
         RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
         RadioButton rb_business = findViewById(R.id.rb_businesses);
-        business = findViewById(R.id.buis);
+        btnBusinessNavMark = findViewById(R.id.btnBusinessNavMark);
         ml = findViewById(R.id.ml);
-        help = (Button) findViewById(R.id.help);
+        btnNavHelp = (Button) findViewById(R.id.btnNavHelp);
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,7 +283,7 @@ public class Navigation_market extends AppCompatActivity
                 finish();
             }
         });
-        business.setOnClickListener(new View.OnClickListener() {
+        btnBusinessNavMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation_market.this, Navigation.class);
@@ -340,7 +340,7 @@ public class Navigation_market extends AppCompatActivity
             }
         });
 
-        help.setOnClickListener(new View.OnClickListener() {
+        btnNavHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent help1 = new Intent(Navigation_market.this, Help.class);

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "24685652892",
+    "firebase_url": "https://kesbokar-6d781.firebaseio.com",
+    "project_id": "kesbokar-6d781",
+    "storage_bucket": "kesbokar-6d781.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24685652892:android:c46426cdc55ad5b3",
+        "android_client_info": {
+          "package_name": "com.kesbokar.kesbokar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24685652892-6cn8nbfde19au7v4im4atl93aipme5ad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kesbokar.kesbokar",
+            "certificate_hash": "e12e607a73f7560a3ad4f7b57af1c84e6a4aaa92"
+          }
+        },
+        {
+          "client_id": "24685652892-df9n1rg3ku90qcl0jl9iqkdie8v04apt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwPibNGyAGNqbsl1M5kMGoXSS5nmD98lg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24685652892-df9n1rg3ku90qcl0jl9iqkdie8v04apt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

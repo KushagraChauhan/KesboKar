@@ -4,6 +4,7 @@ package com.kesbokar.kesbokar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -25,11 +26,16 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
 
     Button btnFirst, btnSecond, btnThird, btnVerify, btnState, btnSuburb, btnCountry, getLocationBtn, btnSave;
-    EditText etCompany, etABN, etLicense, etWebsite, etQuote, etPhone, etEmail, etStreet, etLongitude, etLatitude;
+    EditText etCompanyTitle, etABN, etLicense, etWebsite, etQuote, etPhone, etEmail, etStreet, etLongitude, etLatitude;
     AutoCompleteTextView acTags;
     LocationManager locationManager;
     String provider;
     Location location;
+
+    int entry_state;
+    int id,flag;
+
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated; //getData Method Objects
 
 
 
@@ -46,7 +52,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
 
         acTags = view.findViewById(R.id.acTags);
-        etCompany = view.findViewById(R.id.etCompany);
+        etCompanyTitle = (EditText) view.findViewById(R.id.etCompanyTitle);
         etABN = view.findViewById(R.id.etABN);
         etLicense = view.findViewById(R.id.etLicense);
         etWebsite = view.findViewById(R.id.etWebsite);
@@ -56,9 +62,9 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         etStreet = view.findViewById(R.id.etStreet);
         etLongitude = view.findViewById(R.id.etLongitude);
         etLatitude = view.findViewById(R.id.etLatitude);
-        btnFirst = view.findViewById(R.id.btnFirst);
-        btnSecond = view.findViewById(R.id.btnSecond);
-        btnThird = view.findViewById(R.id.btnThird);
+        btnFirst = (Button) view.findViewById(R.id.btnFirst);
+        btnSecond = (Button) view.findViewById(R.id.btnSecond);
+        btnThird = (Button) view.findViewById(R.id.btnThird);
         btnVerify = view.findViewById(R.id.btnVerify);
         btnState = view.findViewById(R.id.btnState);
         btnSuburb = view.findViewById(R.id.btnSuburb);
@@ -77,6 +83,17 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         final String[] country = {""};
 
 
+        etCompanyTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (entry_state==1){
+                    assert getFragmentManager() != null;
+                    assert getFragmentManager() != null;
+                    getFragmentManager().beginTransaction().detach(getTargetFragment()).attach(getTargetFragment()).commit();
+                }
+
+            }
+        });
 
 
         btnFirst.setOnClickListener(new View.OnClickListener() {
@@ -268,6 +285,24 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    public void getData()
+    {
+        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
+        SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
+//        product_id =get_product_detail.getString("product_id","");
+//        product_name=get_product_detail.getString("product_name","");
+        SharedPreferences entry=getActivity().getSharedPreferences("product_detail",0);
+        entry_state =entry.getInt("entry_state",0);
     }
 }
 
