@@ -2,6 +2,8 @@ package com.kesbokar.kesbokar;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -20,17 +22,12 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AttributeFragment extends Fragment {
 
-    EditText etSpecification, etAdditional;
-    Button btnBack, btnSubmit;
     ViewPager viewPager;
     TabLayout tabLayout;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info;
@@ -141,6 +138,9 @@ public class AttributeFragment extends Fragment {
                 Button btnPrevious = new Button(getContext());
                 btnPrevious.setText("Previous");
                 btnPrevious.setId((2 * count) + 1);
+                btnPrevious.setBackgroundColor(Color.parseColor("#008577"));
+                btnPrevious.setTextColor(Color.parseColor("#FFFFFF"));
+                btnPrevious.setTypeface(btnPrevious.getTypeface(), Typeface.BOLD);
                 btnPrevious.setPadding(80,0,80,0);
                 FrameLayout.LayoutParams btnPreviousParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
                 btnPreviousParams.setMargins(200,totalSpace,100,20);
@@ -150,6 +150,9 @@ public class AttributeFragment extends Fragment {
                 Button btnSave = new Button(getContext());
                 btnSave.setText("Save");
                 btnSave.setId((2 * count) + 2);
+                btnSave.setBackgroundColor(Color.parseColor("#008577"));
+                btnSave.setTextColor(Color.parseColor("#FFFFFF"));
+                btnSave.setTypeface(btnSave.getTypeface(), Typeface.BOLD);
                 FrameLayout.LayoutParams btnSaveParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
                 btnSaveParams.setMargins(600,totalSpace,100,20);
 

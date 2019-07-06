@@ -56,9 +56,6 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         etStreet = view.findViewById(R.id.etStreet);
         etLongitude = view.findViewById(R.id.etLongitude);
         etLatitude = view.findViewById(R.id.etLatitude);
-        btnFirst = view.findViewById(R.id.btnFirst);
-        btnSecond = view.findViewById(R.id.btnSecond);
-        btnThird = view.findViewById(R.id.btnThird);
         btnVerify = view.findViewById(R.id.btnVerify);
         btnState = view.findViewById(R.id.btnState);
         btnSuburb = view.findViewById(R.id.btnSuburb);
