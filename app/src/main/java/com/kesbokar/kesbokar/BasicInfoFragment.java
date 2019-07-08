@@ -41,10 +41,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
@@ -71,6 +74,7 @@ public class BasicInfoFragment extends Fragment {
     TabLayout tabLayout;
     String firstCat, secondCat, thirdCat;
     String tagsIds = "";
+    String attributes_data="";
 
     private MultiAutoCompleteTextView mltAutoKeyWords;
 
@@ -103,6 +107,7 @@ public class BasicInfoFragment extends Fragment {
     Button cancel_tag, btn_save_and_nxt;
 
     EditText edtProductTitle, etPrice;
+    String attributes;
 
     public BasicInfoFragment(ViewPager viewPager, TabLayout tabLayout)
     {
@@ -120,6 +125,7 @@ public class BasicInfoFragment extends Fragment {
         rgProductCondition = view.findViewById(R.id.rgProductCondition);
         rgProductSelection = view.findViewById(R.id.rgProductSelection);
         context = view.getContext();
+        entry_state=0;
         // Categories
         final String[] value = new String[3];
         txtCatFirst =(TextView) view.findViewById(R.id.txtCatFirst);
@@ -448,7 +454,31 @@ public class BasicInfoFragment extends Fragment {
                                 Log.i("tags", "onItemClick: "+tags + "**********"+tagsName);
                                 txtCatThird.setEnabled(false);
                                 getLoaderManager().initLoader(LOADER_TAGS, null, tagsObjectLoader);
-                                //btnCancel_3.setVisibility(View.VISIBLE);
+                                //btnCancel_3.setVisibility(View.VISIBLE);;
+                                String url;
+                                RequestQueue queue= Volley.newRequestQueue(getActivity());
+                                final String price = etPrice.getText().toString();
+                                    url="http://serv.kesbokar.com.au/jil.0.1/v1/category/"+thirdCat+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                                    final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            JSONObject jsonObject = response.getJSONObject("data");
+                                            attributes=jsonObject.getString("attributes");
+                                            Log.i("Response",jsonObject.toString());
+                                            Log.i("Attributes",attributes);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        error.printStackTrace();
+                                    }
+                                });
+                                queue.add(jsonObjectRequest);
                                 dialog.dismiss();
                             }
                         });
@@ -568,20 +598,36 @@ public class BasicInfoFragment extends Fragment {
             public void onClick(View v) {
                 getData();
                 String url;
+                String url1;
                 RequestQueue queue= Volley.newRequestQueue(getActivity());
                 final String price = etPrice.getText().toString();
 
                 if(entry_state==1)
                 {
                     url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
+                    url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id+"/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 }
                 else {
                     url="http://serv.kesbokar.com.au/jil.0.1/v1/product";
+                    url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 }
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.i("Response",response);
+                        try {
+                            JSONObject jsonObject1=new JSONObject(response);
+                            product_id=jsonObject1.getString("product_id");
+                            String title_name=jsonObject1.getString("name");
+                            Log.i("fetched data","id:"+product_id+"name:"+title_name);
+                            SharedPreferences get_product_detail= getActivity().getSharedPreferences("product_detail",0);
+                            SharedPreferences.Editor editor=get_product_detail.edit();
+                            editor.putString("product_id",product_id);
+                            editor.putString("product_name",title_name);
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -617,6 +663,38 @@ public class BasicInfoFragment extends Fragment {
                     }
                 };
                 queue.add(stringRequest);
+
+                RequestQueue queue1= Volley.newRequestQueue(getActivity());
+                final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray=response.getJSONArray("data");
+                            for (int i=0;i<jsonArray.length();i++) {
+                                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                                String attribute_id=jsonObject.getString("id");
+                                String attribute_name=jsonObject.getString("title");
+                                String attribute_cat_title=jsonObject.getString("attr_cat_title");
+                                attributes_data=attributes_data+attribute_id+":"+attribute_name+"?"+attribute_cat_title+",";
+                                Log.i("Response", jsonObject.toString());
+                                Log.i("Attributes", attributes_data);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences attribute_info=getActivity().getSharedPreferences("attributes",0);
+                        SharedPreferences.Editor editor=attribute_info.edit();
+                        editor.putString("attribute_info",attributes_data);
+                        editor.commit();
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+                queue1.add(jsonObjectRequest);
                 int item=viewPager.getCurrentItem();
                 View tab=tabLayout.getTabAt(item+1).view;
                 tab.setEnabled(true);

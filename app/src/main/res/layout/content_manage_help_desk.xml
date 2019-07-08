@@ -9,15 +9,16 @@
     tools:context=".ManageHelpDeskActivity">
 
     <Button
-        android:text="Create new"
         android:id="@+id/mng_helpdesk_new"
-        android:textColor="@color/White"
-        android:textSize="15sp"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="280dp"
+        android:layout_marginStart="140dp"
         android:layout_marginTop="10dp"
-        android:background="@color/red"/>
+        android:background="@color/colorAccent"
+        android:text="Create new"
+        android:textColor="@color/White"
+        android:textSize="15sp"
+        android:textStyle="bold" />
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"

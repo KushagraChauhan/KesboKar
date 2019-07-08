@@ -76,7 +76,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(inbox_business.this,Navigation.class);
+        Intent intent=new Intent(inbox_business.this,LoginData.class);
         startActivity(intent);
         finish();
     }

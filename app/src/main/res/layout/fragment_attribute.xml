@@ -7,6 +7,17 @@
     android:id="@+id/fragmentAttribute">
 
 
-
-
-    </FrameLayout>
+    <Button
+        android:id="@+id/btnRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="250dp"
+        android:background="@color/colorAccent"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="Refresh"
+        android:textColor="@color/White"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</FrameLayout>

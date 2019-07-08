@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -57,6 +58,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     private Button btnHelp,btnBuis,btnMar,btnTop;
 
     private ScrollView scrollView;
+    String price,state_id,state_name,cat_title;
 
     private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
     private Button btnAlertDialogSearch;
@@ -73,7 +75,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     private ArrayList<StateAndSuburb> valsSub;
     private ArrayList<MarketIem> marketItems;
     private String query = "";
-    String querySub,subV,subType,q;
+    String querySub,subV,subType,q,heading;
     int stateid = 0;
 
     boolean isLoading = false;
@@ -84,11 +86,15 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     double ratings;
     Intent intent;
     Bundle bundle;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buisness__listing);
+        progressDialog = new ProgressDialog(MarketListing.this);
+        progressDialog.setTitle("Loading...");
+        progressDialog.show();
 
         getData();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -229,6 +235,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             marketIems = bundle.getParcelableArrayList("ARRAYLIST");
             dataAdapter = new DataAdapterMarket(MarketListing.this,marketIems);
             recyclerView.setAdapter(dataAdapter);
+            progressDialog.dismiss();
         }
 
 
@@ -261,6 +268,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
 //                .show();
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.search_alert_dialog_box);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         autoCompleteTextViewOne = dialog.findViewById(R.id.autoCompleteTextViewOne);
         autoCompleteTextViewTwo = dialog.findViewById(R.id.autoCompleteTextViewTwo);
         btnAlertDialogSearch = dialog.findViewById(R.id.btnAlertDialogSearch);
@@ -407,12 +415,22 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject dat = jsonArray.getJSONObject(i);
                                 Log.i("JSON PAGI",dat.toString());
+                                price=dat.getString("price");
                                 name = dat.getString("name");
                                 synopsis = dat.getString("description");
                                 image = dat.getString("image");
                                 url1=dat.getString("url_name");
                                 city_id=dat.getString("city_id");
                                 title=dat.getString("cat_title");
+                                state_id=dat.getString("state_id");
+                                if (state_id!="null") {
+                                    JSONObject stateob = dat.getJSONObject("state");
+                                    state_name = stateob.getString("title");
+                                }
+                                else {
+                                    state_name="";
+                                }
+                                cat_title=dat.getString("cat_title");
 
                                 if (city_id!="null") {
                                     JSONObject cityob=dat.getJSONObject("city");
@@ -424,12 +442,19 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
                                 {
                                     city="city";
                                 }
-
+                                if (state_id!="null") {
+                                    heading = cat_title + " - " + state_name + " , " + city;
+                                }
+                                else
+                                {
+                                    heading=cat_title;
+                                }
                                 id=dat.getInt("id");
-                                marketIems.add(new MarketIem(image, name, synopsis,url1,city,id,title));
+                                marketIems.add(new MarketIem(image, name, synopsis,url1,city,id,title,price,heading));
                             }
                             dataAdapter = new DataAdapterMarket(MarketListing.this, marketIems);
                             recyclerView.setAdapter(dataAdapter);
+                            progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -484,7 +509,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
                 int nextLimit = currentSize + 10;
 
                 while (currentSize - 1 < nextLimit) {
-                    marketIems.add(new MarketIem(image, name, synopsis,url1,city,id,title));
+                    marketIems.add(new MarketIem(image, name, synopsis,url1,city,id,title,price,heading));
                     currentSize++;
                 }
 

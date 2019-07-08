@@ -1,6 +1,7 @@
 package com.kesbokar.kesbokar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -49,6 +51,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<ExampleItem> exampleItems;
     String ip;
     int id;
+    private ProgressDialog progressDialog;
     SharedPreferences loginData;
     String url;
     private int isLoggedIn;
@@ -58,11 +61,15 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         isLoggedIn = flag;
         loginData=logindata;
         getData();
+
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        progressDialog = new ProgressDialog(mActivity);
+        progressDialog.setTitle("Loading...");
+
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_business_listing, parent, false);
             return new MyViewHolder(view);
@@ -77,6 +84,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewHolder instanceof MyViewHolder) {
 
             populateItemRows((MyViewHolder) viewHolder, position);
+            progressDialog.dismiss();
 
             //Request A Quote
 
@@ -203,9 +211,10 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ProgressBar progressBar;
-        private TextView bln,bls,bld;
+        private TextView bln,bls,bld,heading_text;
         RatingBar blr;
         ImageView bli;
+        LinearLayout clickable;
         private Button blw;
         Button blrq;
         public MyViewHolder(@NonNull View view) {
@@ -213,9 +222,11 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             bln=view.findViewById(R.id.bln);
             bls=view.findViewById(R.id.bls);
             progressBar=view.findViewById(R.id.progressBar);
+            clickable=view.findViewById(R.id.clickable);
             //url1=view.findViewById(R.id.url);
 //            bld=view.findViewById(R.id.bld);
             bli=view.findViewById(R.id.bli);
+            heading_text=view.findViewById(R.id.heading);
             blr=view.findViewById(R.id.blr);
             blrq=view.findViewById(R.id.blrq);
 //            blw=view.findViewById(R.id.blw);
@@ -250,10 +261,12 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         String bName=current.getBusi_name();
         String bSynop=current.getBusi_synop();
         final String city=current.getCity();
+        String heading=current.getHeading();
         url=current.getUrl();
         id=current.getId();
         holder.bln.setText(bName);
         holder.bls.setText(bSynop);
+        holder.heading_text.setText(heading);
         float ratings=(float)current.getratings();
         holder.blr.setRating(ratings);
         if(current.getImg()==null)
@@ -281,6 +294,18 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mActivity.overridePendingTransition(0,0);
                 mActivity.finish();
 
+            }
+        });
+        holder.bln.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra("URL", finalUrl);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                mActivity.startActivityForResult(intent,0);
+                mActivity.overridePendingTransition(0,0);
+                mActivity.finish();
             }
         });
         holder.blrq.setOnClickListener(new View.OnClickListener() {
@@ -342,6 +367,18 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Window window = dialog.getWindow();
                 window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+            }
+        });
+        holder.clickable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra("URL", finalUrl);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                mActivity.startActivityForResult(intent,0);
+                mActivity.overridePendingTransition(0,0);
+                mActivity.finish();
             }
         });
 

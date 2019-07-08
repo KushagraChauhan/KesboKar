@@ -411,9 +411,12 @@ public class CarDetailsFragment extends Fragment {
                 SharedPreferences.Editor editor=get_entry_state.edit();
                 editor.putInt("entry_state1",entry_state);
                 editor.apply();
+
                 
+
                 int item=viewPager.getCurrentItem();
                 View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
                 viewPager.setCurrentItem(item+1);
 
 
