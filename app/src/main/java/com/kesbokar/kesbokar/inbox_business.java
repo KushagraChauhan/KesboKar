@@ -32,6 +32,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox_business);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        getData();
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -45,7 +46,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxBusinessList>>() {
             @Override
             public Loader<ArrayList<InboxBusinessList>> onCreateLoader(int i, Bundle bundle) {
-                LoaderInboxBusinessList loaderInboxBusinessList = new LoaderInboxBusinessList (inbox_business.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage?user_id=312&" + id);
+                LoaderInboxBusinessList loaderInboxBusinessList = new LoaderInboxBusinessList (inbox_business.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage?user_id="+ id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                 return loaderInboxBusinessList;
             }
 

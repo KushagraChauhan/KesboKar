@@ -331,8 +331,10 @@ public class JsonParser {
 
             JSONObject jsonObject1 = jsonObject.getJSONObject("yellowpage");
             inboxBusinessList.setTxtName(jsonObject1.getString("name"));
-            JSONObject jsonObject2 = jsonObject.getJSONObject("user");
-            inboxBusinessList.setTxtBusiness(jsonObject2.getString("first_name"));
+
+                JSONObject jsonObject2 = jsonObject.getJSONObject("user");
+                inboxBusinessList.setTxtBusiness(jsonObject2.getString("first_name"));
+
             inboxBusinessLists.add(inboxBusinessList);
 
         }
