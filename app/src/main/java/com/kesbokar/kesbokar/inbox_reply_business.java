@@ -1,14 +1,16 @@
 package com.kesbokar.kesbokar;
 
 public class inbox_reply_business {
+    private final int enquiry_id;
     String ReplyMessage,ReplyBy,Date;
     int user_id,id1;
-    public inbox_reply_business(String ReplyMessage,String ReplyBy,String Date,int user_id,int id1){
+    public inbox_reply_business(String ReplyMessage,String ReplyBy,String Date,int user_id,int id1, int enquiry_id){
         this.ReplyMessage=ReplyMessage;
         this.ReplyBy=ReplyBy;
         this.Date=Date;
         this.user_id=user_id;
         this.id1=id1;
+        this.enquiry_id = enquiry_id;
     }
 
     public int getId1() {
@@ -29,6 +31,10 @@ public class inbox_reply_business {
 
     public String getReplyMessage() {
         return ReplyMessage;
+    }
+
+    public int getEnquiry_id(){
+        return enquiry_id;
     }
 }
 
