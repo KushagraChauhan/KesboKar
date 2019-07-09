@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ExampleItem implements Parcelable {
-    private String img,busi_name,busi_synop,url,city;
+    private String img,busi_name,busi_synop,url,city,heading;
     int id;
     double ratings;
 
@@ -62,7 +62,7 @@ public class ExampleItem implements Parcelable {
     }
 
 
-    public ExampleItem(String img,String busi_name,String busi_synop,String url,String city,int id, double ratings)
+    public ExampleItem(String img,String busi_name,String busi_synop,String url,String city,int id, double ratings,String heading)
     {
         this.img=img;
         this.ratings=ratings;
@@ -71,6 +71,7 @@ public class ExampleItem implements Parcelable {
         this.city=city;
         this.url=url;
         this.id=id;
+        this.heading=heading;
     }
     public String getCity()
     {
@@ -99,6 +100,10 @@ public class ExampleItem implements Parcelable {
     public String getBusi_synop()
     {
         return busi_synop;
+    }
+
+    public String getHeading() {
+        return heading;
     }
 
     @Override

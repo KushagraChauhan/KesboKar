@@ -58,7 +58,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
     ListView listView;
     String replyMessage,replyBy,date1,subject1,message1;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
-    int id,flag;
+    int id,flag, enquiry_id;
     RequestQueue requestQueue;
     int id1,user_id;
     Intent intent;
@@ -101,7 +101,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/126/reply"+id;
+                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/"+ enquiry_id + "/reply"+id;
                 final String reply_message=((EditText)findViewById(R.id.etReply)).getText().toString();
                 RequestQueue queue= Volley.newRequestQueue(InboxReplyMarketplace.this);
                 //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
@@ -164,7 +164,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
     }
     private void jsonParser()
     {
-        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product/"+bundle.getInt("id") +"reply"+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product/"+enquiry_id +"reply"+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
         final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -185,9 +185,10 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
                         JSONObject rdata=replies.getJSONObject(j);
                         replyMessage=rdata.getString("reply_message");
                         date1=rdata.getString("created_at");
+                        enquiry_id=rdata.getInt("enquiry_id");
                         JSONObject user=rdata.getJSONObject("user");
                         replyBy=user.getString("first_name");
-                        get_for_replies.add(new inbox_reply_market(replyMessage,replyBy,date1,user_id,id1));
+                        get_for_replies.add(new inbox_reply_market(replyMessage,replyBy,date1,user_id,id1,enquiry_id));
                     }
                     subject.setText(subject1);
                     message.setText(message1);

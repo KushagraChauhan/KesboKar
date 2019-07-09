@@ -86,7 +86,7 @@ public class ProfileBusinessListing extends AppCompatActivity implements Navigat
     }
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        Intent intent = new Intent(ProfileBusinessListing.this,Navigation.class );
+        Intent intent = new Intent(ProfileBusinessListing.this,LoginData.class );
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivityForResult(intent, 0);
         overridePendingTransition(0, 0);

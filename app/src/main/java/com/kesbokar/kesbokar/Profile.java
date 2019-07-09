@@ -46,7 +46,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     }
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        Intent intent = new Intent(Profile.this,Navigation.class );
+        Intent intent = new Intent(Profile.this,LoginData.class );
         intent.putExtra("Flag",flag);
         intent.putExtra("Name",full_name);
         intent.putExtra("mail",email);

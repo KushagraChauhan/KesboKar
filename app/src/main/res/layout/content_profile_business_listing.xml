@@ -8,11 +8,20 @@
     tools:context=".ProfileBusinessListing"
     tools:showIn="@layout/app_bar_profile_business_listing"
     >
+
     <Button
         android:id="@+id/btnCreate_new_business_listing"
-        android:text="Create New"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent"
+        android:paddingStart="20dp"
+        android:paddingRight="20dp"
+        android:text="Create New"
+        android:textColor="@color/White"
+        android:textStyle="bold" />
 
     <HorizontalScrollView
         android:layout_width="wrap_content"

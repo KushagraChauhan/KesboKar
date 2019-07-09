@@ -13,8 +13,24 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:id="@+id/bli"
-        android:background="@drawable/image_border"/>
+        android:id="@+id/bli"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/clickable"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/heading"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +39,8 @@
         android:textStyle="bold"
         android:textColor="@color/kesbokar"
         android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
     <androidx.appcompat.widget.AppCompatRatingBar
         android:layout_width="wrap_content"
         android:fitsSystemWindows="true"
@@ -40,6 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/blrq"
@@ -50,4 +70,4 @@
         android:text="Get In Touch"
         android:textColor="@color/White" />
 
-</LinearLayout>
+    </LinearLayout>

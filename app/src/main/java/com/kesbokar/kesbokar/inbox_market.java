@@ -33,6 +33,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_inbox_market);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getData();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -45,7 +46,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>>() {
             @Override
             public Loader<ArrayList<InboxMarketList>> onCreateLoader(int i, Bundle bundle) {
-                LoaderInboxMarketList loaderInboxMarketList = new LoaderInboxMarketList (inbox_market.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product?user_id=312&"   + id);
+                LoaderInboxMarketList loaderInboxMarketList = new LoaderInboxMarketList (inbox_market.this,"http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product?user_id="+ id + "&"  );
                 return loaderInboxMarketList;
             }
 
@@ -71,7 +72,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
     }
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(inbox_market.this,Navigation.class);
+        Intent intent=new Intent(inbox_market.this,LoginData.class);
         startActivity(intent);
         finish();
     }
