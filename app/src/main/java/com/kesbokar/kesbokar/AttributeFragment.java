@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,20 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -30,7 +44,7 @@ public class AttributeFragment extends Fragment {
 
     ViewPager viewPager;
     TabLayout tabLayout;
-    String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info,attribute_id,attribute="";
     int id,flag,entry_state;
     Button btnRefresh;
 
@@ -182,15 +196,66 @@ public class AttributeFragment extends Fragment {
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        final JSONArray jsonArray =new JSONArray();
+
                         for (int i = 0; i< finalCount; i++)
                         {
+
+
+                            JSONObject jsonObject=new JSONObject();
+                            try {
+                                jsonObject.put("product_id",product_id);
+                                jsonObject.put("attribute_id",resultId[i]);
+                                jsonObject.put("attribute_value",result[i]);
+                                jsonArray.put(i,jsonObject);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            attribute=attribute+resultId[i]+",";
+
+
                             Toast.makeText(getContext(),resultId[i],Toast.LENGTH_SHORT).show();
+
                         }
+                        RequestQueue queue= Volley.newRequestQueue(getActivity());
+                        String url;
+
+                        url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id+"/attributes";
+
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.i("Response",response);
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("Error",error.toString());
+                            }
+                        }){
+                            @Override
+                            protected Map<String, String> getParams()
+                            {
+                                Map<String, String>  params = new HashMap<String, String >();
+                                params.put("product_id",product_id);
+                                params.put("data",jsonArray.toString());
+                                Log.i("jsonarray",jsonArray.toString());
+                                params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                                return params;
+                            }
+                        };
+                        queue.add(stringRequest);
+                        int item=viewPager.getCurrentItem();
+                        View tab=tabLayout.getTabAt(item+1).view;
+                        tab.setEnabled(true);
+                        viewPager.setCurrentItem(item+1);
 
                     }
                 });
 
                 fragment_container.addView(btnSave, btnSaveParams);
+
             }
         });
 
@@ -216,6 +281,8 @@ public class AttributeFragment extends Fragment {
         entry_state =entry.getInt("entry_state1",0);
         SharedPreferences attribute=getActivity().getSharedPreferences("attributes",0);
         attribute_info = attribute.getString("attribute_info","");
+        attribute_id = attribute.getString("attribute_id","");
+
     }
 
 }
