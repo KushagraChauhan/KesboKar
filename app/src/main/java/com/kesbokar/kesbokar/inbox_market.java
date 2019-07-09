@@ -6,6 +6,8 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
     private LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>> busLoader;
     private static final int LOADER_BUS_PRO_LIST = 66;
     ListView listView;
+    Button adpbtnedt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,14 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(inbox_market.this);
 
         listView = findViewById(R.id.listProfileBusiness);
+        adpbtnedt=findViewById(R.id.adapBtnEdt);
+        adpbtnedt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(inbox_market.this,inbox_reply_market.class);
+                startActivity(intent);
+            }
+        });
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>>() {
             @Override
             public Loader<ArrayList<InboxMarketList>> onCreateLoader(int i, Bundle bundle) {

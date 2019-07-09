@@ -155,6 +155,7 @@ public class JsonParser {
             businessProfileList.setTxtTitle(jsonObject.getString("name"));
             businessProfileList.setTxtSno(i + "");
             businessProfileList.setTxtPhone(jsonObject.getString("phone"));
+            businessProfileList.setId(jsonObject.getInt("id"));
             businessProfileList.setTxtAbn(jsonObject.getString("registration_no"));
             businessProfileList.setTxtStatus(jsonObject.getInt("status"));
             businessProfileLists.add(businessProfileList);
@@ -172,6 +173,7 @@ public class JsonParser {
             MarketProfileList marketProfileList = new MarketProfileList();
             marketProfileList.setTxtStatus(jsonObject.getInt("status"));
             marketProfileList.setTxtSno(i + "");
+            marketProfileList.setId(jsonObject.getInt("id"));
             marketProfileList.setTxtTitle(jsonObject.getString("name"));
             marketProfileLists.add(marketProfileList);
         }

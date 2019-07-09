@@ -6,6 +6,8 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,9 +24,11 @@ import java.util.ArrayList;
 
 public class inbox_business extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int en_id;
     private LoaderManager.LoaderCallbacks<ArrayList<InboxBusinessList>> busLoader;
     private static final int LOADER_BUS_PRO_LIST = 66;
     ListView listView;
+    Button adpbtnedt;
 
     int id,flag;
     @Override
@@ -43,6 +47,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(inbox_business.this);
 
         listView = findViewById(R.id.listProfileBusiness);
+
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxBusinessList>>() {
             @Override
             public Loader<ArrayList<InboxBusinessList>> onCreateLoader(int i, Bundle bundle) {
@@ -95,6 +100,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             intent.putExtra("image",image);
             intent.putExtra("phone",phone_no);
             intent.putExtra("create",created);
+            intent.putExtra("enquiry_id", en_id);
             intent.putExtra("update",updated);
             intent.putExtra("id",id);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -108,6 +114,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             intent.putExtra("Name",full_name);
             intent.putExtra("mail",email);
             intent.putExtra("image",image);
+            intent.putExtra("enquiry_id", en_id);
             intent.putExtra("phone",phone_no);
             intent.putExtra("create",created);
             intent.putExtra("update",updated);
@@ -125,6 +132,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             intent.putExtra("image",image);
             intent.putExtra("phone",phone_no);
             intent.putExtra("create",created);
+            intent.putExtra("enquiry_id", en_id);
             intent.putExtra("update",updated);
             intent.putExtra("id",id);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -140,6 +148,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             intent.putExtra("image",image);
             intent.putExtra("phone",phone_no);
             intent.putExtra("create",created);
+            intent.putExtra("enquiry_id", en_id);
             intent.putExtra("update",updated);
             intent.putExtra("id",id);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -156,6 +165,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             intent.putExtra("image",image);
             intent.putExtra("phone",phone_no);
             intent.putExtra("create",created);
+            intent.putExtra("enquiry_id", en_id);
             intent.putExtra("update",updated);
             intent.putExtra("id",id);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -174,6 +184,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             intent.putExtra("phone",phone_no);
             intent.putExtra("create",created);
             intent.putExtra("update",updated);
+            intent.putExtra("enquiry_id", en_id);
             intent.putExtra("id",id);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityForResult(intent, 0);
@@ -196,6 +207,6 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
         id=loginData.getInt("id",0);
         created=loginData.getString("create","");
         updated=loginData.getString("update","");
-
+//        en_id = loginData.getInt("enquiry_id", 0);
     }
 }

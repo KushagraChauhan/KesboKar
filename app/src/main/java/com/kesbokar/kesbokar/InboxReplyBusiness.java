@@ -59,6 +59,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply_inbox_business);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        getData();
         subject=findViewById(R.id.tvSubject);
         message=findViewById(R.id.tvMessage);
         setSupportActionBar(toolbar);
@@ -124,15 +125,6 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                 };
                 RequestQueue requestQueue=Volley.newRequestQueue(InboxReplyBusiness.this);
                 queue.add(stringRequest);
-//                Intent mail=new Intent(Intent.ACTION_SENDTO);
-//                mail.setType("text/plain");
-//                //mail.putExtra(Intent.EXTRA_EMAIL,new String[]{"ashubansal.ashishbansal@gmail.com"});
-//                mail.setData(Uri.parse("mailto:ashubansal.ashishbansal@gmail.com"));
-//                mail.putExtra(Intent.EXTRA_SUBJECT, email);
-//                mail.putExtra(Intent.EXTRA_TEXT, message);
-//                //mail.setType("message/rfc822");
-//                mail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(mail);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -158,14 +150,12 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                 try {
                     JSONObject jsonObject=response.getJSONObject("data");
 
-                    //JSONObject dat = jsonObject.getJSONObject(i);
                     Log.i("JSON Help", jsonObject.toString());
                     id1=jsonObject.getInt("id");
 
                     user_id=jsonObject.getInt("sender_id");
                     subject1=jsonObject.getString("subject");
                     message1=jsonObject.getString("message");
-//                        replyBy=jsonObject.getString("reply_by_name");
                     JSONArray replies=jsonObject.getJSONArray("replies");
                     for (int j=0;j<replies.length();j++)
                     {

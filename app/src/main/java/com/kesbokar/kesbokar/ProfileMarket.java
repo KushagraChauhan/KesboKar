@@ -68,7 +68,7 @@ public class ProfileMarket extends AppCompatActivity implements NavigationView.O
             public void onLoadFinished(Loader<ArrayList<MarketProfileList>> loader, ArrayList<MarketProfileList> marketProfileLists) {
                 if(marketProfileLists!=null) {
                     if (marketProfileLists.size() != 0) {
-                        AdapterBusListProfileMarket adapterBusListProfileMarket = new AdapterBusListProfileMarket(ProfileMarket.this, marketProfileLists);
+                        AdapterBusListProfileMarket adapterBusListProfileMarket = new AdapterBusListProfileMarket(ProfileMarket.this, marketProfileLists,ProfileMarket.this);
                         listView.setAdapter(adapterBusListProfileMarket);
                     } else {
                         Toast.makeText(ProfileMarket.this, "Error", Toast.LENGTH_SHORT).show();
