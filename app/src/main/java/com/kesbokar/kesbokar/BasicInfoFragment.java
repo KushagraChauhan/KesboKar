@@ -153,6 +153,7 @@ public class BasicInfoFragment extends Fragment {
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
+
         categoryBaseArrayList = new ArrayList<>();
         categorySecondArrayList = new ArrayList<>();
         categoryThirdArrayList = new ArrayList<>();

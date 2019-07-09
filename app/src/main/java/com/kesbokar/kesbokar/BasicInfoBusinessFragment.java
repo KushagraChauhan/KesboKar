@@ -2,6 +2,8 @@ package com.kesbokar.kesbokar;
 
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -11,32 +13,89 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.app.LoaderManager.LoaderCallbacks;
+import androidx.loader.content.Loader;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 
-public class BasicInfoBusinessFragment extends Fragment implements LocationListener {
+public class BasicInfoBusinessFragment extends Fragment {
 
+    ProgressDialog progressDialog;
 
-    Button btnFirst, btnSecond, btnThird, btnVerify, btnState, btnSuburb, btnCountry, getLocationBtn, btnSave;
-    EditText etCompanyTitle, etABN, etLicense, etWebsite, etQuote, etPhone, etEmail, etStreet, etLongitude, etLatitude;
-    AutoCompleteTextView acTags;
-    LocationManager locationManager;
-    String provider;
-    Location location;
+    private EditText edtCompanyTitle;
+    private MultiAutoCompleteTextView mltAutoKeyWords;
+    private TextView txtCatFirst,txtCatSecond, txtCatThird;
 
-    int entry_state;
-    int id,flag;
+    Button cancel_tag;
 
-    String loginId, loginPass, full_name, email, image, phone_no,created,updated; //getData Method Objects
+    Context context;
 
+    CategoriesBaseAdapter categoriesBaseAdapter;
+    CategoriesSecondAdapter categoriesSecondAdapter;
+    CategoriesThirdAdapter categoriesThirdAdapter;
+
+    private String parent_id = "";
+    String tagsIds = "";
+    String firstCat,secondCat, thirdCat;
+    private String tags;
+    int count = 0;
+
+    private ArrayList<CategoryBase> categoryBaseArrayList;
+    private ArrayList<CategorySecond> categorySecondArrayList;
+    private ArrayList<CategoryThird> categoryThirdArrayList;
+
+    private ArrayList<String>tagsName;
+    private ArrayList<TagsObject> tagsObjectArrayList;
+    private ArrayList<TagsObject> tagsSelectedArrayList;
+    ArrayAdapter<TagsObject> tagsObjectArrayAdapter;
+
+    //Loaders
+    private static final int LOADER_FIRST_CATEGORY = 10101;
+    private static final int LOADER_SECOND_CATEGORY = 10102;
+    private static final int LOADER_THIRD_CATEGORY = 10103;
+    private static final int LOADER_TAGS = 10104;
+
+    private LoaderCallbacks<ArrayList<CategoryBase>> firstCategoryLoader;
+    private LoaderCallbacks<ArrayList<CategorySecond>> secondCategoryLoader;
+    private LoaderCallbacks<ArrayList<CategoryThird>> thirdCategoryLoader;
+    private LoaderCallbacks<ArrayList<TagsObject>> tagsObjectLoader;
+
+    private ListView listCategoriesBase,listCategoriesSecond,listCategoriesThird;
 
 
     public BasicInfoBusinessFragment() {
@@ -50,259 +109,303 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info_business, container, false);
 
+        progressDialog = new ProgressDialog(getActivity());
+        edtCompanyTitle =  view.findViewById(R.id.edtCompanyTitle);
+        mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords_business);
 
-        acTags = view.findViewById(R.id.acTags);
-        etCompanyTitle = (EditText) view.findViewById(R.id.etCompanyTitle);
-        etABN = view.findViewById(R.id.etABN);
-        etLicense = view.findViewById(R.id.etLicense);
-        etWebsite = view.findViewById(R.id.etWebsite);
-        etQuote = view.findViewById(R.id.etQuote);
-        etPhone = view.findViewById(R.id.etPhone);
-        etEmail = view.findViewById(R.id.etEmail);
-        etStreet = view.findViewById(R.id.etStreet);
-        etLongitude = view.findViewById(R.id.etLongitude);
-        etLatitude = view.findViewById(R.id.etLatitude);
-        btnFirst = (Button) view.findViewById(R.id.btnFirst);
-        btnSecond = (Button) view.findViewById(R.id.btnSecond);
-        btnThird = (Button) view.findViewById(R.id.btnThird);
-        btnVerify = view.findViewById(R.id.btnVerify);
-        btnState = view.findViewById(R.id.btnState);
-        btnSuburb = view.findViewById(R.id.btnSuburb);
-        btnCountry = view.findViewById(R.id.btnCountry);
-        getLocationBtn = view.findViewById(R.id.btnDetect);
-        btnSave = view.findViewById(R.id.btnSave);
-        final String[] firstValueArray = {"API1", "API1", "API1"};
-        final String[] secondValueArray;
-        final String[] thirdValueArray;
-        final String[] locationValueArray1;
-        final String[] locationValueArray2;
-        final String[] locationValueArray3;
-        final String[] value = new String[3];
-        final String[] state = {""};
-        final String[] suburb = {""};
-        final String[] country = {""};
+        cancel_tag= view.findViewById(R.id.cancel_tag);
+
+        txtCatFirst =  view.findViewById(R.id.txtCatFirst);
+        txtCatSecond = view.findViewById(R.id.txtCatSecond);
+        txtCatThird = view.findViewById(R.id.txtCatThird);
+
+        categoryBaseArrayList = new ArrayList<>();
+        categorySecondArrayList = new ArrayList<>();
+        categoryThirdArrayList = new ArrayList<>();
+
+        tagsName = new ArrayList<>();
+        tagsSelectedArrayList = new ArrayList<>();
+        tagsObjectArrayList = new ArrayList<>();
 
 
-        etCompanyTitle.setOnClickListener(new View.OnClickListener() {
+
+        txtCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (entry_state==1){
-                    assert getFragmentManager() != null;
-                    assert getFragmentManager() != null;
-                    getFragmentManager().beginTransaction().detach(getTargetFragment()).attach(getTargetFragment()).commit();
+                getLoaderManager().restartLoader(LOADER_FIRST_CATEGORY, null, firstCategoryLoader);
+                progressDialog.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        final Dialog dialog = new Dialog(getActivity());
+                        View view1 = getActivity().getLayoutInflater().inflate(R.layout.category_base_dialog, null);
+                        dialog.setContentView(view1);
+                        listCategoriesBase = view1.findViewById(R.id.categoriesBaseListView);
+                        categoriesBaseAdapter = new CategoriesBaseAdapter(getActivity(), categoryBaseArrayList);
+                        listCategoriesBase.setAdapter(categoriesBaseAdapter);
+
+                        listCategoriesBase.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                CategoryBase categoryBase = (CategoryBase) adapterView.getAdapter().getItem(position);
+                                parent_id = categoryBase.getId();
+                                firstCat = parent_id;
+                                txtCatFirst.setText(categoryBase.getTitle());
+                                //getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                    }
+                },1800);
+            }
+        });
+        firstCategoryLoader = new LoaderCallbacks<ArrayList<CategoryBase>>(){
+            @Override
+            public Loader<ArrayList<CategoryBase>> onCreateLoader(int i, Bundle bundle) {
+                LoaderFirstCategory loaderFirstCategory = new LoaderFirstCategory(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                return loaderFirstCategory;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<ArrayList<CategoryBase>> loader, ArrayList<CategoryBase> categoryBases) {
+                if(categoryBases!=null){
+                    categoryBaseArrayList = categoryBases;
+                    Log.i("API RESULT Category", "onLoadFinished: " + categoryBases);
                 }
-
             }
-        });
 
-
-        btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(firstValueArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        value[0] = firstValueArray[item];
-                        btnFirst.setText(value[0]);
-                        btnSecond.setVisibility(View.VISIBLE);
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-
+            public void onLoaderReset(Loader<ArrayList<CategoryBase>> loader) {
+                categoryBaseArrayList.removeAll(null);
             }
-        });
-
-        secondValueArray = new String[]{"API2", "API2", "API2"};
-
-
-        btnSecond.setOnClickListener(new View.OnClickListener() {
+        };
+        secondCategoryLoader = new LoaderCallbacks<ArrayList<CategorySecond>>() {
+            @NonNull
             @Override
-            public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(secondValueArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        value[1] = secondValueArray[item];
-                        btnSecond.setText(value[1]);
-                        btnThird.setVisibility(View.VISIBLE);
-
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-
-
+            public Loader<ArrayList<CategorySecond>> onCreateLoader(int id, @Nullable Bundle args) {
+                LoaderCategorySecond loaderCategorySecond = new LoaderCategorySecond(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=" + parent_id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                return loaderCategorySecond;
             }
-        });
 
-        thirdValueArray = new String[]{"API3", "API3", "API3"};
-
-
-        btnThird.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(thirdValueArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        value[2] = thirdValueArray[item];
-                        btnThird.setText(value[2]);
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-
-
-            }
-        });
-
-
-        locationValueArray1 = new String[]{"L1", "L1", "L1"};
-        locationValueArray2 = new String[]{"L2", "L2", "L2"};
-        locationValueArray3 = new String[]{"L3", "L3", "L3"};
-
-        btnState.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(locationValueArray1, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        state[0] = locationValueArray1[item];
-                        btnState.setText(state[0]);
-
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-            }
-        });
-
-        btnSuburb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(locationValueArray2, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        suburb[0] = locationValueArray2[item];
-                        btnSuburb.setText(suburb[0]);
-
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-            }
-        });
-
-        btnCountry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select Option");
-                builder.setItems(locationValueArray3, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        country[0] = locationValueArray3[item];
-                        btnCountry.setText(country[0]);
-
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-            }
-        });
-
-        btnVerify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        getLocationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                locationManager =(LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                Criteria c=new Criteria();
-                //if we pass false than
-                //it will check first satellite location than Internet and than Sim Network
-                provider=locationManager.getBestProvider(c, false);
-                if ((ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
-                    location=locationManager.getLastKnownLocation(provider);
+            public void onLoadFinished(@NonNull Loader<ArrayList<CategorySecond>> loader, ArrayList<CategorySecond> data) {
+                if(data!=null){
+                    categorySecondArrayList = data;
+                    //Log.i("API SECOND", data.get(0).getTitle());
                 }
+            }
 
-                if(location!=null)
-                {
-                    double lng=location.getLongitude();
-                    double lat=location.getLatitude();
-                    etLatitude.setText(""+lat);
-                    etLongitude.setText(""+lng);
+            @Override
+            public void onLoaderReset(@NonNull Loader<ArrayList<CategorySecond>> loader) {
+                categorySecondArrayList.removeAll(null);
+            }
+        };
+        thirdCategoryLoader = new LoaderCallbacks<ArrayList<CategoryThird>>() {
+            @NonNull
+            @Override
+            public Loader<ArrayList<CategoryThird>> onCreateLoader(int id, @Nullable Bundle args) {
+                LoaderCategoriesThird loaderCategoriesThird = new LoaderCategoriesThird(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=" + parent_id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                return loaderCategoriesThird;
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<ArrayList<CategoryThird>> loader, ArrayList<CategoryThird> data) {
+                if(data!=null){
+                    categoryThirdArrayList = data;
+                    Log.i("API THIRD Cat", data + "");
                 }
-                else
-                {
-                    etLatitude.setText("No Provider");
-                    etLongitude.setText("No Provider");
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<ArrayList<CategoryThird>> loader) {
+                categoryThirdArrayList.removeAll(null);
+            }
+        };
+        tagsObjectLoader = new LoaderManager.LoaderCallbacks<ArrayList<TagsObject>>() {
+            @NonNull
+            @Override
+            public Loader<ArrayList<TagsObject>> onCreateLoader(int id, @Nullable Bundle args) {
+                LoaderGetTags loaderGetTags = new LoaderGetTags(getActivity(), tags, tagsName, "http://serv.kesbokar.com.au/jil.0.1/v1/tags/dd");
+                return loaderGetTags;
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<ArrayList<TagsObject>> loader, ArrayList<TagsObject> data) {
+                if(data!=null){
+                    tagsObjectArrayList.clear();
+                    tagsSelectedArrayList.clear();
+                    Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
+                    tagsObjectArrayList = data;
+                    tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                    mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                    mltAutoKeyWords.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                    mltAutoKeyWords.setThreshold(1);
+                    mltAutoKeyWords.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (tagsSelectedArrayList.size()<5) {
+                                mltAutoKeyWords.showDropDown();
+                            }
+                            else
+                            {
+                                Log.i("TAGSIDS", "onTouch: " + tagsIds);
+                                mltAutoKeyWords.dismissDropDown();
+                                mltAutoKeyWords.setEnabled(false);
+                            }
+                            return false;
+                        }
+                    });
+                    cancel_tag.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mltAutoKeyWords.setText("");
+                            mltAutoKeyWords.setEnabled(true);
+                            tagsObjectArrayList.addAll(tagsSelectedArrayList);
+                            Toast.makeText(context, ""+tagsObjectArrayList.toString(), Toast.LENGTH_SHORT).show();
+                            tagsSelectedArrayList.clear();
+                            tagsObjectArrayAdapter.notifyDataSetChanged();
+                            tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                            mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                        }
+                    });
+                    mltAutoKeyWords.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
+                    mltAutoKeyWords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            TagsObject tagsObject = (TagsObject) adapterView.getAdapter().getItem(i);
+                            Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
+                            //long id = adapterView.getAdapter().getItemId(i);
+                            if(!tagsSelectedArrayList.contains(tagsObject)){
+                                if(tagsSelectedArrayList.size() < 5) {
+                                    if(count==4){
+                                        tagsIds += tagsObject.getId();
+                                    }else{
+                                        tagsIds += tagsObject.getId() + ",";
+                                    }
+                                    tagsSelectedArrayList.add(tagsObject);
+                                    tagsObjectArrayAdapter.remove(tagsObject);
+                                    tagsObjectArrayAdapter.notifyDataSetChanged();
+                                    tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                                    mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
+                                    count++;
+                                }else{
+
+                                }
+                            }
+                        }
+                    });
+                    Log.i("TAGS ", "onLoadFinished: " + data);
+                }else{
+                    Log.i("ERROR", "WTF");
                 }
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<ArrayList<TagsObject>> loader) {
+
+            }
+        };
+
+
+
+        txtCatSecond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLoaderManager().restartLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
+                progressDialog.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        final Dialog dialog = new Dialog(getActivity());
+                        View view1 = getActivity().getLayoutInflater().inflate(R.layout.category_base_dialog, null);
+                        dialog.setContentView(view1);
+                        listCategoriesSecond = view1.findViewById(R.id.categoriesBaseListView);
+                        categoriesSecondAdapter = new CategoriesSecondAdapter(getActivity(), categorySecondArrayList);
+                        listCategoriesSecond.setAdapter(categoriesSecondAdapter);
+                        listCategoriesSecond.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                                CategorySecond categorySecond = (CategorySecond) adapterView.getAdapter().getItem(i);
+                                parent_id = categorySecond.getId();
+                                secondCat = parent_id;
+                                txtCatSecond.setText(categorySecond.getTitle());
+                                Log.i("Parent id", parent_id);
+                                txtCatThird.setVisibility(View.VISIBLE);
+                                dialog.dismiss();
+                                getLoaderManager().initLoader(LOADER_THIRD_CATEGORY, null, thirdCategoryLoader);
+                                txtCatSecond.setEnabled(false);
+                            }
+                        });
+                        dialog.show();
+                    }
+                }, 1800);
+            }
+        });
+
+        txtCatThird.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLoaderManager().restartLoader(LOADER_THIRD_CATEGORY, null, thirdCategoryLoader);
+                progressDialog.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        final Dialog dialog = new Dialog(getActivity());
+                        View view1 = getActivity().getLayoutInflater().inflate(R.layout.category_base_dialog, null);
+                        dialog.setContentView(view1);
+                        listCategoriesThird = view1.findViewById(R.id.categoriesBaseListView);
+                        categoriesThirdAdapter = new CategoriesThirdAdapter(getActivity(), categoryThirdArrayList);
+                        listCategoriesThird.setAdapter(categoriesThirdAdapter);
+                        listCategoriesThird.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                                CategoryThird categoryThird = (CategoryThird) adapterView.getAdapter().getItem(i);
+                                parent_id = categoryThird.getId();
+                                thirdCat = parent_id;
+                                tags = categoryThird.getTags();
+                                StringTokenizer stringTokenizer = new StringTokenizer(tags,"");
+                                while(stringTokenizer.hasMoreTokens()){
+                                    tagsName.add(stringTokenizer.nextToken());
+                                }
+                                txtCatThird.setText(categoryThird.getTitle());
+                                Log.i("Parent id", parent_id);
+                                Log.i("tags", "onItemClick: "+tags + "**********"+tagsName);
+                                txtCatThird.setEnabled(false);
+                                getLoaderManager().initLoader(LOADER_TAGS, null, tagsObjectLoader);
+                                dialog.dismiss();
+
+                            }
+                        });
+                        dialog.show();
+                    }
+                },1800);
             }
         });
 
         return view;
-    }
 
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    public void getData()
-    {
-        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
-        flag = loginData.getInt("Flag",0);
-        full_name=loginData.getString("Name","");
-        email=loginData.getString("mail","");
-        image=loginData.getString("image","");
-        phone_no=loginData.getString("phone","");
-        id=loginData.getInt("id",0);
-        created=loginData.getString("create","");
-        updated=loginData.getString("update","");
-        SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
-//        product_id =get_product_detail.getString("product_id","");
-//        product_name=get_product_detail.getString("product_name","");
-        SharedPreferences entry=getActivity().getSharedPreferences("product_detail",0);
-        entry_state =entry.getInt("entry_state",0);
     }
 }
 

@@ -211,7 +211,7 @@ public class Navigation_market extends AppCompatActivity
         RadioGroup radioGroup = findViewById(R.id.radio_group);
         RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
         RadioButton rb_business = findViewById(R.id.rb_businesses);
-        btnBusinessNavMark = findViewById(R.id.btnBusinessNavMark);
+        btnBusinessNavMark = findViewById(R.id.mar);
         ml = findViewById(R.id.ml);
         btnNavHelp = (Button) findViewById(R.id.btnNavHelp);
         top.setOnClickListener(new View.OnClickListener() {
