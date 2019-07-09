@@ -9,6 +9,7 @@ public class inbox_reply_market {
         this.Date=Date;
         this.user_id=user_id;
         this.id1=id1;
+
     }
 
     public int getId1() {
@@ -30,5 +31,7 @@ public class inbox_reply_market {
     public String getReplyMessage() {
         return ReplyMessage;
     }
+
+
 }
 
