@@ -33,8 +33,5 @@ public class inbox_reply_business {
         return ReplyMessage;
     }
 
-    public int getEnquiry_id(){
-        return enquiry_id;
-    }
 }
 

@@ -8,6 +8,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -64,9 +65,11 @@ public class Navigation extends AppCompatActivity
     TextView ab;
     ImageButton[] imagebutton;
     TextView[] dynamicTxt;
+
     LinearLayout layoutmain;
     LinearLayout layout;
     LinearLayout layoutsec;
+
     int id;
     ImageView search;
     Button btnSrch,logout;
@@ -98,28 +101,35 @@ public class Navigation extends AppCompatActivity
     private String subType;
     //private static ArrayList<String> tags;
     Toolbar toolbar;
-    ImageView[] bi, mi;
+    ImageView[] ImgView_business_list_image_bi1, mi;
     TextView[] bc, bd, mc, md;
     HorizontalScrollView category;
     DrawerLayout drawer;
-    AutoCompleteTextView textView;
-    AutoCompleteTextView textView2;
+    AutoCompleteTextView autoCompleteTextViewOne_type_or_name;
+    AutoCompleteTextView autoCompleteTextViewTwo_suburb_or_state;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
-    Button top, signup, login, help, market;
+    Button btnTop, signup, login, btnNavHelp, btnBottomMarket;
 
     String q, subV;
     String querySub;
+
+    private String query = "";
+
     private double lat, longitude;
     ArrayList<ExampleItem> exampleItems;
     int stateid = 0;
+
     private static final String[] COUNTRIES = new String[] { "Belgium","France", "France_", "Italy", "Germany", "Spain" };
+
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
-    private String query = "";
+
+
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         //savedInstanceState.putBoolean("a",a);
@@ -132,10 +142,11 @@ public class Navigation extends AppCompatActivity
         valsBus = new ArrayList<>();
         valsSub = new ArrayList<>();
         exampleItems = new ArrayList<>();
-        bi = new ImageView[4];
+
+        ImgView_business_list_image_bi1 = new ImageView[4];
         mi = new ImageView[4];
         bc = new TextView[4];
-        final ImageView location;
+        final ImageView ImgViewLocation;
         mc = new TextView[4];
         md = new TextView[4];
         bd = new TextView[4];
@@ -146,17 +157,17 @@ public class Navigation extends AppCompatActivity
         }
         lat = 0.0;
         longitude = 0.0;
-        textView2 = findViewById(R.id.bs2);
+        autoCompleteTextViewTwo_suburb_or_state = findViewById(R.id.autoCompleteTextViewTwo_suburb_or_state);
         search=findViewById(R.id.search);
 
         q = subV = querySub = "";
 
         setSupportActionBar(toolbar);
         ab = (TextView) findViewById(R.id.about);
-        bi[0] = findViewById(R.id.bi1);
-        bi[1] = findViewById(R.id.bi2);
-        bi[2] = findViewById(R.id.bi3);
-        bi[3] = findViewById(R.id.bi4);
+        ImgView_business_list_image_bi1[0] = (ImageView) findViewById(R.id.ImgView_business_list_image_bi1);
+        ImgView_business_list_image_bi1[1] = findViewById(R.id.bi2);
+        ImgView_business_list_image_bi1[2] = findViewById(R.id.bi3);
+        ImgView_business_list_image_bi1[3] = findViewById(R.id.bi4);
         bc[0] = findViewById(R.id.bc1);
         bc[1] = findViewById(R.id.bc2);
         bc[2] = findViewById(R.id.bc3);
@@ -178,7 +189,7 @@ public class Navigation extends AppCompatActivity
         mc[3] = findViewById(R.id.mc4);
         mi[3] = findViewById(R.id.mi4);
 
-        location=findViewById(R.id.location);
+        ImgViewLocation = (ImageView) findViewById(R.id.ImgViewLocation);
         category = findViewById(R.id.category);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -186,23 +197,25 @@ public class Navigation extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        btnSrch = findViewById(R.id.btnSrch);
+        btnSrch = findViewById(R.id.btnSearch);
 
-        textView=findViewById(R.id.bs1);
+        autoCompleteTextViewOne_type_or_name = findViewById(R.id.autoCompleteTextViewOne_type_or_name);
 
         navigationView.setNavigationItemSelectedListener(this);
-        top = (Button) findViewById(R.id.top);
+        btnTop = (Button) findViewById(R.id.btnTop);
         View ab = navigationView.getHeaderView(0);
         Menu show=navigationView.getMenu();
         signup = (Button) ab.findViewById(R.id.signup);
         login = (Button) ab.findViewById(R.id.login);
         logout=ab.findViewById(R.id.logout);
         name=(TextView)ab.findViewById(R.id.name_user);
+
         RadioGroup radioGroup = findViewById(R.id.radio_group);
-        RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
-        RadioButton rb_business = findViewById(R.id.rb_businesses);
-        market = findViewById(R.id.mar);
-        help = (Button) findViewById(R.id.help);
+        RadioButton rb_marketplace = (RadioButton) findViewById(R.id.rb_marketplace);
+        RadioButton rb_business = (RadioButton) findViewById(R.id.rb_businesses);
+
+        btnBottomMarket = findViewById(R.id.btnBottomMar);
+        btnNavHelp = (Button) findViewById(R.id.btnNavHelp);
         layoutmain = findViewById(R.id.abc);
         layoutsec = findViewById(R.id.bcd);
         params = new LinearLayout
@@ -230,7 +243,7 @@ public class Navigation extends AppCompatActivity
 //            updated=extras.getString("update");
 //            Toast.makeText(this, "I have done this", Toast.LENGTH_SHORT).show();
 //        }
-        location.setOnClickListener(new View.OnClickListener() {
+        ImgViewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -259,12 +272,14 @@ public class Navigation extends AppCompatActivity
             logout.setVisibility(View.VISIBLE);
             show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
-        top.setOnClickListener(new View.OnClickListener() {
+
+        btnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scrollView.smoothScrollTo(0, 0);
             }
         });
+
         rb_marketplace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,7 +298,8 @@ public class Navigation extends AppCompatActivity
                 finish();
             }
         });
-        market.setOnClickListener(new View.OnClickListener() {
+
+        btnBottomMarket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, Navigation_market.class);
@@ -331,7 +347,7 @@ public class Navigation extends AppCompatActivity
                 finish();
             }
         });
-        help.setOnClickListener(new View.OnClickListener() {
+        btnNavHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, Help.class);
@@ -382,11 +398,20 @@ public class Navigation extends AppCompatActivity
                 }
             }
 
+
             @Override
             public void onLoaderReset(Loader<ArrayList<ExampleItem>> loader) {
 
             }
         };
+
+        // Fetch Location of User
+
+
+        // Method For Getting the Data''
+
+
+
         businessSuburb = new androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
             @NonNull
             @Override
@@ -402,8 +427,8 @@ public class Navigation extends AppCompatActivity
                         valsSub = data;
                         Log.i("Tag", valsSub + "");
                         ArrayAdapter<StateAndSuburb> adapter = new ArrayAdapter<StateAndSuburb>(Navigation.this, android.R.layout.simple_dropdown_item_1line, valsSub);
-                        textView2 = findViewById(R.id.bs2);
-                        textView2.setAdapter(adapter);
+                        autoCompleteTextViewTwo_suburb_or_state = findViewById(R.id.autoCompleteTextViewTwo_suburb_or_state);
+                        autoCompleteTextViewTwo_suburb_or_state.setAdapter(adapter);
                         getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
                     } else {
                         // Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -429,7 +454,7 @@ public class Navigation extends AppCompatActivity
                     valsBus = data;
                     Log.i("Tag", valsBus + "");
                     ArrayAdapter<String> adapter=new ArrayAdapter<String>(Navigation.this,android.R.layout.simple_dropdown_item_1line,valsBus);
-                    textView.setAdapter(adapter);
+                    autoCompleteTextViewOne_type_or_name.setAdapter(adapter);
                     getSupportLoaderManager().initLoader(LOADER_ID_BUSSUB,null,businessSuburb);
                 } else {
                  //   Toast.makeText(Navigation.this, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -442,6 +467,7 @@ public class Navigation extends AppCompatActivity
 
             }
         };
+
         buttonsDetailsLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>() {
             @Override
             public Loader<ArrayList<ButtonsDetails>> onCreateLoader(int id, Bundle args) {
@@ -542,13 +568,13 @@ public class Navigation extends AppCompatActivity
                             bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
 
                             String imgURL = "https://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
-                            Picasso.with(Navigation.this).load(imgURL).into(bi[i]);
+                            Picasso.with(Navigation.this).load(imgURL).into(ImgView_business_list_image_bi1[i]);
 
                             //new DownLoadImageTask(bi[i]).execute(imgURL);
                             final int index = i;
                             final String ab = serviceExpertSpaces.get(i).getCity().getTitle().replaceAll(" ", "+");
 
-                            bi[i].setOnClickListener(new View.OnClickListener() {
+                            ImgView_business_list_image_bi1[i].setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
@@ -644,7 +670,7 @@ public class Navigation extends AppCompatActivity
         }
 
 
-        textView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        autoCompleteTextViewTwo_suburb_or_state.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
@@ -654,7 +680,7 @@ public class Navigation extends AppCompatActivity
             }
         });
 
-        textView2.addTextChangedListener(new TextWatcher() {
+        autoCompleteTextViewTwo_suburb_or_state.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -675,7 +701,7 @@ public class Navigation extends AppCompatActivity
         btnSrch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                q = textView.getText().toString();
+                q = autoCompleteTextViewOne_type_or_name.getText().toString();
                 Log.i("Q and subV", q + " " + subV);
                 if(q.length() == 0 && subV.length() == 0){
                     Toast.makeText(Navigation.this, "Cannot Search Empty fields", Toast.LENGTH_SHORT).show();
@@ -871,7 +897,7 @@ public class Navigation extends AppCompatActivity
         //Toast.makeText(this, "Longitude"+longitudeV+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
         lat = latitude;
         longitude = longitudeV;
-        textView2.setText(strAddress);
+        autoCompleteTextViewTwo_suburb_or_state.setText(strAddress);
     }
 
     @Override

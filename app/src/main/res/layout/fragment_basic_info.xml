@@ -253,12 +253,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <Button
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_cancel_black_24dp"
                         android:id="@+id/cancel_tag"
                         android:layout_gravity="end"/>
+
                 <MultiAutoCompleteTextView
                     android:id="@+id/mltAutoKeyWords"
                     android:layout_width="fill_parent"
@@ -275,6 +277,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="(Can Write/select 5 relevant Keywords about your product)" />
+
             </LinearLayout>
 
             <LinearLayout

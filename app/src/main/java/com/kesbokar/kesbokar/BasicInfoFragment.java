@@ -61,6 +61,7 @@ import java.util.StringTokenizer;
  * A simple {@link Fragment} subclass.
  */
 public class BasicInfoFragment extends Fragment {
+
     ProgressDialog progressDialog;
     CategoriesThirdAdapter categoriesThirdAdapter;
     CategoriesBaseAdapter categoriesBaseAdapter;
@@ -132,8 +133,8 @@ public class BasicInfoFragment extends Fragment {
         txtCatFirst =(TextView) view.findViewById(R.id.txtCatFirst);
         txtCatSecond =(TextView) view.findViewById(R.id.txtCatSecond);
         txtCatThird =(TextView) view.findViewById(R.id.txtCatThird);
-        etPostProduct= view.findViewById(R.id.etPostProduct);
-        edtProductTitle=view.findViewById(R.id.etProductTitle);
+        etPostProduct = view.findViewById(R.id.etPostProduct);
+        edtProductTitle = (EditText) view.findViewById(R.id.etProductTitle);
 
         cancel_tag= view.findViewById(R.id.cancel_tag);
         btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
@@ -153,6 +154,7 @@ public class BasicInfoFragment extends Fragment {
         final String[] firstValueArray = {"API1", "API1", "API1"};
         final String[] secondValueArray;
         final String[] thirdValueArray;
+
         categoryBaseArrayList = new ArrayList<>();
         categorySecondArrayList = new ArrayList<>();
         categoryThirdArrayList = new ArrayList<>();
@@ -164,6 +166,7 @@ public class BasicInfoFragment extends Fragment {
         progressDialog.setTitle("Loading...");
 
         etPostProduct.setText(full_name);
+
         edtProductTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -705,15 +708,6 @@ public class BasicInfoFragment extends Fragment {
             }
         });
 
-
-
-
-//        edtProductTitle = view.findViewById(R.id.etProductTitle);
-//        String data = "fail";
-//        if(savedInstanceState!=null)
-//            data = getArguments().getString("EDITTEXT_VALUE");
-//        Log.i("DATA KI MA KI CHOOT", data);
-//        edtProductTitle.setText(data);
         return view;
     }
     public void getData()

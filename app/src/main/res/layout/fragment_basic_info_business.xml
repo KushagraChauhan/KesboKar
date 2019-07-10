@@ -32,7 +32,7 @@
                 android:text="Company Title" />
 
             <EditText
-                android:id="@+id/etCompany"
+                android:id="@+id/edtCompanyTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -172,13 +172,26 @@
                 android:layout_height="wrap_content"
                 android:text="Key words" />
 
-            <AutoCompleteTextView
-                android:id="@+id/acTags"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_cancel_black_24dp"
+                android:id="@+id/cancel_tag"
+                android:layout_gravity="end"/>
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/mltAutoKeyWords_business"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Select Tags" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView6"

@@ -2,6 +2,7 @@ package com.kesbokar.kesbokar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class AdapterInboxReplyBusiness extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int pos=position+1;
@@ -50,7 +52,19 @@ public class AdapterInboxReplyBusiness extends BaseAdapter {
         date.setText(get_for_replies.get(position).getDate());
         replyby.setText(get_for_replies.get(position).getReplyBy());
         reply.setText(get_for_replies.get(position).getReplyMessage());
+        final int id1=get_for_replies.get(position).getId1();
         sno.setText(i);
+        reply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,InboxReplyBusiness.class);
+                intent.putExtra("id",id1);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                activity.startActivityForResult(intent, 0);
+                activity.overridePendingTransition(0, 0);
+            }
+        });
+
         return convertView;
     }
 }
