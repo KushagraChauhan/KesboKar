@@ -306,6 +306,7 @@ public class JsonParser {
             inboxMarketList.setTxtMessage(jsonObject.getString("message"));
             //inboxMarketList.setTxtProduct(jsonObject.getString("product"));
             inboxMarketList.setTxtDate(jsonObject.getString("created_at"));
+            inboxMarketList.setIntId(jsonObject.getInt("id"));
             JSONObject jsonObject1 = jsonObject.getJSONObject("product");
             inboxMarketList.setTxtName(jsonObject1.getString("name"));
             JSONObject jsonObject2 = jsonObject.getJSONObject("user");
@@ -331,6 +332,7 @@ public class JsonParser {
             //inboxBusinessList.setTxtBusiness(jsonObject.getString("business"));
             inboxBusinessList.setTxtDate(jsonObject.getString("created_at"));
 
+            inboxBusinessList.setIntId(jsonObject.getInt("id"));
             JSONObject jsonObject1 = jsonObject.getJSONObject("yellowpage");
             inboxBusinessList.setTxtName(jsonObject1.getString("name"));
 

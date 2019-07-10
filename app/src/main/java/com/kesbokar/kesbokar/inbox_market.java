@@ -46,14 +46,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(inbox_market.this);
 
         listView = findViewById(R.id.listProfileBusiness);
-        adpbtnedt=findViewById(R.id.adapBtnEdt);
-        adpbtnedt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(inbox_market.this,inbox_reply_market.class);
-                startActivity(intent);
-            }
-        });
+
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>>() {
             @Override
             public Loader<ArrayList<InboxMarketList>> onCreateLoader(int i, Bundle bundle) {
@@ -65,7 +58,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
             public void onLoadFinished(Loader<ArrayList<InboxMarketList>> loader, ArrayList<InboxMarketList> inboxMarketLists) {
                 if(inboxMarketLists!=null) {
                     if (inboxMarketLists.size() != 0) {
-                        AdapterInboxMarket adapterInboxMarket = new AdapterInboxMarket(inbox_market.this, inboxMarketLists);
+                        AdapterInboxMarket adapterInboxMarket = new AdapterInboxMarket(inbox_market.this, inboxMarketLists, inbox_market.this);
                         listView.setAdapter(adapterInboxMarket);
                     } else {
                         Toast.makeText(inbox_market.this, "Error", Toast.LENGTH_SHORT).show();

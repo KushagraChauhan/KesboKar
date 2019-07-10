@@ -3,6 +3,12 @@ package com.kesbokar.kesbokar;
 public class InboxMarketList {
     private String txtSno;
     private String txtName;
+
+    public int getId() {
+        return id;
+    }
+
+    private int id;
     private String txtMessage;
 
     public String getTxtDate() {
@@ -50,5 +56,7 @@ public class InboxMarketList {
     }
 
 
-
+    public void setIntId(int id) {
+        this.id=id;
+    }
 }

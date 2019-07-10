@@ -59,7 +59,7 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
             public void onLoadFinished(Loader<ArrayList<InboxBusinessList>> loader, ArrayList<InboxBusinessList> inboxBusinessLists) {
                 if(inboxBusinessLists!=null) {
                     if (inboxBusinessLists.size() != 0) {
-                        AdapterInboxBusiness adapterInboxBusiness = new AdapterInboxBusiness(inbox_business.this, inboxBusinessLists);
+                        AdapterInboxBusiness adapterInboxBusiness = new AdapterInboxBusiness(inbox_business.this, inboxBusinessLists,inbox_business.this);
                         listView.setAdapter(adapterInboxBusiness);
                     } else {
                         Toast.makeText(inbox_business.this, "Error", Toast.LENGTH_SHORT).show();
