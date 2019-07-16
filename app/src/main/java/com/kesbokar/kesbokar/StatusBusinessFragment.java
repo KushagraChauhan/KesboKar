@@ -43,8 +43,8 @@ public class StatusBusinessFragment extends Fragment {
     private String status;
 
     public StatusBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
-        this.viewPager=viewPager;
-        this.tabLayout=tabLayout;
+        this.viewPager=myViewPager;
+        this.tabLayout=myTabLayout;
 
         // Required empty public constructor
     }

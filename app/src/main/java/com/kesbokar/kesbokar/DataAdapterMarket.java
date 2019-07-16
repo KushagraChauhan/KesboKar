@@ -138,6 +138,8 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
                 editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
+                intent.putExtra("url_name",url);
+                intent.putExtra("PID",id);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 mActivity.startActivityForResult(intent,0);
                 mActivity.overridePendingTransition(0,0);
@@ -155,6 +157,8 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
                 editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
+                intent.putExtra("url_name",url);
+                intent.putExtra("PID",id);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 mActivity.startActivityForResult(intent,0);
                 mActivity.overridePendingTransition(0,0);
@@ -171,6 +175,8 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
                 editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
+                intent.putExtra("url_name",url);
+                intent.putExtra("PID",id);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 mActivity.startActivityForResult(intent,0);
                 mActivity.overridePendingTransition(0,0);

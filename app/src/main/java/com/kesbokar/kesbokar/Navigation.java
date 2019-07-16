@@ -639,6 +639,8 @@ public class Navigation extends AppCompatActivity
                             final String cat = marketPlaceApis.get(j).getCat_title().replaceAll("", "-");
                             final String ab = marketPlaceApis.get(j).getCity().getTitle().replaceAll(" ", "+");
                             final String url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title() + "/" + marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
+                            final String url_name=marketPlaceApis.get(index).getUrlname();
+                            final int PID=marketPlaceApis.get(index).getId();
 
                             mi[j].setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -650,6 +652,8 @@ public class Navigation extends AppCompatActivity
                                     //url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
                                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);
+                                    intent.putExtra("url_name",url_name);
+                                    intent.putExtra("PID",PID);
                                     startActivity(intent);
                                     finish();
                                 }

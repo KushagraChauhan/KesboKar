@@ -45,6 +45,8 @@ public class VideosBusinessFragment extends Fragment {
 
     public VideosBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
+        viewPager=myViewPager;
+        tabLayout=myTabLayout;
     }
 
 
@@ -159,10 +161,10 @@ public class VideosBusinessFragment extends Fragment {
                     }
                 };
                  queue.add(stringRequest);
-//                int item=viewPager.getCurrentItem();
-//                View tab=tabLayout.getTabAt(item+1).view;
-//                tab.setEnabled(true);
-//                viewPager.setCurrentItem(item+1);
+                int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
+                viewPager.setCurrentItem(item+1);
             }
         });
 

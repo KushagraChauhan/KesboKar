@@ -48,6 +48,8 @@
         <activity android:name=".inbox_business" />
         <activity android:name=".inbox_market" />
         <activity android:name=".Profile" />
+        <activity android:name=".InboxReplyMarketplace"/>
+        <activity android:name=".InboxReplyBusiness"/>
         <activity
             android:name=".LoginData"
             android:label="@string/title_activity_login_data"

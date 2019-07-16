@@ -8,6 +8,12 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
@@ -43,6 +49,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -61,6 +68,8 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebViewActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<ArrayList<ButtonsDetails>>{
     static String URL1;
@@ -77,6 +86,12 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
     private static final int LOADER_ID_BTNSRCH = 5;
     Button rqst_quote;
     String entry_level;
+    TextView txt_name;
+    EditText et_quote;
+    Button btn_send;
+    int PID;
+    String url_name;
+
 
     private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
     private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
@@ -129,6 +144,11 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         if (entry_level.equals("1"))
         {
             rqst_quote.setVisibility(View.INVISIBLE);
+
+        }
+        else if (entry_level.equals("0")){
+            PID=extras.getInt("PID");
+            url_name=extras.getString("url_name");
         }
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -183,10 +203,56 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             @Override
             public void onClick(View v) {
                 if (flag==1) {
-                    Dialog dialog1 = new Dialog(WebViewActivity.this);
+                    final Dialog dialog1 = new Dialog(WebViewActivity.this);
                     dialog1.setContentView(R.layout.get_in_touch);
                     dialog1.getWindow();
+                    txt_name=dialog1.findViewById(R.id.name);
+                    et_quote=dialog1.findViewById(R.id.et_quote);
+                    btn_send=dialog1.findViewById(R.id.btn_send);
+                    txt_name.setText(full_name);
                     dialog1.show();
+                    btn_send.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final String url="http://serv.kesbokar.com.au/jil.0.1/v2/product/enquiry";
+                            RequestQueue queue= Volley.newRequestQueue(WebViewActivity.this);
+                            //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
+                            StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Toast.makeText(WebViewActivity.this, "Response"+"Your Query Has been Submitted", Toast.LENGTH_SHORT).show();
+                                    Log.i("Response",response);
+
+                                }
+                            },
+                                    new Response.ErrorListener()
+                                    {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            // errorLog.d("Error.Response", String.valueOf(error));
+                                            Toast.makeText(WebViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                            Log.i("Error",error.toString());
+                                        }
+                                    }){
+                                @Override
+                                protected Map<String, String> getParams()
+                                {
+                                    Map<String, String>  params = new HashMap<String, String >();
+                                    params.put("user_id",""+ id1);
+                                    params.put("product_id", ""+PID);
+                                    params.put("urlname",url_name);
+                                    params.put("message",et_quote.getText().toString());
+                                    params.put("ipaddress","");
+                                    params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+
+                                    return params;
+                                }
+                            };
+                            RequestQueue requestQueue=Volley.newRequestQueue(WebViewActivity.this);
+                            queue.add(stringRequest);
+                            dialog1.dismiss();
+                        }
+                    });
                 }
                 else {
                     Intent intent1=new Intent(WebViewActivity.this,Login.class);

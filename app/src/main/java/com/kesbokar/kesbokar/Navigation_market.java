@@ -589,7 +589,8 @@ public class Navigation_market extends AppCompatActivity
                             final String cat = marketPlaceApis.get(j).getCat_title().replaceAll("", "-");
                             final String ab = marketPlaceApis.get(j).getCity().getTitle().replaceAll(" ", "+");
                             final String url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title() + "/" + marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-
+                            final String url_name=marketPlaceApis.get(index).getUrlname();
+                            final int PID=marketPlaceApis.get(index).getId();
                             mi[j].setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -600,6 +601,8 @@ public class Navigation_market extends AppCompatActivity
                                     editor.putString("entry_level","0");
                                     editor.apply();
                                     intent.putExtra("URL", url);
+                                    intent.putExtra("url_name",url_name);
+                                    intent.putExtra("PID",PID);
                                     startActivity(intent);
                                     finish();
                                 }

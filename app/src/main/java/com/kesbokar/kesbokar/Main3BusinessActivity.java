@@ -29,12 +29,12 @@ public class Main3BusinessActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Kesbokar");
 
         myViewPager = (CustomViewPager) findViewById(R.id.main_tabs_pager_2);
-
+        myTabLayout = (TabLayout) findViewById(R.id.main_tabs_2);
+        myTabLayout.setupWithViewPager(myViewPager);
         ThirdTabAccessorAdapter = new ThirdTabAccessorAdapter(getSupportFragmentManager(),myViewPager,myTabLayout);
         myViewPager.setAdapter(ThirdTabAccessorAdapter);
 
-        myTabLayout = (TabLayout) findViewById(R.id.main_tabs_2);
-        myTabLayout.setupWithViewPager(myViewPager);
+
 
         myViewPager.setPagingEnabled(false);
         View tab1= Objects.requireNonNull(myTabLayout.getTabAt(1)).view;

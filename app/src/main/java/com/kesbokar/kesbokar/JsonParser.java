@@ -296,21 +296,22 @@ public class JsonParser {
     public ArrayList<InboxMarketList> getInboxMarketList(String url) throws JSONException {
 
         ArrayList<InboxMarketList> inboxMarketLists = new ArrayList<>();
-        JSONArray jsonArray = new JSONArray(url);
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
 
         for (int index = 0; index < jsonArray.length(); index++) {
             int i = index+1;
-            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            JSONObject jsonObject1 = jsonArray.getJSONObject(index);
             InboxMarketList inboxMarketList = new InboxMarketList();
             inboxMarketList.setTxtSno(i + "");
-            inboxMarketList.setTxtMessage(jsonObject.getString("message"));
+            inboxMarketList.setTxtMessage(jsonObject1.getString("message"));
             //inboxMarketList.setTxtProduct(jsonObject.getString("product"));
-            inboxMarketList.setTxtDate(jsonObject.getString("created_at"));
-            inboxMarketList.setIntId(jsonObject.getInt("id"));
-            JSONObject jsonObject1 = jsonObject.getJSONObject("product");
-            inboxMarketList.setTxtName(jsonObject1.getString("name"));
-            JSONObject jsonObject2 = jsonObject.getJSONObject("user");
-            inboxMarketList.setTxtProduct(jsonObject2.getString("first_name"));
+            inboxMarketList.setTxtDate(jsonObject1.getString("created_at"));
+            inboxMarketList.setIntId(jsonObject1.getInt("id"));
+            JSONObject jsonObject2 = jsonObject1.getJSONObject("product");
+            inboxMarketList.setTxtName(jsonObject2.getString("name"));
+            JSONObject jsonObject3 = jsonObject1.getJSONObject("user");
+            inboxMarketList.setTxtProduct(jsonObject3.getString("first_name"));
 
 
             inboxMarketLists.add(inboxMarketList);
