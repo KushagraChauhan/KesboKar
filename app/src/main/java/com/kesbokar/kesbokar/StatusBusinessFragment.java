@@ -144,8 +144,8 @@ public class StatusBusinessFragment extends Fragment {
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
 
-  //      SharedPreferences get_business_detail = getActivity().getSharedPreferences("business_detail", 0);
-//        yellowpage_id = get_business_detail.getString("yellowpage_id","" );
+  //     SharedPreferences get_business_detail = getActivity().getSharedPreferences("business_detail", 0);
+         yellowpage_id = get_product_detail.getString("yellowpage_id","" );
 
     }
 

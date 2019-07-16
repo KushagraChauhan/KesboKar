@@ -90,11 +90,11 @@
                 <Button
                     android:id="@+id/btnCancel_1"
                     android:layout_width="match_parent"
-                    android:layout_height="41dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:layout_marginLeft="-8dp"
                     android:layout_marginRight="5dp"
-                    android:drawableStart="@drawable/ic_cancel_black_24dp"/>
+                    android:drawableStart="@drawable/ic_cancel_black_24dp" />
 
 
             </LinearLayout>
@@ -378,8 +378,8 @@
                 android:layout_weight="1"
                 android:text="State" />
 
-            <Button
-                android:id="@+id/btnState"
+            <AutoCompleteTextView
+                android:id="@+id/etState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -402,8 +402,8 @@
                 android:layout_weight="1"
                 android:text="Suburb" />
 
-            <Button
-                android:id="@+id/btnSuburb"
+            <AutoCompleteTextView
+                android:id="@+id/etSuburb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -426,13 +426,13 @@
                 android:layout_weight="1"
                 android:text="Country" />
 
-            <Button
+            <AutoCompleteTextView
                 android:id="@+id/btnCountry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
-                android:text="SELECT"
+                android:text="AUSTRALIA"
                 android:textColor="@color/White"
                 android:textStyle="bold" />
         </LinearLayout>
