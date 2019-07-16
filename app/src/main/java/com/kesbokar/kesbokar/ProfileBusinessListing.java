@@ -68,7 +68,7 @@ public class ProfileBusinessListing extends AppCompatActivity implements Navigat
             public void onLoadFinished(Loader<ArrayList<BusinessProfileList>> loader, ArrayList<BusinessProfileList> businessProfileLists) {
                 if(businessProfileLists!=null) {
                     if (businessProfileLists.size() != 0) {
-                        AdapterBusListProfile adapterBusListProfile = new AdapterBusListProfile(ProfileBusinessListing.this, businessProfileLists);
+                        AdapterBusListProfile adapterBusListProfile = new AdapterBusListProfile(ProfileBusinessListing.this, businessProfileLists,ProfileBusinessListing.this);
                         listView.setAdapter(adapterBusListProfile);
                     } else {
                         Toast.makeText(ProfileBusinessListing.this, "Error", Toast.LENGTH_SHORT).show();

@@ -43,7 +43,7 @@ public class VideosBusinessFragment extends Fragment {
 
 
 
-    public VideosBusinessFragment() {
+    public VideosBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
     }
 

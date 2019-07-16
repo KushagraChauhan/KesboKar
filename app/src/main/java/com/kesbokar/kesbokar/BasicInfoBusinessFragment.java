@@ -43,6 +43,7 @@ import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.app.LoaderManager.LoaderCallbacks;
 import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -51,6 +52,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -131,7 +133,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
 
 
-    public BasicInfoBusinessFragment() {
+    public BasicInfoBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
     }
 

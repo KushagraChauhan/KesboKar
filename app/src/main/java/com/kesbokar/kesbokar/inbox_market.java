@@ -6,6 +6,8 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
     private LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>> busLoader;
     private static final int LOADER_BUS_PRO_LIST = 66;
     ListView listView;
+    Button adpbtnedt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(inbox_market.this);
 
         listView = findViewById(R.id.listProfileBusiness);
+
         busLoader = new LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>>() {
             @Override
             public Loader<ArrayList<InboxMarketList>> onCreateLoader(int i, Bundle bundle) {
@@ -54,7 +58,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
             public void onLoadFinished(Loader<ArrayList<InboxMarketList>> loader, ArrayList<InboxMarketList> inboxMarketLists) {
                 if(inboxMarketLists!=null) {
                     if (inboxMarketLists.size() != 0) {
-                        AdapterInboxMarket adapterInboxMarket = new AdapterInboxMarket(inbox_market.this, inboxMarketLists);
+                        AdapterInboxMarket adapterInboxMarket = new AdapterInboxMarket(inbox_market.this, inboxMarketLists, inbox_market.this);
                         listView.setAdapter(adapterInboxMarket);
                     } else {
                         Toast.makeText(inbox_market.this, "Error", Toast.LENGTH_SHORT).show();

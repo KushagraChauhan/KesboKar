@@ -5,6 +5,10 @@ class InboxBusinessList {
     private String txtName;
     private String txtMessage;
 
+
+
+    private int id;
+
     public String getTxtDate() {
         return txtDate;
     }
@@ -49,4 +53,10 @@ class InboxBusinessList {
         this.txtMessage = txtMessage;
     }
 
+    public void setIntId(int id) {
+        this.id=id;
+    }
+    public int getId() {
+        return id;
+    }
 }

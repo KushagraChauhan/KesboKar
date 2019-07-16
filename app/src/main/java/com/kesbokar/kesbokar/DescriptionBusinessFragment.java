@@ -53,7 +53,7 @@ public class DescriptionBusinessFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
 
-    public DescriptionBusinessFragment() {
+    public DescriptionBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         this.viewPager=viewPager;
         this.tabLayout=tabLayout;
         // Required empty public constructor

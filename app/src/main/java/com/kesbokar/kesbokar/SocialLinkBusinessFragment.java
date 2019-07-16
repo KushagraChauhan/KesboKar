@@ -40,7 +40,7 @@ public class SocialLinkBusinessFragment extends Fragment {
     TabLayout tabLayout;
 
 
-    public SocialLinkBusinessFragment() {
+    public SocialLinkBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         this.viewPager=viewPager;
         this.tabLayout=tabLayout;
 

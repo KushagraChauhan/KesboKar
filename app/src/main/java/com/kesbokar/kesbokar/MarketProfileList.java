@@ -2,10 +2,18 @@ package com.kesbokar.kesbokar;
 
 public class MarketProfileList {
 
-        private String txtSno;
+    private String txtSno;
+        private int id;
         private String txtTitle;
         private int txtStatus;
 
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
         public String getTxtSno() {
             return txtSno;
         }

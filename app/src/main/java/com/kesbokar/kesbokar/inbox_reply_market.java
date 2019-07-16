@@ -3,7 +3,7 @@ package com.kesbokar.kesbokar;
 public class inbox_reply_market {
     String ReplyMessage,ReplyBy,Date;
     int user_id,id1, enquiry_id;
-    public inbox_reply_market(String ReplyMessage, String ReplyBy, String Date, int userId, int user_id, int id1){
+    public inbox_reply_market(String ReplyMessage, String ReplyBy, String Date, int userId, int user_id){
         this.ReplyMessage=ReplyMessage;
         this.ReplyBy=ReplyBy;
         this.Date=Date;

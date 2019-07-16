@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -45,13 +46,14 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
     ListView listView;
     String replyMessage,replyBy,date1,subject1,message1;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
-    int id,flag;
+    int id,flag, enquiry_id;
     RequestQueue requestQueue;
     int id1,user_id;
     Intent intent;
     Bundle bundle;
     ArrayList<inbox_reply_business> get_for_replies;
     Button cancel,send;
+    int en_id;
 
     Button btnProductManagement;
     @Override
@@ -59,11 +61,13 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply_inbox_business);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        getData();
         subject=findViewById(R.id.tvSubject);
         message=findViewById(R.id.tvMessage);
         setSupportActionBar(toolbar);
         intent=getIntent();
         bundle=intent.getExtras();
+        en_id=bundle.getInt("en_id");
         getData();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -88,7 +92,8 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/"+ id1 + "/reply"+id;
+                jsonParser();
+                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/"+ en_id + "/reply";
                 final String reply_message=((EditText)findViewById(R.id.etReply)).getText().toString();
                 RequestQueue queue= Volley.newRequestQueue(InboxReplyBusiness.this);
                 //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
@@ -111,11 +116,9 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                     @Override
                     protected Map<String, String> getParams()
                     {
-                        //String id1=""+id;
-                      //  String id1=""+bundle.getInt("id");
                         Map<String, String>  params = new HashMap<String, String >();
-                        params.put("user_id", id + "");
-                        params.put("id", id1 +"");
+                        params.put("user_id", id+"");
+                        params.put("enquiry_id", en_id + "");
                         params.put("reply_message", reply_message);
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
 
@@ -124,19 +127,10 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                 };
                 RequestQueue requestQueue=Volley.newRequestQueue(InboxReplyBusiness.this);
                 queue.add(stringRequest);
-//                Intent mail=new Intent(Intent.ACTION_SENDTO);
-//                mail.setType("text/plain");
-//                //mail.putExtra(Intent.EXTRA_EMAIL,new String[]{"ashubansal.ashishbansal@gmail.com"});
-//                mail.setData(Uri.parse("mailto:ashubansal.ashishbansal@gmail.com"));
-//                mail.putExtra(Intent.EXTRA_SUBJECT, email);
-//                mail.putExtra(Intent.EXTRA_TEXT, message);
-//                //mail.setType("message/rfc822");
-//                mail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(mail);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent1=new Intent(InboxReplyBusiness.this,inbox_market.class);
+                        Intent intent1=new Intent(InboxReplyBusiness.this,inbox_business.class);
                         intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivityForResult(intent1, 0);
                         overridePendingTransition(0, 0);
@@ -147,40 +141,41 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
             }
         });
         listView = findViewById(R.id.listreply);
-        jsonParser();
+
     }
     private void jsonParser()
     {
-        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage?user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
         final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONObject jsonObject=response.getJSONObject("data");
 
-                    //JSONObject dat = jsonObject.getJSONObject(i);
                     Log.i("JSON Help", jsonObject.toString());
                     id1=jsonObject.getInt("id");
+
                     user_id=jsonObject.getInt("sender_id");
-                  //  subject1=jsonObject.getString("subject");
+                    //subject1=jsonObject.getString("subject");
                     message1=jsonObject.getString("message");
-//                        replyBy=jsonObject.getString("reply_by_name");
-                    JSONArray replies=jsonObject.getJSONArray("reply");
+                    JSONArray replies=jsonObject.getJSONArray("data");
                     for (int j=0;j<replies.length();j++)
                     {
                         JSONObject rdata=replies.getJSONObject(j);
-                        replyMessage=rdata.getString("reply_message");
-                        date1=rdata.getString("created_at");
-                        JSONObject user=rdata.getJSONObject("user");
+                        JSONObject reply=rdata.getJSONObject("reply");
+                        replyMessage=reply.getString("reply_message");
+//                        enquiry_id = rdata.getInt("enquiry_id");
+                        date1=reply.getString("created_at");
+                        JSONObject user=reply.getJSONObject("user");
                         replyBy=user.getString("first_name");
-                        get_for_replies.add(new inbox_reply_business(replyMessage,replyBy,date1,user_id,id1,id1));
+                        get_for_replies.add(new inbox_reply_business(replyMessage,replyBy,date1,user_id,id1));
                     }
                     subject.setText(subject1);
                     message.setText(message1);
                     if (get_for_replies!=null) {
                         AdapterInboxReplyBusiness adapterInboxReplyBusiness = new AdapterInboxReplyBusiness(InboxReplyBusiness.this,InboxReplyBusiness.this , get_for_replies);
                         listView.setAdapter(adapterInboxReplyBusiness);
-                    }
+                       }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

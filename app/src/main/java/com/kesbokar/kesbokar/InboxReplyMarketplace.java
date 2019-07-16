@@ -65,6 +65,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
     Bundle bundle;
     ArrayList<inbox_reply_market> get_for_replies;
     Button cancel,send;
+    int en_id;
 
     Button btnProductManagement;
     @Override
@@ -77,6 +78,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
         setSupportActionBar(toolbar);
         intent=getIntent();
         bundle=intent.getExtras();
+        en_id=bundle.getInt("en_id");
         getData();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -101,7 +103,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/"+ enquiry_id + "/reply"+id;
+                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product/"+ en_id + "/reply";
                 final String reply_message=((EditText)findViewById(R.id.etReply)).getText().toString();
                 RequestQueue queue= Volley.newRequestQueue(InboxReplyMarketplace.this);
                 //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
@@ -128,7 +130,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
                         String enquiry_id=""+bundle.getInt("id");
                         Map<String, String>  params = new HashMap<String, String >();
                         params.put("user_id", id1);
-                        params.put("enquiry_id", enquiry_id);
+                        params.put("enquiry_id", en_id+"");
                         params.put("reply_message", reply_message);
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
 
@@ -164,31 +166,32 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
     }
     private void jsonParser()
     {
-        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product/"+enquiry_id +"reply"+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-product?user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
         final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject jsonObject=response.getJSONObject("data");
+//                    JSONObject jsonObject=response.getJSONObject("data");
 
                     //JSONObject dat = jsonObject.getJSONObject(i);
-                    Log.i("JSON Help", jsonObject.toString());
-                    id1=jsonObject.getInt("id");
-
-                    user_id=jsonObject.getInt("sender_id");
-                    subject1=jsonObject.getString("subject");
-                    message1=jsonObject.getString("message");
-//                        replyBy=jsonObject.getString("reply_by_name");
-                    JSONArray replies=jsonObject.getJSONArray("replies");
+//                    Log.i("JSON Help", jsonObject.toString());
+//                    id1=jsonObject.getInt("id");
+//
+//                    user_id=jsonObject.getInt("sender_id");
+//                    //subject1=jsonObject.getString("subject");
+//                    message1=jsonObject.getString("message");
+////                        replyBy=jsonObject.getString("reply_by_name");
+                    JSONArray replies=response.getJSONArray("data");
                     for (int j=0;j<replies.length();j++)
                     {
                         JSONObject rdata=replies.getJSONObject(j);
-                        replyMessage=rdata.getString("reply_message");
-                        date1=rdata.getString("created_at");
-                        enquiry_id=rdata.getInt("enquiry_id");
-                        JSONObject user=rdata.getJSONObject("user");
+                        JSONObject reply=rdata.getJSONObject("reply");
+                        replyMessage=reply.getString("reply_message");
+                        date1=reply.getString("created_at");
+                       // enquiry_id=rdata.getInt("enquiry_id");
+                        JSONObject user=reply.getJSONObject("user");
                         replyBy=user.getString("first_name");
-                        get_for_replies.add(new inbox_reply_market(replyMessage,replyBy,date1,user_id,id1,enquiry_id));
+                        get_for_replies.add(new inbox_reply_market(replyMessage,replyBy,date1,user_id,id1));
                     }
                     subject.setText(subject1);
                     message.setText(message1);
