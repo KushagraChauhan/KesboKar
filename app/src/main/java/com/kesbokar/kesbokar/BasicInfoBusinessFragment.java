@@ -83,6 +83,8 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     private EditText etLongitude, etLatitude, etLicense, etQuote, etPhone, etEmail, etStreet, etWebsite;
 
     private AutoCompleteTextView etState,etSuburb;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
     Button cancel_tag;
 
@@ -135,6 +137,8 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
     public BasicInfoBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
+        this.viewPager=myViewPager;
+        this.tabLayout=myTabLayout;
     }
 
 
@@ -715,6 +719,10 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                     }
                 };
                 queue.add(stringRequest);
+                int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
+                viewPager.setCurrentItem(item+1);  //For going to the next tab in viewPager
             }
         });
 

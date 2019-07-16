@@ -41,8 +41,8 @@ public class SocialLinkBusinessFragment extends Fragment {
 
 
     public SocialLinkBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
-        this.viewPager=viewPager;
-        this.tabLayout=tabLayout;
+        this.viewPager=myViewPager;
+        this.tabLayout=myTabLayout;
 
         // Required empty public constructor
     }
@@ -112,10 +112,10 @@ public class SocialLinkBusinessFragment extends Fragment {
                         }
                     };
                     queue.add(stringRequest);
-//                    int item=viewPager.getCurrentItem();
-//                    View tab=tabLayout.getTabAt(item+1).view;
-//                    tab.setEnabled(true);
-//                    viewPager.setCurrentItem(item+1);
+                    int item=viewPager.getCurrentItem();
+                    View tab=tabLayout.getTabAt(item+1).view;
+                    tab.setEnabled(true);
+                    viewPager.setCurrentItem(item+1);
                 }
 
 

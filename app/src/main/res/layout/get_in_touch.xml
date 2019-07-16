@@ -28,6 +28,7 @@
 
         <TextView
             android:layout_width="match_parent"
+            android:id="@+id/name"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -39,6 +40,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/et_quote"
             android:layout_marginTop="20dp"/>
 
         <LinearLayout
@@ -51,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:text="SUBMIT"
                 android:textSize="15dp"
+                android:id="@+id/btn_send"
                 android:textColor="@color/White"
                 android:background="@color/kesbokar"/>
 

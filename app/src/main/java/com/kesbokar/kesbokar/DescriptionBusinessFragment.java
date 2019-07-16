@@ -54,8 +54,8 @@ public class DescriptionBusinessFragment extends Fragment {
     TabLayout tabLayout;
 
     public DescriptionBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
-        this.viewPager=viewPager;
-        this.tabLayout=tabLayout;
+        this.viewPager=myViewPager;
+        this.tabLayout=myTabLayout;
         // Required empty public constructor
     }
 
@@ -142,10 +142,10 @@ public class DescriptionBusinessFragment extends Fragment {
                     }
                 };
                 queue.add(stringRequest);
-////                int item=viewPager.getCurrentItem();
-//                View tab=tabLayout.getTabAt(item+1).view;
-//                tab.setEnabled(true);
-//                viewPager.setCurrentItem(item+1);
+                int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
+                viewPager.setCurrentItem(item+1);
             }
 
 
