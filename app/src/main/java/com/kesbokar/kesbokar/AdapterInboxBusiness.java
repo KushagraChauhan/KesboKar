@@ -68,8 +68,10 @@ public class AdapterInboxBusiness extends BaseAdapter {
         adpBtnEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,InboxReplyBusiness.class);
-                context.startActivity(intent);
+                int en_id=inboxBusinessLists.get(i).getId();
+                Intent intent=new Intent(context,InboxReplyMarketplace.class);
+                intent.putExtra("en_id",en_id);
+                activity.startActivity(intent);
             }
         });
         adptBtnDel.setOnClickListener(new View.OnClickListener() {

@@ -40,7 +40,7 @@ public class SocialLinkBusinessFragment extends Fragment {
     TabLayout tabLayout;
 
 
-    public SocialLinkBusinessFragment() {
+    public SocialLinkBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         this.viewPager=viewPager;
         this.tabLayout=tabLayout;
 
@@ -112,10 +112,10 @@ public class SocialLinkBusinessFragment extends Fragment {
                         }
                     };
                     queue.add(stringRequest);
-                    int item=viewPager.getCurrentItem();
-                    View tab=tabLayout.getTabAt(item+1).view;
-                    tab.setEnabled(true);
-                    viewPager.setCurrentItem(item+1);
+//                    int item=viewPager.getCurrentItem();
+//                    View tab=tabLayout.getTabAt(item+1).view;
+//                    tab.setEnabled(true);
+//                    viewPager.setCurrentItem(item+1);
                 }
 
 
@@ -146,7 +146,7 @@ public class SocialLinkBusinessFragment extends Fragment {
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
 //        SharedPreferences get_business_detail = getActivity().getSharedPreferences("business_detail", 0);
-//        yellowpage_id = get_business_detail.getString("yellowpage_id","" );
+         yellowpage_id = get_product_detail.getString("yellowpage_id","" );
 
     }
 

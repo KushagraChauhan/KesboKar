@@ -43,7 +43,7 @@ public class VideosBusinessFragment extends Fragment {
 
 
 
-    public VideosBusinessFragment() {
+    public VideosBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
     }
 
@@ -158,11 +158,11 @@ public class VideosBusinessFragment extends Fragment {
                         return params;
                     }
                 };
-                queue.add(stringRequest);
-                int item=viewPager.getCurrentItem();
-                View tab=tabLayout.getTabAt(item+1).view;
-                tab.setEnabled(true);
-                viewPager.setCurrentItem(item+1);
+                 queue.add(stringRequest);
+//                int item=viewPager.getCurrentItem();
+//                View tab=tabLayout.getTabAt(item+1).view;
+//                tab.setEnabled(true);
+//                viewPager.setCurrentItem(item+1);
             }
         });
 
@@ -198,7 +198,7 @@ public class VideosBusinessFragment extends Fragment {
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
 //        SharedPreferences get_business_detail = getActivity().getSharedPreferences("business_detail", 0);
-//        yellowpage_id = get_business_detail.getString("yellowpage_id","" );
+        yellowpage_id = get_product_detail.getString("yellowpage_id","" );
 
     }
 

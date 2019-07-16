@@ -74,7 +74,9 @@ public class AdapterInboxMarket extends BaseAdapter {
         adpbtnedt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,inbox_reply_market.class);
+                int en_id=inboxMarketLists.get(i).getId();
+                Intent intent=new Intent(context,InboxReplyMarketplace.class);
+                intent.putExtra("en_id",en_id);
                 activity.startActivity(intent);
             }
         });

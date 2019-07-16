@@ -53,6 +53,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
     Bundle bundle;
     ArrayList<inbox_reply_business> get_for_replies;
     Button cancel,send;
+    int en_id;
 
     Button btnProductManagement;
     @Override
@@ -66,6 +67,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         setSupportActionBar(toolbar);
         intent=getIntent();
         bundle=intent.getExtras();
+        en_id=bundle.getInt("en_id");
         getData();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -90,7 +92,8 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/"+ enquiry_id + "/reply";
+                jsonParser();
+                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/"+ en_id + "/reply";
                 final String reply_message=((EditText)findViewById(R.id.etReply)).getText().toString();
                 RequestQueue queue= Volley.newRequestQueue(InboxReplyBusiness.this);
                 //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
@@ -115,7 +118,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                     {
                         Map<String, String>  params = new HashMap<String, String >();
                         params.put("user_id", id+"");
-                        params.put("enquiry_id", enquiry_id + "");
+                        params.put("enquiry_id", en_id + "");
                         params.put("reply_message", reply_message);
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
 
@@ -127,7 +130,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent1=new Intent(InboxReplyBusiness.this,inbox_market.class);
+                        Intent intent1=new Intent(InboxReplyBusiness.this,inbox_business.class);
                         intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivityForResult(intent1, 0);
                         overridePendingTransition(0, 0);
@@ -138,11 +141,11 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
             }
         });
         listView = findViewById(R.id.listreply);
-        jsonParser();
+
     }
     private void jsonParser()
     {
-        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage/"+enquiry_id+"reply"+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+        String url1="http://serv.kesbokar.com.au/jil.0.1/v1/quotes-yellowpage?user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
         final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -155,30 +158,24 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                     user_id=jsonObject.getInt("sender_id");
                     //subject1=jsonObject.getString("subject");
                     message1=jsonObject.getString("message");
-                    JSONArray replies=jsonObject.getJSONArray("replies");
+                    JSONArray replies=jsonObject.getJSONArray("data");
                     for (int j=0;j<replies.length();j++)
                     {
                         JSONObject rdata=replies.getJSONObject(j);
-                        replyMessage=rdata.getString("reply_message");
+                        JSONObject reply=rdata.getJSONObject("reply");
+                        replyMessage=reply.getString("reply_message");
 //                        enquiry_id = rdata.getInt("enquiry_id");
-                        date1=rdata.getString("created_at");
-                        JSONObject user=rdata.getJSONObject("user");
+                        date1=reply.getString("created_at");
+                        JSONObject user=reply.getJSONObject("user");
                         replyBy=user.getString("first_name");
-                        get_for_replies.add(new inbox_reply_business(replyMessage,replyBy,date1,user_id,id1,enquiry_id));
+                        get_for_replies.add(new inbox_reply_business(replyMessage,replyBy,date1,user_id,id1));
                     }
                     subject.setText(subject1);
                     message.setText(message1);
                     if (get_for_replies!=null) {
                         AdapterInboxReplyBusiness adapterInboxReplyBusiness = new AdapterInboxReplyBusiness(InboxReplyBusiness.this,InboxReplyBusiness.this , get_for_replies);
                         listView.setAdapter(adapterInboxReplyBusiness);
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                inbox_reply_business item = (inbox_reply_business)parent.getAdapter().getItem(position);
-                                enquiry_id = item.getId1();
-                            }
-                        });
-                    }
+                       }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

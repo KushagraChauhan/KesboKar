@@ -1,6 +1,7 @@
 package com.kesbokar.kesbokar;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -8,10 +9,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -38,6 +43,7 @@ import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.app.LoaderManager.LoaderCallbacks;
 import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,24 +52,42 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 
-public class BasicInfoBusinessFragment extends Fragment {
+public class BasicInfoBusinessFragment extends Fragment implements LocationListener {
 
     ProgressDialog progressDialog;
 
     private EditText edtCompanyTitle;
     private MultiAutoCompleteTextView mltAutoKeyWords;
     private TextView txtCatFirst,txtCatSecond, txtCatThird;
+    private Button btnCancel_1, btnCancel_2, btnCancel_3;
+    private EditText edtABN_Number;
+    private Button btnVerify;
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
+    int id,flag;
+    private Button btnDetect, btnSave;
+
+    private EditText etLongitude, etLatitude, etLicense, etQuote, etPhone, etEmail, etStreet, etWebsite;
+
+    private AutoCompleteTextView etState,etSuburb;
 
     Button cancel_tag;
 
     Context context;
+    String result;
 
     CategoriesBaseAdapter categoriesBaseAdapter;
     CategoriesSecondAdapter categoriesSecondAdapter;
@@ -74,6 +98,12 @@ public class BasicInfoBusinessFragment extends Fragment {
     String firstCat,secondCat, thirdCat;
     private String tags;
     int count = 0;
+
+    private String q, subV;
+    private String querySub;
+    private String subType;
+    private int stateid;
+    private int subUrbID;
 
     private ArrayList<CategoryBase> categoryBaseArrayList;
     private ArrayList<CategorySecond> categorySecondArrayList;
@@ -90,6 +120,10 @@ public class BasicInfoBusinessFragment extends Fragment {
     private static final int LOADER_THIRD_CATEGORY = 10103;
     private static final int LOADER_TAGS = 10104;
 
+    private static final int LOADER_ID_BUSVAL = 10201;
+    private ArrayList<StateAndSuburb> valsBus;
+    private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
+
     private LoaderCallbacks<ArrayList<CategoryBase>> firstCategoryLoader;
     private LoaderCallbacks<ArrayList<CategorySecond>> secondCategoryLoader;
     private LoaderCallbacks<ArrayList<CategoryThird>> thirdCategoryLoader;
@@ -98,7 +132,8 @@ public class BasicInfoBusinessFragment extends Fragment {
     private ListView listCategoriesBase,listCategoriesSecond,listCategoriesThird;
 
 
-    public BasicInfoBusinessFragment() {
+
+    public BasicInfoBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
     }
 
@@ -112,12 +147,43 @@ public class BasicInfoBusinessFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         edtCompanyTitle =  view.findViewById(R.id.edtCompanyTitle);
         mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords_business);
+        edtABN_Number =(EditText) view.findViewById(R.id.etABN);
+        btnVerify = (Button) view.findViewById(R.id.btnVerify);
+        btnDetect = (Button) view.findViewById(R.id.btnDetect);
+
+        etState = (AutoCompleteTextView)view.findViewById(R.id.etState);
+        etSuburb = (AutoCompleteTextView)view.findViewById(R.id.etSuburb);
+        etLicense = (EditText)view.findViewById(R.id.etLicense);
+        etQuote = (EditText)view.findViewById(R.id.etQuote);
+        etPhone =(EditText)view.findViewById(R.id.etPhone);
+        etEmail = (EditText)view.findViewById(R.id.etEmail);
+        etStreet = (EditText)view.findViewById(R.id.etStreet);
+        etWebsite = (EditText)view.findViewById(R.id.etWebsite);
+
+        etLongitude = (EditText)view.findViewById(R.id.etLongitude);
+        etLatitude = (EditText)view.findViewById(R.id.etLatitude);
+
+        context=getContext();
+
+
+        btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
+        btnCancel_2 = (Button) view.findViewById(R.id.btnCancel_2);
+        btnCancel_3 =  (Button) view.findViewById(R.id.btnCancel_3);
+
+        btnCancel_1.setVisibility(View.GONE);
+        btnCancel_2.setVisibility(View.GONE);
+        btnCancel_3.setVisibility(View.GONE);
 
         cancel_tag= view.findViewById(R.id.cancel_tag);
+        tags="";
 
         txtCatFirst =  view.findViewById(R.id.txtCatFirst);
         txtCatSecond = view.findViewById(R.id.txtCatSecond);
         txtCatThird = view.findViewById(R.id.txtCatThird);
+        btnSave = view.findViewById(R.id.btnSave);
+
+        txtCatSecond.setVisibility(View.GONE);
+        txtCatThird.setVisibility(View.GONE);
 
         categoryBaseArrayList = new ArrayList<>();
         categorySecondArrayList = new ArrayList<>();
@@ -126,6 +192,10 @@ public class BasicInfoBusinessFragment extends Fragment {
         tagsName = new ArrayList<>();
         tagsSelectedArrayList = new ArrayList<>();
         tagsObjectArrayList = new ArrayList<>();
+
+        querySub = "";
+
+        q = subV = querySub = "au";
 
 
 
@@ -153,7 +223,11 @@ public class BasicInfoBusinessFragment extends Fragment {
                                 parent_id = categoryBase.getId();
                                 firstCat = parent_id;
                                 txtCatFirst.setText(categoryBase.getTitle());
-                                //getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
+                                getLoaderManager().initLoader(LOADER_SECOND_CATEGORY, null, secondCategoryLoader);
+                                Log.i("Parent id", parent_id);
+                                txtCatSecond.setVisibility(View.VISIBLE);
+                                txtCatFirst.setEnabled(false);
+                                btnCancel_1.setVisibility(View.VISIBLE);
                                 dialog.dismiss();
                             }
                         });
@@ -165,7 +239,7 @@ public class BasicInfoBusinessFragment extends Fragment {
         firstCategoryLoader = new LoaderCallbacks<ArrayList<CategoryBase>>(){
             @Override
             public Loader<ArrayList<CategoryBase>> onCreateLoader(int i, Bundle bundle) {
-                LoaderFirstCategory loaderFirstCategory = new LoaderFirstCategory(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                LoaderFirstCategory loaderFirstCategory = new LoaderFirstCategory(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage-category?parent_id=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                 return loaderFirstCategory;
             }
 
@@ -186,7 +260,7 @@ public class BasicInfoBusinessFragment extends Fragment {
             @NonNull
             @Override
             public Loader<ArrayList<CategorySecond>> onCreateLoader(int id, @Nullable Bundle args) {
-                LoaderCategorySecond loaderCategorySecond = new LoaderCategorySecond(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=" + parent_id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                LoaderCategorySecond loaderCategorySecond = new LoaderCategorySecond(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage-category?parent_id=" + parent_id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                 return loaderCategorySecond;
             }
 
@@ -207,7 +281,7 @@ public class BasicInfoBusinessFragment extends Fragment {
             @NonNull
             @Override
             public Loader<ArrayList<CategoryThird>> onCreateLoader(int id, @Nullable Bundle args) {
-                LoaderCategoriesThird loaderCategoriesThird = new LoaderCategoriesThird(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/category?parent_id=" + parent_id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                LoaderCategoriesThird loaderCategoriesThird = new LoaderCategoriesThird(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage-category?parent_id=" + parent_id + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                 return loaderCategoriesThird;
             }
 
@@ -215,7 +289,7 @@ public class BasicInfoBusinessFragment extends Fragment {
             public void onLoadFinished(@NonNull Loader<ArrayList<CategoryThird>> loader, ArrayList<CategoryThird> data) {
                 if(data!=null){
                     categoryThirdArrayList = data;
-                    Log.i("API THIRD Cat", data + "");
+//                    Log.i("API THIRD Cat", data.get(0).getTags() + "");
                 }
             }
 
@@ -264,10 +338,10 @@ public class BasicInfoBusinessFragment extends Fragment {
                             mltAutoKeyWords.setText("");
                             mltAutoKeyWords.setEnabled(true);
                             tagsObjectArrayList.addAll(tagsSelectedArrayList);
-                            Toast.makeText(context, ""+tagsObjectArrayList.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), ""+tagsObjectArrayList.toString(), Toast.LENGTH_SHORT).show();
                             tagsSelectedArrayList.clear();
                             tagsObjectArrayAdapter.notifyDataSetChanged();
-                            tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                            tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,tagsObjectArrayList);
                             mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                         }
                     });
@@ -303,7 +377,7 @@ public class BasicInfoBusinessFragment extends Fragment {
                                     tagsSelectedArrayList.add(tagsObject);
                                     tagsObjectArrayAdapter.remove(tagsObject);
                                     tagsObjectArrayAdapter.notifyDataSetChanged();
-                                    tagsObjectArrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                                    tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,tagsObjectArrayList);
                                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                                     count++;
                                 }else{
@@ -385,7 +459,7 @@ public class BasicInfoBusinessFragment extends Fragment {
                                 parent_id = categoryThird.getId();
                                 thirdCat = parent_id;
                                 tags = categoryThird.getTags();
-                                StringTokenizer stringTokenizer = new StringTokenizer(tags,"");
+                                StringTokenizer stringTokenizer = new StringTokenizer(tags,",");
                                 while(stringTokenizer.hasMoreTokens()){
                                     tagsName.add(stringTokenizer.nextToken());
                                 }
@@ -404,8 +478,312 @@ public class BasicInfoBusinessFragment extends Fragment {
             }
         });
 
+        btnCancel_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtCatFirst.setEnabled(true);
+                txtCatFirst.setText("SELECT");
+                txtCatSecond.setEnabled(true);
+                txtCatSecond.setVisibility(View.GONE);
+                txtCatSecond.setText("SELECT");
+                txtCatThird.setEnabled(true);
+                txtCatThird.setVisibility(View.GONE);
+                txtCatThird.setText("SELECT");
+                btnCancel_1.setVisibility(View.GONE);
+//                btnCancel_2.setVisibility(View.GONE);
+//                btnCancel_3.setVisibility(View.GONE);
+                if(categoriesSecondAdapter!=null && categorySecondArrayList!=null) {
+                    categorySecondArrayList.clear();
+                    categoriesSecondAdapter.notifyDataSetChanged();
+
+                }
+                if(categoriesThirdAdapter!=null && categoryThirdArrayList!=null){
+                    categoryThirdArrayList.clear();
+                    categoriesThirdAdapter.notifyDataSetChanged();
+                }
+//                if(categorySecondArrayList.size() > 0)
+//                    categorySecondArrayList.removeAll(null);
+//                if(categoryThirdArrayList.size() > 0)
+//                    categoryThirdArrayList.removeAll(null);
+            }
+        });
+
+        btnVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                RequestQueue queue = Volley.newRequestQueue(getActivity());
+                String url;
+                url = "https://www.kesbokar.com.au/jil.0.1/api/v1/yellowpage/verify/abn?abn="+edtABN_Number.getText().toString()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        //Toast.makeText(context, "Response:"+response, Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject jsonObject=new JSONObject(response.toString());
+                            result=response.getString("result");
+                            Log.i("result",result);
+                            Toast.makeText(context, "result"+result+"    "+jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                            if (result.equals(""))
+                            {
+                                Toast.makeText(context, "ABN Not Verified", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(context, "ABN Verified", Toast.LENGTH_SHORT).show();
+                                edtABN_Number.setEnabled(false
+                                );
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                queue.add(jsonObjectRequest);
+            }
+        });
+
+        etSuburb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
+                subV = stateAndSuburb.getValue();
+                stateid = stateAndSuburb.getId();
+                subType = stateAndSuburb.getType();
+            }
+        });
+
+        etSuburb.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                querySub = s.toString();
+                getLoaderManager().initLoader(LOADER_ID_BUSVAL,null,businessSuburb);
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        businessSuburb = new androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
+            @NonNull
+            @Override
+            public Loader<ArrayList<StateAndSuburb>> onCreateLoader(int id, @Nullable Bundle args) {
+                LoaderBusSuburb loaderBusSuburb = new LoaderBusSuburb(getContext(), querySub, "http://serv.kesbokar.com.au/jil.0.1/v2/product/search/cities");
+                return loaderBusSuburb;
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
+                if (data.size() !=0){
+                    valsBus = data;
+                    Log.i("Tag",valsBus +"");
+                    ArrayAdapter<StateAndSuburb> adapter = new ArrayAdapter<StateAndSuburb>(getContext(), android.R.layout.simple_dropdown_item_1line, valsBus);
+                    etState.setAdapter(adapter);
+                    getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
+                    etSuburb.setAdapter(adapter);
+                    getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
+                    etState.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            etState.showDropDown();
+                        }
+                    });
+                    etSuburb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            etSuburb.showDropDown();
+                        }
+                    });
+                    etState.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
+                            stateid = stateAndSuburb.getId();
+                        }
+                    });
+                    etSuburb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            StateAndSuburb stateAndSuburb = (StateAndSuburb) parent.getAdapter().getItem(position);
+                            subUrbID = stateAndSuburb.getId();
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<ArrayList<StateAndSuburb>> loader) {
+
+            }
+        };
+
+        getLoaderManager().initLoader(LOADER_ID_BUSVAL,null, businessSuburb);
+
+        btnDetect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                onLocationChanged(location);
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+                String url;
+
+                url = "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage";
+
+                RequestQueue queue = Volley.newRequestQueue(getActivity());
+                final
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("Response",response);
+                        try {
+                            JSONObject jsonObject=new JSONObject(response);
+                            String yellowpage_id=jsonObject.getString("yellowpage_id");
+                            SharedPreferences get_product_detail= getActivity().getSharedPreferences("product_detail",0);
+                            SharedPreferences.Editor editor=get_product_detail.edit();
+                            editor.putString("yellowpage_id",yellowpage_id);
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+
+                        params.put("user_id",""+id);
+                        params.put("name",edtCompanyTitle.getText().toString());
+                        params.put("licence_no",etLicense.getText().toString()); //For EditText
+                        params.put("website", etWebsite.getText().toString());
+                        params.put("quote_message",etQuote.getText().toString());
+                        params.put("phone",etPhone.getText().toString());
+                        params.put("email",etEmail.getText().toString());
+                        params.put("address",etStreet.getText().toString());
+                        params.put("latitude", etLatitude.getText().toString());
+                        params.put("longitude", etLongitude.getText().toString());
+                        params.put("topcat_id", firstCat);   // For Textview
+                        params.put("parentcat_id",secondCat);
+                        params.put("category_id",thirdCat);
+                        params.put("tags",tagsIds);
+                        params.put("registration_no","");
+                        params.put("registration_name","");
+
+
+
+
+                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        return params;
+                    }
+                };
+                queue.add(stringRequest);
+            }
+        });
+
         return view;
 
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double longitudeV=location.getLongitude();
+        double latitude=location.getLatitude();
+        Geocoder gc = new Geocoder(context);
+
+        List<Address> list = null;
+        try {
+
+            list = gc.getFromLocation(latitude, longitudeV,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Address address = list.get(0);
+
+        StringBuffer str = new StringBuffer();
+        str.append(address.getLocality()+" " );
+        str.append(address.getSubAdminArea()+" " );
+        str.append(address.getAdminArea()+" ");
+        str.append(address.getCountryName()+" ");
+        str.append(address.getCountryCode()+" ");
+
+        String strAddress = str.toString();
+
+        etLatitude.setText("Latitude" + latitude);
+        etLongitude.setText("Longitude"+ longitudeV);
+
+        etLongitude.setEnabled(false);
+        etLatitude.setEnabled(false);
+
+        //Toast.makeText(this, "Longitude"+longitudeV+"     Latitude"+latitude +"   "+ strAddress, Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+    public void getData()
+    {
+        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
+        flag = loginData.getInt("Flag",0);
+        full_name=loginData.getString("Name","");
+        email=loginData.getString("mail","");
+        image=loginData.getString("image","");
+        phone_no=loginData.getString("phone","");
+        id=loginData.getInt("id",0);
+        created=loginData.getString("create","");
+        updated=loginData.getString("update","");
     }
 }
 

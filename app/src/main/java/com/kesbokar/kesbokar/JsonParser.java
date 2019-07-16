@@ -320,23 +320,24 @@ public class JsonParser {
 
     public ArrayList<InboxBusinessList> getInboxBusinessList(String url) throws JSONException {
         ArrayList<InboxBusinessList> inboxBusinessLists = new ArrayList<>();
-        JSONArray jsonArray = new JSONArray(url);
+        JSONObject jsonObject = new JSONObject(url);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
 
         for (int index = 0; index < jsonArray.length(); index++) {
             int i = index+1;
-            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            JSONObject jsonObject3 = jsonArray.getJSONObject(index);
             InboxBusinessList inboxBusinessList = new InboxBusinessList();
            // inboxBusinessList.setTxtName(jsonObject.getString("name"));
             inboxBusinessList.setTxtSno(i + "");
-            inboxBusinessList.setTxtMessage(jsonObject.getString("message"));
+            inboxBusinessList.setTxtMessage(jsonObject3.getString("message"));
             //inboxBusinessList.setTxtBusiness(jsonObject.getString("business"));
-            inboxBusinessList.setTxtDate(jsonObject.getString("created_at"));
+            inboxBusinessList.setTxtDate(jsonObject3.getString("created_at"));
 
-            inboxBusinessList.setIntId(jsonObject.getInt("id"));
-            JSONObject jsonObject1 = jsonObject.getJSONObject("yellowpage");
+            inboxBusinessList.setIntId(jsonObject3.getInt("id"));
+            JSONObject jsonObject1 = jsonObject3.getJSONObject("yellowpage");
             inboxBusinessList.setTxtName(jsonObject1.getString("name"));
 
-                JSONObject jsonObject2 = jsonObject.getJSONObject("user");
+                JSONObject jsonObject2 = jsonObject3.getJSONObject("user");
                 inboxBusinessList.setTxtBusiness(jsonObject2.getString("first_name"));
 
             inboxBusinessLists.add(inboxBusinessList);

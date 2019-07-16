@@ -53,7 +53,7 @@ public class DescriptionBusinessFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
 
-    public DescriptionBusinessFragment() {
+    public DescriptionBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         this.viewPager=viewPager;
         this.tabLayout=tabLayout;
         // Required empty public constructor
@@ -142,10 +142,10 @@ public class DescriptionBusinessFragment extends Fragment {
                     }
                 };
                 queue.add(stringRequest);
-                int item=viewPager.getCurrentItem();
-                View tab=tabLayout.getTabAt(item+1).view;
-                tab.setEnabled(true);
-                viewPager.setCurrentItem(item+1);
+////                int item=viewPager.getCurrentItem();
+//                View tab=tabLayout.getTabAt(item+1).view;
+//                tab.setEnabled(true);
+//                viewPager.setCurrentItem(item+1);
             }
 
 
@@ -199,7 +199,7 @@ public class DescriptionBusinessFragment extends Fragment {
         product_id =get_product_detail.getString("product_id","");
 //        product_name=get_product_detail.getString("product_name","");
 //        SharedPreferences get_business_detail = getActivity().getSharedPreferences("business_detail", 0);
-//        yellowpage_id = get_business_detail.getString("yellowpage_id","" );
+       yellowpage_id = get_product_detail.getString("yellowpage_id","" );
 
 
     }
