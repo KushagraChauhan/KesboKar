@@ -1,6 +1,7 @@
 package com.kesbokar.kesbokar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,6 +132,10 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
             @Override
             public void onClick(View v) {
                 String finalUrl="https://www.kesbokar.com.au/marketplace/"+city+"/"+title+"/"+url+"/"+id;
+                SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
+                SharedPreferences.Editor editor=get_product_detail.edit();
+                editor.putString("entry_level","0");
+                editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -144,6 +149,10 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
             @Override
             public void onClick(View v) {
                 String finalUrl="https://www.kesbokar.com.au/marketplace/"+city+"/"+title+"/"+url+"/"+id;
+                SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
+                SharedPreferences.Editor editor=get_product_detail.edit();
+                editor.putString("entry_level","0");
+                editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -156,6 +165,10 @@ public class DataAdapterMarket extends RecyclerView.Adapter<RecyclerView.ViewHol
             @Override
             public void onClick(View v) {
                 String finalUrl="https://www.kesbokar.com.au/marketplace/"+city+"/"+title+"/"+url+"/"+id;
+                SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
+                SharedPreferences.Editor editor=get_product_detail.edit();
+                editor.putString("entry_level","0");
+                editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

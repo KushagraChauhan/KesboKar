@@ -578,6 +578,10 @@ public class Navigation extends AppCompatActivity
                                 @Override
                                 public void onClick(View v) {
                                     String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
+                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
+                                    SharedPreferences.Editor editor=get_product_detail.edit();
+                                    editor.putString("entry_level","1");
+                                    editor.apply();
                                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);
                                     intent.putExtra("Flag", flag);
@@ -639,6 +643,10 @@ public class Navigation extends AppCompatActivity
                             mi[j].setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
+                                    SharedPreferences.Editor editor=get_product_detail.edit();
+                                    editor.putString("entry_level","0");
+                                    editor.apply();
                                     //url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
                                     Intent intent = new Intent(Navigation.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);

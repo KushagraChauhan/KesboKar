@@ -287,6 +287,10 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
+                SharedPreferences.Editor editor=get_product_detail.edit();
+                editor.putString("entry_level","1");
+                editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -299,6 +303,10 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.bln.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
+                SharedPreferences.Editor editor=get_product_detail.edit();
+                editor.putString("entry_level","1");
+                editor.apply();
                 String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
@@ -311,6 +319,10 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.blrq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
+                SharedPreferences.Editor editor=get_product_detail.edit();
+                editor.putString("entry_level","1");
+                editor.apply();
                 final String[] preference = new String[1];
                 final Dialog dialog = new Dialog(mActivity);
                 dialog.setContentView(R.layout.request_quote);
@@ -373,6 +385,10 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
+                SharedPreferences.Editor editor=get_product_detail.edit();
+                editor.putString("entry_level","1");
+                editor.apply();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

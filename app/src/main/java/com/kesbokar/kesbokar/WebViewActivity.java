@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.Nullable;
@@ -74,6 +75,8 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
     private static final int LOADER_ID_BUSVAL = 3;
     private static final int LOADER_ID_BUSSUB = 4;
     private static final int LOADER_ID_BTNSRCH = 5;
+    Button rqst_quote;
+    String entry_level;
 
     private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
     private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
@@ -90,6 +93,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_web_view);
         final ScrollView scrollView=(ScrollView)findViewById(R.id.scroll);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        getData();
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -104,6 +108,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         valsSub = new ArrayList<>();
         querySub = subV = subType = q = "";
         exampleItems = new ArrayList<>();
+        rqst_quote=findViewById(R.id.rqst_quote);
         Intent intent = getIntent();
         Bundle extras=intent.getExtras();
         URL1 = extras.getString("URL");
@@ -121,6 +126,11 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         id1=extras.getInt("id");
         created=extras.getString("create");
         updated=extras.getString("update");
+        if (entry_level.equals("1"))
+        {
+            rqst_quote.setVisibility(View.INVISIBLE);
+        }
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,6 +179,21 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             show.findItem(R.id.loginPage).setVisible(true);
             show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
+        rqst_quote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flag==1) {
+                    Dialog dialog1 = new Dialog(WebViewActivity.this);
+                    dialog1.setContentView(R.layout.get_in_touch);
+                    dialog1.getWindow();
+                    dialog1.show();
+                }
+                else {
+                    Intent intent1=new Intent(WebViewActivity.this,Login.class);
+                    startActivity(intent1);
+                }
+            }
+        });
 
         new MyAsyncTask().execute();
         }
@@ -280,6 +305,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
                 document.getElementsByClass("breadcrumb").remove();
                 document.getElementsByClass("page-subheader sorting pl0").remove();
                 document.getElementsByClass("sel-filters text-left").remove();
+                document.getElementsByClass("text-center btnn-position").remove();
 
 
             } catch (IOException e) {
@@ -311,6 +337,8 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         id1=loginData.getInt("id",0);
         created=loginData.getString("create","");
         updated=loginData.getString("update","");
+        SharedPreferences loginData1=getSharedPreferences("entry",0);
+        entry_level=loginData1.getString("entry_level","");
 
     }
     private void RequestAlertDialogBox()
@@ -361,6 +389,9 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
 
             }
         };
+
+
+
         businessSuburb = new androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>>() {
             @NonNull
             @Override

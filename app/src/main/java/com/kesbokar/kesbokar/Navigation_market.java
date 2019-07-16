@@ -539,6 +539,10 @@ public class Navigation_market extends AppCompatActivity
                                 @Override
                                 public void onClick(View v) {
                                     String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
+                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
+                                    SharedPreferences.Editor editor=get_product_detail.edit();
+                                    editor.putString("entry_level","1");
+                                    editor.apply();
                                     Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
                                     intent.putExtra("URL", url);
                                     startActivity(intent);
@@ -591,6 +595,10 @@ public class Navigation_market extends AppCompatActivity
                                 public void onClick(View v) {
                                     //url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
                                     Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
+                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
+                                    SharedPreferences.Editor editor=get_product_detail.edit();
+                                    editor.putString("entry_level","0");
+                                    editor.apply();
                                     intent.putExtra("URL", url);
                                     startActivity(intent);
                                     finish();
