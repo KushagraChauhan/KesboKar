@@ -107,26 +107,95 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
 
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int id = menuItem.getItemId();
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int Id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (Id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.dashboard) {
+        } else if (Id == R.id.dashboard) {
+            Intent intent = new Intent(ProductManagementActivity.this, LoginData.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
+        } else if (Id == R.id.profile) {
+            Intent intent = new Intent(ProductManagementActivity.this, Profile.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
-        } else if (id == R.id.profile) {
+        } else if (Id == R.id.business_lg_page) {
+            Intent intent=new Intent(ProductManagementActivity.this,ProfileBusinessListing.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
+        } else if (Id == R.id.market_lg_page) {
+            Intent intent=new Intent(ProductManagementActivity.this,ProfileMarket.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
+        } else if (Id == R.id.business_in) {
+            Intent intent=new Intent(ProductManagementActivity.this,inbox_business.class);
+            startActivity(intent);
+            finish();
 
-        } else if (id == R.id.business_lg_page) {
+        } else if (Id == R.id.market_in) {
+            Intent intent=new Intent(ProductManagementActivity.this,inbox_market.class);
+            intent.putExtra("Flag",flag);
+            intent.putExtra("Name",full_name);
+            intent.putExtra("mail",email);
+            intent.putExtra("image",image);
+            intent.putExtra("phone",phone_no);
+            intent.putExtra("create",created);
+            intent.putExtra("update",updated);
+            intent.putExtra("id",id);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityForResult(intent, 0);
+            overridePendingTransition(0, 0);
+            finish();
 
-
-        } else if (id == R.id.market_lg_page) {
-
-        } else if (id == R.id.business_in) {
-
-        } else if (id == R.id.market_in) {
-
+        }else if(Id == R.id.manage_help_desk){
+            Intent intent = new Intent(ProductManagementActivity.this, ManageHelpDeskActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

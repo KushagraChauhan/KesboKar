@@ -31,7 +31,7 @@
                 android:id="@+id/loginPage"
                 android:icon="@drawable/more"
                 android:visible="false"
-                android:title="Login"/>
+                android:title="Dashboard"/>
         </menu>
     </item>
 

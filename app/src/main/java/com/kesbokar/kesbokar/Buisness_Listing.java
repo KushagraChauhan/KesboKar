@@ -251,7 +251,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             show.findItem(R.id.advertise).setVisible(true);
             logout.setVisibility(View.VISIBLE);
             show.findItem(R.id.loginPage).setVisible(true);
-            show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
         }
         String denote = bundle.getString("CHOICE");
         if(denote.equals("imgBtnService")){
@@ -573,8 +572,12 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_send) {
+            Intent about=new Intent(Buisness_Listing.this,ProductManagementActivity.class);
+            startActivity(about);
 
         } else if (id == R.id.nav_share) {
+            Intent about=new Intent(Buisness_Listing.this,Main3BusinessActivity.class);
+            startActivity(about);
 
         } else if (id == R.id.about) {
             Intent about=new Intent(Buisness_Listing.this,About.class);

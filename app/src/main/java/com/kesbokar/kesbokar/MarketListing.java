@@ -226,7 +226,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             show.findItem(R.id.advertise).setVisible(true);
             logout.setVisibility(View.VISIBLE);
             show.findItem(R.id.loginPage).setVisible(true);
-            show.findItem(R.id.loginPage).setTitle(full_name+"  GO!!");
+
         }
         String denote = bundle.getString("CHOICE");
         if(denote.equals("imgBtnService")){
@@ -526,8 +526,12 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_send) {
+            Intent about=new Intent(MarketListing.this,ProductManagementActivity.class);
+            startActivity(about);
 
         } else if (id == R.id.nav_share) {
+            Intent about=new Intent(MarketListing.this,Main3BusinessActivity.class);
+            startActivity(about);
 
         } else if (id == R.id.about) {
             Intent about=new Intent(MarketListing.this,About.class);
