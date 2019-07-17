@@ -67,6 +67,8 @@ public class BasicInfoFragment extends Fragment {
     CategoriesBaseAdapter categoriesBaseAdapter;
     CategoriesSecondAdapter categoriesSecondAdapter;
     private TextView txtCatFirst, txtCatSecond, txtCatThird,etPostProduct;
+    String make_id,model_id,year,variant_id,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1;
+    int edit1;
 
     String condition1, condition2, product_name, product_id, condition1Value, condition2Value;
     RadioGroup rgProductCondition, rgProductSelection;
@@ -123,7 +125,7 @@ public class BasicInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_basic_info, container, false);
-
+        getData();
         rgProductCondition = view.findViewById(R.id.rgProductCondition);
         rgProductSelection = view.findViewById(R.id.rgProductSelection);
         context = view.getContext();
@@ -166,19 +168,29 @@ public class BasicInfoFragment extends Fragment {
         progressDialog.setTitle("Loading...");
 
         etPostProduct.setText(full_name);
-
-        edtProductTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (entry_state==1)
-                {
-                    assert getFragmentManager() != null;
-                    assert getTargetFragment() != null;
-                    getFragmentManager().beginTransaction().detach(getTargetFragment()).attach(getTargetFragment()).commit();
-                    edtProductTitle.setText(product_name);
-                }
+        if (edit1==1) {
+            edtProductTitle.setText(name_title);
+            if (product_condition.equals("n")||product_condition.equals("N")) {
+                RadioButton rgNew=rgProductCondition.findViewById(R.id.rbNew);
+                rgNew.toggle();
             }
-        });
+            else {
+                RadioButton rgUsed=rgProductCondition.findViewById(R.id.rbUsed);
+                rgUsed.toggle();
+            }
+            if (product_section.equals("s")||product_section.equals("S"))
+            {
+                RadioButton rbSell=rgProductSelection.findViewById(R.id.rbSell);
+                rbSell.toggle();
+            }
+            else {
+                RadioButton rbRent=rgProductSelection.findViewById(R.id.rbRent);
+                rbRent.toggle();
+            }
+            etPrice.setText(price1);
+        }
+
+
 
 
         txtCatFirst.setOnClickListener(new View.OnClickListener() {
@@ -726,5 +738,31 @@ public class BasicInfoFragment extends Fragment {
         product_name=get_product_detail.getString("product_name","");
         SharedPreferences entry=getActivity().getSharedPreferences("entry_state",0);
         entry_state =entry.getInt("entry_state1",0);
+        SharedPreferences business_edit=getActivity().getSharedPreferences("market_edit",0);
+        edit1=business_edit.getInt("edit",0);
+        if (edit1==1)
+        {
+            make_id=business_edit.getString("make_id","");
+            model_id=business_edit.getString("model_id","");
+            year=business_edit.getString("year","");
+            variant_id=business_edit.getString("variant_id","");
+            vehicle_id=business_edit.getString("vehicle_id","");
+            colour=business_edit.getString("colour","");
+            airconditioning=business_edit.getString("airconditioning","");
+            registered=business_edit.getString("registered","");
+            registration_state=business_edit.getString("registration_state","");
+            registration_number=business_edit.getString("registration_number","");
+            registration_expiry=business_edit.getString("registration_expiry","");
+        }
+        name_title=business_edit.getString("name","");
+        product_condition=business_edit.getString("product_condition","");
+        product_section=business_edit.getString("product_section","");
+        category_id1=business_edit.getString("category_id","");
+        price1=business_edit.getString("price","");
+        phone1=business_edit.getString("phone","");
+        address1=business_edit.getString("address","");
+        description1=business_edit.getString("description","");
+        status1=business_edit.getString("status","");
     }
+
 }

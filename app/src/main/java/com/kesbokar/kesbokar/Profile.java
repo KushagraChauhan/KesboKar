@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import com.squareup.picasso.Picasso;
 public class Profile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     TextView tvName, tvEmail, tvPhone, tvCreatedAt, tvUpdatedAt;
     ImageView ivImage;
+    Button change_password;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
     @Override
@@ -37,12 +40,22 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         getData();
         initialiseIds();
+        change_password=findViewById(R.id.change_password);
         tvName.setText(full_name);
         tvEmail.setText(email);
         tvPhone.setText(phone_no);
         tvCreatedAt.setText(created);
         tvUpdatedAt.setText(updated);
         Picasso.with(Profile.this).load("https://www.kesbokar.com.au/uploads/profile/"+image).into(ivImage);
+        change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this,ChangePassword.class );
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+            }
+        });
     }
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

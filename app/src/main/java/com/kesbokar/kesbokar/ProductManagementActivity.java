@@ -60,6 +60,10 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
                 BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
                 basicInfoFragment.setArguments(bundle);*/
                 Intent intent = new Intent(ProductManagementActivity.this, Main2Activity.class);
+                SharedPreferences sharedPreferences=getSharedPreferences("market_edit",0);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putInt("edit",0);
+                editor.commit();
                 intent.putExtra("CAR_YES_OR_NO", false);
                 startActivity(intent);
             }
@@ -71,6 +75,10 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
             public void onClick(View v) {
                 Intent intent = new Intent(ProductManagementActivity.this, Main2Activity.class);
                 intent.putExtra("CAR_YES_OR_NO", true);
+                SharedPreferences sharedPreferences=getSharedPreferences("market_edit",0);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putInt("edit",0);
+                editor.commit();
                 startActivity(intent);
 
 
