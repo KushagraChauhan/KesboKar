@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class AdapterInboxReplyBusiness extends BaseAdapter {
     ArrayList<inbox_reply_business> get_for_replies;
-    TextView date,replyby,reply,sno;
+    TextView date,replyby1,reply,sno;
     LayoutInflater layoutInflater;
     Context context;
     Activity activity;
@@ -47,10 +47,10 @@ public class AdapterInboxReplyBusiness extends BaseAdapter {
         convertView=layoutInflater.inflate(R.layout.adapter_inbox_business_reply,null);
         reply=convertView.findViewById(R.id.reply);
         sno=convertView.findViewById(R.id.Sno);
-        replyby=convertView.findViewById(R.id.replyby);
+        replyby1=convertView.findViewById(R.id.replyby);
         date=convertView.findViewById(R.id.date);
         date.setText(get_for_replies.get(position).getDate());
-        replyby.setText(get_for_replies.get(position).getReplyBy());
+        replyby1.setText(get_for_replies.get(position).getReplyBy());
         reply.setText(get_for_replies.get(position).getReplyMessage());
         final int id1=get_for_replies.get(position).getId1();
         sno.setText(i);

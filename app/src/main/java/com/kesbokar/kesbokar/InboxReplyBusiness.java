@@ -42,9 +42,9 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
 
     private LoaderManager.LoaderCallbacks<ArrayList<InboxBusinessList>> busLoader;
     private static final int LOADER_BUS_PRO_LIST = 66;
-    TextView subject,message;
+    TextView subject,message,date,replyBy1, reply;
     ListView listView;
-    String replyMessage,replyBy,date1,subject1,message1;
+    String replyMessage,replyBy,date1,message1;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag, enquiry_id;
     RequestQueue requestQueue;
@@ -64,6 +64,9 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         getData();
         subject=findViewById(R.id.tvSubject);
         message=findViewById(R.id.tvMessage);
+        reply=findViewById(R.id.reply);
+        date=findViewById(R.id.date);
+        replyBy1=findViewById(R.id.replyby);
         setSupportActionBar(toolbar);
         intent=getIntent();
         bundle=intent.getExtras();
@@ -166,12 +169,15 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                         replyMessage=reply.getString("reply_message");
 //                        enquiry_id = rdata.getInt("enquiry_id");
                         date1=reply.getString("created_at");
-                        JSONObject user=reply.getJSONObject("user");
+                        JSONObject user=rdata.getJSONObject("user");
                         replyBy=user.getString("first_name");
                         get_for_replies.add(new inbox_reply_business(replyMessage,replyBy,date1,user_id,id1));
                     }
-                    subject.setText(subject1);
-                    message.setText(message1);
+                    //subject.setText(subject1);
+                    replyBy1.setText(replyBy);
+                    date.setText(date1);
+                    reply.setText(replyMessage);
+
                     if (get_for_replies!=null) {
                         AdapterInboxReplyBusiness adapterInboxReplyBusiness = new AdapterInboxReplyBusiness(InboxReplyBusiness.this,InboxReplyBusiness.this , get_for_replies);
                         listView.setAdapter(adapterInboxReplyBusiness);

@@ -17,8 +17,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,12 +33,13 @@ public class AdapterBusListProfile extends BaseAdapter {
     ArrayList<BusinessProfileList> businessProfileLists;
     LayoutInflater layoutInflater;
     TextView txtSno,txtTitle,txtAbn,txtPhone,txtStatus;
-    Button adpBtnDel;
+    Button adpBtnDel,adapBtnEdt;
     Context context;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
     int pos;
     Activity activity;
+
     String id1;
     public AdapterBusListProfile(Context context, ArrayList<BusinessProfileList> businessProfileLists, Activity activity){
         this.context = context;
@@ -65,6 +71,7 @@ public class AdapterBusListProfile extends BaseAdapter {
         txtPhone = view.findViewById(R.id.adapTxtPhone);
         txtStatus = view.findViewById(R.id.adapTxtStatus);
         adpBtnDel=view.findViewById(R.id.adapBtnDel);
+        adapBtnEdt=view.findViewById(R.id.adapBtnEdt);
         txtSno.setText(businessProfileLists.get(i).getTxtSno());
         txtTitle.setText(businessProfileLists.get(i).getTxtTitle());
         txtPhone.setText(businessProfileLists.get(i).getTxtPhone());
@@ -119,6 +126,31 @@ public class AdapterBusListProfile extends BaseAdapter {
                 activity.overridePendingTransition(0, 0);
                 activity.finish();
 
+            }
+        });
+        adapBtnEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage?user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("Json Response", response.toString());
+
+                        try {
+                            String id = response.getString("id");
+
+                        }catch (JSONException e){
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
             }
         });
         return view;

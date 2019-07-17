@@ -54,7 +54,7 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
 
     private LoaderManager.LoaderCallbacks<ArrayList<InboxMarketList>> busLoader;
     private static final int LOADER_BUS_PRO_LIST = 66;
-    TextView subject,message;
+    TextView subject,message,date,replyBy1,reply;
     ListView listView;
     String replyMessage,replyBy,date1,subject1,message1;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
@@ -73,8 +73,11 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply_inbox_market);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        subject=findViewById(R.id.tvSubject);
+       // subject=findViewById(R.id.tvSubject);
         message=findViewById(R.id.tvMessage);
+        reply=findViewById(R.id.reply);
+        date=findViewById(R.id.date);
+        replyBy1=findViewById(R.id.replyby);
         setSupportActionBar(toolbar);
         intent=getIntent();
         bundle=intent.getExtras();
@@ -189,12 +192,14 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
                         replyMessage=reply.getString("reply_message");
                         date1=reply.getString("created_at");
                        // enquiry_id=rdata.getInt("enquiry_id");
-                        JSONObject user=reply.getJSONObject("user");
+                        JSONObject user=rdata.getJSONObject("user");
                         replyBy=user.getString("first_name");
                         get_for_replies.add(new inbox_reply_market(replyMessage,replyBy,date1,user_id,id1));
                     }
-                    subject.setText(subject1);
-                    message.setText(message1);
+                    //subject.setText(subject1);
+                    replyBy1.setText(replyBy);
+                    date.setText(date1);
+                    reply.setText(replyMessage);
                     if (get_for_replies!=null) {
                         AdapterInboxReplyMarket adapterInboxReplyMarket = new AdapterInboxReplyMarket(InboxReplyMarketplace.this,InboxReplyMarketplace.this , get_for_replies);
                         listView.setAdapter(adapterInboxReplyMarket);

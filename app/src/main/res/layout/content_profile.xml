@@ -13,13 +13,31 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Profile"
     tools:showIn="@layout/app_bar_profile">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change Password"
-        android:background="@color/kesbokar"
-        android:layout_gravity="end"
-        android:id="@+id/change_password"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:background="@color/kesbokar"
+            android:layout_gravity="end"
+            android:id="@+id/edit_profile"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
+            android:background="@color/kesbokar"
+            android:layout_gravity="end"
+            android:id="@+id/change_password"
+            android:layout_marginLeft="135dp" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/textView13"
@@ -28,6 +46,8 @@
         android:layout_marginBottom="5dp"
         android:gravity="center_horizontal"
         android:text="My Profile"
+        android:layout_marginTop="20dp"
+
         android:textColor="#070606"
         android:textSize="20sp" />
 

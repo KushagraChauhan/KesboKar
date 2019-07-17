@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".ChangePassword" />
 
         <service android:name=".GettingDeviceTokenService">
             <intent-filter>
