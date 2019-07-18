@@ -66,6 +66,8 @@ public class CarDetailsFragment extends Fragment {
     EditText car_number;
     Button next_frag;
     int id,entry_state;
+    String make_id,model_id1,year1,variant_id1,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1,pro_id;
+    int edit1;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id1,flag;
     ListView lvSeries;
@@ -73,7 +75,6 @@ public class CarDetailsFragment extends Fragment {
     ArrayList<CarDetailsSeries> carDetailsSeries;
     ViewPager viewPager;
     TabLayout tabLayout;
-
     public CarDetailsFragment(ViewPager viewPager, TabLayout tabLayout)
     {
         this.viewPager=viewPager;
@@ -90,6 +91,7 @@ public class CarDetailsFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_car_details, container, false);
 
         View view = inflater.inflate(R.layout.fragment_car_details, container, false);
+        getData();
 
         car_make = view.findViewById(R.id.car_make);
         car_model = view.findViewById(R.id.car_model);
@@ -128,6 +130,70 @@ public class CarDetailsFragment extends Fragment {
         response = new String[]{"Yes","No"};
         state_array = new String[]{"NSW","VIC","QLD","WA","SA","TAS","ACT","NT"};
         jsonParserMake();
+        if (edit1==1)
+        {
+            car_model.setVisibility(View.VISIBLE);
+            model_text.setVisibility(View.VISIBLE);
+            car_year.setVisibility(View.VISIBLE);
+            year_text.setVisibility(View.VISIBLE);
+            car_variant.setVisibility(View.VISIBLE);
+            variant_text.setVisibility(View.VISIBLE);
+            color_text.setVisibility(View.VISIBLE);
+            air_text.setVisibility(View.VISIBLE);
+            registered_text.setVisibility(View.VISIBLE);
+            car_color.setVisibility(View.VISIBLE);
+            car_air.setVisibility(View.VISIBLE);
+            car_registered.setVisibility(View.VISIBLE);
+            variant_id=variant_dictionary.get(car_variant.getText().toString());
+            next_frag.setVisibility(View.VISIBLE);
+            lvSeries.setVisibility(View.VISIBLE);
+            if (registered.equals("y")||registered.equals("Y"))
+            {
+                state_text.setVisibility(View.VISIBLE);
+                car_state.setVisibility(View.VISIBLE);
+                number_text.setVisibility(View.VISIBLE);
+                car_number.setVisibility(View.VISIBLE);
+                expiry_text.setVisibility(View.VISIBLE);
+                car_expiry.setVisibility(View.VISIBLE);
+
+            }
+            String url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/make/"+make_id+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("data");
+                        Log.i("Series Array",jsonArray.toString());
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject=jsonArray.getJSONObject(i);
+                            int k = i + 1;
+                            String j = "" + k;
+                            int p = jsonObject.length();
+                            String l = "" + p;
+                            Log.i("Length", l);
+                            Log.i("Series Object",jsonObject.toString());
+                            id=jsonObject.getInt("id");
+                            name_series=jsonObject.getString("name");
+                            des_body=jsonObject.getString("des_body");
+                            des_engine=jsonObject.getString("des_engine");
+                            carDetailsSeries.add(new CarDetailsSeries(id,name_series,des_body,des_engine));
+                        }
+                        AdapterCarDetailsSeries adapterCarDetailsSeries=new AdapterCarDetailsSeries(getActivity(),getActivity(),carDetailsSeries);
+                        lvSeries.setAdapter(adapterCarDetailsSeries);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            requestQueue.add(jsonObjectRequest);
+        }
         ArrayAdapter<String> adapter_make = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, make_array);
         car_make.setThreshold(0);
         car_make.setAdapter(adapter_make);
@@ -290,6 +356,12 @@ public class CarDetailsFragment extends Fragment {
                 }
                 else{
                     registered_response="n";
+                    state_text.setVisibility(View.INVISIBLE);
+                    car_state.setVisibility(View.INVISIBLE);
+                    number_text.setVisibility(View.INVISIBLE);
+                    car_number.setVisibility(View.INVISIBLE);
+                    expiry_text.setVisibility(View.INVISIBLE);
+                    car_expiry.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -610,6 +682,33 @@ public class CarDetailsFragment extends Fragment {
         updated=loginData.getString("update","");
         SharedPreferences get=getActivity().getSharedPreferences("data1",0);
         series_id=get.getString("series","");
-
+        SharedPreferences business_edit=getActivity().getSharedPreferences("market_edit",0);
+        edit1=business_edit.getInt("edit",0);
+        if (edit1==1)
+        {
+            make_id=business_edit.getString("make_id","");
+            model_id1=business_edit.getString("model_id","");
+            year1=business_edit.getString("year","");
+            variant_id1=business_edit.getString("variant_id","");
+            vehicle_id=business_edit.getString("vehicle_id","");
+            colour=business_edit.getString("colour","");
+            airconditioning=business_edit.getString("airconditioning","");
+            registered=business_edit.getString("registered","");
+            registration_state=business_edit.getString("registration_state","");
+            registration_number=business_edit.getString("registration_number","");
+            registration_expiry=business_edit.getString("registration_expiry","");
+        }
+        name_title=business_edit.getString("name","");
+        product_condition=business_edit.getString("product_condition","");
+        product_section=business_edit.getString("product_section","");
+        category_id1=business_edit.getString("category_id","");
+        price1=business_edit.getString("price","");
+        phone1=business_edit.getString("phone","");
+        address1=business_edit.getString("address","");
+        description1=business_edit.getString("description","");
+        status1=business_edit.getString("status","");
+        pro_id=business_edit.getString("product_id","");
     }
+
+
 }

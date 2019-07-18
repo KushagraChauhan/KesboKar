@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,8 +86,10 @@ public class AdapterBusListProfileMarket extends BaseAdapter {
         adpMBtnEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String pro_id="" + marketProfileLists.get(pos).getId();
+
                 final String url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+marketProfileLists.get(i).getId()+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                final String pro_id="" + marketProfileLists.get(i).getId();
+
                 Log.i("Url",url+"    "+pro_id+"    "+i);
 
 
@@ -98,6 +101,7 @@ public class AdapterBusListProfileMarket extends BaseAdapter {
                     public void onResponse(JSONObject response) {
                         Log.i("Json Response",response.toString());
                         try {
+
                             String name=response.getString("name");
                             String product_condition=response.getString("product_condition");
                             String product_section=response.getString("product_section");
@@ -132,7 +136,7 @@ public class AdapterBusListProfileMarket extends BaseAdapter {
                                 editor.putString("registration_state", registration_state);
                                 editor.putString("registration_number", registration_number);
                                 editor.putString("registration_expiry", registration_expiry);
-                                editor.apply();
+                                editor.commit();
 
                             }
                                 SharedPreferences sharedPreferences = context.getSharedPreferences("market_edit", 0);
@@ -147,7 +151,7 @@ public class AdapterBusListProfileMarket extends BaseAdapter {
                                 editor.putString("description", description);
                                 editor.putString("product_id", pro_id);
                                 editor.putInt("edit", 1);
-                                editor.apply();
+                                editor.commit();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -161,16 +165,22 @@ public class AdapterBusListProfileMarket extends BaseAdapter {
                             }
                         });
                 queue.add(jsonObjectRequest);
-                final Intent intent=new Intent(context,Main2Activity.class);
-                if (vehicle=="null")
-                {
-                    intent.putExtra("CAR_YES_OR_NO", false);
 
-                }
-                else {
-                    intent.putExtra("CAR_YES_OR_NO", false);
-                }
-                context.startActivity(intent);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Intent intent=new Intent(context,Main2Activity.class);
+                        if (vehicle.equals("null"))
+                        {
+                            intent.putExtra("CAR_YES_OR_NO", false);
+
+                        }
+                        else {
+                            intent.putExtra("CAR_YES_OR_NO", true);
+                        }
+                        context.startActivity(intent);
+                    }
+                }, 2000);
 
 
             }

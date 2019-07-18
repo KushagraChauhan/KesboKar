@@ -70,7 +70,7 @@ public class BasicInfoFragment extends Fragment {
     String make_id,model_id,year,variant_id,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1;
     int edit1;
 
-    String condition1, condition2, product_name, product_id, condition1Value, condition2Value;
+    String condition1, condition2, product_name, product_id, condition1Value, condition2Value,pro_id;
     RadioGroup rgProductCondition, rgProductSelection;
     int entry_state;
     ViewPager viewPager;
@@ -617,8 +617,12 @@ public class BasicInfoFragment extends Fragment {
                 String url1;
                 RequestQueue queue= Volley.newRequestQueue(getActivity());
                 final String price = etPrice.getText().toString();
-
-                if(entry_state==1)
+                if (edit1==1)
+                {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+pro_id;
+                    url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id+"/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                }
+                else if(entry_state==1)
                 {
                     url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
                     url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id+"/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
@@ -763,6 +767,7 @@ public class BasicInfoFragment extends Fragment {
         address1=business_edit.getString("address","");
         description1=business_edit.getString("description","");
         status1=business_edit.getString("status","");
+        pro_id=business_edit.getString("product_id","");
     }
 
 }
