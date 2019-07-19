@@ -36,7 +36,8 @@ public class DescriptionFragment extends Fragment {
     TabLayout tabLayout;
     private String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name;
     private int id,flag;
-
+    String make_id,model_id1,year1,variant_id1,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1,pro_id,model_name,variant_name;
+    int edit1;
 
 
     public DescriptionFragment(ViewPager viewPager, TabLayout tabLayout)
@@ -53,9 +54,14 @@ public class DescriptionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_description, container, false);
         //getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder, new AwesomeFragment()).commit();
+        getData();
         etDescription = view.findViewById(R.id.etDescription);
         btnBack = view.findViewById(R.id.btnBack);
         btnSubmit = view.findViewById(R.id.btnSubmit);
+        if (edit1==1)
+        {
+            etDescription.setText(description1);
+        }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +76,13 @@ public class DescriptionFragment extends Fragment {
                 getData();
                 RequestQueue queue= Volley.newRequestQueue(getActivity());
                 String url;
-
-                url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
-
+                if (edit1==1)
+                {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+pro_id;
+                }
+                else {
+                    url = "http://serv.kesbokar.com.au/jil.0.1/v1/product/" + product_id;
+                }
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -129,7 +139,21 @@ public class DescriptionFragment extends Fragment {
         SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
+        SharedPreferences business_edit=getActivity().getSharedPreferences("market_edit",0);
+        edit1=business_edit.getInt("edit",0);
 
-
+        name_title=business_edit.getString("name","");
+        product_condition=business_edit.getString("product_condition","");
+        product_section=business_edit.getString("product_section","");
+        category_id1=business_edit.getString("category_id","");
+        price1=business_edit.getString("price","");
+        phone1=business_edit.getString("phone","");
+        address1=business_edit.getString("address","");
+        description1=business_edit.getString("description","");
+        status1=business_edit.getString("status","");
+        pro_id=business_edit.getString("product_id","");
     }
+
+
+
 }

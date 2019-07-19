@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +45,10 @@ public class AttributeFragment extends Fragment {
 
     ViewPager viewPager;
     TabLayout tabLayout;
-    String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info,attribute_id,attribute="";
+    String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name,attribute_info,attribute_id,attribute="",attribute_value;
     int id,flag,entry_state;
+    String make_id,model_id1,year1,variant_id1,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1,pro_id,model_name,variant_name;
+    int edit1;
     Button btnRefresh;
 
 
@@ -64,7 +67,7 @@ public class AttributeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_attribute, container, false);
 
 
-        final FrameLayout fragment_container = (FrameLayout) view.findViewById(R.id.fragmentAttribute);
+        final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linear_layout);
         final Button btnRefresh = view.findViewById(R.id.btnRefresh);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +85,7 @@ public class AttributeFragment extends Fragment {
                         count++;
                     }
                 }
+                String[] att_value = attribute_value.split(",");
                 final String[] resultId = new String[count];
                 final String[] result = new String[count];
                 for (int i=0;i<count;i++) {
@@ -136,17 +140,20 @@ public class AttributeFragment extends Fragment {
                     tv.setText("" + temp);
                     //tv.setId(i);
                     tv.setPadding(0,10,0,0);
-                    FrameLayout.LayoutParams textViewParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-                    textViewParams.setMargins(100 , 100 * i, 20, 20);
-                    fragment_container.addView(tv, textViewParams);
+                    LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    //textViewParams.setMargins(100 , 100 * i, 20, 20);
+                    linearLayout.addView(tv, textViewParams);
 
                     EditText et = new EditText(getContext());
                     et.setHint("Enter ...");
                     et.setId(i);
                     et.setWidth(500);
-                    FrameLayout.LayoutParams editTextParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-                    editTextParams.setMargins(500, 90 * i, 20, 20);
-                    fragment_container.addView(et, editTextParams);
+                    LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                    //editTextParams.setMargins(500, 90 * i, 20, 20);
+                    if (edit1==1) {
+                        et.setText(att_value[i]);
+                    }
+                    linearLayout.addView(et, editTextParams);
                     final int finalI = i;
                     et.addTextChangedListener(new TextWatcher() {
                         @Override
@@ -161,6 +168,7 @@ public class AttributeFragment extends Fragment {
 
                         @Override
                         public void afterTextChanged(Editable s) {
+
 
 
                             result[finalI] = String.valueOf(s);
@@ -179,9 +187,9 @@ public class AttributeFragment extends Fragment {
                 btnPrevious.setTypeface(btnPrevious.getTypeface(), Typeface.BOLD);
                 btnPrevious.setPadding(80,0,80,0);
                 FrameLayout.LayoutParams btnPreviousParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-                btnPreviousParams.setMargins(200,totalSpace,100,20);
+                btnPreviousParams.setMargins(20,20,20,20);
 
-                fragment_container.addView(btnPrevious, btnPreviousParams);
+                linearLayout.addView(btnPrevious, btnPreviousParams);
 
                 Button btnSave = new Button(getContext());
                 btnSave.setText("Save");
@@ -190,7 +198,7 @@ public class AttributeFragment extends Fragment {
                 btnSave.setTextColor(Color.parseColor("#FFFFFF"));
                 btnSave.setTypeface(btnSave.getTypeface(), Typeface.BOLD);
                 FrameLayout.LayoutParams btnSaveParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-                btnSaveParams.setMargins(600,totalSpace,100,20);
+                btnSaveParams.setMargins(20,20,20,20);
 
                 final int finalCount = count;
                 btnSave.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +262,7 @@ public class AttributeFragment extends Fragment {
                     }
                 });
 
-                fragment_container.addView(btnSave, btnSaveParams);
+                linearLayout.addView(btnSave, btnSaveParams);
 
             }
         });
@@ -282,6 +290,20 @@ public class AttributeFragment extends Fragment {
         SharedPreferences attribute=getActivity().getSharedPreferences("attributes",0);
         attribute_info = attribute.getString("attribute_info","");
         attribute_id = attribute.getString("attribute_id","");
+        SharedPreferences business_edit=getActivity().getSharedPreferences("market_edit",0);
+        edit1=business_edit.getInt("edit",0);
+
+        name_title=business_edit.getString("name","");
+        product_condition=business_edit.getString("product_condition","");
+        product_section=business_edit.getString("product_section","");
+        category_id1=business_edit.getString("category_id","");
+        price1=business_edit.getString("price","");
+        phone1=business_edit.getString("phone","");
+        address1=business_edit.getString("address","");
+        description1=business_edit.getString("description","");
+        status1=business_edit.getString("status","");
+        pro_id=business_edit.getString("product_id","");
+        attribute_value=attribute.getString("attribute_value","");
 
     }
 

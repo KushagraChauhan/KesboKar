@@ -1,7 +1,6 @@
 package com.kesbokar.kesbokar;
 
 
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -23,11 +22,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
-import com.android.volley.AuthFailureError;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -61,12 +55,13 @@ public class CarDetailsFragment extends Fragment {
     TextView make_text,model_text,year_text,variant_text,color_text,air_text,registered_text,state_text,number_text,expiry_text;
     ArrayList<String> make_array,model_array,year_array,variant_array;
     String [] color_array,response,state_array;
-    String color_response,registered_response,air_response,state,number,expiry,id_series,name_series,des_body,des_engine;
+    String url;
+    String color_response,registered_response,air_response,state,number,expiry,id_series,name_series,des_body,des_engine,make_name;
     DatePicker car_expiry;
     EditText car_number;
     Button next_frag;
-    int id,entry_state;
-    String make_id,model_id1,year1,variant_id1,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1,pro_id;
+    int id,entry_state,cal_year,cal_month,cal_date;
+    String make_id,model_id1,year1,variant_id1,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1,pro_id,model_name,variant_name;
     int edit1;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id1,flag;
@@ -157,42 +152,43 @@ public class CarDetailsFragment extends Fragment {
                 car_expiry.setVisibility(View.VISIBLE);
 
             }
-            String url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/make/"+make_id+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
-            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        JSONArray jsonArray = response.getJSONArray("data");
-                        Log.i("Series Array",jsonArray.toString());
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject=jsonArray.getJSONObject(i);
-                            int k = i + 1;
-                            String j = "" + k;
-                            int p = jsonObject.length();
-                            String l = "" + p;
-                            Log.i("Length", l);
-                            Log.i("Series Object",jsonObject.toString());
-                            id=jsonObject.getInt("id");
-                            name_series=jsonObject.getString("name");
-                            des_body=jsonObject.getString("des_body");
-                            des_engine=jsonObject.getString("des_engine");
-                            carDetailsSeries.add(new CarDetailsSeries(id,name_series,des_body,des_engine));
-                        }
-                        AdapterCarDetailsSeries adapterCarDetailsSeries=new AdapterCarDetailsSeries(getActivity(),getActivity(),carDetailsSeries);
-                        lvSeries.setAdapter(adapterCarDetailsSeries);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                }
-            });
-            requestQueue.add(jsonObjectRequest);
+            registered_response=registered;
+            air_response=airconditioning;
+            color_response=colour;
+            id_make=make_id;
+            car_make.setText(make_name);
+            id_model=model_id1;
+            variant_id=variant_id1;
+            car_model.setText(model_name);
+            car_year.setText(year1);
+            car_variant.setText(variant_name);
+            car_color.setText(colour);
+            if (airconditioning.equals("y")||airconditioning.equals("Y")) {
+                car_air.setText("Yes");
+            }
+            else {
+                car_air.setText("No");
+            }
+            if (registered.equals("y")||registered.equals("Y")) {
+                car_registered.setText("Yes");
+            }
+            else {
+                car_registered.setText("No");
+            }
+            if (!registration_expiry.equals("null")) {
+                String[] date = registration_expiry.split("-");
+                cal_year = Integer.parseInt(date[0]);
+                cal_month = Integer.parseInt(date[1]);
+                cal_date = Integer.parseInt(date[2]);
+            }
+            car_expiry.updateDate(cal_year,cal_month-1,cal_date);
+            car_state.setText(registration_state);
+            car_number.setText(registration_number);
+            year=year1;
+            jsonParserModel();
+            jsonParserYear();
+            jsonParserVariant();
+            jsonParserSeries();
         }
         ArrayAdapter<String> adapter_make = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, make_array);
         car_make.setThreshold(0);
@@ -212,7 +208,7 @@ public class CarDetailsFragment extends Fragment {
                 make1=car_make.getText().toString();
                 id_make=make_dictionary.get(make1);
                 model_array.clear();
-                url1 = "http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/model/dd/get?make_id="+id_make+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+
                 jsonParserModel();
             }
         });
@@ -233,7 +229,7 @@ public class CarDetailsFragment extends Fragment {
                 year_text.setVisibility(View.VISIBLE);
                 model1=car_model.getText().toString();
                 id_model=model_dictionary.get(model1);
-                url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/year/dd/get?model_id="+id_model+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+
                 year_array.clear();
                 jsonParserYear();
             }
@@ -254,7 +250,6 @@ public class CarDetailsFragment extends Fragment {
                 car_variant.setVisibility(View.VISIBLE);
                 variant_text.setVisibility(View.VISIBLE);
                 year=car_year.getText().toString();
-                url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/variant/dd/get?model_id="+id_model+"&year="+year+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 jsonParserVariant();
             }
         });
@@ -281,7 +276,6 @@ public class CarDetailsFragment extends Fragment {
                 next_frag.setVisibility(View.VISIBLE);
                 lvSeries.setVisibility(View.VISIBLE);
                 lvSeries.setAdapter(null);
-                url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/detail/get?make_id="+id_make+"&model_id="+id_model+"&year="+year+"&variant_id="+variant_id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 jsonParserSeries();
 
             }
@@ -412,7 +406,13 @@ public class CarDetailsFragment extends Fragment {
                     expiry="";
                 }
                 Toast.makeText(getActivity(), number+"     and     "+expiry+"   and   "+registered_response+"   and   "+color_response+"   and   "+air_response, Toast.LENGTH_SHORT).show();
-                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/product";
+                if (edit1==1)
+                {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+pro_id+"/vehicle";
+                }
+                else {
+                    url = "http://serv.kesbokar.com.au/jil.0.1/v1/product";
+                }
                 RequestQueue queue= Volley.newRequestQueue(getActivity());
                 //Toast.makeText(Help.this, "Ipaddress"+ip, Toast.LENGTH_SHORT).show();
                 final JSONObject jsonObject=new JSONObject();
@@ -468,10 +468,35 @@ public class CarDetailsFragment extends Fragment {
                         String user_id;
                         user_id=""+id1;
                         Map<String, String>  params = new HashMap<String, String >();
-                        Map<String,JSONObject> params1=new HashMap<>();
-                        params.put("category_id","16");
-                        params.put("user_id",user_id);
-                        params.put("vehicle",jsonObject.toString());
+                        if (edit1==1)
+                        {
+                            params.put("make_id",id_make);
+                            params.put("model_id",id_model);
+                            params.put("year",year);
+                            params.put("variant_id",variant_id);
+                            params.put("vehicle_id",series_id);
+                            params.put("colour",color_response);
+                            params.put("airconditioning",air_response);
+                            params.put("registered",registered_response);
+                            if(registered_response=="y"||registered_response=="y") {
+                                params.put("registration_state", state);
+                                params.put("registration_number", number);
+                                params.put("registration_expiry", expiry);
+                            }
+                            else {
+                                params.put("registration_state","");
+                                params.put("registration_number","");
+                                params.put("registration_expiry","");
+
+
+                            }
+                            params.put("product_id", pro_id);
+                        }
+                        else {
+                            params.put("category_id", "16");
+                            params.put("user_id", user_id);
+                            params.put("vehicle", jsonObject.toString());
+                        }
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                         return params;
                     }
@@ -534,6 +559,7 @@ public class CarDetailsFragment extends Fragment {
     }
     public void jsonParserModel()
     {
+        url1 = "http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/model/dd/get?make_id="+id_make+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -571,6 +597,7 @@ public class CarDetailsFragment extends Fragment {
 
     private void jsonParserYear()
     {
+        url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/year/dd/get?model_id="+id_model+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
 
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
@@ -598,6 +625,7 @@ public class CarDetailsFragment extends Fragment {
     }
     private void jsonParserVariant()
     {
+        url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/variant/dd/get?model_id="+id_model+"&year="+year+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
 
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
@@ -633,6 +661,7 @@ public class CarDetailsFragment extends Fragment {
     }
     public void jsonParserSeries()
     {
+        url1="http://serv.kesbokar.com.au/jil.0.1/v1/vehicle/detail/get?make_id="+id_make+"&model_id="+id_model+"&year="+year+"&variant_id="+variant_id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -708,6 +737,9 @@ public class CarDetailsFragment extends Fragment {
         description1=business_edit.getString("description","");
         status1=business_edit.getString("status","");
         pro_id=business_edit.getString("product_id","");
+        make_name=business_edit.getString("make_name","");
+        model_name=business_edit.getString("model_name","");
+        variant_name=business_edit.getString("variant_name","");
     }
 
 
