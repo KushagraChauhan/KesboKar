@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -131,28 +132,83 @@ public class AdapterBusListProfile extends BaseAdapter {
         adapBtnEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage?user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
-                final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                id1=""+businessProfileLists.get(pos).getId();
+                getData();
+
+                final String url="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage/"+id1+"?user_id="+id+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                //final String pro_id="" + businessProfileLists.get(i).getId();
+                //Log.i("Url",url+"    "+pro_id+"    "+i);
+
+                RequestQueue queue= Volley.newRequestQueue(context);
+
+
+                JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.i("Json Response", response.toString());
-
+                        Log.i("Json Response",response.toString());
                         try {
-                            String id = response.getString("id");
 
-                        }catch (JSONException e){
+                            String name=response.getString("name");
+                            String registration_no=response.getString("registration_no");
+                            String license_no=response.getString("licence_no");
+                            String website=response.getString("website");
+                            String category_id=response.getString("category_id");
+                            String phone=response.getString("phone");
+                            String address=response.getString("address");
+                            String description=response.getString("description");
+                            String latitude = response.getString("latitude");
+                            String longitude = response.getString("longitude");
+                            String email1= response.getString("email");
+                            String quote_message = response.getString("quote_message");
+                            String short_description = response.getString("short_desc");
 
+
+                                SharedPreferences basicInfoBusiness = context.getSharedPreferences("business_edit", 0);
+                                SharedPreferences.Editor editor = basicInfoBusiness.edit();
+                                editor.putString("name", name);
+                                editor.putString("registration_no", registration_no);
+                                editor.putString("licence_no", license_no);
+                                editor.putString("website", website);
+                                editor.putString("category_id", category_id);
+                                editor.putString("phone", phone);
+                                editor.putString("address", address);
+                                editor.putString("description", description);
+                                editor.putString("latitude", latitude);
+                                editor.putString("longitude", longitude);
+                                editor.putString("email",email1);
+                                editor.putString("quote_message",quote_message);
+                                editor.putString("short_desc",short_description);
+                                editor.putInt("edit",1);
+                                editor.commit();
+
+
+                                               } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
                     }
-                }, new Response.ErrorListener() {
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("Error",error.toString());
+
+                            }
+                        });
+                queue.add(jsonObjectRequest);
+
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-
+                    public void run() {
+                        final Intent intent=new Intent(context,Main3BusinessActivity.class);
+                        context.startActivity(intent);
                     }
-                });
+                }, 2000);
+
+
             }
         });
+
         return view;
     }
     public void getData()

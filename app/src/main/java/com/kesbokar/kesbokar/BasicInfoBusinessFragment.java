@@ -72,17 +72,21 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
     private EditText edtCompanyTitle;
     private MultiAutoCompleteTextView mltAutoKeyWords;
-    private TextView txtCatFirst,txtCatSecond, txtCatThird;
+    private TextView txtCatFirst, txtCatSecond, txtCatThird;
     private Button btnCancel_1, btnCancel_2, btnCancel_3;
     private EditText edtABN_Number;
     private Button btnVerify;
-    String loginId, loginPass, full_name, email, image, phone_no,created,updated;
-    int id,flag;
+    String loginId, loginPass, full_name, email, image, phone_no, created, updated;
+    int id, flag, edit1=0;
     private Button btnDetect, btnSave;
+
+    private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,
+            quote_message, short_description;
+
 
     private EditText etLongitude, etLatitude, etLicense, etQuote, etPhone, etEmail, etStreet, etWebsite;
 
-    private AutoCompleteTextView etState,etSuburb;
+    private AutoCompleteTextView etState, etSuburb;
     ViewPager viewPager;
     TabLayout tabLayout;
 
@@ -97,7 +101,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
     private String parent_id = "";
     String tagsIds = "";
-    String firstCat,secondCat, thirdCat;
+    String firstCat, secondCat, thirdCat;
     private String tags;
     int count = 0;
 
@@ -111,7 +115,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     private ArrayList<CategorySecond> categorySecondArrayList;
     private ArrayList<CategoryThird> categoryThirdArrayList;
 
-    private ArrayList<String>tagsName;
+    private ArrayList<String> tagsName;
     private ArrayList<TagsObject> tagsObjectArrayList;
     private ArrayList<TagsObject> tagsSelectedArrayList;
     ArrayAdapter<TagsObject> tagsObjectArrayAdapter;
@@ -131,14 +135,13 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     private LoaderCallbacks<ArrayList<CategoryThird>> thirdCategoryLoader;
     private LoaderCallbacks<ArrayList<TagsObject>> tagsObjectLoader;
 
-    private ListView listCategoriesBase,listCategoriesSecond,listCategoriesThird;
-
+    private ListView listCategoriesBase, listCategoriesSecond, listCategoriesThird;
 
 
     public BasicInfoBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
-        this.viewPager=myViewPager;
-        this.tabLayout=myTabLayout;
+        this.viewPager = myViewPager;
+        this.tabLayout = myTabLayout;
     }
 
 
@@ -149,39 +152,39 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         View view = inflater.inflate(R.layout.fragment_basic_info_business, container, false);
 
         progressDialog = new ProgressDialog(getActivity());
-        edtCompanyTitle =  view.findViewById(R.id.edtCompanyTitle);
+        edtCompanyTitle = view.findViewById(R.id.edtCompanyTitle);
         mltAutoKeyWords = (MultiAutoCompleteTextView) view.findViewById(R.id.mltAutoKeyWords_business);
-        edtABN_Number =(EditText) view.findViewById(R.id.etABN);
+        edtABN_Number = (EditText) view.findViewById(R.id.etABN);
         btnVerify = (Button) view.findViewById(R.id.btnVerify);
         btnDetect = (Button) view.findViewById(R.id.btnDetect);
 
-        etState = (AutoCompleteTextView)view.findViewById(R.id.etState);
-        etSuburb = (AutoCompleteTextView)view.findViewById(R.id.etSuburb);
-        etLicense = (EditText)view.findViewById(R.id.etLicense);
-        etQuote = (EditText)view.findViewById(R.id.etQuote);
-        etPhone =(EditText)view.findViewById(R.id.etPhone);
-        etEmail = (EditText)view.findViewById(R.id.etEmail);
-        etStreet = (EditText)view.findViewById(R.id.etStreet);
-        etWebsite = (EditText)view.findViewById(R.id.etWebsite);
+        etState = (AutoCompleteTextView) view.findViewById(R.id.etState);
+        etSuburb = (AutoCompleteTextView) view.findViewById(R.id.etSuburb);
+        etLicense = (EditText) view.findViewById(R.id.etLicense);
+        etQuote = (EditText) view.findViewById(R.id.etQuote);
+        etPhone = (EditText) view.findViewById(R.id.etPhone);
+        etEmail = (EditText) view.findViewById(R.id.etEmail);
+        etStreet = (EditText) view.findViewById(R.id.etStreet);
+        etWebsite = (EditText) view.findViewById(R.id.etWebsite);
 
-        etLongitude = (EditText)view.findViewById(R.id.etLongitude);
-        etLatitude = (EditText)view.findViewById(R.id.etLatitude);
+        etLongitude = (EditText) view.findViewById(R.id.etLongitude);
+        etLatitude = (EditText) view.findViewById(R.id.etLatitude);
 
-        context=getContext();
+        context = getContext();
 
 
         btnCancel_1 = (Button) view.findViewById(R.id.btnCancel_1);
         btnCancel_2 = (Button) view.findViewById(R.id.btnCancel_2);
-        btnCancel_3 =  (Button) view.findViewById(R.id.btnCancel_3);
+        btnCancel_3 = (Button) view.findViewById(R.id.btnCancel_3);
 
         btnCancel_1.setVisibility(View.GONE);
         btnCancel_2.setVisibility(View.GONE);
         btnCancel_3.setVisibility(View.GONE);
 
-        cancel_tag= view.findViewById(R.id.cancel_tag);
-        tags="";
+        cancel_tag = view.findViewById(R.id.cancel_tag);
+        tags = "";
 
-        txtCatFirst =  view.findViewById(R.id.txtCatFirst);
+        txtCatFirst = view.findViewById(R.id.txtCatFirst);
         txtCatSecond = view.findViewById(R.id.txtCatSecond);
         txtCatThird = view.findViewById(R.id.txtCatThird);
         btnSave = view.findViewById(R.id.btnSave);
@@ -199,9 +202,15 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
         querySub = "";
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("business_edit",0);
+        edit1 = sharedPreferences.getInt("edit",0);
+
         q = subV = querySub = "au";
 
-
+        if (edit1 == 1){
+            getData();
+            edtCompanyTitle.setText(name);
+        }
 
         txtCatFirst.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,10 +246,10 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                         });
                         dialog.show();
                     }
-                },1800);
+                }, 1800);
             }
         });
-        firstCategoryLoader = new LoaderCallbacks<ArrayList<CategoryBase>>(){
+        firstCategoryLoader = new LoaderCallbacks<ArrayList<CategoryBase>>() {
             @Override
             public Loader<ArrayList<CategoryBase>> onCreateLoader(int i, Bundle bundle) {
                 LoaderFirstCategory loaderFirstCategory = new LoaderFirstCategory(getContext(), "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage-category?parent_id=0&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
@@ -249,7 +258,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
             @Override
             public void onLoadFinished(Loader<ArrayList<CategoryBase>> loader, ArrayList<CategoryBase> categoryBases) {
-                if(categoryBases!=null){
+                if (categoryBases != null) {
                     categoryBaseArrayList = categoryBases;
                     Log.i("API RESULT Category", "onLoadFinished: " + categoryBases);
                 }
@@ -270,7 +279,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<CategorySecond>> loader, ArrayList<CategorySecond> data) {
-                if(data!=null){
+                if (data != null) {
                     categorySecondArrayList = data;
                     //Log.i("API SECOND", data.get(0).getTitle());
                 }
@@ -291,7 +300,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<CategoryThird>> loader, ArrayList<CategoryThird> data) {
-                if(data!=null){
+                if (data != null) {
                     categoryThirdArrayList = data;
 //                    Log.i("API THIRD Cat", data.get(0).getTags() + "");
                 }
@@ -312,23 +321,21 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<TagsObject>> loader, ArrayList<TagsObject> data) {
-                if(data!=null){
+                if (data != null) {
                     tagsObjectArrayList.clear();
                     tagsSelectedArrayList.clear();
-                    Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "" + tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
                     tagsObjectArrayList = data;
-                    tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                    tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tagsObjectArrayList);
                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                     mltAutoKeyWords.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
                     mltAutoKeyWords.setThreshold(1);
                     mltAutoKeyWords.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
-                            if (tagsSelectedArrayList.size()<5) {
+                            if (tagsSelectedArrayList.size() < 5) {
                                 mltAutoKeyWords.showDropDown();
-                            }
-                            else
-                            {
+                            } else {
                                 Log.i("TAGSIDS", "onTouch: " + tagsIds);
                                 mltAutoKeyWords.dismissDropDown();
                                 mltAutoKeyWords.setEnabled(false);
@@ -342,10 +349,10 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                             mltAutoKeyWords.setText("");
                             mltAutoKeyWords.setEnabled(true);
                             tagsObjectArrayList.addAll(tagsSelectedArrayList);
-                            Toast.makeText(getContext(), ""+tagsObjectArrayList.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "" + tagsObjectArrayList.toString(), Toast.LENGTH_SHORT).show();
                             tagsSelectedArrayList.clear();
                             tagsObjectArrayAdapter.notifyDataSetChanged();
-                            tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                            tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tagsObjectArrayList);
                             mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                         }
                     });
@@ -369,29 +376,29 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             TagsObject tagsObject = (TagsObject) adapterView.getAdapter().getItem(i);
-                            Toast.makeText(getActivity(), ""+tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "" + tagsSelectedArrayList.size(), Toast.LENGTH_SHORT).show();
                             //long id = adapterView.getAdapter().getItemId(i);
-                            if(!tagsSelectedArrayList.contains(tagsObject)){
-                                if(tagsSelectedArrayList.size() < 5) {
-                                    if(count==4){
+                            if (!tagsSelectedArrayList.contains(tagsObject)) {
+                                if (tagsSelectedArrayList.size() < 5) {
+                                    if (count == 4) {
                                         tagsIds += tagsObject.getId();
-                                    }else{
+                                    } else {
                                         tagsIds += tagsObject.getId() + ",";
                                     }
                                     tagsSelectedArrayList.add(tagsObject);
                                     tagsObjectArrayAdapter.remove(tagsObject);
                                     tagsObjectArrayAdapter.notifyDataSetChanged();
-                                    tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,tagsObjectArrayList);
+                                    tagsObjectArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tagsObjectArrayList);
                                     mltAutoKeyWords.setAdapter(tagsObjectArrayAdapter);
                                     count++;
-                                }else{
+                                } else {
 
                                 }
                             }
                         }
                     });
                     Log.i("TAGS ", "onLoadFinished: " + data);
-                }else{
+                } else {
                     Log.i("ERROR", "WTF");
                 }
             }
@@ -401,7 +408,6 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
             }
         };
-
 
 
         txtCatSecond.setOnClickListener(new View.OnClickListener() {
@@ -463,13 +469,13 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                                 parent_id = categoryThird.getId();
                                 thirdCat = parent_id;
                                 tags = categoryThird.getTags();
-                                StringTokenizer stringTokenizer = new StringTokenizer(tags,",");
-                                while(stringTokenizer.hasMoreTokens()){
+                                StringTokenizer stringTokenizer = new StringTokenizer(tags, ",");
+                                while (stringTokenizer.hasMoreTokens()) {
                                     tagsName.add(stringTokenizer.nextToken());
                                 }
                                 txtCatThird.setText(categoryThird.getTitle());
                                 Log.i("Parent id", parent_id);
-                                Log.i("tags", "onItemClick: "+tags + "**********"+tagsName);
+                                Log.i("tags", "onItemClick: " + tags + "**********" + tagsName);
                                 txtCatThird.setEnabled(false);
                                 getLoaderManager().initLoader(LOADER_TAGS, null, tagsObjectLoader);
                                 dialog.dismiss();
@@ -478,7 +484,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                         });
                         dialog.show();
                     }
-                },1800);
+                }, 1800);
             }
         });
 
@@ -496,12 +502,12 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                 btnCancel_1.setVisibility(View.GONE);
 //                btnCancel_2.setVisibility(View.GONE);
 //                btnCancel_3.setVisibility(View.GONE);
-                if(categoriesSecondAdapter!=null && categorySecondArrayList!=null) {
+                if (categoriesSecondAdapter != null && categorySecondArrayList != null) {
                     categorySecondArrayList.clear();
                     categoriesSecondAdapter.notifyDataSetChanged();
 
                 }
-                if(categoriesThirdAdapter!=null && categoryThirdArrayList!=null){
+                if (categoriesThirdAdapter != null && categoryThirdArrayList != null) {
                     categoryThirdArrayList.clear();
                     categoriesThirdAdapter.notifyDataSetChanged();
                 }
@@ -518,22 +524,20 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
                 RequestQueue queue = Volley.newRequestQueue(getActivity());
                 String url;
-                url = "https://www.kesbokar.com.au/jil.0.1/api/v1/yellowpage/verify/abn?abn="+edtABN_Number.getText().toString()+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
-                JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                url = "https://www.kesbokar.com.au/jil.0.1/api/v1/yellowpage/verify/abn?abn=" + edtABN_Number.getText().toString() + "&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
                         //Toast.makeText(context, "Response:"+response, Toast.LENGTH_SHORT).show();
                         try {
-                            JSONObject jsonObject=new JSONObject(response.toString());
-                            result=response.getString("result");
-                            Log.i("result",result);
-                            Toast.makeText(context, "result"+result+"    "+jsonObject.toString(), Toast.LENGTH_SHORT).show();
-                            if (result.equals(""))
-                            {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            result = response.getString("result");
+                            Log.i("result", result);
+                            Toast.makeText(context, "result" + result + "    " + jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                            if (result.equals("")) {
                                 Toast.makeText(context, "ABN Not Verified", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(context, "ABN Verified", Toast.LENGTH_SHORT).show();
                                 edtABN_Number.setEnabled(false
                                 );
@@ -572,7 +576,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 querySub = s.toString();
-                getLoaderManager().initLoader(LOADER_ID_BUSVAL,null,businessSuburb);
+                getLoaderManager().initLoader(LOADER_ID_BUSVAL, null, businessSuburb);
 
 
             }
@@ -593,9 +597,9 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
             @Override
             public void onLoadFinished(@NonNull Loader<ArrayList<StateAndSuburb>> loader, ArrayList<StateAndSuburb> data) {
-                if (data.size() !=0){
+                if (data.size() != 0) {
                     valsBus = data;
-                    Log.i("Tag",valsBus +"");
+                    Log.i("Tag", valsBus + "");
                     ArrayAdapter<StateAndSuburb> adapter = new ArrayAdapter<StateAndSuburb>(getContext(), android.R.layout.simple_dropdown_item_1line, valsBus);
                     etState.setAdapter(adapter);
                     getLoaderManager().destroyLoader(LOADER_ID_BUSVAL);
@@ -637,11 +641,12 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
             }
         };
 
-        getLoaderManager().initLoader(LOADER_ID_BUSVAL,null, businessSuburb);
+        getLoaderManager().initLoader(LOADER_ID_BUSVAL, null, businessSuburb);
 
         btnDetect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            public void onClick(View v) {
+                LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -671,13 +676,13 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("Response",response);
+                        Log.i("Response", response);
                         try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            String yellowpage_id=jsonObject.getString("yellowpage_id");
-                            SharedPreferences get_product_detail= getActivity().getSharedPreferences("product_detail",0);
-                            SharedPreferences.Editor editor=get_product_detail.edit();
-                            editor.putString("yellowpage_id",yellowpage_id);
+                            JSONObject jsonObject = new JSONObject(response);
+                            String yellowpage_id = jsonObject.getString("yellowpage_id");
+                            SharedPreferences get_product_detail = getActivity().getSharedPreferences("product_detail", 0);
+                            SharedPreferences.Editor editor = get_product_detail.edit();
+                            editor.putString("yellowpage_id", yellowpage_id);
                             editor.apply();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -689,40 +694,38 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                }){
+                }) {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<String, String>();
 
-                        params.put("user_id",""+id);
-                        params.put("name",edtCompanyTitle.getText().toString());
-                        params.put("licence_no",etLicense.getText().toString()); //For EditText
+                        params.put("user_id", "" + id);
+                        params.put("name", edtCompanyTitle.getText().toString());
+                        params.put("licence_no", etLicense.getText().toString()); //For EditText
                         params.put("website", etWebsite.getText().toString());
-                        params.put("quote_message",etQuote.getText().toString());
-                        params.put("phone",etPhone.getText().toString());
-                        params.put("email",etEmail.getText().toString());
-                        params.put("address",etStreet.getText().toString());
+                        params.put("quote_message", etQuote.getText().toString());
+                        params.put("phone", etPhone.getText().toString());
+                        params.put("email", etEmail.getText().toString());
+                        params.put("address", etStreet.getText().toString());
                         params.put("latitude", etLatitude.getText().toString());
                         params.put("longitude", etLongitude.getText().toString());
                         params.put("topcat_id", firstCat);   // For Textview
-                        params.put("parentcat_id",secondCat);
-                        params.put("category_id",thirdCat);
-                        params.put("tags",tagsIds);
-                        params.put("registration_no","");
-                        params.put("registration_name","");
+                        params.put("parentcat_id", secondCat);
+                        params.put("category_id", thirdCat);
+                        params.put("tags", tagsIds);
+                        params.put("registration_no", edtABN_Number.getText().toString());
+                        params.put("registration_name", "");
 
 
-
-
-                        params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
+                        params.put("api_token", "FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                         return params;
                     }
                 };
                 queue.add(stringRequest);
-                int item=viewPager.getCurrentItem();
-                View tab=tabLayout.getTabAt(item+1).view;
+                int item = viewPager.getCurrentItem();
+                View tab = tabLayout.getTabAt(item + 1).view;
                 tab.setEnabled(true);
-                viewPager.setCurrentItem(item+1);  //For going to the next tab in viewPager
+                viewPager.setCurrentItem(item + 1);  //For going to the next tab in viewPager
             }
         });
 
@@ -733,14 +736,14 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
 
     @Override
     public void onLocationChanged(Location location) {
-        double longitudeV=location.getLongitude();
-        double latitude=location.getLatitude();
+        double longitudeV = location.getLongitude();
+        double latitude = location.getLatitude();
         Geocoder gc = new Geocoder(context);
 
         List<Address> list = null;
         try {
 
-            list = gc.getFromLocation(latitude, longitudeV,1);
+            list = gc.getFromLocation(latitude, longitudeV, 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -748,16 +751,16 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         Address address = list.get(0);
 
         StringBuffer str = new StringBuffer();
-        str.append(address.getLocality()+" " );
-        str.append(address.getSubAdminArea()+" " );
-        str.append(address.getAdminArea()+" ");
-        str.append(address.getCountryName()+" ");
-        str.append(address.getCountryCode()+" ");
+        str.append(address.getLocality() + " ");
+        str.append(address.getSubAdminArea() + " ");
+        str.append(address.getAdminArea() + " ");
+        str.append(address.getCountryName() + " ");
+        str.append(address.getCountryCode() + " ");
 
         String strAddress = str.toString();
 
-        etLatitude.setText("Latitude" + latitude);
-        etLongitude.setText("Longitude"+ longitudeV);
+        etLatitude.setText("" + latitude);
+        etLongitude.setText("" + longitudeV);
 
         etLongitude.setEnabled(false);
         etLatitude.setEnabled(false);
@@ -781,20 +784,40 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     public void onProviderDisabled(String provider) {
 
     }
-    public void getData()
-    {
-        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
-        flag = loginData.getInt("Flag",0);
-        full_name=loginData.getString("Name","");
-        email=loginData.getString("mail","");
-        image=loginData.getString("image","");
-        phone_no=loginData.getString("phone","");
-        id=loginData.getInt("id",0);
-        created=loginData.getString("create","");
-        updated=loginData.getString("update","");
+
+    public void getData() {
+
+            SharedPreferences loginData = getActivity().getSharedPreferences("data", 0);
+            flag = loginData.getInt("Flag", 0);
+            full_name = loginData.getString("Name", "");
+            email = loginData.getString("mail", "");
+            image = loginData.getString("image", "");
+            phone_no = loginData.getString("phone", "");
+            id = loginData.getInt("id", 0);
+            created = loginData.getString("create", "");
+            updated = loginData.getString("update", "");
+
+        SharedPreferences basicInfoBusiness = getActivity().getSharedPreferences("business_edit", 0);
+        edit1=basicInfoBusiness.getInt("edit",0);
+        if (edit1 == 1) {
+
+
+            name = basicInfoBusiness.getString("name", "");
+            registration_no = basicInfoBusiness.getString("registration_no", "");
+            license_no = basicInfoBusiness.getString("licence_no", "");
+            website = basicInfoBusiness.getString("website", "");
+            category_id = basicInfoBusiness.getString("category_id", "");
+            phone = basicInfoBusiness.getString("phone", "");
+            address = basicInfoBusiness.getString("address", "");
+            description = basicInfoBusiness.getString("description", "");
+            latitude = basicInfoBusiness.getString("latitude", "");
+            longitude = basicInfoBusiness.getString("longitude", "");
+            email1 = basicInfoBusiness.getString("email", "");
+            quote_message = basicInfoBusiness.getString("quote_message", "");
+            short_description = basicInfoBusiness.getString("short_desc", "");
+
+        }
+
     }
 }
-
-
-
 

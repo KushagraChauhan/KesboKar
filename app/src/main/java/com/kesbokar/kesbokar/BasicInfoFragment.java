@@ -737,12 +737,17 @@ public class BasicInfoFragment extends Fragment {
         id=loginData.getInt("id",0);
         created=loginData.getString("create","");
         updated=loginData.getString("update","");
+
         SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
+
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
         SharedPreferences entry=getActivity().getSharedPreferences("entry_state",0);
+
         entry_state =entry.getInt("entry_state1",0);
+
         SharedPreferences business_edit=getActivity().getSharedPreferences("market_edit",0);
+
         edit1=business_edit.getInt("edit",0);
         if (edit1==1)
         {
