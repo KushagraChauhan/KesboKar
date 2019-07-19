@@ -67,8 +67,9 @@ public class BasicInfoFragment extends Fragment {
     CategoriesBaseAdapter categoriesBaseAdapter;
     CategoriesSecondAdapter categoriesSecondAdapter;
     private TextView txtCatFirst, txtCatSecond, txtCatThird,etPostProduct;
-    String make_id,model_id,year,variant_id,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1;
+    String make_id,model_id,year,variant_id,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1,topcat_id,parentcat_id,topcat_name,parentcat_name,category_name,attribute_ids;
     int edit1;
+    String attribute_value;
 
     String condition1, condition2, product_name, product_id, condition1Value, condition2Value,pro_id;
     RadioGroup rgProductCondition, rgProductSelection;
@@ -173,21 +174,42 @@ public class BasicInfoFragment extends Fragment {
             if (product_condition.equals("n")||product_condition.equals("N")) {
                 RadioButton rgNew=rgProductCondition.findViewById(R.id.rbNew);
                 rgNew.toggle();
+                condition1Value="N";
+
             }
             else {
                 RadioButton rgUsed=rgProductCondition.findViewById(R.id.rbUsed);
                 rgUsed.toggle();
+                condition1Value="U";
             }
             if (product_section.equals("s")||product_section.equals("S"))
             {
                 RadioButton rbSell=rgProductSelection.findViewById(R.id.rbSell);
                 rbSell.toggle();
+                condition2Value="S";
             }
             else {
                 RadioButton rbRent=rgProductSelection.findViewById(R.id.rbRent);
                 rbRent.toggle();
+                condition2Value="R";
             }
             etPrice.setText(price1);
+            firstCat=topcat_id;
+            secondCat=parentcat_id;
+            thirdCat=category_id1;
+            txtCatFirst.setVisibility(View.VISIBLE);
+            txtCatSecond.setVisibility(View.VISIBLE);
+            txtCatThird.setVisibility(View.VISIBLE);
+            txtCatFirst.setText(topcat_name);
+            txtCatSecond.setText(parentcat_name);
+            txtCatThird.setText(category_name);
+            btnCancel_1.setVisibility(View.VISIBLE);
+            txtCatFirst.setEnabled(false);
+            txtCatSecond.setEnabled(false);
+            txtCatThird.setEnabled(false);
+            attributes=attribute_ids;
+
+
         }
 
 
@@ -620,7 +642,7 @@ public class BasicInfoFragment extends Fragment {
                 if (edit1==1)
                 {
                     url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+pro_id;
-                    url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id+"/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                    url1="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+pro_id+"/attributes?attr_ids="+attributes+"&api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
                 }
                 else if(entry_state==1)
                 {
@@ -684,18 +706,19 @@ public class BasicInfoFragment extends Fragment {
                 };
                 queue.add(stringRequest);
 
-
                 RequestQueue queue1= Volley.newRequestQueue(getActivity());
                 final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray=response.getJSONArray("data");
+
                             for (int i=0;i<jsonArray.length();i++) {
                                 JSONObject jsonObject=jsonArray.getJSONObject(i);
                                 attribute_id=jsonObject.getString("id");
                                 String attribute_name=jsonObject.getString("title");
                                 String attribute_cat_title=jsonObject.getString("attr_cat_title");
+                                attribute_value=attribute_value+jsonObject.getString("attribute_value")+",";
                                 attributes_data=attributes_data+attribute_id+":"+attribute_name+"?"+attribute_cat_title+",";
                                 Log.i("Response", jsonObject.toString());
                                 Log.i("Attributes", attributes_data);
@@ -707,6 +730,7 @@ public class BasicInfoFragment extends Fragment {
                         SharedPreferences.Editor editor=attribute_info.edit();
                         editor.putString("attribute_info",attributes_data);
                         editor.putString("attrribute_id",attribute_id);
+                        editor.putString("attribute_value",attribute_value);
                         editor.commit();
 
                     }
@@ -773,6 +797,14 @@ public class BasicInfoFragment extends Fragment {
         description1=business_edit.getString("description","");
         status1=business_edit.getString("status","");
         pro_id=business_edit.getString("product_id","");
+        topcat_id=business_edit.getString("topcat_id","");
+        parentcat_id=business_edit.getString("parentcat_id","");
+        category_name=business_edit.getString("category_name","");
+        topcat_name=business_edit.getString("topcat_name","");
+        parentcat_name=business_edit.getString("parentcat_name","");
+        attribute_ids=business_edit.getString("attributes","");
+
+
     }
 
 }

@@ -55,6 +55,8 @@ public class ContactDetailsFragment extends Fragment {
     private Button btnBack, btnSubmit;
     private String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     private int id,flag;
+    String make_id,model_id,year,variant_id,vehicle_id,colour,airconditioning,registered,registration_state,registration_number,registration_expiry,name_title,product_condition,product_section,category_id1,price1,phone1,address1,description1,status1,pro_id;
+    int edit1;
 
     private String querySub;
     private int stateid;
@@ -85,7 +87,7 @@ public class ContactDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_contact_details, container, false);
-
+        getData();
         tvEmail = view.findViewById(R.id.tvEmail);
         etPhone = view.findViewById(R.id.etPhone);
         etStreet = view.findViewById(R.id.etStreet);
@@ -104,7 +106,11 @@ public class ContactDetailsFragment extends Fragment {
 
         tvEmail.setText(email);
 
-
+        if (edit1==1)
+        {
+            etPhone.setText(phone1);
+            etStreet.setText(address1);
+        }
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,9 +124,12 @@ public class ContactDetailsFragment extends Fragment {
                 getData();
                 RequestQueue queue= Volley.newRequestQueue(getActivity());
                 String url;
-
-                    url="http://serv.kesbokar.com.au/jil.0.1/v1/product/"+product_id;
-
+                if (edit1==1) {
+                    url = "http://serv.kesbokar.com.au/jil.0.1/v1/product/" + pro_id;
+                }
+                else {
+                    url = "http://serv.kesbokar.com.au/jil.0.1/v1/product/" + product_id;
+                }
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -274,7 +283,34 @@ public class ContactDetailsFragment extends Fragment {
         SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
         product_id =get_product_detail.getString("product_id","");
         product_name=get_product_detail.getString("product_name","");
-
-
+        SharedPreferences business_edit=getActivity().getSharedPreferences("market_edit",0);
+        edit1=business_edit.getInt("edit",0);
+        if (edit1==1)
+        {
+            make_id=business_edit.getString("make_id","");
+            model_id=business_edit.getString("model_id","");
+            year=business_edit.getString("year","");
+            variant_id=business_edit.getString("variant_id","");
+            vehicle_id=business_edit.getString("vehicle_id","");
+            colour=business_edit.getString("colour","");
+            airconditioning=business_edit.getString("airconditioning","");
+            registered=business_edit.getString("registered","");
+            registration_state=business_edit.getString("registration_state","");
+            registration_number=business_edit.getString("registration_number","");
+            registration_expiry=business_edit.getString("registration_expiry","");
+        }
+        name_title=business_edit.getString("name","");
+        product_condition=business_edit.getString("product_condition","");
+        product_section=business_edit.getString("product_section","");
+        category_id1=business_edit.getString("category_id","");
+        price1=business_edit.getString("price","");
+        phone1=business_edit.getString("phone","");
+        address1=business_edit.getString("address","");
+        description1=business_edit.getString("description","");
+        status1=business_edit.getString("status","");
+        pro_id=business_edit.getString("product_id","");
     }
+
+
+
 }
