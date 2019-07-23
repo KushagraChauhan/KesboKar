@@ -67,6 +67,9 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
     Button cancel,send;
     int en_id;
 
+    Button logout;
+    TextView name;
+
     Button btnProductManagement;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +93,9 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         requestQueue = Volley.newRequestQueue(this);
+
         navigationView.setNavigationItemSelectedListener(this);
+
         get_for_replies=new ArrayList<>();
         cancel=findViewById(R.id.btnCancel);
         send=findViewById(R.id.btnSend);

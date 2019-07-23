@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: co.roverlabs:picasso:2.5.2@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/95141bd0421a47f7b08a77d4f61ea769/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/95141bd0421a47f7b08a77d4f61ea769/jars/libs/annotations-10.0.2.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/95141bd0421a47f7b08a77d4f61ea769/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/co.roverlabs/picasso/2.5.2/5f04016cd4881caed7922c00a8ab0ccfe8065381/picasso-2.5.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

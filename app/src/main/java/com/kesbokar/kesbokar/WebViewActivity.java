@@ -135,6 +135,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         Button signup=(Button)ab.findViewById(R.id.signup);
         Button login=(Button)ab.findViewById(R.id.login);
         Button logout=ab.findViewById(R.id.logout);
+        AppBarLayout rqst_quote_toolbar=findViewById(R.id.rqst_quote_toolbar);
         email=extras.getString("mail");
         image1=extras.getString("image");
         phone_no=extras.getString("phone");
@@ -144,6 +145,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         if (entry_level.equals("1"))
         {
             rqst_quote.setVisibility(View.INVISIBLE);
+            rqst_quote_toolbar.setVisibility(View.INVISIBLE);
 
         }
         else if (entry_level.equals("0")){

@@ -56,6 +56,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
     int en_id;
 
     Button btnProductManagement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +68,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         reply=findViewById(R.id.reply);
         date=findViewById(R.id.date);
         replyBy1=findViewById(R.id.replyby);
+
         setSupportActionBar(toolbar);
         intent=getIntent();
         bundle=intent.getExtras();
@@ -76,10 +78,12 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         requestQueue = Volley.newRequestQueue(this);
-        navigationView.setNavigationItemSelectedListener(this);
+
+
         get_for_replies=new ArrayList<>();
         cancel=findViewById(R.id.btnCancel);
         send=findViewById(R.id.btnSend);
@@ -92,6 +96,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                 overridePendingTransition(0, 0);
             }
         });
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

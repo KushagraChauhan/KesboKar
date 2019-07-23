@@ -12,7 +12,7 @@
         android:layout_marginTop="50dp"
         android:background="@color/colorAccent"
         android:gravity="center|center_horizontal"
-        android:text="Please Update First..!!"
+        android:text="New Update is Available..!!"
         android:textAlignment="center"
         android:textColor="@color/White"
         android:textSize="20sp"

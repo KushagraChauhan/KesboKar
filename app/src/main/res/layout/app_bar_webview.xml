@@ -43,6 +43,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/rqst_quote_toolbar"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:layout_alignParentBottom="true"
 

@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,6 +38,10 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
     String date,reply,subject;
     RequestQueue requestQueue;
     ArrayList<GetHelpDesk> getHelpDesks;
+
+    Button logout;
+    TextView name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +57,33 @@ public class ManageHelpDeskActivity extends AppCompatActivity implements Navigat
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         getData();
-        navigationView.setNavigationItemSelectedListener(ManageHelpDeskActivity.this);
+
+        navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+
+        logout=header.findViewById(R.id.logout);
+        name=(TextView) header.findViewById(R.id.name_user);
+
+        if (flag==1){
+            name.setText(full_name);
+        }
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(ManageHelpDeskActivity.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
         mng_helpdesk_new=findViewById(R.id.mng_helpdesk_new);
         requestQueue = Volley.newRequestQueue(this);
         jsonParser();

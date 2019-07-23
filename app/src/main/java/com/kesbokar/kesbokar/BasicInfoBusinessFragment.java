@@ -210,6 +210,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         if (edit1 == 1){
             getData();
             edtCompanyTitle.setText(name);
+            etLicense.setText(license_no);
         }
 
         txtCatFirst.setOnClickListener(new View.OnClickListener() {

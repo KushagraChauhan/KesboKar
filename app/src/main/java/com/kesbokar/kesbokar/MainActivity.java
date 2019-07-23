@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     String packageName = getApplicationContext().getPackageName();//
                     UpdateMeeDialog updateMeeDialog = new UpdateMeeDialog();
                     updateMeeDialog.showDialogAddRoute(MainActivity.this, packageName);
-                    Toast.makeText(getApplicationContext(), "please updated", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "New Update is Available", Toast.LENGTH_LONG).show();
                 } else {
                     setContentView(R.layout.activity_main);
                     new Handler().postDelayed(new Runnable() {
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }, SPLASH_SCREEN_TIME);
 
         }
-
 
     }
     private boolean isNetworkAvailable(){

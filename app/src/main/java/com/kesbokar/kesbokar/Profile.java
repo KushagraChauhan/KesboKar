@@ -25,6 +25,10 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     Button change_password,edit_profile;
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
     int id,flag;
+
+    Button logout;
+    TextView name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +41,35 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+
+        logout=header.findViewById(R.id.logout);
+        name=header.findViewById(R.id.name_user);
+
         getData();
+
+        if (flag==1){
+            name.setText(full_name);
+        }
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(Profile.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
         initialiseIds();
         change_password=findViewById(R.id.change_password);
         tvName.setText(full_name);
