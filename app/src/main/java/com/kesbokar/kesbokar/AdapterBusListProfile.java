@@ -140,7 +140,7 @@ public class AdapterBusListProfile extends BaseAdapter {
                 //final String pro_id="" + businessProfileLists.get(i).getId();
                 //Log.i("Url",url+"    "+pro_id+"    "+i);
 
-                RequestQueue queue= Volley.newRequestQueue(context);
+                final RequestQueue queue= Volley.newRequestQueue(context);
 
 
                 JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -149,8 +149,8 @@ public class AdapterBusListProfile extends BaseAdapter {
                         Log.i("Json Response",response.toString());
                         try {
 
-                            String name=response.getString("name");
-                            String registration_no=response.getString("registration_no");
+                            final String name=response.getString("name");
+                            final String registration_no=response.getString("registration_no");
                             String license_no=response.getString("licence_no");
                             String website=response.getString("website");
                             String category_id=response.getString("category_id");
@@ -162,6 +162,10 @@ public class AdapterBusListProfile extends BaseAdapter {
                             String email1= response.getString("email");
                             String quote_message = response.getString("quote_message");
                             String short_description = response.getString("short_desc");
+                            String topcat_id=response.getString("topcat_id");
+                            String parentcat_id=response.getString("parentcat_id");
+                            String status=response.getString("status");
+                            String yellowpage_id=response.getString("id");
 
 
                                 SharedPreferences basicInfoBusiness = context.getSharedPreferences("business_edit", 0);
@@ -180,7 +184,165 @@ public class AdapterBusListProfile extends BaseAdapter {
                                 editor.putString("quote_message",quote_message);
                                 editor.putString("short_desc",short_description);
                                 editor.putInt("edit",1);
+                                editor.putString("topcat_id",topcat_id);
+                                editor.putString("parentcat_id",parentcat_id);
+                                editor.putString("status",status);
+                                editor.putString("yellowpage_id",yellowpage_id);
                                 editor.commit();
+                                String url_video="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage/"+yellowpage_id+"/video?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                            final JsonObjectRequest jsonObjectRequest_video= new JsonObjectRequest(Request.Method.GET, url_video, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONArray jsonArray=response.getJSONArray("data");
+                                        Log.i("video",response.toString());
+                                        for (int i=0;i<1;i++) {
+                                            JSONObject response1=jsonArray.getJSONObject(i);
+                                            String video_title = response1.getString("title");
+                                            String video_code = response1.getString("video_code");
+                                            SharedPreferences sharedPreferences = context.getSharedPreferences("business_edit", 0);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("video_title", video_title);
+                                            editor.putString("video_code", video_code);
+                                            editor.commit();
+                                        }
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
+                            });
+                            queue.add(jsonObjectRequest_video);
+                            String url_social="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage/"+yellowpage_id+"/sociallinks?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                            final JsonObjectRequest jsonObjectRequest_social= new JsonObjectRequest(Request.Method.GET, url_social, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        Log.i("social link",response.toString());
+                                            String facebook = response.getString("facebook");
+                                            String twitter = response.getString("twitter");
+                                            String linkedin=response.getString("linkedin");
+                                            String googleplus=response.getString("googleplus");
+                                            String instagram=response.getString("instagram");
+                                            String youtube=response.getString("youtube");
+                                            String telegram=response.getString("telegram");
+                                            SharedPreferences sharedPreferences = context.getSharedPreferences("business_edit", 0);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("facebook", facebook);
+                                            editor.putString("twitter",twitter);
+                                            editor.putString("linkedin",linkedin);
+                                            editor.putString("googleplus",googleplus);
+                                            editor.putString("instagram",instagram);
+                                            editor.putString("youtube",youtube);
+                                            editor.putString("telegram",telegram);
+                                            editor.commit();
+
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
+                            });
+                            queue.add(jsonObjectRequest_social);
+                            String url4="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage-category/"+topcat_id+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                            final JsonObjectRequest jsonObjectRequest4 = new JsonObjectRequest(Request.Method.GET, url4, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+
+                                        JSONObject jsonObject1=response.getJSONObject("data");
+
+                                        String topcat_name=jsonObject1.getString("title");
+                                        SharedPreferences sharedPreferences = context.getSharedPreferences("business_edit", 0);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("topcat_name",topcat_name);
+                                        editor.commit();
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
+                            });
+                            queue.add(jsonObjectRequest4);
+                            String url5="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage-category/"+parentcat_id+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                            final JsonObjectRequest jsonObjectRequest5 = new JsonObjectRequest(Request.Method.GET, url5, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONObject jsonObject1=response.getJSONObject("data");
+                                        String parentcat_name=jsonObject1.getString("title");
+                                        SharedPreferences sharedPreferences = context.getSharedPreferences("business_edit", 0);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("parentcat_name",parentcat_name);
+                                        editor.commit();
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
+                            });
+                            queue.add(jsonObjectRequest5);
+                            String url6="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage-category/"+category_id+"?api_token=FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK";
+                            final JsonObjectRequest jsonObjectRequest6 = new JsonObjectRequest(Request.Method.GET, url6, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONObject jsonObject1=response.getJSONObject("data");
+                                        String category_name=jsonObject1.getString("title");
+                                        String attributes_ids=jsonObject1.getString("attributes");
+                                        SharedPreferences sharedPreferences = context.getSharedPreferences("business_edit", 0);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("category_name",category_name);
+                                        editor.putString("attributes",attributes_ids);
+
+                                        editor.commit();
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
+                            });
+                            queue.add(jsonObjectRequest6);
 
 
                                                } catch (JSONException e) {

@@ -80,8 +80,8 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     int id, flag, edit1=0;
     private Button btnDetect, btnSave;
 
-    private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,
-            quote_message, short_description;
+    private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,topcat_id,parentcat_id,
+            quote_message, short_description,category_name,topcat_name,parentcat_name,yellowpage_id;
 
 
     private EditText etLongitude, etLatitude, etLicense, etQuote, etPhone, etEmail, etStreet, etWebsite;
@@ -210,7 +210,33 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         if (edit1 == 1){
             getData();
             edtCompanyTitle.setText(name);
+
             etLicense.setText(license_no);
+
+            edtABN_Number.setText(registration_no);
+            etLicense.setText(license_no);
+            etWebsite.setText(website);
+            etQuote.setText(quote_message);
+            etPhone.setText(phone);
+            etEmail.setText(email1);
+            etStreet.setText(address);
+            etLatitude.setText(latitude);
+            etLongitude.setText(longitude);
+            txtCatFirst.setText(topcat_name);
+            txtCatSecond.setText(parentcat_name);
+            txtCatThird.setText(category_name);
+            txtCatFirst.setEnabled(false);
+            txtCatSecond.setEnabled(false);
+            txtCatThird.setEnabled(false);
+            txtCatFirst.setVisibility(View.VISIBLE);
+            txtCatSecond.setVisibility(View.VISIBLE);
+            txtCatThird.setVisibility(View.VISIBLE);
+            btnCancel_1.setVisibility(View.VISIBLE);
+            firstCat=topcat_id;
+            secondCat=parentcat_id;
+            thirdCat=category_id;
+
+
         }
 
         txtCatFirst.setOnClickListener(new View.OnClickListener() {
@@ -668,9 +694,13 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
             public void onClick(View v) {
                 getData();
                 String url;
-
-                url = "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage";
-
+                if (edit1==1)
+                {
+                    url = "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage/"+yellowpage_id;
+                }
+                else {
+                    url = "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage";
+                }
                 RequestQueue queue = Volley.newRequestQueue(getActivity());
                 final
 
@@ -816,6 +846,12 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
             email1 = basicInfoBusiness.getString("email", "");
             quote_message = basicInfoBusiness.getString("quote_message", "");
             short_description = basicInfoBusiness.getString("short_desc", "");
+            topcat_id=basicInfoBusiness.getString("topcat_id","");
+            parentcat_id=basicInfoBusiness.getString("parentcat_id","");
+            category_name=basicInfoBusiness.getString("category_name","");
+            topcat_name=basicInfoBusiness.getString("topcat_name","");
+            parentcat_name=basicInfoBusiness.getString("parentcat_name","");
+            yellowpage_id=basicInfoBusiness.getString("yellowpage_id","");
 
         }
 
