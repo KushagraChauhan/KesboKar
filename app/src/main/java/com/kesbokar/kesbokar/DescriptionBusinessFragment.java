@@ -49,6 +49,10 @@ public class DescriptionBusinessFragment extends Fragment {
     Button btnChooseFile, btnPrevious, btnSave;
     private String loginId, loginPass, full_name, email, image, phone_no,created,updated,product_id,product_name, yellowpage_id;
     private int id,flag;
+    private int edit1=0;
+
+    private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,yellowpage_id1,
+            quote_message, short_description;
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -65,6 +69,7 @@ public class DescriptionBusinessFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_description_business, container, false);
+        getData();
 
         ivImage = view.findViewById(R.id.ivImage);
         tvImageChosen = view.findViewById(R.id.tvImageChosen);
@@ -73,6 +78,11 @@ public class DescriptionBusinessFragment extends Fragment {
         btnChooseFile = view.findViewById(R.id.btnChooseFile);
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnSave = view.findViewById(R.id.btnSave);
+        if (edit1==1)
+        {
+            etDescription.setText(description);
+            etShortDescription.setText(short_description);
+        }
 
 
         btnChooseFile.setOnClickListener(new View.OnClickListener() {
@@ -106,9 +116,13 @@ public class DescriptionBusinessFragment extends Fragment {
                 getData();
                 RequestQueue queue= Volley.newRequestQueue(getActivity());
                 String url;
-
-                url="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage/"+yellowpage_id;
-
+                if (edit1==1)
+                {
+                    url="http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage/"+yellowpage_id1;
+                }
+                else {
+                    url = "http://serv.kesbokar.com.au/jil.0.1/v1/yellowpage/" + yellowpage_id;
+                }
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -136,7 +150,7 @@ public class DescriptionBusinessFragment extends Fragment {
                         String user_id=""+id;
                         params.put("user_id",user_id);
                         params.put("description",etDescription.getText().toString());
-                        params.put("short description", etShortDescription.getText().toString());
+                        params.put("synopsis", etShortDescription.getText().toString());
                         params.put("api_token","FSMNrrMCrXp2zbym9cun7phBi3n2gs924aYCMDEkFoz17XovFHhIcZZfCCdK");
                         return params;
                     }
@@ -184,24 +198,41 @@ public class DescriptionBusinessFragment extends Fragment {
         }
 
 }
-    public void getData()
-    {
-        SharedPreferences loginData=getActivity().getSharedPreferences("data",0);
-        flag = loginData.getInt("Flag",0);
-        full_name=loginData.getString("Name","");
-        email=loginData.getString("mail","");
-        image=loginData.getString("image","");
-        phone_no=loginData.getString("phone","");
-        id=loginData.getInt("id",0);
-        created=loginData.getString("create","");
-        updated=loginData.getString("update","");
-        SharedPreferences get_product_detail=getActivity().getSharedPreferences("product_detail",0);
-        product_id =get_product_detail.getString("product_id","");
+    public void getData() {
+        SharedPreferences loginData = getActivity().getSharedPreferences("data", 0);
+        flag = loginData.getInt("Flag", 0);
+        full_name = loginData.getString("Name", "");
+        email = loginData.getString("mail", "");
+        image = loginData.getString("image", "");
+        phone_no = loginData.getString("phone", "");
+        id = loginData.getInt("id", 0);
+        created = loginData.getString("create", "");
+        updated = loginData.getString("update", "");
+        SharedPreferences get_product_detail = getActivity().getSharedPreferences("product_detail", 0);
+        product_id = get_product_detail.getString("product_id", "");
 //        product_name=get_product_detail.getString("product_name","");
 //        SharedPreferences get_business_detail = getActivity().getSharedPreferences("business_detail", 0);
-       yellowpage_id = get_product_detail.getString("yellowpage_id","" );
+        yellowpage_id = get_product_detail.getString("yellowpage_id", "");
+        SharedPreferences basicInfoBusiness = getActivity().getSharedPreferences("business_edit", 0);
+        edit1 = basicInfoBusiness.getInt("edit", 0);
+        if (edit1 == 1) {
 
+            name = basicInfoBusiness.getString("name", "");
+            registration_no = basicInfoBusiness.getString("registration_no", "");
+            license_no = basicInfoBusiness.getString("license_no", "");
+            website = basicInfoBusiness.getString("website", "");
+            category_id = basicInfoBusiness.getString("category_id", "");
+            phone = basicInfoBusiness.getString("phone", "");
+            address = basicInfoBusiness.getString("address", "");
+            description = basicInfoBusiness.getString("description", "");
+            latitude = basicInfoBusiness.getString("latitude", "");
+            longitude = basicInfoBusiness.getString("longitude", "");
+            email1 = basicInfoBusiness.getString("email", "");
+            quote_message = basicInfoBusiness.getString("quote_message", "");
+            short_description = basicInfoBusiness.getString("short_desc", "");
+            yellowpage_id1=basicInfoBusiness.getString("yellowpage_id","");
 
+        }
     }
 
 

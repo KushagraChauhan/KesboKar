@@ -22,13 +22,14 @@ public class Main3BusinessActivity extends AppCompatActivity {
 
     private int edit1=0;
 
-    private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,
+    private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,yellowpage_id,
             quote_message, short_description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3_business);
+        getData();
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar_2);
         setSupportActionBar(mToolbar);
@@ -47,16 +48,17 @@ public class Main3BusinessActivity extends AppCompatActivity {
         View tab3 = Objects.requireNonNull(myTabLayout.getTabAt(3)).view;
         View tab4 = Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
 //        View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
-
-        tab1.setEnabled(false);
-        tab2.setEnabled(false);
-        tab3.setEnabled(false);
-        tab4.setEnabled(false);
+        if (edit1==0) {
+            tab1.setEnabled(false);
+            tab2.setEnabled(false);
+            tab3.setEnabled(false);
+            tab4.setEnabled(false);
+        }
 //        tab5.setEnabled(false);
     }
 
     public void getData() {
-        SharedPreferences basicInfoBusiness = getSharedPreferences("market_edit", 0);
+        SharedPreferences basicInfoBusiness = getSharedPreferences("business_edit", 0);
         edit1=basicInfoBusiness.getInt("edit", 0);
         if (edit1 == 1) {
 
@@ -73,6 +75,7 @@ public class Main3BusinessActivity extends AppCompatActivity {
             email1 = basicInfoBusiness.getString("email", "");
             quote_message = basicInfoBusiness.getString("quote_message", "");
             short_description = basicInfoBusiness.getString("short_desc", "");
+            yellowpage_id=basicInfoBusiness.getString("yellowpage_id","");
 
         }
 

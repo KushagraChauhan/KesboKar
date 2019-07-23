@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             }, SPLASH_SCREEN_TIME);
-
         }
 
 
