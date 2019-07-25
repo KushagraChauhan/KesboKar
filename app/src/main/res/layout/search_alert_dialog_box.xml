@@ -2,50 +2,120 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/search"
+    android:background="@drawable/map"
     android:orientation="vertical"
-    android:paddingLeft="40dp"
+    android:layout_marginTop="40dp"
+    android:layout_marginBottom="40dp"
+    android:paddingLeft="10dp"
     android:paddingTop="170dp"
-    android:paddingRight="40dp"
+    android:paddingRight="10dp"
     android:paddingBottom="170dp">
 
-    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-        android:id="@+id/autoCompleteTextViewOne"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
-        android:background="#FFFFFF"
-        android:hint="Enter type or name"
-        android:inputType="textAutoComplete" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-        android:id="@+id/autoCompleteTextViewTwo"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="#FFFFFF"
-        android:fontFamily="sans-serif"
-        android:hint="Suburb or State"
-        android:inputType="textAutoComplete" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="34dp"
+            android:background="@color/colorTransparent"/>
 
-    <Button
-        android:id="@+id/btnAlertDialogSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:background="@color/colorPrimary"
-        android:drawableStart="@drawable/ic_search_black_24dp"
-        android:scaleType="center"
-        android:text="Search  "
-        android:textColor="@color/White"
-        android:textSize="15dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal">
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_businesses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:paddingEnd="8dp"
+                        android:background="@color/kesbokar"
+                        android:text="Businesses"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_marketplace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:paddingEnd="8dp"
+                        android:background="@color/colorTransparent"
+                        android:text="Market Place"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:layout_width="320dp"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp"
+                android:background="#FFFFFF"
+                android:isScrollContainer="true"
+                android:scrollbars="horizontal"
+                android:paddingStart="15dp"
+                android:textColorHint="#C0C0C0"
+                android:selectAllOnFocus="true"
+                android:hint="Enter Type Or Name"
+                android:id="@+id/autoCompleteTextViewOne">
+            </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:layout_width="320dp"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="150dp"
+                android:id="@+id/autoCompleteTextViewTwo"
+                android:paddingStart="15dp"
+                android:hint="Suburb Or State"
+                android:textColorHint="#C0C0C0"
+                android:background="#FFFFFF"
+                android:selectAllOnFocus="true" />
+
+            <ImageView
+                android:id="@+id/ImgViewLocation"
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="150dp"
+                android:layout_alignEnd="@+id/autoCompleteTextViewOne"
+                android:selectAllOnFocus="true"
+                android:src="@drawable/location" />
+
+            <Button
+                android:id="@+id/btnAlertDialogSearch"
+                style="@style/Animation.Design.BottomSheetDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="210dp"
+                android:background="@color/colorPrimary"
+                android:drawableStart="@drawable/ic_search_black_24dp"
+                android:text="Search"
+                android:textAllCaps="true" />
+
+        </RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>
 
