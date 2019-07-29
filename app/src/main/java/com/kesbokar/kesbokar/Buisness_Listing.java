@@ -25,14 +25,18 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,8 +64,12 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     private Button btnHelp,btnBuis,btnMar,btnTop;
     String heading,state_id,state_name;
 
+    TextView txtCancel;
+    TextView txtVisitMarketPlace;
+
     private AutoCompleteTextView autoCompleteTextViewOne,autoCompleteTextViewTwo;
     private Button btnAlertDialogSearch;
+
     private static final int LOADER_ID_BUSVAL = 3;
     private static final int LOADER_ID_BUSSUB = 4;
     private static final int LOADER_ID_BTNSRCH = 5;
@@ -85,6 +93,8 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     Intent intent;
     Bundle bundle;
     SharedPreferences loginData;
+
+    TextView getTxtCancel;
 
     ScrollView scrollView;
 
@@ -152,7 +162,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
-                finish();
             }
         });
 
@@ -193,6 +202,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                 finish();
             }
         });
+
 
         /*btnTop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,9 +248,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
             }
         });
 
-
-
-
         if(flag==1)
         {
             name1.setText(full_name);
@@ -266,6 +273,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 
     }
 
+
     @Override
     public void onBackPressed() {
         Intent intent=new Intent(Buisness_Listing.this,Navigation.class);
@@ -285,7 +293,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
     }
 
 
-
     private void RequestAlertDialogBox()
     {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -297,15 +304,42 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 //        // pass null as the parent view because its going in the dialog layout
 //        builder.setView(inflater.inflate(R.layout.search_alert_dialog_box, null))
 //                .show();
-        Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.search_alert_dialog_box);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+//        wlp.gravity = Gravity.TOP;
+//        wlp.y = 80;
+//        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+//        window.setAttributes(wlp);
+//        dialog.setCancelable(true);
+//        dialog.setCanceledOnTouchOutside(true);
+
         autoCompleteTextViewOne = dialog.findViewById(R.id.autoCompleteTextViewOne);
         autoCompleteTextViewTwo = dialog.findViewById(R.id.autoCompleteTextViewTwo);
         btnAlertDialogSearch = dialog.findViewById(R.id.btnAlertDialogSearch);
+        txtCancel = dialog.findViewById(R.id.txtCancel);
+        txtVisitMarketPlace = dialog.findViewById(R.id.txtVisitMarketPlace);
 
+        txtVisitMarketPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Buisness_Listing.this, Navigation_market.class);
+                startActivity(intent);
+            }
+        });
+
+        txtCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>>() {
+
             @Override
             public Loader<ArrayList<ExampleItem>> onCreateLoader(int id, Bundle args) {
                 LoaderBtnSearch loaderBtnSearch = new LoaderBtnSearch(Buisness_Listing.this,q,subV,"https://serv.kesbokar.com.au/jil.0.1/v2/yellowpages",stateid,subType,0.0,0.0);
@@ -415,10 +449,10 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                 subType = stateAndSuburb.getType();
             }
         });
+
         autoCompleteTextViewTwo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -434,8 +468,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         });
 
     }
-
-
 
     private void parseJSON() {
 
@@ -469,7 +501,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                                     for (int j = 0; j < rate.length(); j++) {
                                         JSONObject review = rate.getJSONObject(j);
                                         ratings = review.getDouble("ratings");
-
                                     }
                                 }
                                 else {
@@ -529,17 +560,15 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
                 if (!isLoading) {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == exampleItems.size() - 1) {
                         //bottom of list!
-                        loadMore();
+
                         isLoading = true;
                     }
                 }
             }
         });
-
-
     }
 
-    private void loadMore() {
+  /*  private void loadMore() {
         //exampleItems.add(null);
         dataAdapter.notifyItemInserted(exampleItems.size() - 1);
 
@@ -565,7 +594,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         }, 2000);
 
 
-    }
+    }*/
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -598,8 +627,6 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 
         }
 
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -617,6 +644,7 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
         updated=loginData.getString("update","");
 
     }
+
     private class YourAsyncTask extends AsyncTask<Void, Void, Void> {
         private ProgressDialog dialog;
 
@@ -644,4 +672,5 @@ public class Buisness_Listing extends AppCompatActivity implements NavigationVie
 //            }
         }
     }
+
 }

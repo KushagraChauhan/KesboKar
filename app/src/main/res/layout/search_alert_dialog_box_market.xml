@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorTransparent"
-                android:text="Businesses"
+                android:text="Market Place"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp"/>
             <View
@@ -103,17 +103,17 @@
 
 
 
-                <TextView
-                    android:id="@+id/txtVisitMarketPlace"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center"
-                    android:text="Visit Market Place"
-                    android:textColor="@color/White"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:background="@color/kesbokar"/>
+            <TextView
+                android:id="@+id/txtVisitBusinessPlace"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:text="Visit Business Place"
+                android:textColor="@color/White"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="@color/kesbokar"/>
 
 
 

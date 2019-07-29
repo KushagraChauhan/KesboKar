@@ -256,7 +256,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
     private void populateItemRows(MyViewHolder holder, int position) {
-        ExampleItem current=exampleItems.get(position);
+        final ExampleItem current=exampleItems.get(position);
         String image="https://www.kesbokar.com.au/uploads/yellowpage/"+current.getImg();
         String bName=current.getBusi_name();
         String bSynop=current.getBusi_synop();
@@ -286,7 +286,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.bli.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                String finalUrl="https://www.kesbokar.com.au/business/"+current.getCity()+"/"+current.getUrl()+"/"+current.getId();
                 SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
                 SharedPreferences.Editor editor=get_product_detail.edit();
                 editor.putString("entry_level","1");
@@ -296,7 +296,6 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 mActivity.startActivityForResult(intent,0);
                 mActivity.overridePendingTransition(0,0);
-                mActivity.finish();
 
             }
         });
@@ -307,13 +306,12 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SharedPreferences.Editor editor=get_product_detail.edit();
                 editor.putString("entry_level","1");
                 editor.apply();
-                String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                String finalUrl="https://www.kesbokar.com.au/business/"+current.getCity()+"/"+current.getUrl()+"/"+current.getId();
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("URL", finalUrl);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 mActivity.startActivityForResult(intent,0);
                 mActivity.overridePendingTransition(0,0);
-                mActivity.finish();
             }
         });
         holder.blrq.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +382,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.clickable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalUrl="https://www.kesbokar.com.au/business/"+city+"/"+url+"/"+id;
+                String finalUrl="https://www.kesbokar.com.au/business/"+current.getCity()+"/"+current.getUrl()+"/"+current.getId();
                 SharedPreferences get_product_detail= mActivity.getSharedPreferences("entry",0);
                 SharedPreferences.Editor editor=get_product_detail.edit();
                 editor.putString("entry_level","1");
@@ -394,7 +392,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 mActivity.startActivityForResult(intent,0);
                 mActivity.overridePendingTransition(0,0);
-                mActivity.finish();
+
             }
         });
 
@@ -412,9 +410,6 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         updated=loginData.getString("update","");
 
     }
-
-
-
 }
 
 

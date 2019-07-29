@@ -1,6 +1,7 @@
 package com.kesbokar.kesbokar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +36,9 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -96,6 +100,8 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
             }
         });
     }
+
+
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         Intent intent = new Intent(Profile.this,LoginData.class );

@@ -31,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,6 +88,9 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     Intent intent;
     Bundle bundle;
     ProgressDialog progressDialog;
+
+    TextView txtCancel;
+    TextView txtVisitBusinessPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,8 +219,8 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             }
         });*/
 
-
         if(flag==1)
+
         {
             name1.setText(full_name);
             login.setVisibility(View.INVISIBLE);
@@ -228,6 +232,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             show.findItem(R.id.loginPage).setVisible(true);
 
         }
+
         String denote = bundle.getString("CHOICE");
         if(denote.equals("imgBtnService")){
             imgBtnService();
@@ -237,7 +242,6 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
             recyclerView.setAdapter(dataAdapter);
             progressDialog.dismiss();
         }
-
 
     }
     @Override
@@ -266,13 +270,32 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
 //        // pass null as the parent view because its going in the dialog layout
 //        builder.setView(inflater.inflate(R.layout.search_alert_dialog_box, null))
 //                .show();
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.search_alert_dialog_box);
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.search_alert_dialog_box_market);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         autoCompleteTextViewOne = dialog.findViewById(R.id.autoCompleteTextViewOne);
         autoCompleteTextViewTwo = dialog.findViewById(R.id.autoCompleteTextViewTwo);
+
         btnAlertDialogSearch = dialog.findViewById(R.id.btnAlertDialogSearch);
 
+        txtCancel = dialog.findViewById(R.id.txtCancel);
+        txtVisitBusinessPlace = dialog.findViewById(R.id.txtVisitBusinessPlace);
+
+        txtCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        txtVisitBusinessPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent businessIntent = new Intent(MarketListing.this, Navigation_market.class);
+                startActivity(businessIntent);
+            }
+        });
 
         btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<MarketIem>>() {
             @Override
@@ -483,42 +506,12 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
                 if (!isLoading) {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == marketIems.size() - 1) {
                         //bottom of list!
-                        loadMore();
+                        //loadMore();
                         isLoading = true;
                     }
                 }
             }
         });
-
-
-    }
-
-    private void loadMore() {
-        //exampleItems.add(null);
-//        dataAdapter.notifyItemInserted(marketIems.size() - 1);
-
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                marketIems.remove(marketIems.size() - 1);
-                int scrollPosition = marketIems.size();
-                dataAdapter.notifyItemRemoved(scrollPosition);
-                int currentSize = scrollPosition;
-                int nextLimit = currentSize + 10;
-
-                while (currentSize - 1 < nextLimit) {
-                    marketIems.add(new MarketIem(image, name, synopsis,url1,city,id,title,price,heading));
-                    currentSize++;
-                }
-
-                dataAdapter.notifyDataSetChanged();
-                isLoading = false;
-            }
-        }, 2000);
-
-
     }
 
     @Override
@@ -552,12 +545,11 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
 
         }
 
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void getData()
     {
         SharedPreferences loginData=getSharedPreferences("data",0);

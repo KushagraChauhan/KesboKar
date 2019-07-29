@@ -508,9 +508,6 @@ public class Navigation_market extends AppCompatActivity
 
         };
 
-
-
-
         serviceExpertSpaceLoaderCallbacks = new LoaderManager.LoaderCallbacks<ArrayList<ServiceExpertSpace>>() {
             @Override
             public Loader<ArrayList<ServiceExpertSpace>> onCreateLoader(int id, Bundle args) {

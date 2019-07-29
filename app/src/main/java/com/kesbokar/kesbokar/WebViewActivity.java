@@ -330,6 +330,9 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
 
     }
 
+    public void onRadioButtonClicked(View view) {
+    }
+
     public class myWebClient extends WebViewClient
     {
         @Override
@@ -347,21 +350,8 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
     }
     @Override
     public void onBackPressed () {
-        Intent intent=new Intent(WebViewActivity.this,Navigation.class);
-        intent.putExtra("Flag", flag);
-        intent.putExtra("Name",full_name);
-        intent.putExtra("mail",email);
-        intent.putExtra("image",image1);
-        intent.putExtra("phone",phone_no);
-        intent.putExtra("create",created);
-        intent.putExtra("update",updated);
-        intent.putExtra("id",id1);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivityForResult(intent, 0);
-        overridePendingTransition(0, 0);
-        finish();
-
-    }
+        super.onBackPressed();
+  }
     private static class MyAsyncTask extends AsyncTask<Void, Void, Document> {
         @Override
         protected Document doInBackground(Void... voids) {
