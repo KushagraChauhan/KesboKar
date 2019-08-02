@@ -28,14 +28,12 @@
                 android:layout_height="wrap_content"
                 android:text="Logo Image" />
 
-            <ImageView
-                android:id="@+id/ivImage"
-                android:layout_width="400dp"
-                android:layout_height="220dp"
-
-
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/def" />
+            <GridView
+                android:id="@+id/gv"
+                android:numColumns="3"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/def" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -52,7 +50,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnChooseFile"
+                android:id="@+id/btnChoose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -68,7 +66,18 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="No File Chosen" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="#EEE95A5A"
+            android:text="Upload Image"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"

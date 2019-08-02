@@ -362,7 +362,6 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
                 document.getElementsByClass("navbar navbar-default").remove();
                 document.getElementsByClass("needhelp_in_touch").remove();
                 document.getElementsByClass("footer_area").remove();
-                document.getElementsByClass("section additional-details clear proerty-th").remove();
                 document.getElementsByClass("breadcrumb").remove();
                 document.getElementsByClass("page-subheader sorting pl0").remove();
                 document.getElementsByClass("sel-filters text-left").remove();

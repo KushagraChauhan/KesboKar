@@ -49,6 +49,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.HorizontalScrollView;
@@ -106,7 +108,7 @@ public class Navigation_market extends AppCompatActivity
     Toolbar toolbar;
     ImageView[] bi, mi;
     TextView[] dynamicTxt;
-    Button location;
+    Button location, btnMarket;
     TextView[] bc, bd, mc, md;
     private static final int LOADER_ID = 1;
     //Toolbar toolbar;
@@ -124,6 +126,10 @@ public class Navigation_market extends AppCompatActivity
     int stateid;
     Button btnSrch;
     private ArrayList<MarketIem> marketItems;
+
+    private RecyclerView recyclerView_navigation_service_expert,recyclerView_navigation_featured_ads;
+    private ServiceExpertAdapter mAdapter;
+    private MarketPlaceApiAdapter Adapter;
 
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -162,30 +168,7 @@ public class Navigation_market extends AppCompatActivity
         md = new TextView[4];
         bd = new TextView[4];
         location = findViewById(R.id.location);
-        bi[0] = findViewById(R.id.bi1);
-        bi[1] = findViewById(R.id.bi2);
-        bi[2] = findViewById(R.id.bi3);
-        bi[3] = findViewById(R.id.bi4);
-        bc[0] = findViewById(R.id.bc1);
-        bc[1] = findViewById(R.id.bc2);
-        bc[2] = findViewById(R.id.bc3);
-        bc[3] = findViewById(R.id.bc4);
-        bd[0] = findViewById(R.id.bd1);
-        bd[1] = findViewById(R.id.bd2);
-        bd[2] = findViewById(R.id.bd3);
-        bd[3] = findViewById(R.id.bd4);
-        mi[0] = findViewById(R.id.mi1);
-        mi[1] = findViewById(R.id.mi2);
-        mi[2] = findViewById(R.id.mi3);
-        mc[0] = findViewById(R.id.mc1);
-        mc[1] = findViewById(R.id.mc2);
-        mc[2] = findViewById(R.id.mc3);
-        md[0] = findViewById(R.id.md1);
-        md[1] = findViewById(R.id.md2);
-        md[2] = findViewById(R.id.md3);
-        md[3] = findViewById(R.id.md4);
-        mc[3] = findViewById(R.id.mc4);
-        mi[3] = findViewById(R.id.mi4);
+
         ms = findViewById(R.id.ms);
 
 
@@ -211,15 +194,26 @@ public class Navigation_market extends AppCompatActivity
         RadioGroup radioGroup = findViewById(R.id.radio_group);
         RadioButton rb_marketplace = findViewById(R.id.rb_marketplace);
         RadioButton rb_business = findViewById(R.id.rb_businesses);
-        btnBusinessNavMark = findViewById(R.id.mar);
+        btnBusinessNavMark = findViewById(R.id.buis);
         ml = findViewById(R.id.ml);
         btnNavHelp = (Button) findViewById(R.id.btnNavHelp);
+
+        recyclerView_navigation_service_expert = findViewById(R.id.recyclerView_navigation_service_expert);
+        recyclerView_navigation_featured_ads = findViewById(R.id.recyclerView_navigation_featured_ads);
+
+        recyclerView_navigation_service_expert.setHasFixedSize(true);
+        recyclerView_navigation_service_expert.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView_navigation_featured_ads.setHasFixedSize(true);
+        recyclerView_navigation_featured_ads.setLayoutManager(new LinearLayoutManager(this));
+
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scrollView.smoothScrollTo(0, 0);
             }
         });
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         params1 = new LinearLayout
@@ -521,33 +515,17 @@ public class Navigation_market extends AppCompatActivity
                 switch (loader.getId()) {
                     case LOADER_ID_SERVICES:
                         //if(serviceExpertSpaces.size()!=0){
-                        for (i = 0; i < 4; i++) {
-                            bc[i].setText(serviceExpertSpaces.get(i).getName());
-                            bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
 
-                            String imgURL = "https://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
-                            Picasso.with(Navigation_market.this).load(imgURL).into(bi[i]);
-                            //new DownLoadImageTask(bi[i]).execute(imgURL);
-                            final int index = i;
-                            final String ab = serviceExpertSpaces.get(i).getCity().getTitle().replaceAll(" ", "+");
 
-                            bi[i].setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
-                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
-                                    SharedPreferences.Editor editor=get_product_detail.edit();
-                                    editor.putString("entry_level","1");
-                                    editor.apply();
-                                    Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
-                                    intent.putExtra("URL", url);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-                            getLoaderManager().initLoader(LOADER_ID_MARKET, null, MarketPlaceApiCallbacks);
 
-                        }
+                        mAdapter = new ServiceExpertAdapter(Navigation_market.this,serviceExpertSpaces,Navigation_market.this );
+                        recyclerView_navigation_service_expert.setAdapter(mAdapter);
+
+
+
+                        getLoaderManager().initLoader(LOADER_ID_MARKET, null, MarketPlaceApiCallbacks);
+
+
                         //}
 //                        else{
 //                            Toast.makeText(Navigation.this, "no internet connection", Toast.LENGTH_SHORT).show();
@@ -574,37 +552,10 @@ public class Navigation_market extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketPlaceApi>> loader, final ArrayList<MarketPlaceApi> marketPlaceApis) {
                 switch (loader.getId()) {
                     case LOADER_ID_MARKET:
-                        for (int j = 0; j < 4; j++) {
-                            mc[j].setText(marketPlaceApis.get(j).getName());
-                            md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
 
-                            String imgURL = "https://www.kesbokar.com.au/uploads/product/thumbs/" + marketPlaceApis.get(j).getImageLogo();
-                            Picasso.with(Navigation_market.this).load(imgURL).into(mi[j]);
-                            //new DownLoadImageTask(mi[j]).execute(imgURL);
-                            final int index = j;
-                            final String cat = marketPlaceApis.get(j).getCat_title().replaceAll("", "-");
-                            final String ab = marketPlaceApis.get(j).getCity().getTitle().replaceAll(" ", "+");
-                            final String url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title() + "/" + marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-                            final String url_name=marketPlaceApis.get(index).getUrlname();
-                            final int PID=marketPlaceApis.get(index).getId();
-                            mi[j].setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-                                    Intent intent = new Intent(Navigation_market.this, WebViewActivity.class);
-                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
-                                    SharedPreferences.Editor editor=get_product_detail.edit();
-                                    editor.putString("entry_level","0");
-                                    editor.apply();
-                                    intent.putExtra("URL", url);
-                                    intent.putExtra("url_name",url_name);
-                                    intent.putExtra("PID",PID);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
+                        Adapter=new MarketPlaceApiAdapter(Navigation_market.this,marketPlaceApis,Navigation_market.this);
+                        recyclerView_navigation_featured_ads.setAdapter(Adapter);
 
-                        }
                         getLoaderManager().initLoader(LOADER_ID_MARVAL,null,marketSearch);
                         getLoaderManager().destroyLoader(LOADER_ID_BUSINESS);
                         getLoaderManager().destroyLoader(LOADER_ID_SERVICES);
@@ -740,6 +691,14 @@ public class Navigation_market extends AppCompatActivity
             overridePendingTransition(0, 0);
             finish();
 
+        }
+        else if (id == R.id.business_in){
+            Intent intent = new Intent(Navigation_market.this, inbox_business.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.market_in){
+            Intent intent = new Intent(Navigation_market.this, inbox_market.class);
+            startActivity(intent);
         }
 
 

@@ -292,7 +292,7 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
         txtVisitBusinessPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent businessIntent = new Intent(MarketListing.this, Navigation_market.class);
+                Intent businessIntent = new Intent(MarketListing.this, Navigation.class);
                 startActivity(businessIntent);
             }
         });

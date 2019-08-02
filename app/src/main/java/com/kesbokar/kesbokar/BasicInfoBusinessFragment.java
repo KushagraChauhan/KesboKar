@@ -81,7 +81,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
     private Button btnDetect, btnSave;
 
     private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,topcat_id,parentcat_id,
-            quote_message, short_description,category_name,topcat_name,parentcat_name,yellowpage_id;
+            quote_message, short_description,category_name,topcat_name,parentcat_name,yellowpage_id, new_name;
 
 
     private EditText etLongitude, etLatitude, etLicense, etQuote, etPhone, etEmail, etStreet, etWebsite;
@@ -713,6 +713,7 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
                             String yellowpage_id = jsonObject.getString("yellowpage_id");
                             SharedPreferences get_product_detail = getActivity().getSharedPreferences("product_detail", 0);
                             SharedPreferences.Editor editor = get_product_detail.edit();
+                            editor.putString("new_name", edtCompanyTitle.getText().toString());
                             editor.putString("yellowpage_id", yellowpage_id);
                             editor.apply();
                         } catch (JSONException e) {
@@ -831,7 +832,6 @@ public class BasicInfoBusinessFragment extends Fragment implements LocationListe
         SharedPreferences basicInfoBusiness = getActivity().getSharedPreferences("business_edit", 0);
         edit1=basicInfoBusiness.getInt("edit",0);
         if (edit1 == 1) {
-
 
             name = basicInfoBusiness.getString("name", "");
             registration_no = basicInfoBusiness.getString("registration_no", "");

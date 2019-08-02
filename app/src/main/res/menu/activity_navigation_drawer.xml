@@ -7,12 +7,12 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/more"
-                android:visible="false"
+                android:visible="true"
                 android:title="List Business" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/more"
-                android:visible="false"
+                android:visible="true"
                 android:title="Post An Add" />
             <item
                 android:id="@+id/about"
@@ -25,13 +25,25 @@
             <item
                 android:id="@+id/advertise"
                 android:icon="@drawable/more2"
-                android:visible="false"
+                android:visible="true"
                 android:title="Advertise With Us"/>
             <item
                 android:id="@+id/loginPage"
                 android:icon="@drawable/more"
-                android:visible="false"
+                android:visible="true"
                 android:title="Dashboard"/>
+        </menu>
+    </item>
+    <item android:title="Inbox Message">
+        <menu>
+            <item
+                android:id="@+id/business_in"
+                android:icon="@drawable/more"
+                android:title="Business" />
+            <item
+                android:id="@+id/market_in"
+                android:icon="@drawable/more"
+                android:title="Marketplace" />
         </menu>
     </item>
 

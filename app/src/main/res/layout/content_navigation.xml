@@ -26,27 +26,36 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="HELP"
+                android:layout_marginTop="6dp"
+                android:textAlignment="center"
                 android:background="@drawable/rect_button"
                 android:id="@+id/btnNavHelp"/>
             <Button
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:layout_marginTop="6dp"
                 android:text="BUSINESS"
                 android:background="@drawable/rect_button"
                 android:id="@+id/btnBusinessNavMark"/>
             <Button
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
                 android:text="MARKET"
+                android:textAlignment="center"
                 android:background="@drawable/rect_button"
                 android:id="@+id/btnBottomMar"/>
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
+                android:textAlignment="center"
                 android:text="TOP"
                 android:background="@drawable/rect_button"
                 android:id="@+id/btnTop"/>
         </LinearLayout>
+
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <ScrollView
@@ -58,6 +67,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -120,7 +130,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
                         <AutoCompleteTextView
                             android:layout_width="320dp"
                             android:layout_height="35dp"
@@ -166,10 +175,13 @@
                         android:layout_marginTop="210dp"
                         android:background="@color/colorPrimary"
                         android:drawableStart="@drawable/ic_search_black_24dp"
-                        android:text="Search"
+                        android:paddingLeft="4dp"
+                        android:text="Search   "
+                        android:textColor="@color/White"
                         android:textAllCaps="true" />
 
                 </RelativeLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -256,160 +268,12 @@
                         android:textColor="#000000"
                         android:textSize="15dp" />
 
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_navigation_service_expert"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/ImgView_business_list_image_bi1"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
-
-                            <TextView
-                                android:id="@+id/bc1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Company Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/bd1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/bi2"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
-
-                            <TextView
-                                android:id="@+id/bc2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Company Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/bd2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/bi3"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
-
-                            <TextView
-                                android:id="@+id/bc3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Company Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/bd3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/bi4"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal"
-                                android:foregroundGravity="center_horizontal"
-                                android:scaleType="fitXY" />
-
-                            <TextView
-                                android:id="@+id/bc4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Company Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/bd4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-                    </LinearLayout>
+                    </androidx.recyclerview.widget.RecyclerView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -427,151 +291,12 @@
                             android:textSize="25dp"
                             android:textStyle="bold" />
 
-                        <LinearLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_navigation_featured_ads"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
+                            android:layout_height="match_parent">
 
-                            <ImageView
-                                android:id="@+id/mi1"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal" />
-
-                            <TextView
-                                android:id="@+id/mc1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Market Place Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/md1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/mi2"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal" />
-
-                            <TextView
-                                android:id="@+id/mc2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:foregroundGravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Market Place Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/md2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:foregroundGravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/mi3"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal" />
-
-                            <TextView
-                                android:id="@+id/mc3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Market Place Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/md3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/mi4"
-                                android:layout_width="300dp"
-                                android:layout_height="150dp"
-                                android:layout_gravity="center_horizontal" />
-
-                            <TextView
-                                android:id="@+id/mc4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Market Place Name"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/md4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:text="Small Description"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-
-
-
+                        </androidx.recyclerview.widget.RecyclerView>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

@@ -61,7 +61,6 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         isLoggedIn = flag;
         loginData=logindata;
         getData();
-
     }
 
     @NonNull
@@ -88,13 +87,9 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             //Request A Quote
 
-
-
-
         } else if (viewHolder instanceof LoadingViewHolder) {
             showLoadingView((LoadingViewHolder) viewHolder, position);
         }
-
 
     }
 
@@ -241,10 +236,6 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
-
-
-
-
 
 
     @Override

@@ -3,6 +3,7 @@ package com.kesbokar.kesbokar;
 import android.Manifest;
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -45,12 +46,15 @@ import org.json.JSONObject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
@@ -120,6 +124,30 @@ public class Navigation extends AppCompatActivity
     ArrayList<ExampleItem> exampleItems;
     int stateid = 0;
 
+
+    private RecyclerView recyclerView_navigation_service_expert,recyclerView_navigation_featured_ads;
+    private ServiceExpertAdapter mAdapter;
+    private MarketPlaceApiAdapter Adapter;
+
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     private static final String[] COUNTRIES = new String[] { "Belgium","France", "France_", "Italy", "Germany", "Spain" };
 
     private boolean isNetworkAvailable(){
@@ -164,30 +192,19 @@ public class Navigation extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         ab = (TextView) findViewById(R.id.about);
-        ImgView_business_list_image_bi1[0] = (ImageView) findViewById(R.id.ImgView_business_list_image_bi1);
-        ImgView_business_list_image_bi1[1] = findViewById(R.id.bi2);
-        ImgView_business_list_image_bi1[2] = findViewById(R.id.bi3);
-        ImgView_business_list_image_bi1[3] = findViewById(R.id.bi4);
-        bc[0] = findViewById(R.id.bc1);
-        bc[1] = findViewById(R.id.bc2);
-        bc[2] = findViewById(R.id.bc3);
-        bc[3] = findViewById(R.id.bc4);
-        bd[0] = findViewById(R.id.bd1);
-        bd[1] = findViewById(R.id.bd2);
-        bd[2] = findViewById(R.id.bd3);
-        bd[3] = findViewById(R.id.bd4);
-        mi[0] = findViewById(R.id.mi1);
-        mi[1] = findViewById(R.id.mi2);
-        mi[2] = findViewById(R.id.mi3);
-        mc[0] = findViewById(R.id.mc1);
-        mc[1] = findViewById(R.id.mc2);
-        mc[2] = findViewById(R.id.mc3);
-        md[0] = findViewById(R.id.md1);
-        md[1] = findViewById(R.id.md2);
-        md[2] = findViewById(R.id.md3);
-        md[3] = findViewById(R.id.md4);
-        mc[3] = findViewById(R.id.mc4);
-        mi[3] = findViewById(R.id.mi4);
+
+
+        recyclerView_navigation_service_expert = findViewById(R.id.recyclerView_navigation_service_expert);
+        recyclerView_navigation_featured_ads = findViewById(R.id.recyclerView_navigation_featured_ads);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+
+        recyclerView_navigation_service_expert.setHasFixedSize(true);
+        recyclerView_navigation_service_expert.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView_navigation_featured_ads.setHasFixedSize(true);
+        recyclerView_navigation_featured_ads.setLayoutManager(new LinearLayoutManager(this));
 
         ImgViewLocation = (ImageView) findViewById(R.id.ImgViewLocation);
         category = findViewById(R.id.category);
@@ -228,6 +245,9 @@ public class Navigation extends AppCompatActivity
         params1.width = 300;
         params1.rightMargin = 15;
         getData();
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+
 //        Intent intent = getIntent();
 //        Bundle extras = intent.getExtras();
 //        if (extras!=null) {
@@ -245,8 +265,13 @@ public class Navigation extends AppCompatActivity
 //        }
         ImgViewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if (ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            public void onClick(View v)
+            {
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(Navigation.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
@@ -254,7 +279,22 @@ public class Navigation extends AppCompatActivity
                     //                                          int[] grantResults)
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
-                    return;
+
+                }
+                if(ActivityCompat.shouldShowRequestPermissionRationale(Navigation.this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                    new AlertDialog.Builder(Navigation.this)
+                            .setTitle("Grant Permission")
+                            .setMessage("Please open your GPS")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(Navigation.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0101);
+                                }
+                            })
+                            .create()
+                            .show();
+                }else{
+                    ActivityCompat.requestPermissions(Navigation.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0101);
                 }
                 Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 onLocationChanged(location);
@@ -559,48 +599,15 @@ public class Navigation extends AppCompatActivity
                     case LOADER_ID_SERVICES:
                         // Prepare textview object programmatically
 
+                        mAdapter = new ServiceExpertAdapter(Navigation.this,serviceExpertSpaces,Navigation.this );
+                        recyclerView_navigation_service_expert.setAdapter(mAdapter);
 
 
                         //if(serviceExpertSpaces.size()!=0){
-                        for (i = 0; i < 4; i++) {
-                            bc[i].setText(serviceExpertSpaces.get(i).getName());
-                            bd[i].setText(serviceExpertSpaces.get(i).getCat_title() + " - " + serviceExpertSpaces.get(i).getCity().getTitle() + " , " + serviceExpertSpaces.get(i).getState().getTitle());
 
-                            String imgURL = "https://www.kesbokar.com.au/uploads/yellowpage/" + serviceExpertSpaces.get(i).getImageLogo();
-                            Picasso.with(Navigation.this).load(imgURL).into(ImgView_business_list_image_bi1[i]);
-
-                            //new DownLoadImageTask(bi[i]).execute(imgURL);
-                            final int index = i;
-                            final String ab = serviceExpertSpaces.get(i).getCity().getTitle().replaceAll(" ", "+");
-
-                            ImgView_business_list_image_bi1[i].setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String url = "https://www.kesbokar.com.au/business/" + ab + "/" + serviceExpertSpaces.get(index).getUrlname() + "/" + serviceExpertSpaces.get(index).getId();
-                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
-                                    SharedPreferences.Editor editor=get_product_detail.edit();
-                                    editor.putString("entry_level","1");
-                                    editor.apply();
-                                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-                                    intent.putExtra("URL", url);
-                                    intent.putExtra("Flag", flag);
-                                    intent.putExtra("Name",full_name);
-                                    intent.putExtra("mail",email);
-                                    intent.putExtra("image",image);
-                                    intent.putExtra("phone",phone_no);
-                                    intent.putExtra("create",created);
-                                    intent.putExtra("update",updated);
-                                    intent.putExtra("id",id);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivityForResult(intent, 0);
-                                    overridePendingTransition(0, 0);
-                                    finish();
-
-                                }
-                            });
                             getLoaderManager().initLoader(LOADER_ID_MARKET, null, MarketPlaceApiCallbacks);
 
-                        }
+
                         //}
 //                        else{
 //                            Toast.makeText(Navigation.this, "no internet connection", Toast.LENGTH_SHORT).show();
@@ -626,39 +633,9 @@ public class Navigation extends AppCompatActivity
             public void onLoadFinished(Loader<ArrayList<MarketPlaceApi>> loader, final ArrayList<MarketPlaceApi> marketPlaceApis) {
                 switch (loader.getId()) {
                     case LOADER_ID_MARKET:
-                        for (int j = 0; j < 4; j++) {
+                        Adapter=new MarketPlaceApiAdapter(Navigation.this,marketPlaceApis,Navigation.this);
+                        recyclerView_navigation_featured_ads.setAdapter(Adapter);
 
-                            mc[j].setText(marketPlaceApis.get(j).getName());
-                            md[j].setText(marketPlaceApis.get(j).getCat_title() + " - " + marketPlaceApis.get(j).getCity().getTitle() + " , " + marketPlaceApis.get(j).getState().getTitle());
-
-                            String imgURL = "https://www.kesbokar.com.au/uploads/product/thumbs/" + marketPlaceApis.get(j).getImageLogo();
-                            Picasso.with(Navigation.this).load(imgURL).into(mi[j]);
-                            //new DownLoadImageTask(mi[j]).execute(imgURL);
-                            final int index = j;
-                            final String cat = marketPlaceApis.get(j).getCat_title().replaceAll("", "-");
-                            final String ab = marketPlaceApis.get(j).getCity().getTitle().replaceAll(" ", "+");
-                            final String url = "https://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title() + "/" + marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-                            final String url_name=marketPlaceApis.get(index).getUrlname();
-                            final int PID=marketPlaceApis.get(index).getId();
-
-                            mi[j].setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    SharedPreferences get_product_detail= getSharedPreferences("entry",0);
-                                    SharedPreferences.Editor editor=get_product_detail.edit();
-                                    editor.putString("entry_level","0");
-                                    editor.apply();
-                                    //url = "httpss://www.kesbokar.com.au/marketplace/" + ab + "/" + marketPlaceApis.get(index).getCat_title()+ marketPlaceApis.get(index).getUrlname() + "/" + marketPlaceApis.get(index).getId();
-                                    Intent intent = new Intent(Navigation.this, WebViewActivity.class);
-                                    intent.putExtra("URL", url);
-                                    intent.putExtra("url_name",url_name);
-                                    intent.putExtra("PID",PID);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-
-                        }
                         getLoaderManager().initLoader(LOADER_ID_BUSVAL,null,businessSearch);
                         getLoaderManager().destroyLoader(LOADER_ID_BUSINESS);
                         getLoaderManager().destroyLoader(LOADER_ID_SERVICES);
@@ -831,6 +808,14 @@ public class Navigation extends AppCompatActivity
             finish();
 
         }
+        else if (Id == R.id.business_in){
+            Intent intent = new Intent(Navigation.this, inbox_business.class);
+            startActivity(intent);
+        }
+        else if (Id == R.id.market_in){
+            Intent intent = new Intent(Navigation.this, inbox_market.class);
+            startActivity(intent);
+        }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -931,6 +916,5 @@ public class Navigation extends AppCompatActivity
     public void onProviderDisabled(String provider) {
 
     }
-
 
 }

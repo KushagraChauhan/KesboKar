@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorTransparent" />
+             />
 
         <TextView
             android:id="@+id/txtCancel"
@@ -99,6 +99,8 @@
                 android:background="@color/colorPrimary"
                 android:drawableStart="@drawable/ic_search_black_24dp"
                 android:text="Search    "
+                android:paddingLeft="8dp"
+                android:textColor="@color/White"
                 android:textAllCaps="true" />
 
 

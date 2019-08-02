@@ -19,31 +19,35 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="500dp"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF">
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
             <Button
-                android:layout_width="120dp"
+                android:layout_width="136dp"
                 android:layout_height="match_parent"
                 android:text="HELP"
+                android:textAlignment="center"
                 android:background="@drawable/rect_button"
                 android:id="@+id/help"/>
             <Button
-                android:layout_width="120dp"
+                android:layout_width="136dp"
                 android:layout_height="match_parent"
                 android:text="BUISNESS"
+                android:textAlignment="center"
                 android:background="@drawable/rect_button"
                 android:id="@+id/buis"/>
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:text="MARKET"
+                android:textAlignment="center"
                 android:background="@drawable/rect_button"
                 android:id="@+id/mar"/>
 
