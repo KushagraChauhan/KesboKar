@@ -36,35 +36,35 @@ public class ThirdTabAccessorAdapter extends FragmentPagerAdapter {
                 DescriptionBusinessFragment descriptionBusinessFragment = new DescriptionBusinessFragment(myViewPager,myTabLayout);
                 return descriptionBusinessFragment;
 
-//            case 2:
-//                SliderBusinessFragment sliderBusinessFragment = new SliderBusinessFragment();
-//                return sliderBusinessFragment;
-
-//            case 3:
-//                PhotosBusinessFragment photosBusinessFragment = new PhotosBusinessFragment();
-//                return photosBusinessFragment;
-
             case 2:
+                SliderBusinessFragment sliderBusinessFragment = new SliderBusinessFragment();
+                return sliderBusinessFragment;
+
+            case 3:
+                PhotosBusinessFragment photosBusinessFragment = new PhotosBusinessFragment();
+                return photosBusinessFragment;
+
+            case 4:
                 VideosBusinessFragment videosBusinessFragment = new VideosBusinessFragment(myViewPager,myTabLayout);
                 return videosBusinessFragment;
 
-//            case 5:
-//                ServicesBusinessFragment servicesBusinessFragment = new ServicesBusinessFragment();
-//                return servicesBusinessFragment;
+            case 5:
+                ServicesBusinessFragment servicesBusinessFragment = new ServicesBusinessFragment();
+                return servicesBusinessFragment;
 
-            case 3:
+            case 6:
                 SocialLinkBusinessFragment socialLinkBusinessFragment = new SocialLinkBusinessFragment(myViewPager,myTabLayout);
                 return socialLinkBusinessFragment;
 
-//            case 7:
-//                AccreditationBusinessFragment accreditationBusinessFragment = new AccreditationBusinessFragment();
-//                return accreditationBusinessFragment;
+            case 7:
+                AccreditationBusinessFragment accreditationBusinessFragment = new AccreditationBusinessFragment();
+                return accreditationBusinessFragment;
 
-//            case 8:
-//                BannersBusinessFragment bannersBusinessFragment = new BannersBusinessFragment();
-//                return bannersBusinessFragment;
+            case 8:
+                BannersBusinessFragment bannersBusinessFragment = new BannersBusinessFragment();
+                return bannersBusinessFragment;
 
-            case 4:
+            case 9:
                 StatusBusinessFragment statusBusinessFragment = new StatusBusinessFragment(myViewPager,myTabLayout);
                 return statusBusinessFragment;
 
@@ -77,7 +77,7 @@ public class ThirdTabAccessorAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount()
     {
-        return 5;
+        return 10;
     }
 
     @Nullable
@@ -92,28 +92,28 @@ public class ThirdTabAccessorAdapter extends FragmentPagerAdapter {
             case 1:
                 return "Description";
 
-//            case 2:
-//                return "Slider";
-
-//            case 3:
-//                return "Photos";
-
             case 2:
-                return "Videos";
-
-//            case 5:
-//                return "Services";
+                return "Slider";
 
             case 3:
-                return "Social Links";
-
-//            case 7:
-//                return "Accreditation";
-//
-//            case 8:
-//                return "Banners";
+                return "Photos";
 
             case 4:
+                return "Videos";
+
+            case 5:
+                return "Services";
+
+            case 6:
+                return "Social Links";
+
+            case 7:
+                return "Accreditation";
+
+            case 8:
+                return "Banners";
+
+            case 9:
                 return "Status";
 
             default:

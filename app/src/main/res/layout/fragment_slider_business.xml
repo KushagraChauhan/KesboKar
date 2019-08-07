@@ -28,12 +28,12 @@
                     android:layout_height="wrap_content"
                     android:text="Slider Image" />
 
-                <ImageView
-                    android:id="@+id/ivImage"
-                    android:layout_width="400dp"
-                    android:layout_height="220dp"
-                    android:layout_marginTop="5dp"
-                    app:srcCompat="@drawable/def" />
+                <GridView
+                    android:id="@+id/gv"
+                    android:numColumns="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:src="@drawable/def" />
 
                 <TextView
                     android:id="@+id/textView20"

@@ -69,6 +69,7 @@ public class PhotosFragment extends Fragment {
     JSONArray json_name_array;
     JSONObject json_name;
     String pic_name;
+
     private GridView gvGallery;
     private GalleryAdapter galleryAdapter;
 
@@ -97,6 +98,8 @@ public class PhotosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_photos, container, false);
 
         getData();
+
+
 
         btnUpload = view.findViewById(R.id.btnUpload);
 

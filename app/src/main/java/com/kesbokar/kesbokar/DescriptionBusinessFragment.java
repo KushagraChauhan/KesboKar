@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,6 +71,7 @@ public class DescriptionBusinessFragment extends Fragment {
     JSONObject json_name;
     String pic_name;
     private GridView gvGallery;
+    Bitmap bitmap1;
     private GalleryAdapter galleryAdapter;
 
     ImageView ivImage;
@@ -82,6 +84,8 @@ public class DescriptionBusinessFragment extends Fragment {
 
     private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,yellowpage_id1,
             quote_message, short_description, new_name;
+
+    private static final int GalleryPick = 1;
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -313,9 +317,8 @@ public class DescriptionBusinessFragment extends Fragment {
     private void showFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+        startActivityForResult(intent, GalleryPick);
     }
 
     @Override
@@ -323,7 +326,7 @@ public class DescriptionBusinessFragment extends Fragment {
         try {
 
             // When an Image is picked
-            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
+            if (requestCode == GalleryPick && resultCode == RESULT_OK
                     && null != data) {
                 // Get the Image from data
 
@@ -333,6 +336,7 @@ public class DescriptionBusinessFragment extends Fragment {
                 if(data.getData()!=null){
 
                     Uri mImageUri=data.getData();
+
 
                     // Get the cursor
                     Cursor cursor = getActivity().getContentResolver().query(mImageUri,

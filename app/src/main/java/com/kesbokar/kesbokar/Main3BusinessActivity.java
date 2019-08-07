@@ -47,14 +47,14 @@ public class Main3BusinessActivity extends AppCompatActivity {
         View tab2 = Objects.requireNonNull(myTabLayout.getTabAt(2)).view;
         View tab3 = Objects.requireNonNull(myTabLayout.getTabAt(3)).view;
         View tab4 = Objects.requireNonNull(myTabLayout.getTabAt(4)).view;
-//        View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
+        View tab5= Objects.requireNonNull(myTabLayout.getTabAt(5)).view;
         if (edit1==0) {
             tab1.setEnabled(false);
             tab2.setEnabled(false);
             tab3.setEnabled(false);
             tab4.setEnabled(false);
         }
-//        tab5.setEnabled(false);
+        tab5.setEnabled(false);
     }
 
     public void getData() {
