@@ -10,7 +10,11 @@ import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +22,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,19 +40,36 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
 
     private Button btnHel,btnBuis,btnMar;
 
+    Toolbar toolbar;
+
+    HorizontalScrollView category;
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_career);
         getData();
 
-        btnHel = (Button)findViewById(R.id.help);
-        btnBuis = (Button)findViewById(R.id.buis);
-        btnMar = (Button)findViewById(R.id.mar);
+        btnHel = (Button)findViewById(R.id.btnCareerHelp);
+        btnBuis = (Button)findViewById(R.id.btnCareerBusiness);
+        btnMar = (Button)findViewById(R.id.btnCareerMark);
+
+        toolbar = findViewById(R.id.toolbar);
 
 
         contact=findViewById(R.id.contact);
         webView = (WebView) findViewById(R.id.webview);
+
+        category = findViewById(R.id.category);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
 
         getData();
@@ -141,25 +163,119 @@ public class Career extends AppCompatActivity implements NavigationView.OnNaviga
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        int Id = item.getItemId();
 
-        if (id == R.id.nav_send) {
+        if (Id == R.id.nav_send) {
 
-        } else if (id == R.id.nav_share) {
+            if (flag==1){
+                Intent about=new Intent(Career.this,ProductManagementActivity.class);
+                startActivity(about);
+            } else {
+                Intent intent = new Intent(Career.this, Login.class);
+                startActivity(intent);
+            }
 
-        } else if (id == R.id.about) {
-            Intent about=new Intent(Career.this,About.class);
+
+        } else if (Id == R.id.nav_share) {
+            Intent about=new Intent(Career.this,Main3BusinessActivity.class);
             startActivity(about);
 
-        } else if (id == R.id.career) {
-            Intent career=new Intent(Career.this,Career.class);
-            startActivity(career);
 
-        } else if (id == R.id.advertise) {
+        } else if (Id == R.id.about) {
+
+            if (flag==1){
+                Intent intent = new Intent(Career.this, About.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            } else {
+                Intent intent = new Intent(Career.this, Login.class);
+                startActivity(intent);
+            }
+
+
+        } else if (Id == R.id.career) {
+
+            if (flag==1){
+                Intent intent = new Intent(Career.this, Career.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            } else {
+                Intent intent = new Intent(Career.this, Login.class);
+                startActivity(intent);
+            }
+
+
+        } else if (Id == R.id.advertise) {
+
+        }else if (Id == R.id.loginPage) {
+
+            if (flag==1){
+                Intent intent=new Intent(Career.this,LoginData.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+            else {
+                Intent intent = new Intent(Career.this, Login.class);
+                startActivity(intent);
+            }
+
 
         }
+        else if (Id == R.id.business_in){
 
+            if (flag == 1){
+                Intent intent = new Intent(Career.this, inbox_business.class);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(Career.this, Login.class);
+                startActivity(intent);
+            }
 
+        }
+        else if (Id == R.id.market_in){
+
+            if (flag==1){
+                Intent intent = new Intent(Career.this, inbox_market.class);
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(Career.this, Login.class);
+                startActivity(intent);
+            }
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

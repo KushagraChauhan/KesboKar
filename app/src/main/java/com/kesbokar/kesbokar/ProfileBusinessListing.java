@@ -48,6 +48,10 @@ public class ProfileBusinessListing extends AppCompatActivity implements Navigat
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        SharedPreferences sharedPreferences = getSharedPreferences("business_edit", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
 
         navigationView.setNavigationItemSelectedListener(this);
         View header=navigationView.getHeaderView(0);

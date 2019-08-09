@@ -28,12 +28,12 @@
                 android:layout_height="wrap_content"
                 android:text="Logo Image" />
 
-            <GridView
-                android:id="@+id/gv"
-                android:numColumns="3"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@drawable/def" />
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="400dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="5dp"
+                app:srcCompat="@drawable/def" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -58,15 +58,6 @@
                 android:text="Choose File"
                 android:textColor="@color/White"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvImageChosen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="No File Chosen" />
-
         </LinearLayout>
 
         <Button

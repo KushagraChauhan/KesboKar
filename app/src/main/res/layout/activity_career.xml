@@ -1,73 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Career">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
+        layout="@layout/app_bar_career"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Click to get in touch"
-            android:background="@color/kesbokar"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:id="@+id/contact"/>
-        </LinearLayout>
+        android:layout_height="match_parent" />
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_navigation"
+        app:menu="@menu/activity_navigation_drawer" />
 
-    </com.google.android.material.appbar.AppBarLayout>
-    <include layout="@layout/content_career"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFF">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:text="HELP"
-                android:background="@drawable/rect_button"
-                android:id="@+id/help"/>
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:text="BUISNESS"
-                android:background="@drawable/rect_button"
-                android:id="@+id/buis"/>
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:text="MARKET"
-                android:background="@drawable/rect_button"
-                android:id="@+id/mar"/>
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:text="TOP"
-                android:background="@drawable/rect_button"
-                android:id="@+id/top"/>
-        </LinearLayout>
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-
-</RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

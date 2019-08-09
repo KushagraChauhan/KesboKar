@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Buisness_Listing">
+    tools:context=".Career">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -18,31 +19,31 @@
             android:background="#FFA700"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
-            <RelativeLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:src="@drawable/logo"/>
 
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/logo" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click to get in touch"
+                android:background="@color/kesbokar"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:id="@+id/contact"/>
 
-                <ImageView
-                    android:id="@+id/imgSearch"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="240dp"
-                    android:layout_marginTop="7dp"
-                    android:src="@drawable/ic_search_black_24dp"/>
-
-            </RelativeLayout>
+        </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/listinglayout" />
+    <include layout="@layout/content_career" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

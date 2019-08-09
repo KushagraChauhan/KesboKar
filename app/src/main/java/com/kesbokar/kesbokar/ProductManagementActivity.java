@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.jsoup.select.Evaluator;
+
 public class ProductManagementActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String loginId, loginPass, full_name, email, image, phone_no,created,updated;
@@ -136,7 +138,11 @@ public class ProductManagementActivity extends AppCompatActivity implements Navi
             overridePendingTransition(0, 0);
             finish();
 
-        } else if (Id == R.id.profile) {
+        }else if (Id==R.id.nav_share){
+            Intent intent = new Intent(ProductManagementActivity.this, Main3BusinessActivity.class);
+            startActivity(intent);
+        }
+        else if (Id == R.id.profile) {
             Intent intent = new Intent(ProductManagementActivity.this, Profile.class);
             intent.putExtra("Flag",flag);
             intent.putExtra("Name",full_name);

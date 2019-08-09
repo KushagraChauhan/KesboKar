@@ -383,9 +383,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/colorAccent"
+                android:background="@color/White"
                 android:text="SELECT"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -406,10 +406,10 @@
                 android:id="@+id/etSuburb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
+                android:background="@color/White"
+                android:layout_weight="1.1"
                 android:text="SELECT"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -430,10 +430,9 @@
                 android:id="@+id/btnCountry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
+                android:layout_weight="0.9"
                 android:text="AUSTRALIA"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -470,7 +469,7 @@
                     android:id="@+id/etLongitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.85"
                     android:ems="10"
                     android:hint="Enter ..."
                     android:inputType="textPersonName" />

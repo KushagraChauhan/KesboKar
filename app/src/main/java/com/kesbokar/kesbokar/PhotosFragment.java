@@ -100,7 +100,6 @@ public class PhotosFragment extends Fragment {
         getData();
 
 
-
         btnUpload = view.findViewById(R.id.btnUpload);
 
 

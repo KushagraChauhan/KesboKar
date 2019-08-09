@@ -4,10 +4,16 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/dashboard"
             android:icon="@drawable/more"
             android:title="Dashboard"/>
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/more"
+            android:visible="true"
+            android:title="List Business" />
         <item
             android:id="@+id/profile"
             android:icon="@drawable/more"
