@@ -306,7 +306,7 @@ public class Navigation extends AppCompatActivity
             signup.setVisibility(View.INVISIBLE);
             show.findItem(R.id.nav_send).setVisible(true);
             show.findItem(R.id.nav_share).setVisible(true);
-            show.findItem(R.id.advertise).setVisible(true);
+            show.findItem(R.id.advertise).setVisible(false);
             show.findItem(R.id.loginPage).setVisible(true);
             logout.setVisibility(View.VISIBLE);
         }
@@ -733,7 +733,6 @@ public class Navigation extends AppCompatActivity
     }
 
     @Override
-
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -750,7 +749,37 @@ public class Navigation extends AppCompatActivity
         // Handle navigation view item clicks here.
         int Id = item.getItemId();
 
-        if (Id == R.id.nav_send) {
+        if (Id == R.id.nav_share) {
+            if (flag==1){
+                Intent about=new Intent(Navigation.this,Main3BusinessActivity.class);
+                startActivity(about);
+            } else {
+                Intent intent = new Intent(Navigation.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.business_lg_page) {
+            if (flag==1) {
+                Intent intent=new Intent(Navigation.this,ProfileBusinessListing.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+
+            } else {
+                Intent intent = new Intent(Navigation.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.nav_send) {
 
             if (flag==1){
                 Intent about=new Intent(Navigation.this,ProductManagementActivity.class);
@@ -760,16 +789,91 @@ public class Navigation extends AppCompatActivity
                 startActivity(intent);
             }
 
+        } else if (Id == R.id.market_lg_page) {
 
-        } else if (Id == R.id.nav_share) {
-            if (flag==1){
-                Intent about=new Intent(Navigation.this,Main3BusinessActivity.class);
-                startActivity(about);
+            if (flag==1) {
+                Intent intent=new Intent(Navigation.this,ProfileMarket.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
             } else {
                 Intent intent = new Intent(Navigation.this, Login.class);
+                startActivity(intent);
             }
 
 
+        } else if (Id == R.id.business_in) {
+
+            if (flag==1){
+                Intent intent=new Intent(Navigation.this,inbox_business.class);
+                startActivity(intent);
+
+            } else {
+                Intent intent = new Intent(Navigation.this, Login.class);
+                startActivity(intent);
+            }
+
+
+        } else if (Id == R.id.market_in) {
+
+            if (flag==1){
+                Intent intent=new Intent(Navigation.this,inbox_market.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(Navigation.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.profile) {
+
+            if (flag==1) {
+                Intent intent = new Intent(Navigation.this, Profile.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(Navigation.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if(Id == R.id.manage_help_desk) {
+
+            if (flag==1) {
+                Intent intent = new Intent(Navigation.this, ManageHelpDeskActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(Navigation.this, Login.class);
+                startActivity(intent);
+            }
 
         } else if (Id == R.id.about) {
 
@@ -786,12 +890,12 @@ public class Navigation extends AppCompatActivity
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
-                finish();
+
+
             } else {
                 Intent intent = new Intent(Navigation.this, Login.class);
                 startActivity(intent);
             }
-
 
         } else if (Id == R.id.career) {
 
@@ -808,16 +912,15 @@ public class Navigation extends AppCompatActivity
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
-                finish();
+
+
             } else {
                 Intent intent = new Intent(Navigation.this, Login.class);
                 startActivity(intent);
             }
 
 
-        } else if (Id == R.id.advertise) {
-
-        }else if (Id == R.id.loginPage) {
+        } else if (Id == R.id.loginPage) {
 
             if (flag==1){
                 Intent intent=new Intent(Navigation.this,LoginData.class);
@@ -832,33 +935,22 @@ public class Navigation extends AppCompatActivity
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
-                finish();
+
             }
+
             else {
                 Intent intent = new Intent(Navigation.this, Login.class);
                 startActivity(intent);
             }
 
+        } else if(Id == R.id.dashboard) {
 
-        }
-        else if (Id == R.id.business_in){
-
-            if (flag == 1){
-                Intent intent = new Intent(Navigation.this, inbox_business.class);
+            if (flag==1) {
+                Intent intent = new Intent(Navigation.this, Navigation.class);
                 startActivity(intent);
             }
+
             else {
-                Intent intent = new Intent(Navigation.this, Login.class);
-                startActivity(intent);
-            }
-
-        }
-        else if (Id == R.id.market_in){
-
-            if (flag==1){
-                Intent intent = new Intent(Navigation.this, inbox_market.class);
-                startActivity(intent);
-            }else {
                 Intent intent = new Intent(Navigation.this, Login.class);
                 startActivity(intent);
             }

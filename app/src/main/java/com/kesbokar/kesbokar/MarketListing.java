@@ -244,14 +244,6 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
         }
 
     }
-    @Override
-    public void onBackPressed() {
-        Intent intent=new Intent(MarketListing.this,Navigation.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivityForResult(intent, 0);
-        overridePendingTransition(0, 0);
-        finish();
-    }
 
     public void imgBtnService(){
         requestQueue = Volley.newRequestQueue(this);
@@ -515,35 +507,226 @@ public class MarketListing extends AppCompatActivity implements NavigationView.O
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int id = menuItem.getItemId();
+    public void onBackPressed() {
+        Intent intent = new Intent(MarketListing.this, Navigation_market.class);
+        startActivity(intent);
+        super.onBackPressed();
+    }
 
-        if (id == R.id.nav_send) {
-            Intent about=new Intent(MarketListing.this,ProductManagementActivity.class);
-            startActivity(about);
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int Id = item.getItemId();
 
-        } else if (id == R.id.nav_share) {
-            Intent about=new Intent(MarketListing.this,Main3BusinessActivity.class);
-            startActivity(about);
+        if (Id == R.id.nav_share) {
+            if (flag==1){
+                Intent about=new Intent(MarketListing.this,Main3BusinessActivity.class);
+                startActivity(about);
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
 
-        } else if (id == R.id.about) {
-            Intent about=new Intent(MarketListing.this,About.class);
-            startActivity(about);
+        } else if (Id == R.id.business_lg_page) {
+            if (flag==1) {
+                Intent intent=new Intent(MarketListing.this,ProfileBusinessListing.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
 
-        } else if (id == R.id.career) {
-            Intent career=new Intent(MarketListing.this,Career.class);
-            startActivity(career);
 
-        } else if (id == R.id.advertise) {
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
 
-        }else if (id == R.id.loginPage) {
-            Intent intent=new Intent(MarketListing.this,LoginData.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityForResult(intent, 0);
-            overridePendingTransition(0, 0);
-            finish();
+        } else if (Id == R.id.nav_send) {
 
+            if (flag==1){
+                Intent about=new Intent(MarketListing.this,ProductManagementActivity.class);
+                startActivity(about);
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.market_lg_page) {
+
+            if (flag==1) {
+                Intent intent=new Intent(MarketListing.this,ProfileMarket.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+
+        } else if (Id == R.id.business_in) {
+
+            if (flag==1){
+                Intent intent=new Intent(MarketListing.this,inbox_business.class);
+                startActivity(intent);
+
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+
+        } else if (Id == R.id.market_in) {
+
+            if (flag==1){
+                Intent intent=new Intent(MarketListing.this,inbox_market.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.profile) {
+
+            if (flag==1) {
+                Intent intent = new Intent(MarketListing.this, Profile.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if(Id == R.id.manage_help_desk) {
+
+            if (flag==1) {
+                Intent intent = new Intent(MarketListing.this, ManageHelpDeskActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.about) {
+
+            if (flag==1){
+                Intent intent = new Intent(MarketListing.this, About.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.career) {
+
+            if (flag==1){
+                Intent intent = new Intent(MarketListing.this, Career.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+
+            } else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+
+        } else if (Id == R.id.advertise) {
+
+        } else if (Id == R.id.loginPage) {
+
+            if (flag==1){
+                Intent intent=new Intent(MarketListing.this,LoginData.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            }
+
+            else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if(Id == R.id.dashboard) {
+
+            if (flag==1) {
+                Intent intent = new Intent(MarketListing.this, Navigation.class);
+                startActivity(intent);
+            }
+
+            else {
+                Intent intent = new Intent(MarketListing.this, Login.class);
+                startActivity(intent);
+            }
         }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

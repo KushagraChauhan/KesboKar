@@ -229,7 +229,7 @@
                 <Button
                     android:id="@+id/btnVerify"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:background="@android:color/holo_blue_bright"
                     android:text="Click to Verify"

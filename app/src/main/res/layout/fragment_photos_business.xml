@@ -51,7 +51,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnChooseFiles"
+                    android:id="@+id/btnChoose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -67,6 +67,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text="No File Chosen" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -88,6 +89,7 @@
                     android:ems="10"
                     android:hint="Enter ..."
                     android:inputType="textPersonName" />
+
             </LinearLayout>
 
             <LinearLayout

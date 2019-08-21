@@ -49,7 +49,7 @@ public class PhotosBusinessFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_photos_business, container, false);
-        btnChooseFiles = view.findViewById(R.id.btnChooseFiles);
+        btnChooseFiles = view.findViewById(R.id.btnChoose);
         btnUpload = view.findViewById(R.id.btnUpload);
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnSave = view.findViewById(R.id.btnSave);
@@ -91,6 +91,8 @@ public class PhotosBusinessFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
             }
         });

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,9 +82,14 @@ public class SliderBusinessFragment extends Fragment {
     private String name, registration_no, license_no, website, category_id, phone, address, description, latitude, longitude, email1,yellowpage_id1,
             quote_message, short_description, name_title, new_name;
 
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
-    public SliderBusinessFragment() {
+
+    public SliderBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
+        this.viewPager=myViewPager;
+        this.tabLayout=myTabLayout;
     }
 
 
@@ -130,6 +137,9 @@ public class SliderBusinessFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+              getData();
+              uploaduserimage();
 
             }
         });
@@ -249,6 +259,11 @@ public class SliderBusinessFragment extends Fragment {
         };
 
         requestQueue.add(stringRequest);
+        int item=viewPager.getCurrentItem();
+        View tab=tabLayout.getTabAt(item+1).view;
+        tab.setEnabled(true);
+        viewPager.setCurrentItem(item+1);
+
 
     }
 

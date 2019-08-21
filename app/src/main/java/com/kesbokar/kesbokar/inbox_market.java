@@ -103,12 +103,7 @@ public class inbox_market extends AppCompatActivity implements NavigationView.On
         };
         getLoaderManager().initLoader(LOADER_BUS_PRO_LIST,null,busLoader);
     }
-    @Override
-    public void onBackPressed() {
-        Intent intent=new Intent(inbox_market.this,LoginData.class);
-        startActivity(intent);
-        finish();
-    }
+
 
 
     @Override

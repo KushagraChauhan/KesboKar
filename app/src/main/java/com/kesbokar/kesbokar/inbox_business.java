@@ -104,129 +104,230 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
 
             }
         };
+
         getLoaderManager().initLoader(LOADER_BUS_PRO_LIST,null,busLoader);
 
-
-
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent=new Intent(inbox_business.this,LoginData.class);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int Id = menuItem.getItemId();
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int Id = item.getItemId();
 
-        if (Id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (Id == R.id.dashboard) {
-            Intent intent = new Intent(inbox_business.this, LoginData.class);
-            intent.putExtra("Flag",flag);
-            intent.putExtra("Name",full_name);
-            intent.putExtra("mail",email);
-            intent.putExtra("image",image);
-            intent.putExtra("phone",phone_no);
-            intent.putExtra("create",created);
-            intent.putExtra("enquiry_id", en_id);
-            intent.putExtra("update",updated);
-            intent.putExtra("id",id);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityForResult(intent, 0);
-            overridePendingTransition(0, 0);
-            finish();
-
-        } else if (Id == R.id.profile) {
-            Intent intent = new Intent(inbox_business.this, Profile.class);
-            intent.putExtra("Flag",flag);
-            intent.putExtra("Name",full_name);
-            intent.putExtra("mail",email);
-            intent.putExtra("image",image);
-            intent.putExtra("enquiry_id", en_id);
-            intent.putExtra("phone",phone_no);
-            intent.putExtra("create",created);
-            intent.putExtra("update",updated);
-            intent.putExtra("id",id);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityForResult(intent, 0);
-            overridePendingTransition(0, 0);
-            finish();
+        if (Id == R.id.nav_share) {
+            if (flag==1){
+                Intent about=new Intent(inbox_business.this,Main3BusinessActivity.class);
+                startActivity(about);
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
 
         } else if (Id == R.id.business_lg_page) {
-            Intent intent=new Intent(inbox_business.this,ProfileBusinessListing.class);
-            intent.putExtra("Flag",flag);
-            intent.putExtra("Name",full_name);
-            intent.putExtra("mail",email);
-            intent.putExtra("image",image);
-            intent.putExtra("phone",phone_no);
-            intent.putExtra("create",created);
-            intent.putExtra("enquiry_id", en_id);
-            intent.putExtra("update",updated);
-            intent.putExtra("id",id);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityForResult(intent, 0);
-            overridePendingTransition(0, 0);
-            finish();
+            if (flag==1) {
+                Intent intent=new Intent(inbox_business.this,ProfileBusinessListing.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
 
-        }else if (Id == R.id.manage_help_desk){
-            Intent intent=new Intent(inbox_business.this,ManageHelpDeskActivity.class);
-            intent.putExtra("Flag",flag);
-            intent.putExtra("Name",full_name);
-            intent.putExtra("mail",email);
-            intent.putExtra("image",image);
-            intent.putExtra("phone",phone_no);
-            intent.putExtra("create",created);
-            intent.putExtra("enquiry_id", en_id);
-            intent.putExtra("update",updated);
-            intent.putExtra("id",id);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityForResult(intent, 0);
-            overridePendingTransition(0, 0);
-            finish();
 
-        }
-        else if (Id == R.id.market_lg_page) {
-            Intent intent=new Intent(inbox_business.this,ProfileMarket.class);
-            intent.putExtra("Flag",flag);
-            intent.putExtra("Name",full_name);
-            intent.putExtra("mail",email);
-            intent.putExtra("image",image);
-            intent.putExtra("phone",phone_no);
-            intent.putExtra("create",created);
-            intent.putExtra("enquiry_id", en_id);
-            intent.putExtra("update",updated);
-            intent.putExtra("id",id);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityForResult(intent, 0);
-            overridePendingTransition(0, 0);
-            finish();
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.nav_send) {
+
+            if (flag==1){
+                Intent about=new Intent(inbox_business.this,ProductManagementActivity.class);
+                startActivity(about);
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.market_lg_page) {
+
+            if (flag==1) {
+                Intent intent=new Intent(inbox_business.this,ProfileMarket.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
 
         } else if (Id == R.id.business_in) {
 
+            if (flag==1){
+                Intent intent=new Intent(inbox_business.this,inbox_business.class);
+                startActivity(intent);
+
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+
         } else if (Id == R.id.market_in) {
-            Intent intent = new Intent(inbox_business.this, inbox_market.class);
-            intent.putExtra("Flag",flag);
-            intent.putExtra("Name",full_name);
-            intent.putExtra("mail",email);
-            intent.putExtra("image",image);
-            intent.putExtra("phone",phone_no);
-            intent.putExtra("create",created);
-            intent.putExtra("update",updated);
-            intent.putExtra("enquiry_id", en_id);
-            intent.putExtra("id",id);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityForResult(intent, 0);
-            overridePendingTransition(0, 0);
-            finish();
+
+            if (flag==1){
+                Intent intent=new Intent(inbox_business.this,inbox_market.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.profile) {
+
+            if (flag==1) {
+                Intent intent = new Intent(inbox_business.this, Profile.class);
+                intent.putExtra("Flag",flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if(Id == R.id.manage_help_desk) {
+
+            if (flag==1) {
+                Intent intent = new Intent(inbox_business.this, ManageHelpDeskActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.about) {
+
+            if (flag==1){
+                Intent intent = new Intent(inbox_business.this, About.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if (Id == R.id.career) {
+
+            if (flag==1){
+                Intent intent = new Intent(inbox_business.this, Career.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+
+            } else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+
+        } else if (Id == R.id.loginPage) {
+
+            if (flag==1){
+                Intent intent=new Intent(inbox_business.this,LoginData.class);
+                intent.putExtra("Flag", flag);
+                intent.putExtra("Name",full_name);
+                intent.putExtra("mail",email);
+                intent.putExtra("image",image);
+                intent.putExtra("phone",phone_no);
+                intent.putExtra("create",created);
+                intent.putExtra("update",updated);
+                intent.putExtra("id",id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(0, 0);
+
+            }
+
+            else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
+
+        } else if(Id == R.id.dashboard) {
+
+            if (flag==1) {
+                Intent intent = new Intent(inbox_business.this, Navigation.class);
+                startActivity(intent);
+            }
+
+            else {
+                Intent intent = new Intent(inbox_business.this, Login.class);
+                startActivity(intent);
+            }
         }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void getData()
     {
         SharedPreferences loginData=getSharedPreferences("data",0);

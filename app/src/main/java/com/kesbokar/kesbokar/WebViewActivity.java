@@ -91,7 +91,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
     Button btn_send;
     int PID;
     String url_name;
-
+    TextView txtCancel;
 
     private LoaderManager.LoaderCallbacks<ArrayList<String>> businessSearch;
     private androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<StateAndSuburb>> businessSuburb;
@@ -142,6 +142,7 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
         id1=extras.getInt("id");
         created=extras.getString("create");
         updated=extras.getString("update");
+
         if (entry_level.equals("1"))
         {
             rqst_quote.setVisibility(View.INVISIBLE);
@@ -309,7 +310,6 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
 
         }
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -383,7 +383,6 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
             webView.loadDataWithBaseURL(URL1,document.toString(),"text/html","utf-8","");
             //webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
             webSettings.setJavaScriptEnabled(true);
-            
         }
     }
     public void getData()
@@ -412,12 +411,21 @@ public class WebViewActivity extends AppCompatActivity implements NavigationView
 //        // pass null as the parent view because its going in the dialog layout
 //        builder.setView(inflater.inflate(R.layout.search_alert_dialog_box, null))
 //                .show();
-        Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.search_alert_dialog_box);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         autoCompleteTextViewOne = dialog.findViewById(R.id.autoCompleteTextViewOne);
         autoCompleteTextViewTwo = dialog.findViewById(R.id.autoCompleteTextViewTwo);
         btnAlertDialogSearch = dialog.findViewById(R.id.btnAlertDialogSearch);
+
+        txtCancel = dialog.findViewById(R.id.txtCancel);
+
+        txtCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
 
         btnSearch = new LoaderManager.LoaderCallbacks<ArrayList<ExampleItem>>() {

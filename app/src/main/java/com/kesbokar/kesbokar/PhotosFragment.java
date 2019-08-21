@@ -69,7 +69,6 @@ public class PhotosFragment extends Fragment {
     JSONArray json_name_array;
     JSONObject json_name;
     String pic_name;
-
     private GridView gvGallery;
     private GalleryAdapter galleryAdapter;
 
@@ -99,7 +98,6 @@ public class PhotosFragment extends Fragment {
 
         getData();
 
-
         btnUpload = view.findViewById(R.id.btnUpload);
 
 
@@ -114,11 +112,24 @@ public class PhotosFragment extends Fragment {
         btnChoose = view.findViewById(R.id.btnChoose);
         gvGallery = view.findViewById(R.id.gv);
 
+
+
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 showFileChooser();
+            }
+        });
+
+        btnSubmit = view.findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getData();
+                uploaduserimage();
+
             }
         });
 
@@ -364,6 +375,10 @@ public class PhotosFragment extends Fragment {
         };
 
         requestQueue.add(stringRequest);
+        int item=viewPager.getCurrentItem();
+        View tab=tabLayout.getTabAt(item+1).view;
+        tab.setEnabled(true);
+        viewPager.setCurrentItem(item+1);
 
     }
 

@@ -4,6 +4,7 @@ package com.kesbokar.kesbokar;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -19,9 +23,14 @@ import android.widget.TextView;
  */
 public class ServicesBusinessFragment extends Fragment {
 
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
-    public ServicesBusinessFragment() {
+
+    public ServicesBusinessFragment(ViewPager myViewPager, TabLayout myTabLayout) {
         // Required empty public constructor
+        this.viewPager=myViewPager;
+        this.tabLayout=myTabLayout;
     }
 
 
@@ -33,6 +42,7 @@ public class ServicesBusinessFragment extends Fragment {
 
         int totalSpace = 0;
         FrameLayout fragment_container = (FrameLayout) view.findViewById(R.id.fragmentServicesBusiness);
+
 
         int n = 5;
         for (int i=0;i<n;i++) {
@@ -73,7 +83,15 @@ public class ServicesBusinessFragment extends Fragment {
 
         fragment_container.addView(btnSave, btnSaveParams);
 
-
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int item=viewPager.getCurrentItem();
+                View tab=tabLayout.getTabAt(item+1).view;
+                tab.setEnabled(true);
+                viewPager.setCurrentItem(item+1);
+            }
+        });
 
         return view;
     }

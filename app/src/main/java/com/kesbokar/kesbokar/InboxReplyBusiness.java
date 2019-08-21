@@ -55,6 +55,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
     Button cancel,send;
     int en_id;
 
+
     Button btnProductManagement;
 
     @Override
@@ -78,11 +79,10 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        requestQueue = Volley.newRequestQueue(this);
 
+        requestQueue = Volley.newRequestQueue(this);
 
         get_for_replies=new ArrayList<>();
         cancel=findViewById(R.id.btnCancel);

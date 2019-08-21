@@ -37,7 +37,7 @@ public class ThirdTabAccessorAdapter extends FragmentPagerAdapter {
                 return descriptionBusinessFragment;
 
             case 2:
-                SliderBusinessFragment sliderBusinessFragment = new SliderBusinessFragment();
+                SliderBusinessFragment sliderBusinessFragment = new SliderBusinessFragment(myViewPager, myTabLayout);
                 return sliderBusinessFragment;
 
             case 3:
@@ -49,7 +49,7 @@ public class ThirdTabAccessorAdapter extends FragmentPagerAdapter {
                 return videosBusinessFragment;
 
             case 5:
-                ServicesBusinessFragment servicesBusinessFragment = new ServicesBusinessFragment();
+                ServicesBusinessFragment servicesBusinessFragment = new ServicesBusinessFragment(myViewPager, myTabLayout);
                 return servicesBusinessFragment;
 
             case 6:
