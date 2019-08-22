@@ -257,7 +257,6 @@ public class inbox_business extends AppCompatActivity implements NavigationView.
                 startActivityForResult(intent, 0);
                 overridePendingTransition(0, 0);
 
-
             } else {
                 Intent intent = new Intent(inbox_business.this, Login.class);
                 startActivity(intent);

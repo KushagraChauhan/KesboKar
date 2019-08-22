@@ -16,10 +16,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -39,6 +43,9 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
     ActionBarDrawerToggle toggle;
     Toolbar toolbar;
 
+    Button logout,login,signup;
+    TextView name;
+
 
 
     @Override
@@ -57,15 +64,48 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+
+
+        logout=header.findViewById(R.id.logout);
+        login =header.findViewById(R.id.login);
+        signup =header.findViewById(R.id.signup);
+        name=header.findViewById(R.id.name_user);
+
+        if(flag==1)
+        {
+            name.setText(full_name);
+            logout.setVisibility(View.VISIBLE);
+            login.setVisibility(View.INVISIBLE);
+            signup.setVisibility(View.INVISIBLE);
+
+        }
         webView = (WebView) findViewById(R.id.webview);
         URL1 ="https://www.kesbokar.com.au/about-us";
         new About.MyAsyncTask().execute();
 
-    }
-    @Override
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(About.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
 
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
