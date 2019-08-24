@@ -98,10 +98,36 @@ public class InboxReplyMarketplace extends AppCompatActivity implements Navigati
         requestQueue = Volley.newRequestQueue(this);
 
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView=navigationView.getHeaderView(0);
+
+        logout=headerView.findViewById(R.id.logout);
+        name=headerView.findViewById(R.id.name_user);
+
+        if(flag==1)
+        {
+            name.setText(full_name);
+        }
 
         get_for_replies=new ArrayList<>();
         cancel=findViewById(R.id.btnCancel);
         send=findViewById(R.id.btnSend);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(InboxReplyMarketplace.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

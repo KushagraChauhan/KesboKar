@@ -86,7 +86,6 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         requestQueue = Volley.newRequestQueue(this);
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -98,8 +97,23 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
         if(flag==1)
         {
             name.setText(full_name);
-
         }
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=0;
+                SharedPreferences loginData= getSharedPreferences("data",0);
+                SharedPreferences.Editor editor=loginData.edit();
+                editor.putInt("Flag",flag);
+                editor.apply();
+                Intent intent=new Intent(InboxReplyBusiness.this,Navigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        });
 
         get_for_replies=new ArrayList<>();
         cancel=findViewById(R.id.btnCancel);
@@ -114,6 +128,7 @@ public class InboxReplyBusiness extends AppCompatActivity implements NavigationV
                 overridePendingTransition(0, 0);
             }
         });
+
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override

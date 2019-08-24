@@ -270,7 +270,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView_navigation_service_expert"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false">
 
                     </androidx.recyclerview.widget.RecyclerView>
 
@@ -293,7 +294,8 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_navigation_featured_ads"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:nestedScrollingEnabled="false">
 
                         </androidx.recyclerview.widget.RecyclerView>
                     </LinearLayout>
